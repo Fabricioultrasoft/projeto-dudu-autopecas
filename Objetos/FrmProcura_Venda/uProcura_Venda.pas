@@ -11,7 +11,6 @@ type
   TfrmProcura_Venda = class(TFormBase)
     pnlProcura: TPanel;
     grdItemVenda: TDBGrid;
-    pnlRodape: TPanel;
     pnlInformacao: TPanel;
     grp1: TGroupBox;
     lbl1: TLabel;
@@ -24,20 +23,18 @@ type
     dbtDataVenda: TDBText;
     dbtValorTotal: TDBText;
     dbtPagamento: TDBText;
-    btnFechar: TBitBtn;
-    btnGeraNFe: TBitBtn;
+    pnlRodape: TPanel;
+    lbl6: TLabel;
+    btnCarregaVenda: TBitBtn;
     procedure edtNVendaChange(Sender: TObject);
     procedure PesquisaVenda();
-    procedure btnGeraNFeClick(Sender: TObject);
     procedure GeraNFe();
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure ExcluirItem();
-    procedure btnExcluirItemClick(Sender: TObject);
-    procedure btnAlterarQtdeClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure btnCarregaVendaClick(Sender: TObject);
   private
     { Private declarations }
   public
-    { Public declarations }
+    procedure CarregaVenda();
   end;
 
 var
@@ -56,24 +53,32 @@ implementation
 
 {$R *.dfm}
 
-procedure TfrmProcura_Venda.btnAlterarQtdeClick(Sender: TObject);
+procedure TfrmProcura_Venda.btnCarregaVendaClick(Sender: TObject);
 begin
-    try
-      frmQtde := TfrmQtde.Create(self);
-      frmQtde.ShowModal;
-    finally
-      FreeAndNil(frmQtde);
+     CarregaVenda();
+     frmProcura_Venda.Close;
+end;
+
+procedure TfrmProcura_Venda.CarregaVenda;
+begin
+    //Procedimento para carregar dados da venda na tela de PDV
+    if dm.cdsVenda.RecordCount > 0 then
+    begin
+        if Assigned(frmPDV) then
+        begin
+            //Carrega informações da venda
+            frmPDV.lblVenda.Caption   := dm.cdsVenda.FieldByName('N_VENDA').AsString;
+            frmPDV.lblCod_Cli.Caption := dm.cdsVenda.FieldByName('COD_CLI').AsString;
+            frmPDV.lblData.Caption    := DateToStr(dm.cdsVenda.FieldByName('DATA_VENDA').AsDateTime);
+            frmPDV.FStatus            := dm.cdsVenda.FieldByName('STATUS').AsString;
+            frmPDV.FTipo_Pagamento    := dm.cdsVenda.FieldByName('ID_PAGAMENTO').AsInteger;
+            frmPDV.FID_Funcionario    := dm.cdsVenda.FieldByName('COD_FUNC').AsString;
+            frmPDV.FDesconto          := dm.cdsVenda.FieldByName('DESCONTO').AsFloat;
+            frmPDV.FSub_total         := dm.cdsVenda.FieldByName('SUB_TOTAL').AsFloat;
+            frmPDV.FTotal             := dm.cdsVenda.FieldByName('VAL_TOTAL').AsFloat;
+            frmPDV.edtTotal.Text  := FormatFloat('##0.00' ,dm.cdsVenda.FieldByName('SUB_TOTAL').AsFloat);
+        end;
     end;
-end;
-
-procedure TfrmProcura_Venda.btnExcluirItemClick(Sender: TObject);
-begin
-     ExcluirItem();
-end;
-
-procedure TfrmProcura_Venda.btnGeraNFeClick(Sender: TObject);
-begin
-    GeraNFe()
 end;
 
 procedure TfrmProcura_Venda.edtNVendaChange(Sender: TObject);
@@ -81,31 +86,17 @@ begin
     PesquisaVenda();
 end;
 
-procedure TfrmProcura_Venda.ExcluirItem();
+procedure TfrmProcura_Venda.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
 begin
-     //Procedimento para excluir item da venda
-     if dm.cdsItem_Venda.RecordCount > 0 then
-     begin
-        try
-            if Application.MessageBox('Deseja excluir esse Item?', 'Confirmação', MB_YESNO)= mrYes then
-            begin
-                dm.cdsItem_Venda.Delete;
-                dm.cdsItem_Venda.ApplyUpdates(0);
-                //dm.cdsItem_Venda.Refresh;
-            end;
-        except
-            on E:Exception do
-            ShowMessage('Erro ao excluir Item !'#13#10 + E.Message);
-         end;
-     end;
-end;
+     if Key = VK_ESCAPE then
+        frmProcura_Venda.Close;
 
-procedure TfrmProcura_Venda.FormClose(Sender: TObject;
-  var Action: TCloseAction);
-begin
-     dm.cdsVenda.Close;
-     dm.cdsItem_Venda.Close;
-     Action := caFree;
+     if (Key = VK_F1)then
+     begin
+         CarregaVenda();
+         frmProcura_Venda.Close;
+     end;
 end;
 
 procedure TfrmProcura_Venda.GeraNFe;

@@ -1,12 +1,12 @@
 object frmPDV: TfrmPDV
-  Left = -3
-  Top = 265
+  Left = -8
+  Top = -8
   Align = alClient
   AutoSize = True
   BorderStyle = bsNone
   Caption = 'Form Padr'#227'o'
-  ClientHeight = 610
-  ClientWidth = 1249
+  ClientHeight = 778
+  ClientWidth = 1280
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,14 +16,15 @@ object frmPDV: TfrmPDV
   KeyPreview = True
   OldCreateOrder = False
   Position = poDesktopCenter
+  WindowState = wsMaximized
   OnClose = FormClose
   DesignSize = (
-    1249
-    610)
+    1280
+    778)
   PixelsPerInch = 96
   TextHeight = 13
   object lbl2: TLabel
-    Left = 832
+    Left = 855
     Top = 67
     Width = 155
     Height = 56
@@ -38,7 +39,7 @@ object frmPDV: TfrmPDV
     ExplicitLeft = 847
   end
   object lbl9: TLabel
-    Left = 1062
+    Left = 1089
     Top = 67
     Width = 81
     Height = 56
@@ -53,7 +54,7 @@ object frmPDV: TfrmPDV
     ExplicitLeft = 1077
   end
   object lbl11: TLabel
-    Left = 1045
+    Left = 1072
     Top = 5
     Width = 81
     Height = 56
@@ -68,7 +69,7 @@ object frmPDV: TfrmPDV
     ExplicitLeft = 1063
   end
   object lbl12: TLabel
-    Left = 850
+    Left = 873
     Top = 5
     Width = 166
     Height = 56
@@ -83,7 +84,7 @@ object frmPDV: TfrmPDV
     ExplicitLeft = 865
   end
   object lbl13: TLabel
-    Left = 1056
+    Left = 1083
     Top = 13
     Width = 81
     Height = 56
@@ -98,7 +99,7 @@ object frmPDV: TfrmPDV
     ExplicitLeft = 1081
   end
   object lbl14: TLabel
-    Left = 855
+    Left = 878
     Top = 13
     Width = 166
     Height = 56
@@ -115,18 +116,19 @@ object frmPDV: TfrmPDV
   object pnl1: TPanel
     Left = 0
     Top = 0
-    Width = 1249
+    Width = 1280
     Height = 183
     Align = alTop
     AutoSize = True
     Color = clHotLight
     ParentBackground = False
     TabOrder = 0
+    ExplicitWidth = 1249
     DesignSize = (
-      1249
+      1280
       183)
     object lbl1: TLabel
-      Left = 952
+      Left = 978
       Top = 1
       Width = 166
       Height = 56
@@ -141,7 +143,7 @@ object frmPDV: TfrmPDV
       ExplicitLeft = 936
     end
     object lblCaixa: TLabel
-      Left = 1146
+      Left = 1175
       Top = 1
       Width = 81
       Height = 56
@@ -156,7 +158,7 @@ object frmPDV: TfrmPDV
       ExplicitLeft = 1130
     end
     object lbl8: TLabel
-      Left = 266
+      Left = 275
       Top = 63
       Width = 181
       Height = 56
@@ -171,7 +173,7 @@ object frmPDV: TfrmPDV
       ExplicitLeft = 259
     end
     object lblVenda: TLabel
-      Left = 474
+      Left = 487
       Top = 63
       Width = 81
       Height = 56
@@ -186,7 +188,7 @@ object frmPDV: TfrmPDV
       ExplicitLeft = 468
     end
     object lbl10: TLabel
-      Left = 299
+      Left = 308
       Top = 125
       Width = 148
       Height = 56
@@ -201,7 +203,7 @@ object frmPDV: TfrmPDV
       ExplicitLeft = 291
     end
     object lblData: TLabel
-      Left = 473
+      Left = 487
       Top = 125
       Width = 184
       Height = 56
@@ -216,7 +218,7 @@ object frmPDV: TfrmPDV
       ExplicitLeft = 466
     end
     object lbl16: TLabel
-      Left = 223
+      Left = 231
       Top = 1
       Width = 220
       Height = 56
@@ -231,7 +233,7 @@ object frmPDV: TfrmPDV
       ExplicitLeft = 221
     end
     object lblCod_Cli: TLabel
-      Left = 474
+      Left = 487
       Top = 1
       Width = 81
       Height = 56
@@ -260,27 +262,29 @@ object frmPDV: TfrmPDV
     Left = 0
     Top = 183
     Width = 642
-    Height = 314
+    Height = 482
     Align = alLeft
     AutoSize = True
     BevelOuter = bvNone
     BorderWidth = 5
     TabOrder = 1
+    ExplicitHeight = 314
     object pnlGrid: TPanel
       Left = 5
       Top = 5
       Width = 632
-      Height = 304
+      Height = 472
       Align = alClient
       BorderWidth = 5
       Color = clHotLight
       ParentBackground = False
       TabOrder = 0
+      ExplicitHeight = 304
       object grddbgrd: TDBGrid
         Left = 6
         Top = 6
         Width = 620
-        Height = 292
+        Height = 460
         Align = alClient
         DataSource = dm.dtsItem_Venda
         Font.Charset = DEFAULT_CHARSET
@@ -372,8 +376,8 @@ object frmPDV: TfrmPDV
   object pnl4: TPanel
     Left = 642
     Top = 183
-    Width = 607
-    Height = 314
+    Width = 638
+    Height = 482
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -385,10 +389,12 @@ object frmPDV: TfrmPDV
     Font.Style = []
     ParentFont = False
     TabOrder = 3
+    ExplicitWidth = 607
+    ExplicitHeight = 314
     object lbl3: TLabel
       Left = 20
       Top = 374
-      Width = 567
+      Width = 598
       Height = 28
       Align = alTop
       Caption = 'Total'
@@ -403,7 +409,7 @@ object frmPDV: TfrmPDV
     object lbl4: TLabel
       Left = 20
       Top = 20
-      Width = 567
+      Width = 598
       Height = 28
       Align = alTop
       Caption = 'Status'
@@ -418,7 +424,7 @@ object frmPDV: TfrmPDV
     object lbl5: TLabel
       Left = 20
       Top = 104
-      Width = 567
+      Width = 598
       Height = 28
       Align = alTop
       Caption = 'Produto'
@@ -433,7 +439,7 @@ object frmPDV: TfrmPDV
     object lbl6: TLabel
       Left = 20
       Top = 281
-      Width = 567
+      Width = 598
       Height = 28
       Align = alTop
       Caption = 'SubTotal'
@@ -448,7 +454,7 @@ object frmPDV: TfrmPDV
     object lbl7: TLabel
       Left = 20
       Top = 188
-      Width = 567
+      Width = 598
       Height = 28
       Align = alTop
       Caption = 'Valor Unit'#225'rio'
@@ -463,7 +469,7 @@ object frmPDV: TfrmPDV
     object edtStatus: TEdit
       Left = 20
       Top = 48
-      Width = 567
+      Width = 598
       Height = 56
       Margins.Left = 5
       Margins.Right = 5
@@ -479,11 +485,12 @@ object frmPDV: TfrmPDV
       ReadOnly = True
       TabOrder = 0
       Text = 'Caixa Livre'
+      ExplicitWidth = 567
     end
     object edtProduto: TEdit
       Left = 20
       Top = 132
-      Width = 567
+      Width = 598
       Height = 56
       Margins.Left = 5
       Margins.Right = 5
@@ -498,11 +505,12 @@ object frmPDV: TfrmPDV
       ParentFont = False
       ReadOnly = True
       TabOrder = 1
+      ExplicitWidth = 567
     end
     object edtValor_Unitario: TEdit
       Left = 20
       Top = 216
-      Width = 567
+      Width = 598
       Height = 65
       Margins.Left = 5
       Margins.Right = 5
@@ -517,11 +525,12 @@ object frmPDV: TfrmPDV
       ParentFont = False
       ReadOnly = True
       TabOrder = 2
+      ExplicitWidth = 567
     end
     object edtSub_total: TEdit
       Left = 20
       Top = 309
-      Width = 567
+      Width = 598
       Height = 65
       Margins.Left = 5
       Margins.Right = 5
@@ -536,11 +545,12 @@ object frmPDV: TfrmPDV
       ParentFont = False
       ReadOnly = True
       TabOrder = 3
+      ExplicitWidth = 567
     end
     object edtTotal: TEdit
       Left = 20
       Top = 402
-      Width = 567
+      Width = 598
       Height = 65
       Margins.Left = 5
       Margins.Right = 5
@@ -555,12 +565,13 @@ object frmPDV: TfrmPDV
       ParentFont = False
       ReadOnly = True
       TabOrder = 4
+      ExplicitWidth = 567
     end
   end
   object pnl5: TPanel
     Left = 0
-    Top = 497
-    Width = 1249
+    Top = 665
+    Width = 1280
     Height = 113
     Align = alBottom
     AutoSize = True
@@ -574,11 +585,11 @@ object frmPDV: TfrmPDV
     ParentBackground = False
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = 665
-    ExplicitWidth = 1280
+    ExplicitTop = 502
+    ExplicitWidth = 1249
     object lbl15: TLabel
-      Left = 1041
-      Top = 45
+      Left = 973
+      Top = 74
       Width = 123
       Height = 23
       Caption = 'ESC - FECHAR'
@@ -629,7 +640,7 @@ object frmPDV: TfrmPDV
       ParentFont = False
     end
     object lbl20: TLabel
-      Left = 358
+      Left = 342
       Top = 16
       Width = 242
       Height = 23
@@ -642,7 +653,7 @@ object frmPDV: TfrmPDV
       ParentFont = False
     end
     object lbl21: TLabel
-      Left = 358
+      Left = 342
       Top = 45
       Width = 217
       Height = 23
@@ -655,7 +666,7 @@ object frmPDV: TfrmPDV
       ParentFont = False
     end
     object lbl22: TLabel
-      Left = 358
+      Left = 342
       Top = 74
       Width = 199
       Height = 23
@@ -668,7 +679,7 @@ object frmPDV: TfrmPDV
       ParentFont = False
     end
     object lbl23: TLabel
-      Left = 702
+      Left = 679
       Top = 16
       Width = 196
       Height = 23
@@ -681,7 +692,7 @@ object frmPDV: TfrmPDV
       ParentFont = False
     end
     object lbl24: TLabel
-      Left = 702
+      Left = 679
       Top = 45
       Width = 202
       Height = 23
@@ -694,7 +705,7 @@ object frmPDV: TfrmPDV
       ParentFont = False
     end
     object lbl25: TLabel
-      Left = 702
+      Left = 679
       Top = 74
       Width = 201
       Height = 23
@@ -707,11 +718,24 @@ object frmPDV: TfrmPDV
       ParentFont = False
     end
     object lbl26: TLabel
-      Left = 1041
+      Left = 973
       Top = 16
       Width = 150
       Height = 23
       Caption = 'F10 - GERAR NFE'
+      Font.Charset = ANSI_CHARSET
+      Font.Color = clWhite
+      Font.Height = -16
+      Font.Name = 'Arial Black'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lbl27: TLabel
+      Left = 973
+      Top = 45
+      Width = 287
+      Height = 23
+      Caption = 'F11 - ALTERAR VENDA GRAVADA'
       Font.Charset = ANSI_CHARSET
       Font.Color = clWhite
       Font.Height = -16

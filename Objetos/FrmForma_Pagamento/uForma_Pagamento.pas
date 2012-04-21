@@ -33,8 +33,8 @@ type
     lbl8: TLabel;
     edtDesconto: TEdit;
     edtSubTotal: TEdit;
-    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure KeyDown(var Key: Word; Shift: TShiftState);override;
     procedure Dinheiro();
     procedure Cartao();
     procedure Cheque();
@@ -50,7 +50,7 @@ type
   private
     { Private declarations }
   public
-    { Public declarations }
+    FResposta : boolean;
   end;
 
 var
@@ -143,6 +143,7 @@ begin
          frmPDV.FSub_total      := StrToFloat(edtSubTotal.Text);
          frmPDV.FDesconto       := StrToFloat(edtDesconto.Text);
          frmPDV.FTotal          := StrToFloat(edtTotal.Text);
+         frmPDV.FResposta := true;
          frmForma_Pagamento.Close;
      end
      else
@@ -172,12 +173,13 @@ procedure TfrmForma_Pagamento.FormCreate(Sender: TObject);
 begin
     //Carrega os valores na tela
     edtCliente.Text  := frmPDV.lblCod_Cli.Caption;
+    edtID.Text       := frmPDV.FID_Funcionario;
     edtSubTotal.Text := frmPDV.edtTotal.Text;
     edtTotal.Text    := frmPDV.edtTotal.Text;
+    edtDesconto.Text := FormatFloat('##0.00', frmPDV.FDesconto);
 end;
 
-procedure TfrmForma_Pagamento.FormKeyDown(Sender: TObject; var Key: Word;
-  Shift: TShiftState);
+procedure TfrmForma_Pagamento.KeyDown(var Key: Word; Shift: TShiftState);
 begin
     if Key = VK_F1     then Dinheiro;
     if key = VK_F2     then Cartao;
@@ -193,6 +195,11 @@ begin
         btnCliente.Click;
     end;
 
+    if Key = VK_ESCAPE then
+    begin
+        frmForma_Pagamento.Close;
+        frmPDV.FResposta := false;
+    end;
 end;
 
 end.

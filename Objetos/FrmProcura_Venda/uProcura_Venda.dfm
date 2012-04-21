@@ -1,6 +1,6 @@
 object frmProcura_Venda: TfrmProcura_Venda
-  Left = 228
-  Top = 127
+  Left = 187
+  Top = 204
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio - Procurar Venda'
@@ -14,7 +14,7 @@ object frmProcura_Venda: TfrmProcura_Venda
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
-  OnClose = FormClose
+  OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
   object pnlProcura: TPanel
@@ -46,18 +46,36 @@ object frmProcura_Venda: TfrmProcura_Venda
     object edtNVenda: TEdit
       Left = 211
       Top = 2
-      Width = 222
+      Width = 334
       Height = 48
       AutoSize = False
       TabOrder = 0
       OnChange = edtNVendaChange
+    end
+    object btnCarregaVenda: TBitBtn
+      Left = 671
+      Top = 5
+      Width = 258
+      Height = 41
+      Cursor = crHandPoint
+      Caption = '&F1 - Carregar Venda'
+      DoubleBuffered = True
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -21
+      Font.Name = 'Arial Black'
+      Font.Style = []
+      ParentDoubleBuffered = False
+      ParentFont = False
+      TabOrder = 1
+      OnClick = btnCarregaVendaClick
     end
   end
   object grdItemVenda: TDBGrid
     Left = 0
     Top = 202
     Width = 938
-    Height = 315
+    Height = 328
     Align = alClient
     DataSource = dm.dtsItem_Venda
     Font.Charset = DEFAULT_CHARSET
@@ -183,84 +201,6 @@ object frmProcura_Venda: TfrmProcura_Venda
         Visible = True
       end>
   end
-  object pnlRodape: TPanel
-    Left = 0
-    Top = 517
-    Width = 938
-    Height = 50
-    Align = alBottom
-    TabOrder = 3
-    object btnFechar: TBitBtn
-      Left = 784
-      Top = 6
-      Width = 146
-      Height = 35
-      Caption = '&Fechar'
-      DoubleBuffered = True
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'Arial Black'
-      Font.Style = []
-      Glyph.Data = {
-        DE010000424DDE01000000000000760000002800000024000000120000000100
-        0400000000006801000000000000000000001000000000000000000000000000
-        80000080000000808000800000008000800080800000C0C0C000808080000000
-        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00388888888877
-        F7F787F8888888888333333F00004444400888FFF444448888888888F333FF8F
-        000033334D5007FFF4333388888888883338888F0000333345D50FFFF4333333
-        338F888F3338F33F000033334D5D0FFFF43333333388788F3338F33F00003333
-        45D50FEFE4333333338F878F3338F33F000033334D5D0FFFF43333333388788F
-        3338F33F0000333345D50FEFE4333333338F878F3338F33F000033334D5D0FFF
-        F43333333388788F3338F33F0000333345D50FEFE4333333338F878F3338F33F
-        000033334D5D0EFEF43333333388788F3338F33F0000333345D50FEFE4333333
-        338F878F3338F33F000033334D5D0EFEF43333333388788F3338F33F00003333
-        4444444444333333338F8F8FFFF8F33F00003333333333333333333333888888
-        8888333F00003333330000003333333333333FFFFFF3333F00003333330AAAA0
-        333333333333888888F3333F00003333330000003333333333338FFFF8F3333F
-        0000}
-      ModalResult = 11
-      NumGlyphs = 2
-      ParentDoubleBuffered = False
-      ParentFont = False
-      TabOrder = 1
-    end
-    object btnGeraNFe: TBitBtn
-      Left = 20
-      Top = 6
-      Width = 146
-      Height = 35
-      Caption = '&Gerar NFe'
-      DoubleBuffered = True
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'Arial Black'
-      Font.Style = [fsBold]
-      Glyph.Data = {
-        F2010000424DF201000000000000760000002800000024000000130000000100
-        0400000000007C01000000000000000000001000000000000000000000000000
-        80000080000000808000800000008000800080800000C0C0C000808080000000
-        FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333334433333
-        3333333333388F3333333333000033334224333333333333338338F333333333
-        0000333422224333333333333833338F33333333000033422222243333333333
-        83333338F3333333000034222A22224333333338F33F33338F33333300003222
-        A2A2224333333338F383F3338F33333300003A2A222A222433333338F8333F33
-        38F33333000034A22222A22243333338833333F3338F333300004222A2222A22
-        2433338F338F333F3338F3330000222A3A2224A22243338F3838F338F3338F33
-        0000A2A333A2224A2224338F83338F338F3338F300003A33333A2224A2224338
-        333338F338F3338F000033333333A2224A2243333333338F338F338F00003333
-        33333A2224A2233333333338F338F83300003333333333A2224A333333333333
-        8F338F33000033333333333A222433333333333338F338F30000333333333333
-        A224333333333333338F38F300003333333333333A223333333333333338F8F3
-        000033333333333333A3333333333333333383330000}
-      NumGlyphs = 2
-      ParentDoubleBuffered = False
-      ParentFont = False
-      TabOrder = 0
-      OnClick = btnGeraNFeClick
-    end
-  end
   object pnlInformacao: TPanel
     Left = 0
     Top = 52
@@ -365,6 +305,29 @@ object frmProcura_Venda: TfrmProcura_Venda
         Font.Style = []
         ParentFont = False
       end
+    end
+  end
+  object pnlRodape: TPanel
+    Left = 0
+    Top = 530
+    Width = 938
+    Height = 37
+    Align = alBottom
+    TabOrder = 3
+    ExplicitTop = 529
+    object lbl6: TLabel
+      Left = 0
+      Top = 12
+      Width = 400
+      Height = 18
+      Alignment = taCenter
+      Caption = 'Pressione: ESC >> Fechar       ENTER >> Carregar Venda'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clHotLight
+      Font.Height = -13
+      Font.Name = 'Arial Black'
+      Font.Style = []
+      ParentFont = False
     end
   end
 end

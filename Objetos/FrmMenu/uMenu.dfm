@@ -1,6 +1,6 @@
 object frmMenu: TfrmMenu
-  Left = 41
-  Top = 217
+  Left = -80
+  Top = 243
   Caption = 'Menu Principal'
   ClientHeight = 462
   ClientWidth = 1193
@@ -14,6 +14,7 @@ object frmMenu: TfrmMenu
   Menu = mmMenu
   OldCreateOrder = False
   Position = poDesktopCenter
+  WindowState = wsMaximized
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
