@@ -24,11 +24,8 @@ type
     dbtDataVenda: TDBText;
     dbtValorTotal: TDBText;
     dbtPagamento: TDBText;
-    btnCancelaVenda: TBitBtn;
-    btnExcluirItem: TBitBtn;
     btnFechar: TBitBtn;
     btnGeraNFe: TBitBtn;
-    btnAlterarQtde: TBitBtn;
     procedure edtNVendaChange(Sender: TObject);
     procedure PesquisaVenda();
     procedure btnGeraNFeClick(Sender: TObject);
