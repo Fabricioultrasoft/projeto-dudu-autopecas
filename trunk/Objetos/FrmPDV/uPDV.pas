@@ -51,10 +51,12 @@ type
     lbl24: TLabel;
     lbl25: TLabel;
     lbl26: TLabel;
+    lbl27: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure KeyDown(var Key: Word; Shift: TShiftState);override;
     procedure LimpaCampos();override;
     procedure NewVenda();
+    procedure AlteraVenda();
     procedure FinalizarVenda();
     procedure CancelarItem();
     procedure CancelarVenda();
@@ -65,12 +67,14 @@ type
   private
     { Private declarations }
   public
+    FStatus        : string;
     FTipo_Pagamento: Integer;
     FID_Funcionario: string;
     FCod_cli       : string;
     FDesconto      : Double;
     FSub_total     : Double;
     FTotal         : Double;
+    FResposta      : boolean;
   end;
 
 var
@@ -83,6 +87,15 @@ uses uProcura_Estoque, uOrcamento, uProcura_Cliente, uProcura_Produto,
   UdmConexao, uDm, uQtde, uForma_Pagamento, uCancela_Item, uProcura_Venda;
 
 {$R *.dfm}
+
+procedure TfrmPDV.AlteraVenda;
+begin
+    //Procedimento para alterar uma venda já finalizada
+    if (FStatus = 'F') and (dm.cdsItem_Venda.RecordCount > 0) then
+    begin
+         edtStatus.Text := 'Venda Aberta';
+    end;
+end;
 
 procedure TfrmPDV.CancelarItem;
 begin
@@ -127,17 +140,73 @@ begin
            FreeAndNil(frmForma_Pagamento);
          end;
 
-         //Verifica se foi informado algum valor para forma de pagamento
-         if FTipo_Pagamento > 0 then
+         //Verifica se o form forma de pagamento foi finalizado com sucesso
+         if not FResposta then
+            Abort;
+
+         //Verifica se a venda já existe no banco de dados
+         if not (dm.cdsVenda.Locate('N_VENDA', lblVenda.Caption, [])) then
+         begin
+
+             //Verifica se foi informado algum valor para forma de pagamento
+             if FTipo_Pagamento > 0 then
+             begin
+                 try
+                     Trans := dmConexao.Conexao.BeginTransaction;
+
+                     //Inseri a venda na banco de dados
+                     dm.qryVenda.Close;
+                     dm.qryVenda.SQL.Clear;
+                     dm.qryVenda.SQL.Add('INSERT INTO VENDA (N_VENDA, COD_CLI, DATA_VENDA, ID_PAGAMENTO, VAL_TOTAL, COD_FUNC, DESCONTO, SUB_TOTAL)'+
+                                         'VALUES(:venda, :cli, :data, :tipo, :total, :func, :desc, :subtotal)');
+                     dm.qryVenda.ParamByName('venda').AsString   := lblVenda.Caption;
+                     dm.qryVenda.ParamByName('cli').AsString     := FCod_cli;
+                     dm.qryVenda.ParamByName('data').AsDate      := Now;
+                     dm.qryVenda.ParamByName('tipo').AsInteger   := FTipo_Pagamento;
+                     dm.qryVenda.ParamByName('subtotal').AsFloat := FSub_total;
+                     dm.qryVenda.ParamByName('total').AsFloat    := FTotal;
+                     dm.qryVenda.ParamByName('desc').AsFloat     := FDesconto;
+                     dm.qryVenda.ParamByName('func').AsString    := FID_Funcionario;
+                     dm.qryVenda.ExecSQL();
+
+                     dValDesc := 0;
+                     dValDesc := (FDesconto / dm.cdsItem_Venda.RecordCount);
+                     dm.cdsItem_Venda.First;
+                     while not dm.cdsItem_Venda.Eof do
+                     begin
+                         dm.cdsItem_Venda.Edit;
+                         dm.cdsItem_Venda.FieldByName('DESCONTO').AsFloat := dValDesc;
+                         dm.cdsItem_Venda.Post;
+                         dm.cdsItem_Venda.Next;
+                     end;
+
+                     //Inseri os itens no banco de dados, limpa o DataSet e finaliza transação caso não ocorra erros
+                     if dm.cdsItem_Venda.ApplyUpdates(0) > 0 then
+                        raise Exception.Create('Falha ao gravar itens!');
+
+                     dm.cdsItem_Venda.EmptyDataSet;
+                     LimpaCampos();
+                     edtStatus.Text := 'Caixa Livre';
+
+                     //Finaliza a transação e descarrega o objeto
+                     dmConexao.Conexao.CommitFreeAndNil(Trans);
+                 except on E:Exception do
+                      begin
+                        raise Exception.Create('Erro ao gravar Venda:' + #13 +  E.message);
+                      end;
+                 end;
+             end;
+         end
+         else
          begin
              try
                  Trans := dmConexao.Conexao.BeginTransaction;
 
-                 //Inseri a venda na banco de dados
+                 //Atualiza venda no banco de dados
                  dm.qryVenda.Close;
                  dm.qryVenda.SQL.Clear;
-                 dm.qryVenda.SQL.Add('INSERT INTO VENDA (N_VENDA, COD_CLI, DATA_VENDA, ID_PAGAMENTO, VAL_TOTAL, COD_FUNC, DESCONTO, SUB_TOTAL)'+
-                                     'VALUES(:venda, :cli, :data, :tipo, :total, :func, :desc, :subtotal)');
+                 dm.qryVenda.SQL.Add('UPDATE VENDA SET N_VENDA=:venda, COD_CLI=:cli, DATA_VENDA=:data, ID_PAGAMENTO=:tipo, VAL_TOTAL=:total, COD_FUNC=:func, DESCONTO=:desc, SUB_TOTAL=:subtotal '+
+                                     'WHERE N_VENDA=:venda');
                  dm.qryVenda.ParamByName('venda').AsString   := lblVenda.Caption;
                  dm.qryVenda.ParamByName('cli').AsString     := FCod_cli;
                  dm.qryVenda.ParamByName('data').AsDate      := Now;
@@ -146,6 +215,7 @@ begin
                  dm.qryVenda.ParamByName('total').AsFloat    := FTotal;
                  dm.qryVenda.ParamByName('desc').AsFloat     := FDesconto;
                  dm.qryVenda.ParamByName('func').AsString    := FID_Funcionario;
+                 dm.qryVenda.ParamByName('venda').AsString   := lblVenda.Caption;
                  dm.qryVenda.ExecSQL();
 
                  dValDesc := 0;
@@ -178,7 +248,7 @@ begin
      end
      else
      begin
-         ShowMessage('Não existe itens nessa venda!');
+         ShowMessage('1 - Não existe Venda em aberto'#10#13'2 - Não existe itens nessa venda!');
      end;
 end;
 
@@ -207,7 +277,7 @@ begin
      if Key = VK_F2 then NewVenda;
      if key = VK_F3 then FinalizarVenda;
 
-     if (Key = VK_F4) and (not dm.cdsItem_Venda.IsEmpty) then
+     if (Key = VK_F4) and (not dm.cdsItem_Venda.IsEmpty) and (edtStatus.Text = 'Venda Aberta') then
      begin
          try
             frmQtde := TfrmQtde.Create(self);
@@ -261,6 +331,11 @@ begin
           finally
               FreeAndNil(frmProcura_Venda);
           end;
+     end;
+
+     if Key = VK_F11 then
+     begin
+         AlteraVenda();
      end;
 
      if Key = VK_DELETE then CancelarItem;
@@ -465,11 +540,14 @@ end;
 procedure TfrmPDV.grddbgrdDblClick(Sender: TObject);
 begin
     //Carrega o FormQtde para alterar a qtde do item
-    try
-      frmQtde := TfrmQtde.Create(self);
-      frmQtde.ShowModal;
-    finally
-      FreeAndNil(frmQtde);
+    if edtStatus.Text = 'Venda Aberta' then
+    begin
+        try
+           frmQtde := TfrmQtde.Create(self);
+           frmQtde.ShowModal;
+        finally
+           FreeAndNil(frmQtde);
+        end;
     end;
 end;
 

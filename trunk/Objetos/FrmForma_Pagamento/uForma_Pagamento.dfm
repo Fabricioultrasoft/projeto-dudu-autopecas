@@ -1,6 +1,6 @@
 object frmForma_Pagamento: TfrmForma_Pagamento
-  Left = 225
-  Top = 154
+  Left = 313
+  Top = 152
   ActiveControl = edtID
   BorderIcons = []
   BorderStyle = bsSingle
@@ -18,7 +18,6 @@ object frmForma_Pagamento: TfrmForma_Pagamento
   Position = poDesktopCenter
   OnClose = FormClose
   OnCreate = FormCreate
-  OnKeyDown = FormKeyDown
   PixelsPerInch = 96
   TextHeight = 13
   object pnl1: TPanel
@@ -28,8 +27,6 @@ object frmForma_Pagamento: TfrmForma_Pagamento
     Height = 597
     Align = alClient
     TabOrder = 0
-    ExplicitWidth = 662
-    ExplicitHeight = 546
     object lbl2: TLabel
       Left = 1
       Top = 578
@@ -43,7 +40,6 @@ object frmForma_Pagamento: TfrmForma_Pagamento
       Font.Name = 'Arial Black'
       Font.Style = []
       ParentFont = False
-      ExplicitTop = 527
       ExplicitWidth = 198
     end
     object lblFormaPagamento: TLabel
