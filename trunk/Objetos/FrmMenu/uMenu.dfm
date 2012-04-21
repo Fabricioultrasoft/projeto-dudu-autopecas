@@ -1,6 +1,6 @@
 object frmMenu: TfrmMenu
-  Left = -113
-  Top = 216
+  Left = 41
+  Top = 217
   Caption = 'Menu Principal'
   ClientHeight = 462
   ClientWidth = 1193
@@ -14,7 +14,6 @@ object frmMenu: TfrmMenu
   Menu = mmMenu
   OldCreateOrder = False
   Position = poDesktopCenter
-  WindowState = wsMaximized
   OnClose = FormClose
   OnCreate = FormCreate
   OnKeyDown = FormKeyDown
@@ -262,7 +261,7 @@ object frmMenu: TfrmMenu
     Left = 112
     Top = 168
     Bitmap = {
-      494C01010F002000340140004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010F002000380140004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000000100000001000001002000000000000000
       0400000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
