@@ -41,6 +41,10 @@ begin
             begin
                 dm.cdsItem_Venda.Delete;
 
+                //Verifico se a venda já está gravada no banco
+                if frmPDV.sFStatus = 'F' then
+                   dm.cdsItem_Venda.ApplyUpdates(0);
+
                 //Limpa os campos da tela de PDV
                 frmPDV.edtValor_Unitario.Clear;
                 frmPDV.edtSub_total.Clear;

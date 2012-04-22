@@ -67,14 +67,14 @@ type
   private
     { Private declarations }
   public
-    FStatus        : string;
-    FTipo_Pagamento: Integer;
-    FID_Funcionario: string;
-    FCod_cli       : string;
-    FDesconto      : Double;
-    FSub_total     : Double;
-    FTotal         : Double;
-    FResposta      : boolean;
+    sFStatus        : string;
+    iFTipo_Pagamento: Integer;
+    sFID_Funcionario: string;
+    sFCod_cli       : string;
+    dFDesconto      : Double;
+    dFSub_total     : Double;
+    dFTotal         : Double;
+    bFResposta      : boolean;
   end;
 
 var
@@ -91,7 +91,7 @@ uses uProcura_Estoque, uOrcamento, uProcura_Cliente, uProcura_Produto,
 procedure TfrmPDV.AlteraVenda;
 begin
     //Procedimento para alterar uma venda já finalizada
-    if (FStatus = 'F') and (dm.cdsItem_Venda.RecordCount > 0) then
+    if (sFStatus = 'F') and (dm.cdsItem_Venda.RecordCount > 0) then
     begin
          edtStatus.Text := 'Venda Aberta';
     end;
@@ -141,15 +141,16 @@ begin
          end;
 
          //Verifica se o form forma de pagamento foi finalizado com sucesso
-         if not FResposta then
+         if not bFResposta then
             Abort;
 
          //Verifica se a venda já existe no banco de dados
+         dm.cdsVenda.Open;
          if not (dm.cdsVenda.Locate('N_VENDA', lblVenda.Caption, [])) then
          begin
 
              //Verifica se foi informado algum valor para forma de pagamento
-             if FTipo_Pagamento > 0 then
+             if iFTipo_Pagamento > 0 then
              begin
                  try
                      Trans := dmConexao.Conexao.BeginTransaction;
@@ -160,17 +161,17 @@ begin
                      dm.qryVenda.SQL.Add('INSERT INTO VENDA (N_VENDA, COD_CLI, DATA_VENDA, ID_PAGAMENTO, VAL_TOTAL, COD_FUNC, DESCONTO, SUB_TOTAL)'+
                                          'VALUES(:venda, :cli, :data, :tipo, :total, :func, :desc, :subtotal)');
                      dm.qryVenda.ParamByName('venda').AsString   := lblVenda.Caption;
-                     dm.qryVenda.ParamByName('cli').AsString     := FCod_cli;
+                     dm.qryVenda.ParamByName('cli').AsString     := sFCod_cli;
                      dm.qryVenda.ParamByName('data').AsDate      := Now;
-                     dm.qryVenda.ParamByName('tipo').AsInteger   := FTipo_Pagamento;
-                     dm.qryVenda.ParamByName('subtotal').AsFloat := FSub_total;
-                     dm.qryVenda.ParamByName('total').AsFloat    := FTotal;
-                     dm.qryVenda.ParamByName('desc').AsFloat     := FDesconto;
-                     dm.qryVenda.ParamByName('func').AsString    := FID_Funcionario;
+                     dm.qryVenda.ParamByName('tipo').AsInteger   := iFTipo_Pagamento;
+                     dm.qryVenda.ParamByName('subtotal').AsFloat := dFSub_total;
+                     dm.qryVenda.ParamByName('total').AsFloat    := dFTotal;
+                     dm.qryVenda.ParamByName('desc').AsFloat     := dFDesconto;
+                     dm.qryVenda.ParamByName('func').AsString    := sFID_Funcionario;
                      dm.qryVenda.ExecSQL();
 
                      dValDesc := 0;
-                     dValDesc := (FDesconto / dm.cdsItem_Venda.RecordCount);
+                     dValDesc := (dFDesconto / dm.cdsItem_Venda.RecordCount);
                      dm.cdsItem_Venda.First;
                      while not dm.cdsItem_Venda.Eof do
                      begin
@@ -208,18 +209,18 @@ begin
                  dm.qryVenda.SQL.Add('UPDATE VENDA SET N_VENDA=:venda, COD_CLI=:cli, DATA_VENDA=:data, ID_PAGAMENTO=:tipo, VAL_TOTAL=:total, COD_FUNC=:func, DESCONTO=:desc, SUB_TOTAL=:subtotal '+
                                      'WHERE N_VENDA=:venda');
                  dm.qryVenda.ParamByName('venda').AsString   := lblVenda.Caption;
-                 dm.qryVenda.ParamByName('cli').AsString     := FCod_cli;
+                 dm.qryVenda.ParamByName('cli').AsString     := sFCod_cli;
                  dm.qryVenda.ParamByName('data').AsDate      := Now;
-                 dm.qryVenda.ParamByName('tipo').AsInteger   := FTipo_Pagamento;
-                 dm.qryVenda.ParamByName('subtotal').AsFloat := FSub_total;
-                 dm.qryVenda.ParamByName('total').AsFloat    := FTotal;
-                 dm.qryVenda.ParamByName('desc').AsFloat     := FDesconto;
-                 dm.qryVenda.ParamByName('func').AsString    := FID_Funcionario;
+                 dm.qryVenda.ParamByName('tipo').AsInteger   := iFTipo_Pagamento;
+                 dm.qryVenda.ParamByName('subtotal').AsFloat := dFSub_total;
+                 dm.qryVenda.ParamByName('total').AsFloat    := dFTotal;
+                 dm.qryVenda.ParamByName('desc').AsFloat     := dFDesconto;
+                 dm.qryVenda.ParamByName('func').AsString    := sFID_Funcionario;
                  dm.qryVenda.ParamByName('venda').AsString   := lblVenda.Caption;
                  dm.qryVenda.ExecSQL();
 
                  dValDesc := 0;
-                 dValDesc := (FDesconto / dm.cdsItem_Venda.RecordCount);
+                 dValDesc := (dFDesconto / dm.cdsItem_Venda.RecordCount);
                  dm.cdsItem_Venda.First;
                  while not dm.cdsItem_Venda.Eof do
                  begin
@@ -245,6 +246,7 @@ begin
                   end;
              end;
          end;
+         dm.cdsVenda.Close;
      end
      else
      begin
@@ -347,6 +349,8 @@ begin
     lblVenda.Caption   := '';
     lblData.Caption    := '';
     lblCod_Cli.Caption := '';
+    if not dm.cdsItem_Venda.IsEmpty then
+       dm.cdsItem_Venda.EmptyDataSet;
 end;
 
 procedure TfrmPDV.GeraNfe;
@@ -557,10 +561,11 @@ begin
 
      if edtStatus.Text = 'Caixa Livre' then
      begin
+         LimpaCampos();
          lblCod_Cli.Caption  := '001';
          lblVenda.Caption    := GeraNVenda;
          lblData.Caption     := FormatDateTime('dd/mm/yy', Now);
-         edtStatus.Text      := 'Venda Aberta'
+         edtStatus.Text      := 'Venda Aberta';
      end;
 end;
 
