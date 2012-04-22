@@ -123,7 +123,6 @@ object frmPDV: TfrmPDV
     Color = clHotLight
     ParentBackground = False
     TabOrder = 0
-    ExplicitWidth = 1249
     DesignSize = (
       1280
       183)
@@ -268,7 +267,6 @@ object frmPDV: TfrmPDV
     BevelOuter = bvNone
     BorderWidth = 5
     TabOrder = 1
-    ExplicitHeight = 314
     object pnlGrid: TPanel
       Left = 5
       Top = 5
@@ -279,7 +277,6 @@ object frmPDV: TfrmPDV
       Color = clHotLight
       ParentBackground = False
       TabOrder = 0
-      ExplicitHeight = 304
       object grddbgrd: TDBGrid
         Left = 6
         Top = 6
@@ -389,8 +386,6 @@ object frmPDV: TfrmPDV
     Font.Style = []
     ParentFont = False
     TabOrder = 3
-    ExplicitWidth = 607
-    ExplicitHeight = 314
     object lbl3: TLabel
       Left = 20
       Top = 374
@@ -485,7 +480,6 @@ object frmPDV: TfrmPDV
       ReadOnly = True
       TabOrder = 0
       Text = 'Caixa Livre'
-      ExplicitWidth = 567
     end
     object edtProduto: TEdit
       Left = 20
@@ -505,7 +499,6 @@ object frmPDV: TfrmPDV
       ParentFont = False
       ReadOnly = True
       TabOrder = 1
-      ExplicitWidth = 567
     end
     object edtValor_Unitario: TEdit
       Left = 20
@@ -525,7 +518,6 @@ object frmPDV: TfrmPDV
       ParentFont = False
       ReadOnly = True
       TabOrder = 2
-      ExplicitWidth = 567
     end
     object edtSub_total: TEdit
       Left = 20
@@ -545,7 +537,6 @@ object frmPDV: TfrmPDV
       ParentFont = False
       ReadOnly = True
       TabOrder = 3
-      ExplicitWidth = 567
     end
     object edtTotal: TEdit
       Left = 20
@@ -565,7 +556,6 @@ object frmPDV: TfrmPDV
       ParentFont = False
       ReadOnly = True
       TabOrder = 4
-      ExplicitWidth = 567
     end
   end
   object pnl5: TPanel
@@ -585,8 +575,6 @@ object frmPDV: TfrmPDV
     ParentBackground = False
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = 502
-    ExplicitWidth = 1249
     object lbl15: TLabel
       Left = 973
       Top = 74

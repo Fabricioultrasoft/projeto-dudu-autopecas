@@ -314,7 +314,6 @@ object frmProcura_Venda: TfrmProcura_Venda
     Height = 37
     Align = alBottom
     TabOrder = 3
-    ExplicitTop = 529
     object lbl6: TLabel
       Left = 0
       Top = 12

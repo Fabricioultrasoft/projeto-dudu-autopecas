@@ -70,12 +70,12 @@ begin
             frmPDV.lblVenda.Caption   := dm.cdsVenda.FieldByName('N_VENDA').AsString;
             frmPDV.lblCod_Cli.Caption := dm.cdsVenda.FieldByName('COD_CLI').AsString;
             frmPDV.lblData.Caption    := DateToStr(dm.cdsVenda.FieldByName('DATA_VENDA').AsDateTime);
-            frmPDV.FStatus            := dm.cdsVenda.FieldByName('STATUS').AsString;
-            frmPDV.FTipo_Pagamento    := dm.cdsVenda.FieldByName('ID_PAGAMENTO').AsInteger;
-            frmPDV.FID_Funcionario    := dm.cdsVenda.FieldByName('COD_FUNC').AsString;
-            frmPDV.FDesconto          := dm.cdsVenda.FieldByName('DESCONTO').AsFloat;
-            frmPDV.FSub_total         := dm.cdsVenda.FieldByName('SUB_TOTAL').AsFloat;
-            frmPDV.FTotal             := dm.cdsVenda.FieldByName('VAL_TOTAL').AsFloat;
+            frmPDV.sFStatus            := dm.cdsVenda.FieldByName('STATUS').AsString;
+            frmPDV.iFTipo_Pagamento    := dm.cdsVenda.FieldByName('ID_PAGAMENTO').AsInteger;
+            frmPDV.sFID_Funcionario    := dm.cdsVenda.FieldByName('COD_FUNC').AsString;
+            frmPDV.dFDesconto          := dm.cdsVenda.FieldByName('DESCONTO').AsFloat;
+            frmPDV.dFSub_total         := dm.cdsVenda.FieldByName('SUB_TOTAL').AsFloat;
+            frmPDV.dFTotal             := dm.cdsVenda.FieldByName('VAL_TOTAL').AsFloat;
             frmPDV.edtTotal.Text  := FormatFloat('##0.00' ,dm.cdsVenda.FieldByName('SUB_TOTAL').AsFloat);
         end;
     end;

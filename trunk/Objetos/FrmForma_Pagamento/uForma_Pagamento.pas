@@ -103,21 +103,21 @@ end;
 procedure TfrmForma_Pagamento.Cartao;
 begin
     //Procedure para carregar a forma de pagamento na variável no formPDV
-    frmPDV.FTipo_Pagamento := 2;
+    frmPDV.iFTipo_Pagamento := 2;
     lblFormaPagamento.Caption := 'CARTÃO';
 end;
 
 procedure TfrmForma_Pagamento.Cheque;
 begin
      //Procedure para carregar a forma de pagamento na variável no formPDV
-     frmPDV.FTipo_Pagamento := 3;
+     frmPDV.iFTipo_Pagamento := 3;
      lblFormaPagamento.Caption := 'CHEQUE';
 end;
 
 procedure TfrmForma_Pagamento.Dinheiro;
 begin
      //Procedure para carregar a forma de pagamento na variável no formPDV
-     frmPDV.FTipo_Pagamento := 1;
+     frmPDV.iFTipo_Pagamento := 1;
      lblFormaPagamento.Caption := 'DINHEIRO';
 end;
 
@@ -136,19 +136,19 @@ begin
      //Procedimento que finaliza as funções da tela e volta para o procedimento do FormPDV
 
      //Verifica se foi informado uma opção de pagamento e se o ID do funcionário foi informado
-     if (frmPDV.FTipo_Pagamento > 0) and (edtID.Text <> '') then
+     if (frmPDV.iFTipo_Pagamento > 0) and (edtID.Text <> '') then
      begin
-         FrmPDV.FID_Funcionario := edtID.Text;
-         frmPDV.FCod_cli        := edtCliente.Text;
-         frmPDV.FSub_total      := StrToFloat(edtSubTotal.Text);
-         frmPDV.FDesconto       := StrToFloat(edtDesconto.Text);
-         frmPDV.FTotal          := StrToFloat(edtTotal.Text);
-         frmPDV.FResposta := true;
+         FrmPDV.sFID_Funcionario := edtID.Text;
+         frmPDV.sFCod_cli        := edtCliente.Text;
+         frmPDV.dFSub_total      := StrToFloat(edtSubTotal.Text);
+         frmPDV.dFDesconto       := StrToFloat(edtDesconto.Text);
+         frmPDV.dFTotal          := StrToFloat(edtTotal.Text);
+         frmPDV.bFResposta := true;
          frmForma_Pagamento.Close;
      end
      else
      begin
-         if (frmPDV.FTipo_Pagamento = 0) then
+         if (frmPDV.iFTipo_Pagamento = 0) then
          begin
              Application.MessageBox('Informe a forma de Pagamento!', 'Erro', MB_OK);
              Abort;
@@ -173,10 +173,10 @@ procedure TfrmForma_Pagamento.FormCreate(Sender: TObject);
 begin
     //Carrega os valores na tela
     edtCliente.Text  := frmPDV.lblCod_Cli.Caption;
-    edtID.Text       := frmPDV.FID_Funcionario;
+    edtID.Text       := frmPDV.sFID_Funcionario;
     edtSubTotal.Text := frmPDV.edtTotal.Text;
     edtTotal.Text    := frmPDV.edtTotal.Text;
-    edtDesconto.Text := FormatFloat('##0.00', frmPDV.FDesconto);
+    edtDesconto.Text := FormatFloat('##0.00', frmPDV.dFDesconto);
 end;
 
 procedure TfrmForma_Pagamento.KeyDown(var Key: Word; Shift: TShiftState);
@@ -198,7 +198,7 @@ begin
     if Key = VK_ESCAPE then
     begin
         frmForma_Pagamento.Close;
-        frmPDV.FResposta := false;
+        frmPDV.bFResposta := false;
     end;
 end;
 

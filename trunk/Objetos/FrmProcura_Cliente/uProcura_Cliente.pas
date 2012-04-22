@@ -108,7 +108,7 @@ begin
         if Assigned(frmPDV) then
         begin
            frmPDV.lblCod_Cli.Caption := dm.cdsCliente.FieldByName('COD_CLI').AsString;
-           frmPDV.FCod_cli           := dm.cdsCliente.FieldByName('COD_CLI').AsString;
+           frmPDV.sFCod_cli           := dm.cdsCliente.FieldByName('COD_CLI').AsString;
            frmProcura_Cliente.Close;
 
            //Verifica se o frmForma_Pagamento está ativo na memória, caso esteja carrega o Código do cliente no edtCliente
