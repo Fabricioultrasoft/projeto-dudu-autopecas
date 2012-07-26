@@ -33,7 +33,7 @@ uses
   uFuncao in '..\Objetos\Funções\uFuncao.pas',
   uVendas_Produto in '..\Objetos\FrmVendas_Produto\uVendas_Produto.pas' {frmVendas_Produto},
   uProcura_Venda in '..\Objetos\FrmProcura_Venda\uProcura_Venda.pas' {frmProcura_Venda},
-  uConfig in 'C:\Users\William\Documents\Meus Projetos\Projeto NFe\Objetos\Config\uConfig.pas' {frmConfig};
+  uConfig in '..\Objetos\UConfig\uConfig.pas' {frmConfig};
 
 {$R *.res}
 
