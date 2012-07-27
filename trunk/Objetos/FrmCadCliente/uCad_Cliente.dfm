@@ -1521,10 +1521,6 @@ object frmCadCliente: TfrmCadCliente
       Caption = 'Pesquisar'
       ImageIndex = 1
       OnShow = TabSheet1Show
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object grp1: TGroupBox
         Left = 0
         Top = 0

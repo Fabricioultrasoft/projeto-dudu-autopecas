@@ -86,6 +86,7 @@ type
     procedure actLoginExecute(Sender: TObject);
     procedure actConfiguracaoExecute(Sender: TObject);
     function GetBuildInfo:string;
+    function FormataCaptionMenu: string;
   private
     { Private declarations }
   public
@@ -103,6 +104,24 @@ uses UdmConexao, uCad_Usuario, uCad_Grupo, uCad_Cliente, uCad_Fornecedor,
   uFechamento_Caixa;
 
 {$R *.dfm}
+
+function TfrmMenu.FormataCaptionMenu: string;
+var
+   Str: TStringBuilder;
+//frmMenu.Caption := Application.Title + '  -  Versão: [' + GetBuildInfo + ']  -  Última atualização: ['+DateToStr(Arq.GetLastWriteTime(Application.ExeName))+']...';
+begin
+     try
+         Str := TStringBuilder.Create;
+         Str.Append(Application.Title);
+         Str.Append(' - Versão: [' + GetBuildInfo + ']');
+         Str.Append(' - Última atualização: [' + DateToStr(Arq.GetLastWriteTime(Application.ExeName)) + ']');
+         Str.Append(' - Servidor: [' + dmConexao.Host + '] ...');
+
+         Result := Str.ToString;
+     finally
+          FreeAndNil(Str);
+     end;
+end;
 
 //Função Captura o Build do executável
 function TfrmMenu.GetBuildInfo:string;
@@ -312,14 +331,14 @@ begin
     finally
        FreeAndNil(frmLogin);
     end;}
-
-    frmMenu.Caption := Application.Title + '  -  Versão: [' + GetBuildInfo + ']  -  Última atualização: ['+DateToStr(Arq.GetLastWriteTime(Application.ExeName))+']...';
+    dmConexao.Conexao.Connected := True;
+    frmMenu.Caption := FormataCaptionMenu;
     if FileExists(ExtractFilePath(Application.ExeName) + 'Imagens\ImgLogo.jpg') then
     begin
         imgMenu.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'Imagens\ImgLogo.jpg');
     end;
 
-    dmConexao.Conexao.Connected := True;
+
 end;
 
 procedure TfrmMenu.FormKeyDown(Sender: TObject; var Key: Word;
