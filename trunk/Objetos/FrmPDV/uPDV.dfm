@@ -1,11 +1,11 @@
 object frmPDV: TfrmPDV
-  Left = -8
-  Top = -8
+  Left = 129
+  Top = 207
   Align = alClient
   AutoSize = True
   BorderStyle = bsNone
   Caption = 'Form Padr'#227'o'
-  ClientHeight = 778
+  ClientHeight = 750
   ClientWidth = 1280
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -20,7 +20,7 @@ object frmPDV: TfrmPDV
   OnClose = FormClose
   DesignSize = (
     1280
-    778)
+    750)
   PixelsPerInch = 96
   TextHeight = 13
   object lbl2: TLabel
@@ -261,27 +261,29 @@ object frmPDV: TfrmPDV
     Left = 0
     Top = 183
     Width = 642
-    Height = 482
+    Height = 454
     Align = alLeft
     AutoSize = True
     BevelOuter = bvNone
     BorderWidth = 5
     TabOrder = 1
+    ExplicitHeight = 482
     object pnlGrid: TPanel
       Left = 5
       Top = 5
       Width = 632
-      Height = 472
+      Height = 444
       Align = alClient
       BorderWidth = 5
       Color = clHotLight
       ParentBackground = False
       TabOrder = 0
+      ExplicitHeight = 472
       object grddbgrd: TDBGrid
         Left = 6
         Top = 6
         Width = 620
-        Height = 460
+        Height = 432
         Align = alClient
         DataSource = dm.dtsItem_Venda
         Font.Charset = DEFAULT_CHARSET
@@ -374,7 +376,7 @@ object frmPDV: TfrmPDV
     Left = 642
     Top = 183
     Width = 638
-    Height = 482
+    Height = 454
     Align = alClient
     AutoSize = True
     BevelOuter = bvNone
@@ -386,6 +388,7 @@ object frmPDV: TfrmPDV
     Font.Style = []
     ParentFont = False
     TabOrder = 3
+    ExplicitHeight = 482
     object lbl3: TLabel
       Left = 20
       Top = 374
@@ -560,7 +563,7 @@ object frmPDV: TfrmPDV
   end
   object pnl5: TPanel
     Left = 0
-    Top = 665
+    Top = 637
     Width = 1280
     Height = 113
     Align = alBottom
@@ -575,6 +578,7 @@ object frmPDV: TfrmPDV
     ParentBackground = False
     ParentFont = False
     TabOrder = 2
+    ExplicitTop = 665
     object lbl15: TLabel
       Left = 973
       Top = 74
