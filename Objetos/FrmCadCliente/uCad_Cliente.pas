@@ -227,16 +227,16 @@ begin
                   dm.qryCliente.SQL.Clear;
                   dm.qryCliente.SQL.Add('INSERT INTO CLIENTE (NOME_RAZAO, CNPJ, INSC_EST, RUA, NUMERO, BAIRRO, CIDADE, UF, CEP, FONE)'+
                   'VALUES(:nome, :cnpj, :insc, :rua, :numero, :bairro, :cidade, :uf, :cep, :fone)');
-                  dm.qryCliente.Params.ParamByName('nome').AsString   := edtNome.Text;
-                  dm.qryCliente.Params.ParamByName('cnpj').AsString   :=edtCNPJ.Text;
-                  dm.qryCliente.Params.ParamByName('insc').AsString   := edtINSC_EST.Text;
-                  dm.qryCliente.Params.ParamByName('rua').AsString    := edtRua.Text;
-                  dm.qryCliente.Params.ParamByName('numero').AsString := edtNumero.Text;
-                  dm.qryCliente.Params.ParamByName('bairro').AsString := edtBairro.Text;
-                  dm.qryCliente.Params.ParamByName('cidade').AsString := edtCidade.Text;
-                  dm.qryCliente.Params.ParamByName('uf').AsString     := cmbUF.Text;
-                  dm.qryCliente.Params.ParamByName('cep').AsString    := edtCEP.Text;
-                  dm.qryCliente.Params.ParamByName('fone').AsString   := edtFone.Text;
+                  dm.qryCliente.Params.ParamByName('nome').AsString    := edtNome.Text;
+                  dm.qryCliente.Params.ParamByName('cnpj').AsString    := edtCNPJ.Text;
+                  dm.qryCliente.Params.ParamByName('insc').AsString    := edtINSC_EST.Text;
+                  dm.qryCliente.Params.ParamByName('rua').AsString     := edtRua.Text;
+                  dm.qryCliente.Params.ParamByName('numero').AsString  := edtNumero.Text;
+                  dm.qryCliente.Params.ParamByName('bairro').AsString  := edtBairro.Text;
+                  dm.qryCliente.Params.ParamByName('cidade').AsString  := edtCidade.Text;
+                  dm.qryCliente.Params.ParamByName('uf').AsString      := cmbUF.Text;
+                  dm.qryCliente.Params.ParamByName('cep').AsString     := edtCEP.Text;
+                  dm.qryCliente.Params.ParamByName('fone').AsString    := edtFone.Text;
                   dm.qryCliente.ExecSQL();
                   LimpaCampos();
                   grpCliente.Enabled := False;
@@ -288,6 +288,7 @@ begin
     grpCliente.Enabled         := True;
     pgCadastro.ActivePageIndex := 0;
     LimpaCampos();
+    edtNumero                  := 0;
     edtNome.SetFocus;
 end;
 

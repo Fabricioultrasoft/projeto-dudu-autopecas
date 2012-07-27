@@ -45,6 +45,5 @@ begin
   Application.CreateForm(TdmConexao, dmConexao);
   Application.CreateForm(Tdm, dm);
   Application.CreateForm(TfrmMenu, frmMenu);
-  Application.CreateForm(TfrmConfig, frmConfig);
   Application.Run;
 end.
