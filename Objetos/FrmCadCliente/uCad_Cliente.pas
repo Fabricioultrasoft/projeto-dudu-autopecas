@@ -288,7 +288,7 @@ begin
     grpCliente.Enabled         := True;
     pgCadastro.ActivePageIndex := 0;
     LimpaCampos();
-    edtNumero                  := 0;
+    edtNumero.Text             := '0';
     edtNome.SetFocus;
 end;
 
