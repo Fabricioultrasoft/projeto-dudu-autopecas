@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Sistema de Vendas DUDU Auto Peças"
-#define MyAppVersion "1.0.0.0"
+#define MyAppVersion "2.0.0.1"
 #define MyAppPublisher "WLL - SISTEMAS"
 #define MyAppURL "wllfl@ig.com.br"
 #define MyAppExeName "DUDU_AUTO_PEÇAS.exe"
@@ -21,7 +21,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName=C:\Sistema DUDU AUTO_PEÇAS
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=Setup_Version 1.0.0.0
+OutputBaseFilename=Setup_Version 2.0.0.1
 Compression=lzma
 SolidCompression=yes
 
