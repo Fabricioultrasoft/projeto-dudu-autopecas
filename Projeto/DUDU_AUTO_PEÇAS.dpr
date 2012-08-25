@@ -32,8 +32,7 @@ uses
   uCalcula_Perc in '..\Objetos\FrmCalcula_Perc\uCalcula_Perc.pas' {frmCalula_Perc},
   uFuncao in '..\Objetos\Funções\uFuncao.pas',
   uVendas_Produto in '..\Objetos\FrmVendas_Produto\uVendas_Produto.pas' {frmVendas_Produto},
-  uProcura_Venda in '..\Objetos\FrmProcura_Venda\uProcura_Venda.pas' {frmProcura_Venda},
-  uConfig in '..\Objetos\UConfig\uConfig.pas' {frmConfig};
+  uProcura_Venda in '..\Objetos\FrmProcura_Venda\uProcura_Venda.pas' {frmProcura_Venda};
 
 {$R *.res}
 
