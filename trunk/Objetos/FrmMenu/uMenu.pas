@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, Menus, ExtCtrls, jpeg, Buttons, ImgList, ToolWin,
-  uVendas_Produto, uLogin, ActnList, IOUtils, uConfig;
+  uVendas_Produto, uLogin, ActnList, IOUtils;
 
 type
   TfrmMenu = class(TForm)
@@ -84,7 +84,6 @@ type
     procedure actProdutos_VendidosExecute(Sender: TObject);
     procedure actUsuarioExecute(Sender: TObject);
     procedure actLoginExecute(Sender: TObject);
-    procedure actConfiguracaoExecute(Sender: TObject);
     function GetBuildInfo:string;
     function FormataCaptionMenu: string;
   private
@@ -183,16 +182,6 @@ begin
      finally
        FreeAndNil(frmCadCliente);
      end;
-end;
-
-procedure TfrmMenu.actConfiguracaoExecute(Sender: TObject);
-begin
-    try
-       frmConfig := TfrmConfig.Create(self);
-       frmConfig.ShowModal;
-    finally
-        FreeAndNil(frmConfig);
-    end;
 end;
 
 procedure TfrmMenu.actEntradaExecute(Sender: TObject);
