@@ -157,12 +157,14 @@ object frmProcura_Fornecedor: TfrmProcura_Fornecedor
     ParentFont = False
     TabOrder = 3
     object Label4: TLabel
-      Left = 0
-      Top = 8
-      Width = 428
+      Left = 11
+      Top = 9
+      Width = 610
       Height = 18
       Alignment = taCenter
-      Caption = 'Pressione: ESC >> Fechar       ENTER >> Selecionar Registro'
+      Caption = 
+        'Pressione: ESC >> Fechar       ENTER >> Selecionar Registro     ' +
+        '   F5 -> Gerar Relat'#243'rio'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clHotLight
       Font.Height = -13

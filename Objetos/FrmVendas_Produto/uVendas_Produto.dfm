@@ -1,6 +1,6 @@
 object frmVendas_Produto: TfrmVendas_Produto
-  Left = 322
-  Top = 136
+  Left = 448
+  Top = 144
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Rela'#231#227'o de Produtos Vendidos'
@@ -72,7 +72,7 @@ object frmVendas_Produto: TfrmVendas_Produto
     end
     object dtpInicial: TDateTimePicker
       Left = 281
-      Top = 8
+      Top = 13
       Width = 129
       Height = 24
       Cursor = crHandPoint
@@ -83,21 +83,20 @@ object frmVendas_Produto: TfrmVendas_Produto
     end
     object dtpFinal: TDateTimePicker
       Left = 568
-      Top = 8
+      Top = 13
       Width = 129
       Height = 24
       Cursor = crHandPoint
       Date = 40966.515349270830000000
       Time = 40966.515349270830000000
       TabOrder = 1
-      OnChange = dtpFinalChange
     end
   end
   object grdVendas: TDBGrid
     Left = 0
-    Top = 217
+    Top = 169
     Width = 780
-    Height = 303
+    Height = 351
     Align = alClient
     DataSource = dm.dtsVenda_Fornecedor
     Font.Charset = DEFAULT_CHARSET
@@ -107,7 +106,7 @@ object frmVendas_Produto: TfrmVendas_Produto
     Font.Style = []
     Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
     ParentFont = False
-    TabOrder = 4
+    TabOrder = 3
     TitleFont.Charset = DEFAULT_CHARSET
     TitleFont.Color = clWindowText
     TitleFont.Height = -11
@@ -118,10 +117,10 @@ object frmVendas_Produto: TfrmVendas_Produto
       item
         Alignment = taCenter
         Expanded = False
-        FieldName = 'REF_PROD'
+        FieldName = 'EAN13'
         Title.Alignment = taCenter
-        Title.Caption = 'REFER'#202'NCIA'
-        Width = 89
+        Title.Caption = 'C'#211'DIGO DE BARRA'
+        Width = 120
         Visible = True
       end
       item
@@ -171,7 +170,7 @@ object frmVendas_Produto: TfrmVendas_Produto
     Width = 780
     Height = 50
     Align = alBottom
-    TabOrder = 5
+    TabOrder = 4
     object btnFechar: TBitBtn
       Left = 652
       Top = 7
@@ -186,6 +185,7 @@ object frmVendas_Produto: TfrmVendas_Produto
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       Kind = bkCancel
+      NumGlyphs = 2
       ParentDoubleBuffered = False
       ParentFont = False
       TabOrder = 1
@@ -238,11 +238,11 @@ object frmVendas_Produto: TfrmVendas_Produto
     ParentFont = False
     TabOrder = 2
     object lbl2: TLabel
-      Left = 16
+      Left = 9
       Top = 16
-      Width = 135
+      Width = 189
       Height = 16
-      Caption = 'Filtrar por Fornecedor: '
+      Caption = 'Informe Produto ou Fornecedor: '
     end
     object edtFornecedor: TEdit
       Left = 207
@@ -259,44 +259,6 @@ object frmVendas_Produto: TfrmVendas_Produto
       ParentFont = False
       TabOrder = 0
       OnChange = edtFornecedorChange
-      ExplicitHeight = 48
-    end
-  end
-  object pnl5: TPanel
-    Left = 0
-    Top = 169
-    Width = 780
-    Height = 48
-    Align = alTop
-    Font.Charset = DEFAULT_CHARSET
-    Font.Color = clWindowText
-    Font.Height = -13
-    Font.Name = 'Tahoma'
-    Font.Style = []
-    ParentFont = False
-    TabOrder = 3
-    object lbl3: TLabel
-      Left = 37
-      Top = 16
-      Width = 114
-      Height = 16
-      Caption = 'Filtrar por Produto: '
-    end
-    object edtProduto: TEdit
-      Left = 207
-      Top = 1
-      Width = 572
-      Height = 46
-      Align = alRight
-      CharCase = ecUpperCase
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -33
-      Font.Name = 'Tahoma'
-      Font.Style = [fsBold]
-      ParentFont = False
-      TabOrder = 0
-      OnChange = edtProdutoChange
       ExplicitHeight = 48
     end
   end

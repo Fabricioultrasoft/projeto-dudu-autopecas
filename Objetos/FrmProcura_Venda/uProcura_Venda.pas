@@ -28,7 +28,7 @@ type
     btnCarregaVenda: TBitBtn;
     procedure edtNVendaChange(Sender: TObject);
     procedure PesquisaVenda();
-    procedure GeraNFe();
+    //procedure GeraNFe();
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCarregaVendaClick(Sender: TObject);
   private
@@ -71,7 +71,6 @@ begin
             frmPDV.lblCod_Cli.Caption := dm.cdsVenda.FieldByName('COD_CLI').AsString;
             frmPDV.lblData.Caption    := DateToStr(dm.cdsVenda.FieldByName('DATA_VENDA').AsDateTime);
             frmPDV.sFStatus            := dm.cdsVenda.FieldByName('STATUS').AsString;
-            frmPDV.iFTipo_Pagamento    := dm.cdsVenda.FieldByName('ID_PAGAMENTO').AsInteger;
             frmPDV.sFID_Funcionario    := dm.cdsVenda.FieldByName('COD_FUNC').AsString;
             frmPDV.dFDesconto          := dm.cdsVenda.FieldByName('DESCONTO').AsFloat;
             frmPDV.dFSub_total         := dm.cdsVenda.FieldByName('SUB_TOTAL').AsFloat;
@@ -99,7 +98,7 @@ begin
      end;
 end;
 
-procedure TfrmProcura_Venda.GeraNFe;
+{procedure TfrmProcura_Venda.GeraNFe;
 var
   NumItem: integer;
 begin
@@ -257,7 +256,7 @@ begin
     dm.ACBrNFe.NotasFiscais.GerarNFe;
     dm.ACBrNFe.NotasFiscais.SaveToFile(dmConexao.sPath_Arquivo, false);
     ShowMessage('Arquivo xml gerado com sucesso! ' + dm.ACBrNFe.NotasFiscais.Items[0].NomeArq);
-end;
+end; }
 
 procedure TfrmProcura_Venda.PesquisaVenda;
 begin

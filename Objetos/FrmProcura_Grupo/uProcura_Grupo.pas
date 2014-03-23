@@ -24,6 +24,7 @@ type
     procedure dbgrdFornKeyPress(Sender: TObject; var Key: Char);
     procedure CarregaConsulta();
     procedure dbgrdFornTitleClick(Column: TColumn);
+    procedure dbgrdFornDblClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -54,6 +55,12 @@ begin
      dm.qryGrupo.Open;
      dm.cdsGrupo.Open;
      dm.cdsGrupo.Refresh;
+end;
+
+procedure TfrmProcura_Grupo.dbgrdFornDblClick(Sender: TObject);
+begin
+    CarregaCampo();
+    frmProcura_Grupo.Close;
 end;
 
 procedure TfrmProcura_Grupo.dbgrdFornKeyPress(Sender: TObject; var Key: Char);
@@ -113,6 +120,7 @@ procedure TfrmProcura_Grupo.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
      if Key = VK_ESCAPE then frmProcura_Grupo.Close;
+     if Key = VK_RETURN then self.CarregaCampo();
      
 end;
 

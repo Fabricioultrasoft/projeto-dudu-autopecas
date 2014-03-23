@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, ToolWin, ComCtrls, ExtCtrls, Grids, DBGrids, uFormBase;
+  Dialogs, StdCtrls, Buttons, ToolWin, ComCtrls, ExtCtrls, Grids, DBGrids, uFormBase, SqlExpr;
 
 type
   TfrmCadGrupo = class(TFormBaseCad)
@@ -21,16 +21,22 @@ type
     edtDescricao: TEdit;
     lbl2: TLabel;
     edtCodigo: TEdit;
+    Label15: TLabel;
+    Label5: TLabel;
+    btnCancelar: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnSairClick(Sender: TObject);
     procedure Incluir;                     override;
-    procedure Gravar(Parametro: string);   override;
+    procedure Gravar(Operacao: TOperacao);   override;
     procedure Editar;                      override;
+    procedure Cancelar();                      override;
     procedure Excluir;                     override;
+    function VerificaDuplicidade(Descricao:string): Boolean;
     procedure btnIncluirClick(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -40,11 +46,30 @@ type
 var
   frmCadGrupo: TfrmCadGrupo;
 
+const
+  // Instrução SQL para INSERT
+  INSERT: string = 'INSERT INTO GRUPO (DESC_GRUPO)VALUES(:grupo)';
+
+  // Instrução SQL para EDIÇÃO, o nome UPDATE dá conflito com o método Update nativo da unit Controls
+  EDICAO: string = 'UPDATE GRUPO SET DESC_GRUPO=:grupo WHERE COD_GRUPO=:codigo';
+
+  // Instrução SQL para DELETE
+  DELETE: string = 'DELETE FROM GRUPO WHERE COD_GRUPO = :codigo';
+
+  // Instrução SQL para verificação de Duplicidade
+  SQLVERIF: string  = 'SELECT DESC_GRUPO FROM GRUPO WHERE DESC_GRUPO = :desc';
+
+
 implementation
 
-uses uDm;
+uses uDm, UdmConexao;
 
 {$R *.dfm}
+
+procedure TfrmCadGrupo.btnCancelarClick(Sender: TObject);
+begin
+    Cancelar();
+end;
 
 procedure TfrmCadGrupo.btnEditarClick(Sender: TObject);
 begin
@@ -68,14 +93,20 @@ end;
 
 procedure TfrmCadGrupo.btnSalvarClick(Sender: TObject);
 begin
-    Gravar(Param);
+    Gravar(FOperacao);
+end;
+
+procedure TfrmCadGrupo.Cancelar;
+begin
+  inherited;
+   grpGrupo.Enabled := false;
 end;
 
 procedure TfrmCadGrupo.Editar;
 begin
     //Procedimento de Edição de registro
     inherited;
-    Param                      := 'U';
+    setOperacao(opUpdate);
     grpGrupo.Enabled           := True;
     pgCadastro.ActivePageIndex := 0;
     edtDescricao.SetFocus;
@@ -89,7 +120,7 @@ begin
         begin
             dm.qryGrupo.Close;
             dm.qryGrupo.SQL.Clear;
-            dm.qryGrupo.SQL.Add('DELETE FROM GRUPO WHERE COD_GRUPO = :codigo');
+            dm.qryGrupo.SQL.Add(DELETE);
             dm.qryGrupo.ParamByName('codigo').AsString := edtCodigo.Text;
             dm.qryGrupo.ExecSQL();
             LimpaCampos();
@@ -107,62 +138,97 @@ begin
     frmCadGrupo := nil;
 end;
 
-procedure TfrmCadGrupo.Gravar(Parametro: string);
+procedure TfrmCadGrupo.Gravar(Operacao: TOperacao);
 begin
      //Procedimento de gravação
 
      //Verifica se é operação de Inclusão
-     if (Parametro = 'I') then
+     if (Operacao = opInsert) then
      begin
-         if (edtDescricao.Text <> '') then
+         if (edtDescricao.Text <> '') and (VerificaDuplicidade(edtDescricao.Text)) then
          begin
              try
                   dm.qryGrupo.Close;
                   dm.qryGrupo.SQL.Clear;
-                  dm.qryGrupo.SQL.Add('INSERT INTO GRUPO (DESC_GRUPO)VALUES(:grupo)');
+                  dm.qryGrupo.SQL.Add(INSERT);
                   dm.qryGrupo.Params.ParamByName('grupo').AsString := edtDescricao.Text;
                   dm.qryGrupo.ExecSQL();
                   LimpaCampos();
                   grpGrupo.Enabled := False;
+                  setOperacao(opNone);
              except
                   on E:Exception do
                   ShowMessage('Erro ao gravar registro !'#13#10 + E.Message);
              end;
+         end
+         else
+         begin
+             MessageDlg('Existem campos obrigatórios(*) sem preenchimento!', mtError, [mbOK], 0);
+             Abort;
          end;
      end
      else
      begin
           //Verifica se é operação de Update
-          if (Parametro = 'U') then
+          if (Operacao = opUpdate) then
           begin
               try
                   dm.qryGrupo.Close;
                   dm.qryGrupo.SQL.Clear;
-                  dm.qryGrupo.SQL.Add('UPDATE GRUPO SET DESC_GRUPO=:grupo WHERE COD_GRUPO=:codigo');
+                  dm.qryGrupo.SQL.Add(EDICAO);
                   dm.qryGrupo.Params.ParamByName('codigo').AsString := edtCodigo.Text;
                   dm.qryGrupo.Params.ParamByName('grupo').AsString := edtDescricao.Text;
                   dm.qryGrupo.ExecSQL();
                   grpGrupo.Enabled := False;
                   LimpaCampos();
+                  setOperacao(opNone);
               except
                   on E:Exception do
                   ShowMessage('Erro ao editar registro !'#13#10 + E.Message);
               end;
           end;
      end;
-     Param := '';
 end;
 
 procedure TfrmCadGrupo.Incluir;
 begin
     //Procedimento de Inclusão de registro
     inherited;
-    Param                      := 'I';
+    setOperacao(opInsert);
     grpGrupo.Enabled           := True;
     pgCadastro.ActivePageIndex := 0;
     edtDescricao.SetFocus;
     LimpaCampos();
 end;
 
+
+function TfrmCadGrupo.VerificaDuplicidade(Descricao: string): Boolean;
+var
+   qryVerif: TSQLQuery;
+begin
+    try
+        qryVerif := TSQLQuery.Create(nil);
+        qryVerif.SQLConnection := dmConexao.Conexao;
+
+        qryVerif.Close;
+        qryVerif.SQL.Clear;
+        qryVerif.SQL.Add(SQLVERIF);
+        qryVerif.ParamByName('desc').AsString := Descricao;
+        qryVerif.Open;
+
+        if not qryVerif.IsEmpty then
+        begin
+            MessageDlg('Grupo já cadastrado com essa descrição: ' + qryVerif.Fields[0].AsString , mtError, [mbOK], 0);
+            Result := false;
+        end
+        else
+        begin
+            Result := true
+        end;
+    except
+        on E:Exception do
+        MessageDlg('Erro ao verificar duplicidade: ' + E.Message, mtError, [mbOK], 0);
+    end;
+end;
 
 end.

@@ -36,7 +36,7 @@ var
 
 implementation
 
-uses uDm, uCad_Produto, uEntrada_Produtos;
+uses uDm, uCad_Produto, uEntrada_Produtos, uRelatorio;
 
 {$R *.dfm}
 
@@ -44,6 +44,7 @@ procedure TfrmProcura_Fornecedor.CarregaCampo;
 begin
      //Carrega o campo na form Entrada de produtos
      frmEntrada_Produtos.edtCod_Forn.Text := dm.cdsFornecedor.FieldByName('COD_FORN').AsString;
+     frmEntrada_Produtos.CarregaDescFornecedor(dm.cdsFornecedor.FieldByName('COD_FORN').AsString);
 end;
 
 procedure TfrmProcura_Fornecedor.CarregaConsulta;
@@ -124,6 +125,20 @@ procedure TfrmProcura_Fornecedor.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
     if Key = VK_ESCAPE then frmProcura_Fornecedor.Close;
+    if Key = VK_F5 then
+     begin
+        if not dm.cdsFornecedor.IsEmpty then
+        begin
+            try
+              frmRelatorio := TfrmRelatorio.Create(nil);
+              frmRelatorio.rlFornecedor.Preview();
+            finally
+              FreeAndNil(frmRelatorio);
+            end;
+        end
+        else
+           MessageDlg('Não existem registros!', mtWarning, [mbOK], 0);
+    end;
 end;
 
 end.

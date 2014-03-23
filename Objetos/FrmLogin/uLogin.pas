@@ -18,7 +18,7 @@ type
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
-    Label5: TLabel;
+    lblTitulo: TLabel;
     Label6: TLabel;
     lblHora: TLabel;
     lblData: TLabel;
@@ -168,6 +168,7 @@ end;
 procedure TfrmLogin.FormCreate(Sender: TObject);
 begin
     frmLogin.Caption := 'Login :- '+ Application.Title;
+    lblTitulo.Caption:= Application.Title;
     lblHora.Caption := FormatDateTime('hh:mm', Time);
     lblData.Caption := FormatDateTime('dd/mm/yyyy', Now);
     lblReleaase.Caption := GetBuildInfo;

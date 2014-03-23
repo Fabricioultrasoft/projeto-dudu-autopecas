@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, ToolWin, ComCtrls, ExtCtrls, Grids, DBGrids,
-  DBCtrls, Mask, DB, uFormBase;
+  DBCtrls, Mask, DB, uFormBase, SqlExpr, ACBrBase, ACBrEnterTab;
 
 type
   TfrmCadUsuario = class(TFormBaseCad)
@@ -33,10 +33,24 @@ type
     edtPesquisa: TEdit;
     lbl1: TLabel;
     edtID: TEdit;
+    Label6: TLabel;
+    edtNome: TEdit;
+    edtChapa: TEdit;
+    Label7: TLabel;
+    Label15: TLabel;
+    Label14: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    ACBrEnterTab1: TACBrEnterTab;
+    btnCancelar: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure Incluir();                 override;
     procedure Editar();                  override;
-    procedure Gravar(Parametro: string); override;
+    procedure Cancelar();                  override;
+    procedure Gravar(Operacao: TOperacao); override;
     procedure Excluir();                 override;
     procedure btnSairClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -48,10 +62,12 @@ type
     procedure CarregaConsulta();
     function VerificaCampos: Boolean;
     function VerificaSenha: Boolean;
+    function VerificaDuplicidade(Usuario, Senha: string): Boolean;
     procedure grdUsuarioCellClick(Column: TColumn);
     procedure AtualizaGrid();
     procedure tsPesquisaShow(Sender: TObject);
     procedure edtPesquisaChange(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -63,7 +79,27 @@ var
 
 implementation
 
-uses uDm;
+uses uDm, UdmConexao;
+
+const
+  // Instrução SQL para INSERT
+  INSERT: string = 'INSERT INTO USUARIO (DESC_USUARIO, PRIVILEGIO, SENHA, NOME, CHAPA)VALUES(:login, :privilegio, :senha, :nome, :chapa)';
+
+  // Instrução SQL para EDIÇÃO, o nome UPDATE dá conflito com o método Update nativo da unit Controls
+  EDICAO: string = 'UPDATE USUARIO SET DESC_USUARIO=:login, PRIVILEGIO=:privilegio, SENHA=:senha, NOME=:nome, CHAPA=:chapa WHERE COD_USER=:codigo';
+
+  // Instrução SQL para DELETE
+  DELETE: string = 'DELETE FROM USUARIO WHERE COD_USER = :codigo';
+
+  // Instrução SQL para SELECT geral
+  SELECT: string = 'SELECT COD_USER, DESC_USUARIO, PRIVILEGIO, SENHA, DATA_CADASTRO, NOME, CHAPA FROM USUARIO';
+
+  // Instrução SQL para WHERE de pesquisa
+  WHERE: string = 'WHERE DESC_USUARIO LIKE :user OR NOME LIKE :nome';
+
+  // Instrução SQL para verificação de Duplicidade
+  SQLVERIF: string  = 'SELECT DESC_USUARIO, SENHA FROM USUARIO WHERE DESC_USUARIO = :usuario OR SENHA = :senha';
+
 
 {$R *.dfm}
 
@@ -73,6 +109,11 @@ begin
     dm.cdsUsuario.Close;
     CarregaConsulta();
     dm.cdsUsuario.Open;
+end;
+
+procedure TfrmCadUsuario.btnCancelarClick(Sender: TObject);
+begin
+    Cancelar();
 end;
 
 procedure TfrmCadUsuario.btnEditarClick(Sender: TObject);
@@ -97,7 +138,13 @@ end;
 
 procedure TfrmCadUsuario.btnSalvarClick(Sender: TObject);
 begin
-   Gravar(Param);
+   Gravar(FOperacao);
+end;
+
+procedure TfrmCadUsuario.Cancelar;
+begin
+  inherited;
+  grpCadastro.Enabled := false;
 end;
 
 procedure TfrmCadUsuario.CarregaCampos;
@@ -107,6 +154,9 @@ begin
     edtLogin.Text           := dm.cdsUsuario.FieldByName('DESC_USUARIO').AsString;
     cmbPrivilegio.ItemIndex := cmbPrivilegio.Items.IndexOf(dm.cdsUsuario.FieldByName('PRIVILEGIO').AsString);
     edtSenha.Text           := dm.cdsUsuario.FieldByName('SENHA').AsString;
+    edtConfirma.Text        := dm.cdsUsuario.FieldByName('SENHA').AsString;
+    edtNome.Text            := dm.cdsUsuario.FieldByName('NOME').AsString;
+    edtChapa.Text           := dm.cdsUsuario.FieldByName('CHAPA').AsString;
 end;
 
 procedure TfrmCadUsuario.CarregaConsulta;
@@ -114,7 +164,7 @@ begin
      //Carrega consulta básica
      dm.qryUsuario.Close;
      dm.qryUsuario.SQL.Clear;
-     dm.qryUsuario.SQL.Add('SELECT COD_USER, DESC_USUARIO, PRIVILEGIO, SENHA, DATA_CADASTRO FROM USUARIO');
+     dm.qryUsuario.SQL.Add(SELECT);
      dm.qryUsuario.Open;
 end;
 
@@ -122,10 +172,10 @@ procedure TfrmCadUsuario.Editar;
 begin
      //Procedimento de Edição de registros
      inherited;
-     Param                      := 'U';
+     setOperacao(opUpdate);
      grpCadastro.Enabled        := True;
      pgCadastro.ActivePageIndex := 0;
-     edtLogin.SetFocus;
+     edtNome.SetFocus;
 end;
 
 procedure TfrmCadUsuario.edtPesquisaChange(Sender: TObject);
@@ -135,7 +185,10 @@ begin
      begin
          dm.qryUsuario.Close;
          dm.qryUsuario.SQL.Clear;
-         dm.qryUsuario.SQL.Add('SELECT COD_USER, DESC_USUARIO, PRIVILEGIO, SENHA, DATA_CADASTRO FROM USUARIO WHERE DESC_USUARIO LIKE'+ QuotedStr(edtPesquisa.Text + '%'));
+         dm.qryUsuario.SQL.Add(SELECT);
+         dm.qryUsuario.SQL.Add(WHERE);
+         dm.qryUsuario.ParamByName('user').AsString := edtPesquisa.Text + '%';
+         dm.qryUsuario.ParamByName('nome').AsString := edtPesquisa.Text + '%';
          dm.qryUsuario.Open;
      end
      else
@@ -153,7 +206,7 @@ begin
           begin
               dm.qryUsuario.Close;
               dm.qryUsuario.SQL.Clear;
-              dm.qryUsuario.SQL.Add('DELETE FROM USUARIO WHERE COD_USER = :codigo');
+              dm.qryUsuario.SQL.Add(DELETE);
               dm.qryUsuario.ParamByName('codigo').AsString := dm.cdsUsuario.FieldByName('COD_USER').AsString;
               dm.qryUsuario.ExecSQL();
               LimpaCampos();
@@ -178,53 +231,62 @@ begin
     cmbPrivilegio.Items.AddStrings(dm.CarregaPrivilegio);
 end;
 
-procedure TfrmCadUsuario.Gravar(Parametro: string);
+procedure TfrmCadUsuario.Gravar(Operacao: TOperacao);
 begin
      //Procedimento de gravação
 
-     //Verifica se é operação de Inclusão
-     if (Parametro = 'I') then
+     if (VerificaCampos) and (VerificaSenha) then
      begin
-         if (VerificaCampos) and (VerificaSenha) then
+         //Verifica se é operação de Inclusão
+         if (Operacao = opInsert) then
          begin
-             try
-                  dm.qryUsuario.Close;
-                  dm.qryUsuario.SQL.Clear;
-                  dm.qryUsuario.SQL.Add('INSERT INTO USUARIO (DESC_USUARIO, PRIVILEGIO, SENHA)VALUES(:login, :privilegio, :senha)');
-                  dm.qryUsuario.Params.ParamByName('login').AsString      := edtLogin.Text;
-                  dm.qryUsuario.Params.ParamByName('privilegio').AsString := cmbPrivilegio.Text;
-                  dm.qryUsuario.Params.ParamByName('senha').AsString      := edtSenha.Text;
-                  dm.qryUsuario.ExecSQL();
-                  LimpaCAmpos();
-                  grpCadastro.Enabled := False;
-             except
-                  on E:Exception do
-                  ShowMessage('Erro ao gravar registro !'#13#10 + E.Message);
+             if (VerificaDuplicidade(edtLogin.Text, edtSenha.Text)) then
+             begin
+                 try
+                      dm.qryUsuario.Close;
+                      dm.qryUsuario.SQL.Clear;
+                      dm.qryUsuario.SQL.Add(INSERT);
+                      dm.qryUsuario.Params.ParamByName('login').AsString      := edtLogin.Text;
+                      dm.qryUsuario.Params.ParamByName('privilegio').AsString := cmbPrivilegio.Text;
+                      dm.qryUsuario.Params.ParamByName('senha').AsString      := edtSenha.Text;
+                      dm.qryUsuario.Params.ParamByName('nome').AsString       := edtNome.Text;
+                      dm.qryUsuario.Params.ParamByName('chapa').AsString      := edtChapa.Text;
+                      dm.qryUsuario.ExecSQL();
+                      LimpaCAmpos();
+                      grpCadastro.Enabled := False;
+                      setOperacao(opNone);
+                 except
+                      on E:Exception do
+                      ShowMessage('Erro ao gravar registro !'#13#10 + E.Message);
+                 end;
              end;
-         end;
-     end
-     else
-     begin
-          //Verifica se é operação de Update
-          if (Parametro = 'U') then
-          begin
-              try
-                  dm.qryUsuario.Close;
-                  dm.qryUsuario.SQL.Clear;
-                  dm.qryUsuario.SQL.Add('UPDATE USUARIO SET DESC_USUARIO=:login, PRIVILEGIO=:privilegio, SENHA=:senha WHERE COD_USER=:codigo');
-                  dm.qryUsuario.Params.ParamByName('codigo').AsString     := dm.cdsUsuario.FieldByName('COD_USER').AsString;
-                  dm.qryUsuario.Params.ParamByName('login').AsString      := edtLogin.Text;
-                  dm.qryUsuario.Params.ParamByName('privilegio').AsString := cmbPrivilegio.Text;
-                  dm.qryUsuario.Params.ParamByName('senha').AsString      := edtSenha.Text;
-                  dm.qryUsuario.ExecSQL();
-                  grpCadastro.Enabled := False;
-              except
-                  on E:Exception do
-                  ShowMessage('Erro ao editar registro !'#13#10 + E.Message);
+         end
+         else
+         begin
+              //Verifica se é operação de Update
+              if (Operacao = opUpdate) then
+              begin
+                  try
+                      dm.qryUsuario.Close;
+                      dm.qryUsuario.SQL.Clear;
+                      dm.qryUsuario.SQL.Add(EDICAO);
+                      dm.qryUsuario.Params.ParamByName('codigo').AsString     := dm.cdsUsuario.FieldByName('COD_USER').AsString;
+                      dm.qryUsuario.Params.ParamByName('login').AsString      := edtLogin.Text;
+                      dm.qryUsuario.Params.ParamByName('privilegio').AsString := cmbPrivilegio.Text;
+                      dm.qryUsuario.Params.ParamByName('senha').AsString      := edtSenha.Text;
+                      dm.qryUsuario.Params.ParamByName('nome').AsString       := edtNome.Text;
+                      dm.qryUsuario.Params.ParamByName('chapa').AsString      := edtChapa.Text;
+                      dm.qryUsuario.ExecSQL();
+                      LimpaCAmpos();
+                      grpCadastro.Enabled := False;
+                      setOperacao(opNone);
+                  except
+                      on E:Exception do
+                      ShowMessage('Erro ao editar registro !'#13#10 + E.Message);
+                  end;
               end;
-          end;
+         end;
      end;
-     Param := '';
 end;
 
 procedure TfrmCadUsuario.grdUsuarioCellClick(Column: TColumn);
@@ -236,10 +298,10 @@ procedure TfrmCadUsuario.Incluir;
 begin
     //Procedimento de inclusão de um novo registro
     inherited;
-     Param                      := 'I';
+     setOperacao(opInsert);
      grpCadastro.Enabled        := True;
      pgCadastro.ActivePageIndex := 0;
-     edtLogin.SetFocus;
+     edtNome.SetFocus;
      LimpaCampos();
 end;
 
@@ -250,15 +312,58 @@ end;
 
 function TfrmCadUsuario.VerificaCampos: Boolean;
 begin
-     //Verifica o preenchimento de campos obrigatórios
-     if (edtLogin.Text <> '') and (edtSenha.Text <> '') then
-        Result := True
+     //Verifica se existem campos obrigatórios sem preenchimento
+     if (edtNome.Text <> '') and (edtLogin.Text <> '') and (cmbPrivilegio.Text <> '') and
+        (edtSenha.Text <> '') and (edtConfirma.Text <> '') then
+     begin
+        if (Length(edtSenha.Text) >= 6) and (Length(edtConfirma.Text) >= 6) then
+        begin
+           Result := True;
+        end
+        else
+        begin
+            MessageDlg('O campo Senha e Confirmação não possui o mínimo de 6 digítos!', mtError, [mbOK], 0);
+            Result := false;
+            Abort;
+        end;
+
+     end
      else
      begin
         Result := False;
-        Application.MessageBox('Existe campos não preenchidos!', 'Erro', MB_OK);
+        MessageDlg('Existem campos obrigatórios(*) sem preenchimento!', mtError, [mbOK], 0);
+        Abort;
      end;
+end;
 
+function TfrmCadUsuario.VerificaDuplicidade(Usuario, Senha: string): Boolean;
+var
+   qryVerif: TSQLQuery;
+begin
+    try
+        qryVerif := TSQLQuery.Create(nil);
+        qryVerif.SQLConnection := dmConexao.Conexao;
+
+        qryVerif.Close;
+        qryVerif.SQL.Clear;
+        qryVerif.SQL.Add(SQLVERIF);
+        qryVerif.ParamByName('usuario').AsString := Usuario;
+        qryVerif.ParamByName('senha').AsString := Senha;
+        qryVerif.Open;
+
+        if not qryVerif.IsEmpty then
+        begin
+            MessageDlg('Usuário ou Senha já cadastrado!' , mtError, [mbOK], 0);
+            Result := false;
+        end
+        else
+        begin
+            Result := true
+        end;
+    except
+        on E:Exception do
+        MessageDlg('Erro ao verificar duplicidade: ' + E.Message, mtError, [mbOK], 0);
+    end;
 end;
 
 function TfrmCadUsuario.VerificaSenha: Boolean;

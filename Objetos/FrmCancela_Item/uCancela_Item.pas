@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, ExtCtrls, DB;
+  Dialogs, StdCtrls, ExtCtrls, DB, uImpressora;
 
 type
   TfrmCancelaItem = class(TForm)
@@ -18,11 +18,12 @@ type
   private
     { Private declarations }
   public
-    { Public declarations }
+    FImpressora: TImpressora;
   end;
 
 var
   frmCancelaItem: TfrmCancelaItem;
+  Texto : AnsiString;
 
 implementation
 
@@ -55,6 +56,18 @@ begin
                    frmPDV.edtTotal.Text := FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('S_TOTAL').Value)
                 else
                    frmPDV.edtTotal.Clear;
+
+                frmPDV.ImprimeCancelaItem(edtItem.Text, Copy(dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString, 1, 24));
+                if frmPDV.FVerificacaoImpressora then
+                begin
+                    // Imprime o item cancelado
+                    Texto := '';
+                    Texto := Concat(Texto, #10+'<c>ITEM ' + edtItem.Text + ' *' + Copy(dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString, 1, 24) + '* CANCELADO</c>'#10);
+                    frmPDV.FImpressora.ImprimeTextoTag(PAnsiChar(Texto), false);
+                end;
+
+                // Posiciona o cursor nó último item
+                dm.cdsItem_Venda.Last;
             end;
         end
         else

@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ComCtrls, Menus, ExtCtrls, jpeg, Buttons, ImgList, ToolWin,
-  uVendas_Produto, uLogin, ActnList, IOUtils;
+  uVendas_Produto, uLogin, ActnList, IOUtils, StdCtrls, Mask, JvExMask,
+  JvToolEdit, JvCombobox, JvExStdCtrls, SqlExpr, ACBrBase, ACBrECF;
 
 type
   TfrmMenu = class(TForm)
@@ -64,6 +65,10 @@ type
     N1: TMenuItem;
     CONFIGURAO1: TMenuItem;
     actConfiguracao: TAction;
+    Sobre1: TMenuItem;
+    Informaes1: TMenuItem;
+    UNIDADE1: TMenuItem;
+    actUnidade: TAction;
     procedure FormCreate(Sender: TObject);
     function DataPorExtenso: String;
     procedure TimerTimer(Sender: TObject);
@@ -86,21 +91,53 @@ type
     procedure actLoginExecute(Sender: TObject);
     function GetBuildInfo:string;
     function FormataCaptionMenu: string;
+    procedure Informaes1Click(Sender: TObject);
+    procedure btn1Click(Sender: TObject);
+    procedure actConfiguracaoExecute(Sender: TObject);
+    procedure actUnidadeExecute(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
   private
     { Private declarations }
   public
+     FRazao       : string;
+     FRua         : string;
+     FNumero      : string;
+     FBairro      : string;
+     FCidade      : string;
+     FUF          : string;
+     FCNPJ        : string;
+     FInscricao   : string;
+     FProprietario: string;
+     FFone        : string;
+     FMsgCabecalho: string;
+     FMsgRodape   : string;
+     FModelo      : string;
+     FPorta       : string;
+     FVelocidade  : string;
+     FMensagem    : TStringBuilder;
 
+     function VerificaConfig(): Boolean;
   end;
 
 var
   frmMenu: TfrmMenu;
    Arq: TFile;
 
+const
+   // Intrução SQL para carregar os dados da Empresa
+   SELECT_EMPRESA: string = 'SELECT RAZAO, RUA, BAIRRO, NUMERO, CIDADE, UF, CNPJ, INSCRICAO_ESTADUAL, PROPRIETARIO, FONE FROM EMPRESA';
+
+   // Intrução SQL para carregar os dados gerais
+   SELECT_GERAL : string = 'SELECT MODELO_IMPRESSORA, PORTA, VELOCIDADE, MSG_CABECALHO, MSG_RODAPE FROM CONFIG';
+
 implementation
 
 uses UdmConexao, uCad_Usuario, uCad_Grupo, uCad_Cliente, uCad_Fornecedor,
   uCad_Produto, uProcura_Estoque, uEntrada_Produtos, uAgenda, uOrcamento, uPDV,
-  uFechamento_Caixa;
+  uFechamento_Caixa, USobre, USplash, uSangria, uSuprimento, uCadUnidade,
+  uConfig, uAviso, uProgresso, uImpressoraBase,
+  uImpressoraEpson;
 
 {$R *.dfm}
 
@@ -114,7 +151,7 @@ begin
          Str.Append(Application.Title);
          Str.Append(' - Versão: [' + GetBuildInfo + ']');
          Str.Append(' - Última atualização: [' + DateToStr(Arq.GetLastWriteTime(Application.ExeName)) + ']');
-         Str.Append(' - Servidor: [' + dmConexao.Host + '] ...');
+         Str.Append(' - Servidor: [' + dmConexao.conn.Hostname + '] ...');
 
          Result := Str.ToString;
      finally
@@ -154,6 +191,16 @@ begin
               Copy ('100'+IntToStr (v4), 4, 2);
 end;
 
+procedure TfrmMenu.Informaes1Click(Sender: TObject);
+begin
+    try
+      frmSobre := TfrmSobre.Create(self);
+      frmSobre.ShowModal;
+    finally
+      FreeAndNil(frmCadAgenda);
+    end;
+end;
+
 procedure TfrmMenu.actAgendaExecute(Sender: TObject);
 begin
     try
@@ -182,6 +229,16 @@ begin
      finally
        FreeAndNil(frmCadCliente);
      end;
+end;
+
+procedure TfrmMenu.actConfiguracaoExecute(Sender: TObject);
+begin
+    try
+      frmConfig := TfrmConfig.Create(self);
+      frmConfig.ShowModal;
+    finally
+      FreeAndNil(frmConfig);
+    end;
 end;
 
 procedure TfrmMenu.actEntradaExecute(Sender: TObject);
@@ -270,6 +327,16 @@ begin
     end;
 end;
 
+procedure TfrmMenu.actUnidadeExecute(Sender: TObject);
+begin
+    try
+        frmCadUnidade := TfrmCadUnidade.Create(self);
+        frmCadUnidade.ShowModal;
+     finally
+         FreeAndNil(frmCadUnidade);
+     end;
+end;
+
 procedure TfrmMenu.actUsuarioExecute(Sender: TObject);
 begin
      try
@@ -290,9 +357,27 @@ begin
     end;
 end;
 
+procedure TfrmMenu.btn1Click(Sender: TObject);
+begin
+    try
+    frmProgresso := TfrmProgresso.Create(self);
+    frmProgresso.ShowModal;
+    finally
+     FreeAndNil(frmProgresso);
+    end;
+end;
+
 procedure TfrmMenu.btnSairClick(Sender: TObject);
 begin
      Application.Terminate;
+end;
+
+
+procedure TfrmMenu.Button1Click(Sender: TObject);
+var
+   print: TImpressoraBase;
+begin
+
 end;
 
 //Função retorna dia da semana por extenso
@@ -320,14 +405,14 @@ begin
     finally
        FreeAndNil(frmLogin);
     end;}
+
     dmConexao.Conexao.Connected := True;
     frmMenu.Caption := FormataCaptionMenu;
+
     if FileExists(ExtractFilePath(Application.ExeName) + 'Imagens\ImgLogo.jpg') then
     begin
         imgMenu.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'Imagens\ImgLogo.jpg');
     end;
-
-
 end;
 
 procedure TfrmMenu.FormKeyDown(Sender: TObject; var Key: Word;
@@ -339,11 +424,87 @@ begin
      end;
 end;
 
+procedure TfrmMenu.FormShow(Sender: TObject);
+begin
+     if not VerificaConfig then
+    begin
+        try
+            FMensagem := TStringBuilder.Create;
+
+            FMensagem.Append(#10#13'*** SEJA BEM VINDO ao ' + Application.Title + ' ***'#10#13#10#13);
+            FMensagem.Append(#10#13'Para iniciar suas atividades nesse sistema é necessário executar algumas configurações!'#10#13#10#13);
+            FMensagem.Append(#10#13'1 - Acesse o Menu Acessórios e clique na opção Configuração.'#10#13#10#13);
+            FMensagem.Append(#10#13'2 - Na aba "Informações da Empresa" preencha todos os dados solicitados.'#10#13#10#13);
+            FMensagem.Append(#10#13'3 - Na aba "Geral" informe os dados da impressora não fiscal que será utilizada.'#10#13#10#13);
+            FMensagem.Append(#10#13'Obrigado pela preferência !'#10#13#10#13);
+            FMensagem.Append(#10#13'Dúvidas entre em contato com William'#10#13);
+            FMensagem.Append(#10#13'Celular Vivo: (11)99845-2278'#10#13);
+            FMensagem.Append(#10#13'E-mail: wllfl@ig.com.br'#10#13);
+            FMensagem.Append(#10#13'Skype: willfl2'#10#13);
+
+            frmMenu.Update;
+            frmAviso := TfrmAviso.Create(nil);
+            frmAviso.ShowModal;
+        finally
+            FreeAndNil(FMensagem);
+        end;
+    end;
+end;
+
 procedure TfrmMenu.TimerTimer(Sender: TObject);
 begin
     //Preenche data por extenso e hora nos respectivos panels
     stbStatus.Panels[5].Text := DataPorExtenso;
     stbStatus.Panels[7].Text := FormatDateTime('HH:MM:SS', Time);
+end;
+
+function TfrmMenu.VerificaConfig: Boolean;
+var
+   qry1, qry2: TSQLQuery;
+begin
+    try
+       qry1 := TSQLQuery.Create(nil);
+       qry1.SQLConnection := dmConexao.Conexao;
+
+       qry2 := TSQLQuery.Create(nil);
+       qry2.SQLConnection := dmConexao.Conexao;
+
+       qry1.Close;
+       qry1.SQL.Clear;
+       qry1.SQL.Add(SELECT_EMPRESA);
+       qry1.Open;
+
+       qry2.Close;
+       qry2.SQL.Clear;
+       qry2.SQL.Add(SELECT_GERAL);
+       qry2.Open;
+
+       if (qry1.IsEmpty) or (qry2.IsEmpty) then
+          Result := False
+       else
+       begin
+          FRazao        := qry1.Fields[0].AsString;
+          FRua          := qry1.Fields[1].AsString;
+          FNumero       := qry1.Fields[2].AsString;
+          FBairro       := qry1.Fields[3].AsString;
+          FCidade       := qry1.Fields[4].AsString;
+          FUF           := qry1.Fields[5].AsString;
+          FCNPJ         := qry1.Fields[6].AsString;
+          FInscricao    := qry1.Fields[7].AsString;
+          FProprietario := qry1.Fields[8].AsString;
+          FFone         := qry1.Fields[9].AsString;
+
+          FModelo       := qry2.Fields[0].AsString;
+          FPorta        := qry2.Fields[1].AsString;
+          FVelocidade   := qry2.Fields[2].AsString;
+          FMsgCabecalho := qry2.Fields[3].AsString;
+          FMsgRodape    := qry2.Fields[4].AsString;
+
+          Result := True;
+       end;
+    except
+
+    end;
 end;
 
 end.

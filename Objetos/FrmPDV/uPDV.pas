@@ -5,7 +5,10 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, Grids, DBGrids, ExtCtrls, FMTBcd, DB, SqlExpr, DBXCommon, uFormBase,
-  pcnConversao;
+  pcnConversao, uImpressora, jpeg, ComCtrls;
+
+type
+   TStatusVenda = (svAberto, svFechado, svBloqueado);
 
 type
   TfrmPDV = class(TFormBase)
@@ -15,7 +18,6 @@ type
     pnl2: TPanel;
     pnl3: TPanel;
     pnlGrid: TPanel;
-    grddbgrd: TDBGrid;
     pnl4: TPanel;
     lbl3: TLabel;
     lbl4: TLabel;
@@ -52,6 +54,10 @@ type
     lbl25: TLabel;
     lbl26: TLabel;
     lbl27: TLabel;
+    edtConsulta: TEdit;
+    lbl28: TLabel;
+    img1: TImage;
+    redtItem: TRichEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure KeyDown(var Key: Word; Shift: TShiftState);override;
     procedure LimpaCampos();override;
@@ -60,31 +66,58 @@ type
     procedure FinalizarVenda();
     procedure CancelarItem();
     procedure CancelarVenda();
+    procedure AtualizaCDSVenda();
+    procedure CarregarItem(const TextoDigitado: string);
     function GeraNVenda: string;
+    function VerificaAberturaCaixa(): Boolean;
     procedure grddbgrdCellClick(Column: TColumn);
     procedure grddbgrdDblClick(Sender: TObject);
-    procedure GeraNfe();
+    procedure edtConsultaKeyPress(Sender: TObject; var Key: Char);
+    procedure FormActivate(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    function FormataImpressaoItem(Item, Codigo, Descricao, Qtde, Valor, Subtotal: string; Limite: Integer): string;
+    procedure FormShow(Sender: TObject);
+    function HexToTColor(sColor : string) : TColor;
+    procedure ImprimiCabecalho();
+    procedure ImprimeCancelaVenda();
+    procedure ImprimeItemVenda(Texto: string);
+    procedure ImprimeFinalizacaoVenda();
+    procedure ImprimeCancelaItem(Item, Descricao: string);
+    //procedure GeraNfe();
   private
-    { Private declarations }
+
+
   public
     sFStatus        : string;
-    iFTipo_Pagamento: Integer;
     sFID_Funcionario: string;
     sFCod_cli       : string;
     dFDesconto      : Double;
     dFSub_total     : Double;
     dFTotal         : Double;
+    dFDinheiro      : Double;
+    dFCheque        : Double;
+    dFCartao        : Double;
+    dFTicket        : Double;
+    dFValPago       : Double;
+    dFTroco         : Double;
     bFResposta      : boolean;
+    StatusPDV       : TStatusVenda;
+    FImpressora     : TImpressora;
+    FVerificacaoImpressora: boolean;
+
+    procedure setStatusCaixa(Status: TStatusVenda);
   end;
 
 var
   frmPDV: TfrmPDV;
   Trans : TDBXTransaction;
+  Texto : AnsiString;
 
 implementation
 
 uses uProcura_Estoque, uOrcamento, uProcura_Cliente, uProcura_Produto,
-  UdmConexao, uDm, uQtde, uForma_Pagamento, uCancela_Item, uProcura_Venda;
+  UdmConexao, uDm, uQtde, uForma_Pagamento, uCancela_Item, uProcura_Venda,
+  uSenhaFiscal, uSuprimento, uSangria, uFechamento_Caixa, uMenu, uProgresso;
 
 {$R *.dfm}
 
@@ -93,24 +126,41 @@ begin
     //Procedimento para alterar uma venda já finalizada
     if (sFStatus = 'F') and (dm.cdsItem_Venda.RecordCount > 0) then
     begin
-         edtStatus.Text := 'Venda Aberta';
+         setStatusCaixa(svAberto);
+    end;
+end;
+
+procedure TfrmPDV.AtualizaCDSVenda;
+begin
+    try
+         dm.cdsVenda.Close;
+         dm.qryVenda.Close;
+         dm.qryVenda.SQL.Clear;
+         dm.qryVenda.SQL.Add('SELECT V.N_VENDA, V.DATA_VENDA, V.COD_CLI, V.VAL_TOTAL, V.DINHEIRO, V.CHEQUE, V.CARTAO, V.TICKET, ');
+         dm.qryVenda.SQL.Add('V.COD_FUNC, V.STATUS, V.DESCONTO, V.SUB_TOTAL ');
+         dm.qryVenda.SQL.Add('FROM VENDA V');
+         dm.qryVenda.Open;
+         dm.cdsVenda.Open;
+    except
+         on E:Exception do
+             ShowMessage('Erro ao atualizar Vendas!'#13 + E.Message);
     end;
 end;
 
 procedure TfrmPDV.CancelarItem;
 begin
     //Procedimento para cancelar item
-    if edtStatus.Text = 'Venda Aberta' then
+    if StatusPDV = svAberto then
     begin
-        frmCancelaItem := TfrmCancelaItem.Create(self);
-        frmCancelaItem.ShowModal;
+        frmSenhaFiscal := TfrmSenhaFiscal.Create(nil);
+        frmSenhaFiscal.ShowModal;
     end;
 end;
 
 procedure TfrmPDV.CancelarVenda;
 begin
      //Procedimento para cancelar venda
-     if edtStatus.Text = 'Venda Aberta' then
+     if StatusPDV = svAberto then
      begin
           if Application.MessageBox('Deseja cancelar essa Venda?', 'Confirmação', MB_YESNO)= mrYes then
           begin
@@ -118,9 +168,169 @@ begin
                   dm.cdsItem_Venda.EmptyDataSet;
 
                LimpaCampos;
-               edtStatus.Text := 'Caixa Livre';
+               setStatusCaixa(svFechado);
+               ImprimeCancelaVenda;
+
+               if FVerificacaoImpressora then
+               begin
+                   Texto := '';
+                   Texto := Concat(Texto, '<ce>VENDA CANCELADA</ce>'#10);
+                   Texto := Concat(Texto, FImpressora.InseriTraco(48, False, true));
+                   FImpressora.ImprimeTextoTag(PAnsiChar(Texto), false);
+                   FImpressora.AcionaGuilhotina(0);
+               end;
           end;
      end;
+end;
+
+procedure TfrmPDV.CarregarItem(const TextoDigitado: string);
+var
+  qtde, item: integer;
+  codigo, descricao, valor, subtotal: string;
+
+  procedure DecomporCodigo(const ATexto: string; var AQuantidade: integer; var ACodigo: String);
+  var
+    PosicaoQuant: Integer;
+    CodigoProduto: String;
+  begin
+      CodigoProduto := Trim(ATexto);
+      PosicaoQuant  := pos('*', CodigoProduto);
+
+      if PosicaoQuant > 0 then
+      begin
+        ACodigo     := Copy(CodigoProduto, PosicaoQuant + 1, Length(CodigoProduto));
+        AQuantidade := StrToIntDef(Copy(CodigoProduto, 0, PosicaoQuant - 1), 1);
+      end
+      else
+      begin
+        ACodigo     := CodigoProduto;
+        aQuantidade := 1;
+      end;
+  end;
+begin
+     DecomporCodigo(TextoDigitado, qtde, codigo);
+
+     //Procedimento para carregar os itens na ClientDataSet de itens de venda
+     dm.qryItem_Venda.close;
+     dm.qryItem_Venda.SQL.Clear;
+     dm.qryItem_Venda.SQL.Add(SELECT_ITEM);
+     dm.qryItem_Venda.Open;
+
+     dm.cdsItem_Venda.Open;
+
+     //Cria um índice para ordenar pelo campo ID_ITEM
+     dm.cdsItem_Venda.IndexFieldNames := 'ID_ITEM';
+
+     dm.cdsEstoque.Open;
+
+     // Verifica se o produto existe no cadastro
+     if dm.cdsEstoque.Locate('EAN13', codigo, [loCaseInsensitive, loPartialKey]) then
+     begin
+         item      := dm.cdsItem_Venda.RecordCount + 1;
+         codigo    := dm.cdsEstoque.FieldByName('EAN13').AsString;
+         descricao := Copy(dm.cdsEstoque.FieldByName('DESC_PROD').AsString, 1, 24);
+         valor     := FormatFloat('##0.00', dm.cdsEstoque.FieldByName('VAL_VENDA').AsFloat);
+         subtotal  := FormatFloat('##0.00', dm.cdsEstoque.FieldByName('VAL_VENDA').AsFloat * qtde);
+
+         dm.cdsItem_Venda.Append;
+         dm.cdsItem_Venda.FieldByName('ID_ITEM').AsInteger     := dm.cdsItem_Venda.RecordCount + 1;
+         dm.cdsItem_Venda.FieldByName('N_VENDA').AsString      := frmPDV.lblVenda.Caption;
+         dm.cdsItem_Venda.FieldByName('EAN13').AsString        := dm.cdsEstoque.FieldByName('EAN13').AsString;
+         dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString    := dm.cdsEstoque.FieldByName('DESC_PROD').AsString;
+         dm.cdsItem_Venda.FieldByName('VAL_PROD').AsFloat      := dm.cdsEstoque.FieldByName('VAL_VENDA').AsFloat;
+         dm.cdsItem_Venda.FieldByName('TOTAL_PROD').AsFloat    := dm.cdsItem_Venda.FieldByName('VAL_PROD').AsFloat * qtde;
+         dm.cdsItem_Venda.FieldByName('QTDE').AsInteger        := qtde;
+         dm.cdsItem_Venda.Post;
+         dm.cdsEstoque.Close;
+
+         frmPDV.edtProduto.Text           := copy(dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString, 1, 25);
+         frmPDV.edtValor_Unitario.Text    := FormatFloat('#.000', dm.cdsItem_Venda.FieldByName('QTDE').value) + ' x ' + FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('VAL_PROD').AsFloat);
+         frmPDV.edtSub_total.Text         := FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('TOTAL_PROD').AsFloat);
+         frmPDV.edtTotal.Text             := FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('S_TOTAL').Value);
+
+         ImprimeItemVenda(FormataImpressaoItem(IntToStr(item), codigo, descricao, FormatFloat('##.000', qtde), valor, subtotal, 24));
+         if FVerificacaoImpressora then
+         begin
+             Texto := '';
+             Texto := Concat(Texto, '<c>' + FormataImpressaoItem(IntToStr(item), codigo, descricao, FormatFloat('##.000', qtde), valor, subtotal, 24) + '</c>'#10);
+             FImpressora.ImprimeTextoTag(PAnsiChar(Texto), false);
+         end;
+     end
+     else
+        MessageDlg('Produto não encontrado!', mtWarning, [mbOK], 0);
+end;
+
+procedure TfrmPDV.edtConsultaKeyPress(Sender: TObject; var Key: Char);
+var
+  TextoDigitado: string;
+
+  function ContarCaracter(const ACaracter: Char; const ATexto: string): Integer;
+  var
+    Letra: Char;
+  begin
+    Result := 0;
+    for Letra in ATexto do
+    begin
+      if Letra = ACaracter then
+        Result := Result + 1;
+    end;
+  end;
+
+begin
+   if (StatusPDV <> svBloqueado) then
+   begin
+      try
+          TextoDigitado := Trim(edtConsulta.Text);
+
+          case Key of
+            '*':
+              begin
+                // Não deixar digitar mais de um multiplicador
+                if (ContarCaracter('*', TextoDigitado) >= 1) then
+                  Key := #0;
+              end;
+
+            '.', ',':
+              begin
+                // Não deixar digitar mais de uma virgula
+                if (ContarCaracter(',', TextoDigitado) >= 1) then
+                  Key := #0
+                else
+                  Key := ',';
+              end;
+
+            #13:
+              begin
+                  if Trim(TextoDigitado) <> EmptyStr then
+                  begin
+                      edtConsulta.Enabled := False;
+                      try
+                        if StatusPDV <> svAberto then
+                        begin
+                           Self.NewVenda;
+                        end;
+
+                        Self.CarregarItem(TextoDigitado);
+                        edtConsulta.Clear;
+                      finally
+                        edtConsulta.Enabled := True;
+                        edtConsulta.SetFocus;
+                      end;
+                  end;
+              end;
+          end;
+      except
+          on E: exception do
+          begin
+              MessageDlg('Erro ao carregar item: ' + E.Message, mtWarning, [mbOK], 0);
+          end;
+      end;
+
+      if not CharInSet(Key, ['0'..'9', '*', ',', #8]) then
+        Key := #0;
+   end
+   else
+      MessageDlg('Caixa está bloqueado!', mtError, [mbOK], 0);
 end;
 
 procedure TfrmPDV.FinalizarVenda;
@@ -130,7 +340,7 @@ begin
      //Procedimento para finalizar venda
 
      //Verifica se existe uma Venda em Aberto
-     if (edtStatus.Text = 'Venda Aberta') and (not dm.cdsItem_Venda.IsEmpty) then
+     if (StatusPDV = svAberto) and (not dm.cdsItem_Venda.IsEmpty) then
      begin
          //Carrega o Form para informar a forma de pagamento
          try
@@ -150,7 +360,7 @@ begin
          begin
 
              //Verifica se foi informado algum valor para forma de pagamento
-             if iFTipo_Pagamento > 0 then
+             if bFResposta then
              begin
                  try
                      Trans := dmConexao.Conexao.BeginTransaction;
@@ -158,27 +368,68 @@ begin
                      //Inseri a venda na banco de dados
                      dm.qryVenda.Close;
                      dm.qryVenda.SQL.Clear;
-                     dm.qryVenda.SQL.Add('INSERT INTO VENDA (N_VENDA, COD_CLI, DATA_VENDA, ID_PAGAMENTO, VAL_TOTAL, COD_FUNC, DESCONTO, SUB_TOTAL)'+
-                                         'VALUES(:venda, :cli, :data, :tipo, :total, :func, :desc, :subtotal)');
-                     dm.qryVenda.ParamByName('venda').AsString   := lblVenda.Caption;
-                     dm.qryVenda.ParamByName('cli').AsString     := sFCod_cli;
-                     dm.qryVenda.ParamByName('data').AsDate      := Now;
-                     dm.qryVenda.ParamByName('tipo').AsInteger   := iFTipo_Pagamento;
-                     dm.qryVenda.ParamByName('subtotal').AsFloat := dFSub_total;
-                     dm.qryVenda.ParamByName('total').AsFloat    := dFTotal;
-                     dm.qryVenda.ParamByName('desc').AsFloat     := dFDesconto;
-                     dm.qryVenda.ParamByName('func').AsString    := sFID_Funcionario;
+                     dm.qryVenda.SQL.Add('INSERT INTO VENDA (N_VENDA, COD_CLI, DATA_VENDA, VAL_TOTAL, COD_FUNC, DESCONTO, SUB_TOTAL, DINHEIRO, CHEQUE, CARTAO, TICKET)'+
+                                         'VALUES(:venda, :cli, :data, :total, :func, :desc, :subtotal, :dinheiro, :cheque, :cartao, :ticket)');
+                     dm.qryVenda.ParamByName('venda').AsString    := lblVenda.Caption;
+                     dm.qryVenda.ParamByName('cli').AsString      := sFCod_cli;
+                     dm.qryVenda.ParamByName('data').AsDate       := Now;
+                     dm.qryVenda.ParamByName('subtotal').AsFloat  := dFSub_total;
+                     dm.qryVenda.ParamByName('total').AsFloat     := dFTotal;
+                     dm.qryVenda.ParamByName('desc').AsFloat      := dFDesconto;
+                     dm.qryVenda.ParamByName('func').AsString     := sFID_Funcionario;
+                     dm.qryVenda.ParamByName('dinheiro').AsFloat  := dFDinheiro;
+                     dm.qryVenda.ParamByName('cheque').AsFloat    := dFCheque;
+                     dm.qryVenda.ParamByName('cartao').AsFloat    := dFCartao;
+                     dm.qryVenda.ParamByName('ticket').AsFloat    := dFTicket;
                      dm.qryVenda.ExecSQL();
 
-                     dValDesc := 0;
-                     dValDesc := (dFDesconto / dm.cdsItem_Venda.RecordCount);
-                     dm.cdsItem_Venda.First;
-                     while not dm.cdsItem_Venda.Eof do
+                     ImprimeFinalizacaoVenda;
+                     if FVerificacaoImpressora then
                      begin
-                         dm.cdsItem_Venda.Edit;
-                         dm.cdsItem_Venda.FieldByName('DESCONTO').AsFloat := dValDesc;
-                         dm.cdsItem_Venda.Post;
-                         dm.cdsItem_Venda.Next;
+                         Texto := '';
+                         Texto := Concat(Texto, FImpressora.InseriTraco(48, False, true));
+                         Texto := Concat(Texto, '<ad><b>TOTAL R$ ' + FormatFloat('##0.00', dFTotal) + '</b></ad>'#10);
+                         Texto := Concat(Texto, '<c>Forma de Pagamento:</c>'#10);
+
+                         if dFDinheiro > 0 then
+                            Texto := Concat(Texto, '<c>DINHEIRO R$ ' + FormatFloat('##0.00', dFDinheiro) + '</c>'#10);
+
+                         if dFCheque > 0 then
+                            Texto := Concat(Texto, '<c>CHEQUE R$ ' + FormatFloat('##0.00', dFCheque) + '</c>'#10);
+
+                         if dFCartao > 0 then
+                            Texto := Concat(Texto, '<c>CARTÃO R$ ' + FormatFloat('##0.00', dFCartao) + '</c>'#10);
+
+                         if dFTicket > 0 then
+                            Texto := Concat(Texto, '<c>TICKET R$ ' + FormatFloat('##0.00', dFTicket) + '</c>'#10);
+
+                          if dFValPago > 0 then
+                             Texto := Concat(Texto, #10'<c>VALOR PAGO R$ ' + FormatFloat('##0.00', dFValPago) + '</c>'#10);
+
+                         if dFTroco > 0 then
+                             Texto := Concat(Texto, '<c>TROCO R$ ' + FormatFloat('##0.00', dFTroco) + '</c>'#10);
+
+
+                         Texto := Concat(Texto, FImpressora.InseriTraco(48, False, true));
+                         Texto := Concat(Texto, '<ce><c>' + frmMenu.FMsgRodape + '</c></ce>'#10);
+                         FImpressora.ImprimeTextoTag(PAnsiChar(Texto), false);
+                         FImpressora.AcionaGuilhotina(0);
+                     end;
+
+                     // Verifica se existe desconto, se existir divide pela quantidade itens na venda
+                     if dFDesconto > 0 then
+                     begin
+                         dValDesc := 0;
+                         dValDesc := (dFDesconto / dm.cdsItem_Venda.RecordCount);
+
+                         dm.cdsItem_Venda.First;
+                         while not dm.cdsItem_Venda.Eof do
+                         begin
+                             dm.cdsItem_Venda.Edit;
+                             dm.cdsItem_Venda.FieldByName('DESCONTO').AsFloat := dValDesc;
+                             dm.cdsItem_Venda.Post;
+                             dm.cdsItem_Venda.Next;
+                         end;
                      end;
 
                      //Inseri os itens no banco de dados, limpa o DataSet e finaliza transação caso não ocorra erros
@@ -187,13 +438,14 @@ begin
 
                      dm.cdsItem_Venda.EmptyDataSet;
                      LimpaCampos();
-                     edtStatus.Text := 'Caixa Livre';
+                     setStatusCaixa(svFechado);
 
                      //Finaliza a transação e descarrega o objeto
                      dmConexao.Conexao.CommitFreeAndNil(Trans);
                  except on E:Exception do
                       begin
                         raise Exception.Create('Erro ao gravar Venda:' + #13 +  E.message);
+                        dmConexao.Conexao.RollbackFreeAndNil(Trans);
                       end;
                  end;
              end;
@@ -206,17 +458,20 @@ begin
                  //Atualiza venda no banco de dados
                  dm.qryVenda.Close;
                  dm.qryVenda.SQL.Clear;
-                 dm.qryVenda.SQL.Add('UPDATE VENDA SET N_VENDA=:venda, COD_CLI=:cli, DATA_VENDA=:data, ID_PAGAMENTO=:tipo, VAL_TOTAL=:total, COD_FUNC=:func, DESCONTO=:desc, SUB_TOTAL=:subtotal '+
-                                     'WHERE N_VENDA=:venda');
+                 dm.qryVenda.SQL.Add('UPDATE VENDA SET N_VENDA=:venda, COD_CLI=:cli, DATA_VENDA=:data, VAL_TOTAL=:total, COD_FUNC=:func, DESCONTO=:desc, SUB_TOTAL=:subtotal, '+
+                                     'DINHEIRO=:dinheiro, CHEQUE=:cheque, CARTAO=:cartao, TICKET=:ticket WHERE N_VENDA=:venda');
                  dm.qryVenda.ParamByName('venda').AsString   := lblVenda.Caption;
                  dm.qryVenda.ParamByName('cli').AsString     := sFCod_cli;
                  dm.qryVenda.ParamByName('data').AsDate      := Now;
-                 dm.qryVenda.ParamByName('tipo').AsInteger   := iFTipo_Pagamento;
                  dm.qryVenda.ParamByName('subtotal').AsFloat := dFSub_total;
                  dm.qryVenda.ParamByName('total').AsFloat    := dFTotal;
                  dm.qryVenda.ParamByName('desc').AsFloat     := dFDesconto;
                  dm.qryVenda.ParamByName('func').AsString    := sFID_Funcionario;
                  dm.qryVenda.ParamByName('venda').AsString   := lblVenda.Caption;
+                 dm.qryVenda.ParamByName('dinheiro').AsFloat := dFDinheiro;
+                 dm.qryVenda.ParamByName('cheque').AsFloat   := dFCheque;
+                 dm.qryVenda.ParamByName('cartao').AsFloat   := dFCartao;
+                 dm.qryVenda.ParamByName('ticket').AsFloat   := dFTicket;
                  dm.qryVenda.ExecSQL();
 
                  dValDesc := 0;
@@ -236,7 +491,7 @@ begin
 
                  dm.cdsItem_Venda.EmptyDataSet;
                  LimpaCampos();
-                 edtStatus.Text := 'Caixa Livre';
+                 setStatusCaixa(svFechado);
 
                  //Finaliza a transação e descarrega o objeto
                  dmConexao.Conexao.CommitFreeAndNil(Trans);
@@ -246,7 +501,8 @@ begin
                   end;
              end;
          end;
-         dm.cdsVenda.Close;
+         self.AtualizaCDSVenda;
+         Self.StatusPDV := svFechado;
      end
      else
      begin
@@ -254,12 +510,91 @@ begin
      end;
 end;
 
+procedure TfrmPDV.FormActivate(Sender: TObject);
+begin
+    if not VerificaAberturaCaixa then
+    begin
+        try
+           frmSuprimento := TfrmSuprimento.Create(self);
+           frmSuprimento.ShowModal;
+        finally
+           FreeAndNil(frmSuprimento);
+        end;
+    end
+    else
+         setStatusCaixa(svFechado);
+
+end;
+
+function TfrmPDV.FormataImpressaoItem(Item, Codigo, Descricao, Qtde, Valor,
+  Subtotal: string; Limite: Integer): string;
+var
+   retorno, desc, qt, v1, v2: string;
+   i: Integer;
+begin
+     desc := Descricao;
+
+     if Limite > Length(Descricao) then
+     begin
+         for i := 1 to (Limite - Length(Descricao)) do
+             desc := desc + ' ';
+     end;
+
+     qt := Qtde;
+     for i := 1 to (7 - Length(Qtde)) do
+         qt := ' ' + qt;
+
+     v1 := Valor;
+     for i := 1 to (7 - Length(Valor)) do
+         v1 := ' ' + v1;
+
+     v2 := Subtotal;
+     for i := 1 to (7 - Length(Subtotal)) do
+         v2 := ' ' + v2;
+
+     retorno := Item;
+     retorno := Concat(retorno, ' '+Codigo);
+     retorno := Concat(retorno, ' '+desc);
+     retorno := Concat(retorno, ' '+qt);
+     retorno := Concat(retorno, ' '+v1);
+     retorno := Concat(retorno, ' '+v2);
+
+     Result := retorno;
+end;
+
 procedure TfrmPDV.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
-    dm.cdsVenda.Close;
-    dm.cdsItem_Venda.Close;
-    Action := caFree;
-    frmPDV := nil;
+     if StatusPDV = svAberto then
+     begin
+         MessageDlg('Existem uma venda em andamento, execute uma das sugestões abaixo!'#13'- Finalize a venda.'#13'- Cancele a venda.', mtWarning, [mbOK], 0);
+         Abort;
+     end
+     else
+     begin
+        dm.cdsVenda.Close;
+        dm.cdsItem_Venda.Close;
+        FreeAndNil(FImpressora);
+        Action := caFree;
+        frmPDV := nil;
+     end;
+end;
+
+procedure TfrmPDV.FormCreate(Sender: TObject);
+begin
+     setStatusCaixa(svBloqueado);
+     FImpressora := TImpressora.Create(miEpson, PAnsiChar('USB'));
+     Self.Caption := Application.Title + ' : PDV';
+     redtItem.Color := HexToTColor('FFFFCC');
+end;
+
+procedure TfrmPDV.FormShow(Sender: TObject);
+begin
+    try
+        frmProgresso := TfrmProgresso.Create(nil);
+        frmProgresso.Show;
+    finally
+        FreeAndNil(frmProgresso);
+    end;
 end;
 
 procedure TfrmPDV.KeyDown(var Key: Word;
@@ -279,7 +614,7 @@ begin
      if Key = VK_F2 then NewVenda;
      if key = VK_F3 then FinalizarVenda;
 
-     if (Key = VK_F4) and (not dm.cdsItem_Venda.IsEmpty) and (edtStatus.Text = 'Venda Aberta') then
+     if (Key = VK_F4) and (not dm.cdsItem_Venda.IsEmpty) and (StatusPDV = svAberto) then
      begin
          try
             frmQtde := TfrmQtde.Create(self);
@@ -289,13 +624,13 @@ begin
          end;
      end;
 
-     if Key = VK_F5 then
+     if (Key = VK_F5) and (StatusPDV = svFechado)  then
      begin
           try
-              frmOrcamento := TfrmOrcamento.Create(self);
-              frmOrcamento.ShowModal;
+              frmFechamento_Caixa := TfrmFechamento_Caixa.Create(nil);
+              frmFechamento_Caixa.ShowModal;
           finally
-               FreeAndNil(frmOrcamento);
+               FreeAndNil(frmFechamento_Caixa);
           end;
 
      end;
@@ -305,7 +640,7 @@ begin
           CancelarVenda;
      end;
 
-     if (Key = VK_F7) and (edtStatus.Text = 'Venda Aberta') then
+     if (Key = VK_F7) and (StatusPDV = svAberto) then
      begin
            try
                frmProcura_Cliente := TfrmProcura_Cliente.Create(self);
@@ -315,7 +650,7 @@ begin
            end;
      end;
 
-     if (Key = VK_F8) and (edtStatus.Text = 'Venda Aberta') then
+     if (Key = VK_F8) and (StatusPDV = svAberto) then
      begin
           try
               frmProcura_Estoque := TfrmProcura_Estoque.Create(self);
@@ -325,7 +660,7 @@ begin
           end;
      end;
 
-     if (Key = VK_F9) and (edtStatus.Text = 'Caixa Livre') then
+     if (Key = VK_F9) and (StatusPDV = svFechado) then
      begin
           try
               frmProcura_Venda := TfrmProcura_Venda.Create(self);
@@ -335,9 +670,34 @@ begin
           end;
      end;
 
+     if Key = VK_F10 then
+     begin
+         if StatusPDV = svFechado then
+         begin
+             try
+                 frmSangria := TfrmSangria.Create(self);
+                 frmSangria.ShowModal;
+             finally
+                 FreeAndNil(frmSangria);
+             end;
+         end
+         else
+            MessageDlg('É necessário que o caixa esteja livre!', mtWarning, [mbOK], 0);
+     end;
+
      if Key = VK_F11 then
      begin
-         AlteraVenda();
+         if StatusPDV = svFechado then
+         begin
+             try
+                 frmSuprimento := TfrmSuprimento.Create(self);
+                 frmSuprimento.ShowModal;
+             finally
+                 FreeAndNil(frmSuprimento);
+             end;
+         end
+         else
+            MessageDlg('É necessário que o caixa esteja livre!', mtWarning, [mbOK], 0);
      end;
 
      if Key = VK_DELETE then CancelarItem;
@@ -353,7 +713,7 @@ begin
        dm.cdsItem_Venda.EmptyDataSet;
 end;
 
-procedure TfrmPDV.GeraNfe;
+{procedure TfrmPDV.GeraNfe;
 var
   NumItem: integer;
 begin
@@ -505,7 +865,7 @@ begin
     dm.ACBrNFe.NotasFiscais.GerarNFe;
     dm.ACBrNFe.NotasFiscais.SaveToFile(dmConexao.sPath_Arquivo, false);
     ShowMessage('Arquivo xml gerado com sucesso! ' + dm.ACBrNFe.NotasFiscais.Items[0].NomeArq);
-end;
+end;      }
 
 function TfrmPDV.GeraNVenda: string;
 var
@@ -544,7 +904,7 @@ end;
 procedure TfrmPDV.grddbgrdDblClick(Sender: TObject);
 begin
     //Carrega o FormQtde para alterar a qtde do item
-    if edtStatus.Text = 'Venda Aberta' then
+    if StatusPDV = svAberto then
     begin
         try
            frmQtde := TfrmQtde.Create(self);
@@ -555,17 +915,156 @@ begin
     end;
 end;
 
+function TfrmPDV.HexToTColor(sColor: string): TColor;
+begin
+   Result :=
+     RGB(
+       StrToInt('$'+Copy(sColor, 1, 2)),
+       StrToInt('$'+Copy(sColor, 3, 2)),
+       StrToInt('$'+Copy(sColor, 5, 2))
+     ) ;
+end;
+
+procedure TfrmPDV.ImprimeCancelaItem(Item, Descricao: string);
+begin
+    redtItem.Paragraph.Alignment := taLeftJustify;
+    redtItem.Lines.Add(#10'ITEM ' + Item + ' *' + Descricao + '* CANCELADO'#10);
+end;
+
+procedure TfrmPDV.ImprimeCancelaVenda;
+begin
+    redtItem.Paragraph.Alignment := taCenter;
+    redtItem.Lines.Add('VENDA CANCELADA');
+    redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
+end;
+
+procedure TfrmPDV.ImprimeFinalizacaoVenda;
+begin
+    redtItem.Paragraph.Alignment := taCenter;
+    redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
+    redtItem.Paragraph.Alignment := taRightJustify;
+    redtItem.Lines.Add('TOTAL R$ ' + FormatFloat('##0.00', dFTotal));
+    redtItem.Paragraph.Alignment := taLeftJustify;
+    redtItem.Lines.Add('Forma de Pagamento:');
+
+    if dFDinheiro > 0 then
+       redtItem.Lines.Add('DINHEIRO R$ ' + FormatFloat('##0.00', dFDinheiro));
+
+    if dFCheque > 0 then
+       redtItem.Lines.Add('CHEQUE R$ ' + FormatFloat('##0.00', dFCheque));
+
+    if dFCartao > 0 then
+       redtItem.Lines.Add('CARTÃO R$ ' + FormatFloat('##0.00', dFCartao));
+
+    if dFTicket > 0 then
+       redtItem.Lines.Add('TICKET R$ ' + FormatFloat('##0.00', dFTicket));
+
+    if dFValPago > 0 then
+       redtItem.Lines.Add('VALOR PAGO R$ ' + FormatFloat('##0.00', dFValPago));
+
+    if dFTroco > 0 then
+       redtItem.Lines.Add('TROCO R$ ' + FormatFloat('##0.00', dFTroco));
+
+    redtItem.Paragraph.Alignment := taCenter;
+    redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
+    redtItem.Lines.Add(frmMenu.FMsgRodape);
+end;
+
+procedure TfrmPDV.ImprimeItemVenda(Texto: string);
+begin
+     redtItem.Paragraph.Alignment := taCenter;
+     redtItem.Lines.Add(Texto);
+end;
+
+procedure TfrmPDV.ImprimiCabecalho;
+begin
+    redtItem.Paragraph.Alignment := taCenter;
+    redtItem.Lines.Add(frmMenu.FMsgCabecalho);
+    redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
+    redtItem.Lines.Add('*** ' + frmMenu.FRazao + ' ***');
+    redtItem.Lines.Add('CNPJ: ' + frmMenu.FCNPJ  + ' Inscrição Estadual: '+ frmMenu.FInscricao);
+    redtItem.Lines.Add('Rua: '+ frmMenu.FRua +', Número: '+ frmMenu.FNumero+ ' Bairro: ' + frmMenu.FBairro);
+    redtItem.Lines.Add('Cidade: ' + frmMenu.FCidade);
+    redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
+    redtItem.Lines.Add('DATA: ' + FormatDateTime('dd/mm/yyyy', Date) + ' - HORA: ' +  FormatDateTime('hh:mm:ss', time) + '         VENDA NUMERO: ' + lblVenda.Caption);
+    redtItem.Lines.Add(Format('%1s %5s %19s %14s %8s %8s', ['ITEM', 'CODIGO', 'DESCRICAO', 'QTDE', 'VALOR', 'TOTAL']));
+    redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
+end;
+
 procedure TfrmPDV.NewVenda;
+var
+   nVenda : string;
 begin
      //Procedimento iniciar uma nova venda
 
-     if edtStatus.Text = 'Caixa Livre' then
+     if StatusPDV = svFechado then
      begin
          LimpaCampos();
          lblCod_Cli.Caption  := '001';
          lblVenda.Caption    := GeraNVenda;
          lblData.Caption     := FormatDateTime('dd/mm/yy', Now);
-         edtStatus.Text      := 'Venda Aberta';
+         setStatusCaixa(svAberto);
+         redtItem.Clear;
+         ImprimiCabecalho;
+
+         if FVerificacaoImpressora then
+         begin
+            nVenda := 'VENDA NUMERO: ' + lblVenda.Caption;
+            Texto := '';
+            Texto := Concat(Texto, '<c>' + Format('%s %s %28s', ['DATA: '+FormatDateTime('dd/mm/yyyy', Date), ' - HORA: '+FormatDateTime('hh:mm:ss', time), nVenda]) + '</c>'#10);
+            Texto := Concat(Texto, '<c>ITEM    CODIGO           DESCRICAO          QTDE   VALOR   TOTAL</c>'#10);
+            Texto := Concat(Texto, FImpressora.InseriTraco(48, False, true));
+            FImpressora.ImprimeTextoTag(PAnsiChar(Texto), true);
+         end;
+     end
+     else
+        if StatusPDV = svAberto then
+           MessageDlg('Existe uma venda em andamento!', mtWarning, [mbOK], 0)
+        else
+           MessageDlg('O caixa está bloqueado!', mtWarning, [mbOK], 0)
+end;
+
+procedure TfrmPDV.setStatusCaixa(Status: TStatusVenda);
+begin
+    if Status = svAberto then
+       edtStatus.Text := 'Venda Aberta'
+    else
+       if Status = svFechado then
+          edtStatus.Text := 'Caixa Livre'
+       else
+          edtStatus.Text := 'Bloqueado';
+
+    StatusPDV := Status;
+end;
+
+function TfrmPDV.VerificaAberturaCaixa: Boolean;
+var
+   qry: TSQLQuery;
+begin
+     try
+         qry := TSQLQuery.Create(nil);
+         qry.SQLConnection := dmConexao.Conexao;
+
+         qry.Close;
+         qry.SQL.Clear;
+         qry.SQL.Add('SELECT VALOR_PAGAMENTO, TIPO_DOCUMENTO FROM CAIXA WHERE DATA_ENTRADA = :data AND TIPO_DOCUMENTO = :tipo');
+         qry.ParamByName('data').AsDate  := Date;
+         qry.ParamByName('tipo').AsString:= 'S';
+         qry.Open;
+
+         if qry.IsEmpty then
+         begin
+             MessageDlg('É necessário abrir o caixa para a data atual!'#13'Informe o suprimento inicial.', mtInformation, [mbOK], 0);
+             setStatusCaixa(svBloqueado);
+             Result := False;
+         end
+         else
+             Result := True;
+
+
+     except
+         on E:Exception do
+         MessageDlg('Erro ao verificar registros do caixa: ' + E.Message, mtWarning, [mbOK], 0);
      end;
 end;
 

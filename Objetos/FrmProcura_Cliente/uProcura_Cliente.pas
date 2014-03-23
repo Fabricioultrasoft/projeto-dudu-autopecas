@@ -13,8 +13,8 @@ type
     lbl1: TLabel;
     edtPesquisa: TEdit;
     pnl3: TPanel;
-    lbl2: TLabel;
     grdCliente: TDBGrid;
+    Label4: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
@@ -34,7 +34,7 @@ var
 
 implementation
 
-uses uDm, uPDV, uForma_Pagamento;
+uses uDm, uPDV, uForma_Pagamento, uRelatorio;
 
 {$R *.dfm}
 
@@ -95,6 +95,21 @@ procedure TfrmProcura_Cliente.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
     if Key = VK_ESCAPE then frmProcura_Cliente.Close;
+    if Key = VK_F5 then
+     begin
+        if not dm.cdsCliente.IsEmpty then
+        begin
+            try
+              frmRelatorio := TfrmRelatorio.Create(nil);
+              frmRelatorio.rlCliente.Preview();
+            finally
+              FreeAndNil(frmRelatorio);
+            end;
+        end
+        else
+           MessageDlg('Não existem registros!', mtWarning, [mbOK], 0);
+    end;
+
 end;
 
 procedure TfrmProcura_Cliente.grdClienteKeyPress(Sender: TObject;
