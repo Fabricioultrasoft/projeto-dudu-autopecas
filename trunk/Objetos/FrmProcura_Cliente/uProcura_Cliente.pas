@@ -122,7 +122,6 @@ begin
         //Verifica se o frmPDV está ativo na memória
         if Assigned(frmPDV) then
         begin
-           frmPDV.lblCod_Cli.Caption := dm.cdsCliente.FieldByName('COD_CLI').AsString;
            frmPDV.sFCod_cli           := dm.cdsCliente.FieldByName('COD_CLI').AsString;
            frmProcura_Cliente.Close;
 

@@ -12,52 +12,39 @@ type
 
 type
   TfrmPDV = class(TFormBase)
-    pnl1: TPanel;
-    lbl1: TLabel;
+    lblHora: TLabel;
     lblCaixa: TLabel;
-    pnl2: TPanel;
-    pnl3: TPanel;
-    pnlGrid: TPanel;
-    pnl4: TPanel;
-    lbl3: TLabel;
-    lbl4: TLabel;
-    lbl5: TLabel;
-    lbl6: TLabel;
-    lbl7: TLabel;
+    lblOperador: TLabel;
+    lblData: TLabel;
     edtStatus: TEdit;
     edtProduto: TEdit;
     edtValor_Unitario: TEdit;
     edtSub_total: TEdit;
     edtTotal: TEdit;
-    pnl5: TPanel;
-    lbl8: TLabel;
-    lblVenda: TLabel;
-    lbl2: TLabel;
-    lbl9: TLabel;
-    lbl10: TLabel;
-    lblData: TLabel;
-    lbl11: TLabel;
-    lbl12: TLabel;
-    lbl13: TLabel;
-    lbl14: TLabel;
-    lbl16: TLabel;
-    lblCod_Cli: TLabel;
-    lbl15: TLabel;
-    lbl17: TLabel;
-    lbl18: TLabel;
-    lbl19: TLabel;
-    lbl20: TLabel;
-    lbl21: TLabel;
-    lbl22: TLabel;
-    lbl23: TLabel;
-    lbl24: TLabel;
-    lbl25: TLabel;
-    lbl26: TLabel;
-    lbl27: TLabel;
-    edtConsulta: TEdit;
-    lbl28: TLabel;
     img1: TImage;
+    edtConsulta: TEdit;
+    img2: TImage;
     redtItem: TRichEdit;
+    tmr1: TTimer;
+    btn1: TSpeedButton;
+    btn2: TSpeedButton;
+    btn3: TSpeedButton;
+    btn4: TSpeedButton;
+    btn5: TSpeedButton;
+    btn6: TSpeedButton;
+    btn8: TSpeedButton;
+    btn9: TSpeedButton;
+    btn10: TSpeedButton;
+    btn11: TSpeedButton;
+    btn12: TSpeedButton;
+    btn13: TSpeedButton;
+    pnl1: TPanel;
+    img3: TImage;
+    lblTitulo: TLabel;
+    lbl2: TLabel;
+    lbl3: TLabel;
+    lbl4: TLabel;
+    lblVersao: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure KeyDown(var Key: Word; Shift: TShiftState);override;
     procedure LimpaCampos();override;
@@ -83,11 +70,14 @@ type
     procedure ImprimeItemVenda(Texto: string);
     procedure ImprimeFinalizacaoVenda();
     procedure ImprimeCancelaItem(Item, Descricao: string);
+    procedure tmr1Timer(Sender: TObject);
     //procedure GeraNfe();
   private
 
 
   public
+    sFNumeroVenda   : string;
+    sFCodCliente    : string;
     sFStatus        : string;
     sFID_Funcionario: string;
     sFCod_cli       : string;
@@ -234,7 +224,6 @@ begin
 
          dm.cdsItem_Venda.Append;
          dm.cdsItem_Venda.FieldByName('ID_ITEM').AsInteger     := dm.cdsItem_Venda.RecordCount + 1;
-         dm.cdsItem_Venda.FieldByName('N_VENDA').AsString      := frmPDV.lblVenda.Caption;
          dm.cdsItem_Venda.FieldByName('EAN13').AsString        := dm.cdsEstoque.FieldByName('EAN13').AsString;
          dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString    := dm.cdsEstoque.FieldByName('DESC_PROD').AsString;
          dm.cdsItem_Venda.FieldByName('VAL_PROD').AsFloat      := dm.cdsEstoque.FieldByName('VAL_VENDA').AsFloat;
@@ -356,7 +345,7 @@ begin
 
          //Verifica se a venda já existe no banco de dados
          dm.cdsVenda.Open;
-         if not (dm.cdsVenda.Locate('N_VENDA', lblVenda.Caption, [])) then
+         if not (dm.cdsVenda.Locate('N_VENDA', sFNumeroVenda, [])) then
          begin
 
              //Verifica se foi informado algum valor para forma de pagamento
@@ -370,7 +359,7 @@ begin
                      dm.qryVenda.SQL.Clear;
                      dm.qryVenda.SQL.Add('INSERT INTO VENDA (N_VENDA, COD_CLI, DATA_VENDA, VAL_TOTAL, COD_FUNC, DESCONTO, SUB_TOTAL, DINHEIRO, CHEQUE, CARTAO, TICKET)'+
                                          'VALUES(:venda, :cli, :data, :total, :func, :desc, :subtotal, :dinheiro, :cheque, :cartao, :ticket)');
-                     dm.qryVenda.ParamByName('venda').AsString    := lblVenda.Caption;
+                     dm.qryVenda.ParamByName('venda').AsString    := sFNumeroVenda;
                      dm.qryVenda.ParamByName('cli').AsString      := sFCod_cli;
                      dm.qryVenda.ParamByName('data').AsDate       := Now;
                      dm.qryVenda.ParamByName('subtotal').AsFloat  := dFSub_total;
@@ -460,14 +449,14 @@ begin
                  dm.qryVenda.SQL.Clear;
                  dm.qryVenda.SQL.Add('UPDATE VENDA SET N_VENDA=:venda, COD_CLI=:cli, DATA_VENDA=:data, VAL_TOTAL=:total, COD_FUNC=:func, DESCONTO=:desc, SUB_TOTAL=:subtotal, '+
                                      'DINHEIRO=:dinheiro, CHEQUE=:cheque, CARTAO=:cartao, TICKET=:ticket WHERE N_VENDA=:venda');
-                 dm.qryVenda.ParamByName('venda').AsString   := lblVenda.Caption;
+                 dm.qryVenda.ParamByName('venda').AsString   := sFNumeroVenda;
                  dm.qryVenda.ParamByName('cli').AsString     := sFCod_cli;
                  dm.qryVenda.ParamByName('data').AsDate      := Now;
                  dm.qryVenda.ParamByName('subtotal').AsFloat := dFSub_total;
                  dm.qryVenda.ParamByName('total').AsFloat    := dFTotal;
                  dm.qryVenda.ParamByName('desc').AsFloat     := dFDesconto;
                  dm.qryVenda.ParamByName('func').AsString    := sFID_Funcionario;
-                 dm.qryVenda.ParamByName('venda').AsString   := lblVenda.Caption;
+                 dm.qryVenda.ParamByName('venda').AsString   := sFNumeroVenda;
                  dm.qryVenda.ParamByName('dinheiro').AsFloat := dFDinheiro;
                  dm.qryVenda.ParamByName('cheque').AsFloat   := dFCheque;
                  dm.qryVenda.ParamByName('cartao').AsFloat   := dFCartao;
@@ -582,9 +571,12 @@ end;
 procedure TfrmPDV.FormCreate(Sender: TObject);
 begin
      setStatusCaixa(svBloqueado);
-     FImpressora := TImpressora.Create(miEpson, PAnsiChar('USB'));
-     Self.Caption := Application.Title + ' : PDV';
+     FImpressora    := TImpressora.Create(miEpson, PAnsiChar('USB'));
+     Self.Caption   := Application.Title + ' : PDV';
      redtItem.Color := HexToTColor('FFFFCC');
+     lblData.Caption:= FormatDateTime('dd/mm/yyyy', Date);
+     lblTitulo.Caption := Application.Title;
+     lblVersao.Caption := 'Versão: ' + frmMenu.GetBuildInfo;
 end;
 
 procedure TfrmPDV.FormShow(Sender: TObject);
@@ -706,9 +698,6 @@ end;
 procedure TfrmPDV.LimpaCampos;
 begin
     inherited;
-    lblVenda.Caption   := '';
-    lblData.Caption    := '';
-    lblCod_Cli.Caption := '';
     if not dm.cdsItem_Venda.IsEmpty then
        dm.cdsItem_Venda.EmptyDataSet;
 end;
@@ -986,7 +975,7 @@ begin
     redtItem.Lines.Add('Rua: '+ frmMenu.FRua +', Número: '+ frmMenu.FNumero+ ' Bairro: ' + frmMenu.FBairro);
     redtItem.Lines.Add('Cidade: ' + frmMenu.FCidade);
     redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
-    redtItem.Lines.Add('DATA: ' + FormatDateTime('dd/mm/yyyy', Date) + ' - HORA: ' +  FormatDateTime('hh:mm:ss', time) + '         VENDA NUMERO: ' + lblVenda.Caption);
+    redtItem.Lines.Add('DATA: ' + FormatDateTime('dd/mm/yyyy', Date) + ' - HORA: ' +  FormatDateTime('hh:mm:ss', time) + '         VENDA NUMERO: ' + sFNumeroVenda);
     redtItem.Lines.Add(Format('%1s %5s %19s %14s %8s %8s', ['ITEM', 'CODIGO', 'DESCRICAO', 'QTDE', 'VALOR', 'TOTAL']));
     redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
 end;
@@ -1000,16 +989,15 @@ begin
      if StatusPDV = svFechado then
      begin
          LimpaCampos();
-         lblCod_Cli.Caption  := '001';
-         lblVenda.Caption    := GeraNVenda;
-         lblData.Caption     := FormatDateTime('dd/mm/yy', Now);
+         sFNumeroVenda := GeraNVenda;
+         sFCodCliente  := '001';
          setStatusCaixa(svAberto);
          redtItem.Clear;
          ImprimiCabecalho;
 
          if FVerificacaoImpressora then
          begin
-            nVenda := 'VENDA NUMERO: ' + lblVenda.Caption;
+            nVenda := 'VENDA NUMERO: ' + sFNumeroVenda;
             Texto := '';
             Texto := Concat(Texto, '<c>' + Format('%s %s %28s', ['DATA: '+FormatDateTime('dd/mm/yyyy', Date), ' - HORA: '+FormatDateTime('hh:mm:ss', time), nVenda]) + '</c>'#10);
             Texto := Concat(Texto, '<c>ITEM    CODIGO           DESCRICAO          QTDE   VALOR   TOTAL</c>'#10);
@@ -1035,6 +1023,11 @@ begin
           edtStatus.Text := 'Bloqueado';
 
     StatusPDV := Status;
+end;
+
+procedure TfrmPDV.tmr1Timer(Sender: TObject);
+begin
+    lblHora.Caption:= FormatDateTime('hh:mm:ss', time);
 end;
 
 function TfrmPDV.VerificaAberturaCaixa: Boolean;

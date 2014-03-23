@@ -153,11 +153,11 @@ end;
 procedure TfrmForma_Pagamento.FormCreate(Sender: TObject);
 begin
     //Carrega os valores na tela
-    edtCliente.Text  := frmPDV.lblCod_Cli.Caption;
     edtSubTotal.Text := frmPDV.edtTotal.Text;
     edtTotal.Text    := frmPDV.edtTotal.Text;
     edtDinheiro.Text := frmPDV.edtTotal.Text;
     edtDesconto.Text := FormatFloat('##0.00', frmPDV.dFDesconto);
+    edtCliente.Text  := frmPDV.sFCodCliente;
 end;
 
 procedure TfrmForma_Pagamento.KeyDown(var Key: Word; Shift: TShiftState);

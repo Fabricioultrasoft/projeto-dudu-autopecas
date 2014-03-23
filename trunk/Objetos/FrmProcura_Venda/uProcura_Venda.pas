@@ -67,9 +67,9 @@ begin
         if Assigned(frmPDV) then
         begin
             //Carrega informações da venda
-            frmPDV.lblVenda.Caption   := dm.cdsVenda.FieldByName('N_VENDA').AsString;
-            frmPDV.lblCod_Cli.Caption := dm.cdsVenda.FieldByName('COD_CLI').AsString;
-            frmPDV.lblData.Caption    := DateToStr(dm.cdsVenda.FieldByName('DATA_VENDA').AsDateTime);
+            frmPDV.sFNumeroVenda       := dm.cdsVenda.FieldByName('N_VENDA').AsString;
+            frmPDV.sFCodCliente        := dm.cdsVenda.FieldByName('COD_CLI').AsString;
+            frmPDV.lblData.Caption     := DateToStr(dm.cdsVenda.FieldByName('DATA_VENDA').AsDateTime);
             frmPDV.sFStatus            := dm.cdsVenda.FieldByName('STATUS').AsString;
             frmPDV.sFID_Funcionario    := dm.cdsVenda.FieldByName('COD_FUNC').AsString;
             frmPDV.dFDesconto          := dm.cdsVenda.FieldByName('DESCONTO').AsFloat;
