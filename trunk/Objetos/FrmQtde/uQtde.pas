@@ -15,6 +15,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure CarregaValores(qtde: integer);
+    procedure FormCreate(Sender: TObject);
   private
     { Private declarations }
   public
@@ -26,7 +27,7 @@ var
 
 implementation
 
-uses uDm, uPDV, uMenu, uProcura_Estoque, uProcura_Venda;
+uses uDm, uPDV, uMenu, uProcura_Estoque, uProcura_Venda, uSenhaFiscal;
 
 {$R *.dfm}
 
@@ -49,7 +50,7 @@ begin
          //Carrega os valores na tela de PDV
          if Assigned(frmPDV) then
          begin
-             frmPDV.edtProduto.Text           := dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString;
+             frmPDV.edtProduto.Text           := copy(dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString, 1, 25);
              frmPDV.edtValor_Unitario.Text    := IntToStr(dm.cdsItem_Venda.FieldByName('QTDE').AsInteger) + ' x ' + FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('VAL_PROD').AsFloat);
              frmPDV.edtSub_total.Text         := FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('TOTAL_PROD').AsFloat);
              frmPDV.edtTotal.Text             := FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('S_TOTAL').Value);
@@ -61,6 +62,12 @@ procedure TfrmQtde.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
     Action  := caFree;
     frmQtde := nil;
+end;
+
+procedure TfrmQtde.FormCreate(Sender: TObject);
+begin
+    if Assigned(frmSenhaFiscal) then
+       frmSenhaFiscal.Close;
 end;
 
 procedure TfrmQtde.FormKeyDown(Sender: TObject; var Key: Word;

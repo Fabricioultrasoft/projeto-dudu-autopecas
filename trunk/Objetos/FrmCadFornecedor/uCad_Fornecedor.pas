@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, ToolWin, ComCtrls, ExtCtrls, Grids, DBGrids,
-  uFormBase;
+  uFormBase, SqlExpr;
 
 type
   TfrmCadFornecedor = class(TFormBaseCad)
@@ -36,12 +36,17 @@ type
     Label3: TLabel;
     edtpesq: TEdit;
     btnPesquisar: TBitBtn;
+    Label15: TLabel;
+    Label5: TLabel;
+    Label2: TLabel;
+    btnCancelar: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure KeyDown(var Key: Word; Shift: TShiftState);override;
     procedure Incluir();                  override;
+    procedure Cancelar();                  override;
     procedure Editar();                   override;
     procedure Excluir();                  override;
-    procedure Gravar(Parametro: string);  override;
+    procedure Gravar(Operacao: TOperacao);  override;
     procedure AtualizaGrid();
     procedure CarregaCampos();
     procedure CarregaConsulta();
@@ -55,6 +60,8 @@ type
     procedure edtpesqChange(Sender: TObject);
     procedure btnRelatClick(Sender: TObject);
     procedure btnPesquisarClick(Sender: TObject);
+    function VerificaCampos(): Boolean;
+    function VerificaDuplicidade(Razao: string): Boolean;
   private
     { Private declarations }
   public
@@ -64,9 +71,29 @@ type
 var
   frmCadFornecedor: TfrmCadFornecedor;
 
+const
+  // Instrução SQL para INSERT
+  INSERT: string = 'INSERT INTO FORNECEDOR (DESC_FORN, FONE, REPRESENTANTE, FONE_REPRES)VALUES(:nome, :fone, :representante, :fone_r)';
+
+  // Instrução SQL para EDIÇÃO, o nome UPDATE dá conflito com o método Update nativo da unit Controls
+  EDICAO: string = 'UPDATE FORNECEDOR SET DESC_FORN=:nome, FONE=:fone, REPRESENTANTE=:representante, FONE_REPRES=:fone_r WHERE COD_FORN=:codigo';
+
+  // Instrução SQL para DELETE
+  DELETE: string = 'DELETE FROM FORNECEDOR WHERE COD_FORN = :codigo';
+
+  // Instrução SQL para SELECT geral
+  SELECT: string = 'SELECT COD_FORN, DESC_FORN, FONE, REPRESENTANTE, FONE_REPRES FROM FORNECEDOR';
+
+  // Instrução SQL para WHERE de pesquisa
+  WHERE: string = 'WHERE DESC_FORN LIKE :desc';
+
+  // Instrução SQL para verificação de Duplicidade
+  SQLVERIF: string  = 'SELECT DESC_FORN FROM FORNECEDOR WHERE DESC_FORN = :desc';
+
+
 implementation
 
-uses uDm, uRelatorio, uProcura_Fornecedor;
+uses uDm, uRelatorio, uProcura_Fornecedor, UdmConexao;
 
 {$R *.dfm}
 
@@ -107,12 +134,17 @@ end;
 procedure TfrmCadFornecedor.btnRelatClick(Sender: TObject);
 begin
     //Gera o relatório de fornecedores
-    try
-       frmRelatorio := TfrmRelatorio.Create(self);
-       frmRelatorio.GeraReport('Report_Fornecedor', 'RTFonecedor.rav');
-    finally
-      FreeAndNil(frmRelatorio);
-    end;
+    if not dm.cdsFornecedor.IsEmpty then
+    begin
+        try
+          frmRelatorio := TfrmRelatorio.Create(nil);
+          frmRelatorio.rlFornecedor.Preview();
+        finally
+          FreeAndNil(frmRelatorio);
+        end;
+    end
+    else
+       MessageDlg('Não existem registros!', mtWarning, [mbOK], 0);
 end;
 
 procedure TfrmCadFornecedor.btnSairClick(Sender: TObject);
@@ -122,7 +154,13 @@ end;
 
 procedure TfrmCadFornecedor.btnSalvarClick(Sender: TObject);
 begin
-    Gravar(Param);
+    Gravar(FOperacao);
+end;
+
+procedure TfrmCadFornecedor.Cancelar;
+begin
+  inherited;
+  grpFornecedor.Enabled := false;
 end;
 
 procedure TfrmCadFornecedor.CarregaCampos;
@@ -140,7 +178,7 @@ begin
     //Carrega consulta básica
     dm.qryFornecedor.Close;
     dm.qryFornecedor.SQL.Clear;
-    dm.qryFornecedor.SQL.Add('SELECT COD_FORN, DESC_FORN, FONE, REPRESENTANTE, FONE_REPRES FROM FORNECEDOR');
+    dm.qryFornecedor.SQL.Add(SELECT);
     dm.qryFornecedor.Open;
 end;
 
@@ -153,7 +191,7 @@ procedure TfrmCadFornecedor.Editar;
 begin
     //Procedimento de Edição
     inherited;
-    Param                      := 'U';
+    setOperacao(opUpdate);
     grpFornecedor.Enabled      := True;
     pgCadastro.ActivePageIndex := 0;
     edtNome.SetFocus;
@@ -166,8 +204,9 @@ begin
     begin
         dm.qryFornecedor.Close;
         dm.qryFornecedor.SQL.Clear;
-        dm.qryFornecedor.SQL.Add('SELECT COD_FORN, DESC_FORN, FONE, REPRESENTANTE, FONE_REPRES FROM FORNECEDOR');
-        dm.qryFornecedor.SQL.Add('WHERE DESC_FORN LIKE '+ QuotedStr(edtpesq.Text + '%'));
+        dm.qryFornecedor.SQL.Add(SELECT);
+        dm.qryFornecedor.SQL.Add(WHERE);
+        dm.qryFornecedor.ParamByName('desc').AsString := edtpesq.Text + '%';
         dm.qryFornecedor.Open
     end
     else
@@ -185,7 +224,7 @@ begin
         begin
             dm.qryFornecedor.Close;
             dm.qryFornecedor.SQL.Clear;
-            dm.qryFornecedor.SQL.Add('DELETE FROM FORNECEDOR WHERE COD_FORN = :codigo');
+            dm.qryFornecedor.SQL.Add(DELETE);
             dm.qryFornecedor.ParamByName('codigo').AsString := dm.cdsFornecedor.FieldByName('COD_FORN').AsString;
             dm.qryFornecedor.ExecSQL();
             LimpaCampos();
@@ -226,66 +265,65 @@ begin
     end;
 end;
 
-procedure TfrmCadFornecedor.Gravar(Parametro: string);
+procedure TfrmCadFornecedor.Gravar(Operacao: TOperacao);
 begin
      //Procedimento de gravação
 
-     //Verifica se é operação de Inclusão
-     if (Parametro = 'I') then
+     if VerificaCampos() then
      begin
-         if (edtNome.Text <> '') then
+         //Verifica se é operação de Inclusão
+         if (Operacao = opInsert) and (VerificaDuplicidade(edtNome.Text)) then
          begin
-             try
-                  dm.qryFornecedor.Close;
-                  dm.qryFornecedor.SQL.Clear;
-                  dm.qryFornecedor.SQL.Add('INSERT INTO FORNECEDOR (DESC_FORN, FONE, REPRESENTANTE, FONE_REPRES)'+
-                  'VALUES(:nome, :fone, :representante, :fone_r)');
-                  dm.qryFornecedor.Params.ParamByName('nome').AsString          := edtNome.Text;
-                  dm.qryFornecedor.Params.ParamByName('fone').AsString          := edtFone.Text;
-                  dm.qryFornecedor.Params.ParamByName('representante').AsString := edtRepresentante.Text;
-                  dm.qryFornecedor.Params.ParamByName('fone_r').AsString        := edtFoneR.Text;
-                  dm.qryFornecedor.ExecSQL();
-                  LimpaCampos();
-                  AtualizaGrid();
-                  grpFornecedor.Enabled := False;
-             except
-                  on E:Exception do
-                  ShowMessage('Erro ao gravar registro !'#13#10 + E.Message);
-             end;
-         end;
-     end
-     else
-     begin
-          //Verifica se é operação de Update
-          if (Parametro = 'U') then
-          begin
-              try
-                  dm.qryFornecedor.Close;
-                  dm.qryFornecedor.SQL.Clear;
-                  dm.qryFornecedor.SQL.Add('UPDATE FORNECEDOR SET '+
-                  'DESC_FORN=:nome, FONE=:fone ,REPRESENTANTE=:representante ,FONE_REPRES=:fone_r WHERE COD_FORN=:codigo');
-                  dm.qryFornecedor.Params.ParamByName('nome').AsString          := edtNome.Text;
-                  dm.qryFornecedor.Params.ParamByName('fone').AsString          := edtFone.Text;
-                  dm.qryFornecedor.Params.ParamByName('representante').AsString := edtRepresentante.Text;
-                  dm.qryFornecedor.Params.ParamByName('fone_r').AsString        := edtFoneR.Text;
-                  dm.qryFornecedor.Params.ParamByName('codigo').AsString        := edtCodigo.Text;
-                  dm.qryFornecedor.ExecSQL();
-                  grpFornecedor.Enabled := False;
-                  LimpaCampos();
-              except
-                  on E:Exception do
-                  ShowMessage('Erro ao editar registro !'#13#10 + E.Message);
+               try
+                    dm.qryFornecedor.Close;
+                    dm.qryFornecedor.SQL.Clear;
+                    dm.qryFornecedor.SQL.Add(INSERT);
+                    dm.qryFornecedor.Params.ParamByName('nome').AsString          := edtNome.Text;
+                    dm.qryFornecedor.Params.ParamByName('fone').AsString          := edtFone.Text;
+                    dm.qryFornecedor.Params.ParamByName('representante').AsString := edtRepresentante.Text;
+                    dm.qryFornecedor.Params.ParamByName('fone_r').AsString        := edtFoneR.Text;
+                    dm.qryFornecedor.ExecSQL();
+                    LimpaCampos();
+                    AtualizaGrid();
+                    grpFornecedor.Enabled := False;
+                    setOperacao(opNone);
+               except
+                    on E:Exception do
+                    ShowMessage('Erro ao gravar registro !'#13#10 + E.Message);
+               end;
+         end
+         else
+         begin
+              //Verifica se é operação de Update
+              if (Operacao = opUpdate) then
+              begin
+                  try
+                      dm.qryFornecedor.Close;
+                      dm.qryFornecedor.SQL.Clear;
+                      dm.qryFornecedor.SQL.Add(EDICAO);
+                      dm.qryFornecedor.Params.ParamByName('nome').AsString          := edtNome.Text;
+                      dm.qryFornecedor.Params.ParamByName('fone').AsString          := edtFone.Text;
+                      dm.qryFornecedor.Params.ParamByName('representante').AsString := edtRepresentante.Text;
+                      dm.qryFornecedor.Params.ParamByName('fone_r').AsString        := edtFoneR.Text;
+                      dm.qryFornecedor.Params.ParamByName('codigo').AsString        := edtCodigo.Text;
+                      dm.qryFornecedor.ExecSQL();
+                      grpFornecedor.Enabled := False;
+                      LimpaCampos();
+                      setOperacao(opNone);
+                  except
+                      on E:Exception do
+                      ShowMessage('Erro ao editar registro !'#13#10 + E.Message);
+                  end;
               end;
-          end;
+         end;
      end;
-     Param := '';
 end;
 
 procedure TfrmCadFornecedor.Incluir;
 begin
     //Procedimento de inclusão de registro
     inherited;
-    Param                      := 'I';
+    setOperacao(opInsert);
     grpFornecedor.Enabled      := True;
     pgCadastro.ActivePageIndex := 0;
     LimpaCampos();
@@ -295,6 +333,50 @@ end;
 procedure TfrmCadFornecedor.TabSheet1Show(Sender: TObject);
 begin
     AtualizaGrid();
+end;
+
+function TfrmCadFornecedor.VerificaCampos: Boolean;
+begin
+     //Verifica se existem campos obrigatórios sem preenchimento
+     if (edtNome.Text <> '') and (edtFone.Text <> '') then
+     begin
+        Result := true;
+     end
+     else
+     begin
+        Result := False;
+        MessageDlg('Existem campos obrigatórios(*) sem preenchimento!', mtError, [mbOK], 0);
+        Abort;
+     end;
+end;
+
+function TfrmCadFornecedor.VerificaDuplicidade(Razao: string): Boolean;
+var
+   qryVerif: TSQLQuery;
+begin
+    try
+        qryVerif := TSQLQuery.Create(nil);
+        qryVerif.SQLConnection := dmConexao.Conexao;
+
+        qryVerif.Close;
+        qryVerif.SQL.Clear;
+        qryVerif.SQL.Add(SQLVERIF);
+        qryVerif.ParamByName('desc').AsString := Razao;
+        qryVerif.Open;
+
+        if not qryVerif.IsEmpty then
+        begin
+            MessageDlg('Fornecedor já cadastrado com esse nome: ' + qryVerif.Fields[0].AsString , mtError, [mbOK], 0);
+            Result := false;
+        end
+        else
+        begin
+            Result := true
+        end;
+    except
+        on E:Exception do
+        MessageDlg('Erro ao verificar duplicidade: ' + E.Message, mtError, [mbOK], 0);
+    end;
 end;
 
 end.

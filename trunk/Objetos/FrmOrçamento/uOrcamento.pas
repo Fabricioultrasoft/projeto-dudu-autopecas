@@ -45,12 +45,13 @@ type
     rgOpcao: TRadioGroup;
     lbl8: TLabel;
     dtpPesquisa: TDateTimePicker;
+    btnCancelar: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure KeyDown(var Key: Word; Shift: TShiftState);override;
     procedure btnSairClick(Sender: TObject);
     procedure grdOrcamentoEditButtonClick(Sender: TObject);
     procedure Incluir();                 override;
-    procedure Gravar(Parametro: string); override;
+    procedure Gravar(Operacao: TOperacao); override;
     procedure Editar();                  override;
     procedure Excluir();                 override;
     procedure ExcluirItem();
@@ -71,6 +72,7 @@ type
     procedure rgOpcaoClick(Sender: TObject);
     procedure edtpesqChange(Sender: TObject);
     procedure dtpPesquisaChange(Sender: TObject);
+    procedure btnCancelarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -98,6 +100,11 @@ begin
     dm.cdsOrcamento.Close;
     CarregaConsulta();
     dm.cdsOrcamento.Open;
+end;
+
+procedure TfrmOrcamento.btnCancelarClick(Sender: TObject);
+begin
+    Cancelar();
 end;
 
 procedure TfrmOrcamento.btnEditarClick(Sender: TObject);
@@ -129,7 +136,7 @@ end;
 
 procedure TfrmOrcamento.btnSalvarClick(Sender: TObject);
 begin
-     Gravar(Param);
+     Gravar(FOperacao);
 end;
 
 procedure TfrmOrcamento.CarregaConsulta;
@@ -216,7 +223,7 @@ procedure TfrmOrcamento.Editar;
 begin
     //Procedimento de edição do orçamento
     inherited;
-    Param                      := 'U';
+    setOperacao(opUpdate);
     grpOrcamento.Enabled       := True;
     pgCadastro.ActivePageIndex := 0;
     dtpOrcamento.SetFocus;
@@ -293,7 +300,7 @@ begin
      begin
         if Application.MessageBox('Deseja gravar alterações antes de sair?', 'Confirmação', MB_YESNO)= mrYes then
         begin
-            Gravar(param);
+            Gravar(FOperacao);
         end
      end;
      dm.cdsItem_Orc.Close;
@@ -372,12 +379,12 @@ begin
     end;
 end;
 
-procedure TfrmOrcamento.Gravar(Parametro: string);
+procedure TfrmOrcamento.Gravar(Operacao: TOperacao);
 begin
      //Procedimento de gravação do orçamento
 
      //Verifica se a operação é Inclusão
-     if (Parametro = 'I') then
+     if (Operacao = opInsert) then
      begin
          if (VerificaCampo) then
          begin
@@ -406,7 +413,7 @@ begin
      else
      begin
           //Verifica se a operação é Update
-          if (Parametro = 'U') then
+          if (Operacao = opUpdate) then
           begin
               try
                   dm.qryOrcamento.Close;
@@ -433,7 +440,7 @@ begin
      end;
 
      //Limpa o valor da variável de operações
-     Param := '';
+     setOperacao(opNone);
      dm.cdsItem_Orc.Close;
 end;
 
@@ -454,7 +461,7 @@ begin
     edtNumero.Text             := GeraCodigo;
     dtpOrcamento.Date          := Now;
     grpOrcamento.Enabled       := True;
-    Param                      := 'I';
+    setOperacao(opInsert);
     pgCadastro.ActivePageIndex := 0;
     dm.cdsItem_Orc.Open;
     dm.cdsItem_Orc.EmptyDataSet;

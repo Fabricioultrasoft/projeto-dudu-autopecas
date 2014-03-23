@@ -32,17 +32,38 @@ uses
   uCalcula_Perc in '..\Objetos\FrmCalcula_Perc\uCalcula_Perc.pas' {frmCalula_Perc},
   uFuncao in '..\Objetos\Funções\uFuncao.pas',
   uVendas_Produto in '..\Objetos\FrmVendas_Produto\uVendas_Produto.pas' {frmVendas_Produto},
-  uProcura_Venda in '..\Objetos\FrmProcura_Venda\uProcura_Venda.pas' {frmProcura_Venda};
+  uProcura_Venda in '..\Objetos\FrmProcura_Venda\uProcura_Venda.pas' {frmProcura_Venda},
+  USobre in '..\Objetos\FrmSobre\USobre.pas' {frmSobre},
+  USplash in '..\Objetos\FrmSplash\USplash.pas' {frmSplash},
+  UConexao in '..\Objetos\Conexao\UConexao.pas',
+  uSenhaFiscal in '..\Objetos\FrmSenhaFiscal\uSenhaFiscal.pas' {frmSenhaFiscal},
+  uProdura_EntradaProduto in '..\Objetos\FrmProcura_EntradaProduto\uProdura_EntradaProduto.pas' {frmProcura_EntradaProduto},
+  uSangria in '..\Objetos\FrmSangria\uSangria.pas' {frmSangria},
+  uSuprimento in '..\Objetos\FrmSuprimento\uSuprimento.pas' {frmSuprimento},
+  uCadUnidade in '..\Objetos\FrmCadUnidade\uCadUnidade.pas' {frmCadUnidade},
+  uProdutoNF in '..\Objetos\FrmProdutoNF\uProdutoNF.pas' {frmProdutoNF},
+  uConfig in '..\Objetos\FrmConfig\uConfig.pas' {frmConfig},
+  uAviso in '..\Objetos\FrmAviso\uAviso.pas' {frmAviso},
+  uProgresso in '..\Objetos\FrmProgresso\uProgresso.pas' {frmProgresso},
+  uImpressoraBase in '..\Objetos\ImpressoraBase\uImpressoraBase.pas',
+  uImpressoraEpson in '..\Objetos\ImpressoraEpson\uImpressoraEpson.pas',
+  uInterfaceEpson in '..\Objetos\InterfaceDll\uInterfaceEpson.pas',
+  uImpressora in '..\Objetos\Impressora\uImpressora.pas';
 
 {$R *.res}
 
 begin
   RPDefine.DataID := IntToStr(Application.Handle);
   Application.Initialize;
-  Application.MainFormOnTaskbar := True;
-  Application.Title := 'Sistema de Vendas DUDU Auto Peças';
+  Application.Title := 'Sistema de Gestão - Mini Mercado';
   Application.CreateForm(TdmConexao, dmConexao);
   Application.CreateForm(Tdm, dm);
+  Application.CreateForm(TfrmSplash, frmSplash);
+  frmSplash.show;
+  frmSplash.Refresh;
+  Sleep(500); // 2000 = 2 segundos
+  frmSplash.Hide;
+  frmSplash.Free;
   Application.CreateForm(TfrmMenu, frmMenu);
   Application.Run;
 end.

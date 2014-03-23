@@ -77,7 +77,6 @@ object frmProcura_Venda: TfrmProcura_Venda
     Width = 938
     Height = 328
     Align = alClient
-    DataSource = dm.dtsItem_Venda
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -16
@@ -255,7 +254,6 @@ object frmProcura_Venda: TfrmProcura_Venda
         Width = 201
         Height = 33
         DataField = 'N_VENDA'
-        DataSource = dm.dtsVenda
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clHighlight
         Font.Height = -27
@@ -269,7 +267,6 @@ object frmProcura_Venda: TfrmProcura_Venda
         Width = 238
         Height = 38
         DataField = 'DATA_VENDA'
-        DataSource = dm.dtsVenda
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clHighlight
         Font.Height = -27
@@ -283,7 +280,6 @@ object frmProcura_Venda: TfrmProcura_Venda
         Width = 225
         Height = 33
         DataField = 'VAL_TOTAL'
-        DataSource = dm.dtsVenda
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clHighlight
         Font.Height = -27
@@ -297,7 +293,6 @@ object frmProcura_Venda: TfrmProcura_Venda
         Width = 225
         Height = 30
         DataField = 'TIPO_PAGAMENTO'
-        DataSource = dm.dtsVenda
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clHighlight
         Font.Height = -27

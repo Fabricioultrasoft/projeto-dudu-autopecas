@@ -1,0 +1,5 @@
+USER: wllsistemas02@gmail.com
+
+SENHA: DK8bM7Ma5Uz8
+
+URL: https://mini-mercado.googlecode.com/svn/trunk/

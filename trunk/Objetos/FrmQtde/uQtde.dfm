@@ -1,10 +1,10 @@
 object frmQtde: TfrmQtde
-  Left = 737
-  Top = 209
+  Left = 704
+  Top = 224
   BorderStyle = bsNone
   Caption = 'Form Padr'#227'o'
-  ClientHeight = 116
-  ClientWidth = 340
+  ClientHeight = 119
+  ClientWidth = 351
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,6 +15,7 @@ object frmQtde: TfrmQtde
   OldCreateOrder = False
   Position = poDesktopCenter
   OnClose = FormClose
+  OnCreate = FormCreate
   OnKeyDown = FormKeyDown
   OnKeyPress = FormKeyPress
   PixelsPerInch = 96
@@ -22,8 +23,8 @@ object frmQtde: TfrmQtde
   object pnl1: TPanel
     Left = 0
     Top = 0
-    Width = 340
-    Height = 116
+    Width = 351
+    Height = 119
     Align = alClient
     BevelOuter = bvNone
     BevelWidth = 15
@@ -33,6 +34,7 @@ object frmQtde: TfrmQtde
       Top = 4
       Width = 320
       Height = 38
+      Alignment = taCenter
       Caption = 'Informe a Quantidade'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clHotLight
@@ -43,8 +45,8 @@ object frmQtde: TfrmQtde
     end
     object edtQtde: TEdit
       Left = 0
-      Top = 52
-      Width = 340
+      Top = 55
+      Width = 351
       Height = 64
       Align = alBottom
       Font.Charset = DEFAULT_CHARSET

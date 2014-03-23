@@ -32,11 +32,13 @@ type
     edtCelular: TEdit;
     edtEmail: TEdit;
     btn1: TBitBtn;
+    btnCancelar: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnSairClick(Sender: TObject);
     procedure Incluir();                 override;
+    procedure Cancelar();                  override;
     procedure Editar();                  override;
-    procedure Gravar(Parametro: string); override;
+    procedure Gravar(Operacao: TOperacao); override;
     procedure Excluir();                 override;
     procedure AtualizaGrid();
     procedure CarregaConsulta();
@@ -49,6 +51,7 @@ type
     procedure edtpesqChange(Sender: TObject);
     procedure dbgrdPesquisaCellClick(Column: TColumn);
     procedure dbgrdPesquisaTitleClick(Column: TColumn);
+    procedure btnCancelarClick(Sender: TObject);
   private
 
   public
@@ -57,6 +60,23 @@ type
 
 var
   frmCadAgenda: TfrmCadAgenda;
+
+const
+  // Instrução SQL para INSERT
+  INSERT: string = 'INSERT INTO AGENDA (CONTATO, FONE, CELULAR, EMAIL)VALUES(:nome, :fone, :celular, :email)';
+
+  // Instrução SQL para EDIÇÃO, o nome UPDATE dá conflito com o método Update nativo da unit Controls
+  EDICAO: string = 'UPDATE AGENDA SET CONTATO=:nome, FONE=:fone ,CELULAR=:celular, EMAIL=:email WHERE ID=:id';
+
+  // Instrução SQL para DELETE
+  DELETE: string = 'DELETE FROM AGENDA WHERE ID = :id';
+
+  // Instrução SQL para SELECT geral
+  SELECT: string = 'SELECT ID, CONTATO, FONE, CELULAR, EMAIL FROM AGENDA';
+
+  // Instrução SQL para WHERE de pesquisa
+  WHERE: string = 'WHERE CONTATO LIKE :contato';
+
 
 implementation
 
@@ -70,6 +90,11 @@ begin
    dm.cdsAgenda.Close;
    CarregaConsulta();
    dm.cdsAgenda.Open;
+end;
+
+procedure TfrmCadAgenda.btnCancelarClick(Sender: TObject);
+begin
+    Cancelar;
 end;
 
 procedure TfrmCadAgenda.btnEditarClick(Sender: TObject);
@@ -94,7 +119,13 @@ end;
 
 procedure TfrmCadAgenda.btnSalvarClick(Sender: TObject);
 begin
-    Gravar(Param);
+    Gravar(FOperacao);
+end;
+
+procedure TfrmCadAgenda.Cancelar;
+begin
+  inherited;
+  grpAgenda.Enabled := false;
 end;
 
 procedure TfrmCadAgenda.CarregaCampos;
@@ -111,7 +142,7 @@ begin
     //Carrega consulta básica
     dm.qryAgenda.Close;
     dm.qryAgenda.SQL.Clear;
-    dm.qryAgenda.SQL.Add('SELECT ID, CONTATO, FONE, CELULAR, EMAIL FROM AGENDA');
+    dm.qryAgenda.SQL.Add(SELECT);
     dm.qryAgenda.Open;
 end;
 
@@ -130,7 +161,7 @@ procedure TfrmCadAgenda.Editar;
 begin
     //Procedimento de Edição
     inherited;
-    Param                      := 'U';
+    SetOperacao(opUpdate);
     pgCadastro.ActivePageIndex := 0;
     grpAgenda.Enabled          := True;
     edtNome.SetFocus;
@@ -143,8 +174,9 @@ begin
      begin
          dm.qryAgenda.Close;
          dm.qryAgenda.SQL.Clear;
-         dm.qryAgenda.SQL.Add('SELECT ID, CONTATO, FONE, CELULAR, EMAIL FROM AGENDA');
-         dm.qryAgenda.SQL.Add('WHERE CONTATO LIKE' + QuotedStr(edtpesq.Text + '%'));
+         dm.qryAgenda.SQL.Add(SELECT);
+         dm.qryAgenda.SQL.Add(WHERE);
+         dm.qryAgenda.ParamByName('contato').AsString := edtpesq.Text+ '%';
          dm.qryAgenda.Open;
          dm.cdsAgenda.Refresh;
      end
@@ -163,7 +195,7 @@ begin
         begin
             dm.qryAgenda.Close;
             dm.qryAgenda.SQL.Clear;
-            dm.qryAgenda.SQL.Add('DELETE FROM AGENDA WHERE ID = :id');
+            dm.qryAgenda.SQL.Add(DELETE);
             dm.qryAgenda.ParamByName('id').AsInteger := dm.cdsAgenda.FieldByName('ID').AsInteger;
             dm.qryAgenda.ExecSQL();
             LimpaCampos();
@@ -182,20 +214,19 @@ begin
      frmCadAgenda := nil;
 end;
 
-procedure TfrmCadAgenda.Gravar(Parametro: string);
+procedure TfrmCadAgenda.Gravar(Operacao: TOperacao);
 begin
     //Procedimento de gravação
 
      //Verifica se é operação de Inclusão
-     if (Parametro = 'I') then
+     if (Operacao = opInsert) then
      begin
          if (edtNome.Text <> '') then
          begin
              try
                   dm.qryAgenda.Close;
                   dm.qryAgenda.SQL.Clear;
-                  dm.qryAgenda.SQL.Add('INSERT INTO AGENDA (CONTATO, FONE, CELULAR, EMAIL)'+
-                  'VALUES(:nome, :fone, :celular, :email)');
+                  dm.qryAgenda.SQL.Add(INSERT);
                   dm.qryAgenda.Params.ParamByName('nome').AsString    := edtNome.Text;
                   dm.qryAgenda.Params.ParamByName('fone').AsString    := edtFone.Text;
                   dm.qryAgenda.Params.ParamByName('celular').AsString := edtCelular.Text;
@@ -213,14 +244,12 @@ begin
      else
      begin
           //Verifica se é operação de Update
-          if (Parametro = 'U') then
+          if (Operacao = opUpdate) then
           begin
               try
                   dm.qryAgenda.Close;
                   dm.qryAgenda.SQL.Clear;
-                  dm.qryAgenda.SQL.Add('UPDATE AGENDA SET '+
-                  'CONTATO=:nome, FONE=:fone ,CELULAR=:celular, EMAIL=:email '+
-                  'WHERE ID=:id');
+                  dm.qryAgenda.SQL.Add(EDICAO);
                   dm.qryAgenda.Params.ParamByName('nome').AsString    := edtNome.Text;
                   dm.qryAgenda.Params.ParamByName('fone').AsString    := edtFone.Text;
                   dm.qryAgenda.Params.ParamByName('celular').AsString := edtCelular.Text;
@@ -236,14 +265,14 @@ begin
               end;
           end;
      end;
-     Param := '';
+     self.SetOperacao(opNone);
 end;
 
 procedure TfrmCadAgenda.Incluir;
 begin
     //Procedimento de inclusão de registro
     inherited;
-    Param                      := 'I';
+    SetOperacao(opInsert);
     pgCadastro.ActivePageIndex := 0;
     grpAgenda.Enabled          := True;
     LimpaCampos();

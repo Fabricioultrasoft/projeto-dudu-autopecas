@@ -15,7 +15,6 @@ object frmCalula_Perc: TfrmCalula_Perc
   OldCreateOrder = False
   Position = poDesktopCenter
   OnKeyDown = FormKeyDown
-  OnKeyPress = FormKeyPress
   PixelsPerInch = 96
   TextHeight = 13
   object pnl1: TPanel

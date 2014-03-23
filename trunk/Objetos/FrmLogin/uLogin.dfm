@@ -140,7 +140,7 @@ object frmLogin: TfrmLogin
       Font.Style = []
       ParentFont = False
     end
-    object Label5: TLabel
+    object lblTitulo: TLabel
       Left = 205
       Top = 24
       Width = 126

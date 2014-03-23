@@ -3,7 +3,8 @@ unit uDm;
 interface
 
 uses
-  SysUtils, Classes, FMTBcd, DB, DBClient, Provider, SqlExpr, uFuncao, ACBrNFe;
+  SysUtils, Classes, FMTBcd, DB, DBClient, Provider, SqlExpr, uFuncao, ACBrNFe,
+  RLFilters, RLPDFFilter;
 
 type
   Tdm = class(TDataModule)
@@ -28,12 +29,10 @@ type
     dtsCliente: TDataSource;
     dspCliente: TDataSetProvider;
     cdsClienteCOD_CLI: TStringField;
-    cdsClienteCNPJ: TStringField;
     cdsClienteINSC_EST: TStringField;
     strngfldClienteNOME_RAZAO: TStringField;
     qryClienteCOD_CLI: TStringField;
     qryClienteNOME_RAZAO: TStringField;
-    qryClienteCNPJ: TStringField;
     qryClienteINSC_EST: TStringField;
     qryClienteFONE: TStringField;
     qryClienteCEP: TStringField;
@@ -69,36 +68,18 @@ type
     dtsProduto: TDataSource;
     qryProdutoCOD_PROD: TStringField;
     qryProdutoDESC_PROD: TStringField;
-    qryProdutoESTOQUE_MINIMO: TIntegerField;
-    qryProdutoUND: TStringField;
     qryProdutoCOD_GRUPO: TStringField;
     qryProdutoDESC_GRUPO: TStringField;
-    qryProdutoAPLICACAO: TStringField;
     cdsProdutoCOD_PROD: TStringField;
     cdsProdutoDESC_PROD: TStringField;
-    cdsProdutoESTOQUE_MINIMO: TIntegerField;
-    cdsProdutoUND: TStringField;
     cdsProdutoCOD_GRUPO: TStringField;
     cdsProdutoDESC_GRUPO: TStringField;
-    cdsProdutoAPLICACAO: TStringField;
     qryEstoque: TSQLQuery;
     cdsEstoque: TClientDataSet;
     dtsEstoque: TDataSource;
     dspEstoque: TDataSetProvider;
-    qryEstoqueREF_PROD: TStringField;
-    qryEstoqueCOD_PROD: TStringField;
     qryEstoqueDESC_PROD: TStringField;
-    qryEstoqueQTDE: TIntegerField;
-    qryEstoqueESTOQUE_MINIMO: TIntegerField;
-    qryEstoqueUND: TStringField;
-    cdsEstoqueREF_PROD: TStringField;
-    cdsEstoqueCOD_PROD: TStringField;
     cdsEstoqueDESC_PROD: TStringField;
-    cdsEstoqueQTDE: TIntegerField;
-    cdsEstoqueESTOQUE_MINIMO: TIntegerField;
-    cdsEstoqueUND: TStringField;
-    qryEstoqueAPLICACAO: TStringField;
-    cdsEstoqueAPLICACAO: TStringField;
     qryEstoqueDESC_GRUPO: TStringField;
     cdsEstoqueDESC_GRUPO: TStringField;
     qryEntrada_Produto: TSQLQuery;
@@ -106,17 +87,7 @@ type
     cdsEntrada_Produto: TClientDataSet;
     dspEntrada_Produto: TDataSetProvider;
     qryEntrada_ProdutoN_NOTA: TStringField;
-    qryEntrada_ProdutoCOD_PROD: TStringField;
-    qryEntrada_ProdutoQTDE: TIntegerField;
-    qryEntrada_ProdutoUND: TStringField;
-    qryEntrada_ProdutoTIPO_ENTRADA: TStringField;
-    qryEntrada_ProdutoDATA_ENTRADA: TDateField;
     cdsEntrada_ProdutoN_NOTA: TStringField;
-    cdsEntrada_ProdutoCOD_PROD: TStringField;
-    cdsEntrada_ProdutoQTDE: TIntegerField;
-    cdsEntrada_ProdutoUND: TStringField;
-    cdsEntrada_ProdutoTIPO_ENTRADA: TStringField;
-    cdsEntrada_ProdutoDATA_ENTRADA: TDateField;
     qryAgenda: TSQLQuery;
     dspAgenda: TDataSetProvider;
     cdsAgenda: TClientDataSet;
@@ -191,13 +162,11 @@ type
     stringItem_VendaN_VENDA: TStringField;
     stringItem_VendaCOD_PROD: TStringField;
     stringItem_VendaDESC_PROD: TStringField;
-    intgrfldItem_VendaQTDE: TIntegerField;
     fmtbcdfldItem_VendaVAL_PROD: TFMTBCDField;
     fmtbcdfldItem_VendaTOTAL_PROD: TFMTBCDField;
     stringItem_VendaN_VENDA1: TStringField;
     stringItem_VendaCOD_PROD1: TStringField;
     stringItem_VendaDESC_PROD1: TStringField;
-    intgrfldItem_VendaQTDE1: TIntegerField;
     fmtbcdfldItem_VendaVAL_PROD1: TFMTBCDField;
     fmtbcdfldItem_VendaTOTAL_PROD1: TFMTBCDField;
     intgrfldItem_VendaID_ITEM: TIntegerField;
@@ -211,28 +180,18 @@ type
     qryCaixa: TSQLQuery;
     dtfldCaixaDATA_ENTRADA: TDateField;
     fmtbcdfldCaixaVALOR_PAGAMENTO: TFMTBCDField;
-    intgrfldCaixaID_PAGAMENTO: TIntegerField;
-    stringCaixaTIPO_PAGAMENTO: TStringField;
     stringCaixaN_DOCUMENTO: TStringField;
     cdsCaixa: TClientDataSet;
     dspCaixa: TDataSetProvider;
     dtfldCaixaDATA_ENTRADA1: TDateField;
     fmtbcdfldCaixaVALOR_PAGAMENTO1: TFMTBCDField;
-    intgrfldCaixaID_PAGAMENTO1: TIntegerField;
-    stringCaixaTIPO_PAGAMENTO1: TStringField;
     stringCaixaN_DOCUMENTO1: TStringField;
     stringUsuarioDESC_USUARIO: TStringField;
     stringUsuarioDESC_USUARIO1: TStringField;
-    intgrfldVendaID_PAGAMENTO: TIntegerField;
-    intgrfldVendaID_PAGAMENTO1: TIntegerField;
     stringOrcamentoDESC_USUARIO: TStringField;
     stringOrcamentoDESC_USUARIO1: TStringField;
-    stringEstoqueTIPO_ENTRADA: TStringField;
-    stringEstoqueTIPO_ENTRADA1: TStringField;
     stringItem_OrcTIPO_ENTRADA: TStringField;
     stringItem_OrcTIPO_ENTRADA1: TStringField;
-    stringItem_VendaTIPO_ENTRADA: TStringField;
-    stringItem_VendaTIPO_ENTRADA1: TStringField;
     fmtbcdfldEstoqueVAL_CUSTO: TFMTBCDField;
     fmtbcdfldEstoqueVAL_VENDA: TFMTBCDField;
     fmtbcdfldEstoqueVAL_CUSTO1: TFMTBCDField;
@@ -241,14 +200,7 @@ type
     fmtbcdfldEntrada_ProdutoVAL_CUSTO: TFMTBCDField;
     fmtbcdfldEntrada_ProdutoVAL_VENDA: TFMTBCDField;
     stringEntrada_ProdutoREF_PROD1: TStringField;
-    fmtbcdfldEntrada_ProdutoVAL_CUSTO1: TFMTBCDField;
-    fmtbcdfldEntrada_ProdutoVAL_VENDA1: TFMTBCDField;
-    stringEntrada_ProdutoDESC_FORN: TStringField;
-    stringEntrada_ProdutoDESC_FORN1: TStringField;
-    stringEntrada_ProdutoCOD_FORN: TStringField;
-    stringEntrada_ProdutoCOD_FORN1: TStringField;
     qryVenda_Fornecedor: TSQLQuery;
-    stringVenda_FornecedorREF_PROD: TStringField;
     stringVenda_FornecedorDESC_PROD: TStringField;
     stringVenda_FornecedorCOD_FORN: TStringField;
     stringVenda_FornecedorDESC_FORN: TStringField;
@@ -265,39 +217,140 @@ type
     stringOrcamentoTIPO_PAGAMENTO1: TStringField;
     stringItem_OrcREF_PROD: TStringField;
     stringItem_OrcREF_PROD1: TStringField;
-    stringItem_VendaREF_PROD: TStringField;
-    stringItem_VendaREF_PROD1: TStringField;
     stringItem_OrcTIPO_ORCAMENTO: TStringField;
     stringItem_OrcTIPO_ORCAMENTO1: TStringField;
     stringVendaSTATUS: TStringField;
     stringVendaSTATUS1: TStringField;
-    stringVendaTIPO_PAGAMENTO: TStringField;
-    stringVendaTIPO_PAGAMENTO1: TStringField;
-    ACBrNFe: TACBrNFe;
     stringEntrada_ProdutoEAN13: TStringField;
     stringEntrada_ProdutoDUN14: TStringField;
     stringEntrada_ProdutoEAN14: TStringField;
     stringEntrada_ProdutoDUN15: TStringField;
-    fmtbcdfldVendaDESCONTO: TFMTBCDField;
     fmtbcdfldVendaDESCONTO1: TFMTBCDField;
     fmtbcdfldVendaSUB_TOTAL: TFMTBCDField;
     fmtbcdfldVendaSUB_TOTAL1: TFMTBCDField;
-    stringEntrada_ProdutoCODIGO_NCM: TStringField;
-    stringEntrada_ProdutoCODIGO_NCM1: TStringField;
-    ID_ITEMEntrada_ProdutoTIPO_PROD: TIntegerField;
-    ID_ITEMEntrada_ProdutoTIPO_PROD1: TIntegerField;
     fmtbcdfldItem_VendaDESCONTO: TFMTBCDField;
     fmtbcdfldItem_VendaDESCONTO1: TFMTBCDField;
+    qryVendaDESCONTO: TFMTBCDField;
+    qryEstoqueEAN13: TStringField;
+    cdsEstoqueEAN13: TStringField;
+    qryItem_VendaEAN13: TStringField;
+    cdsItem_VendaEAN13: TStringField;
+    qryUsuarioNOME: TStringField;
+    qryUsuarioCHAPA: TStringField;
+    cdsUsuarioNOME: TStringField;
+    cdsUsuarioCHAPA: TStringField;
+    qryProdutoEAN13: TStringField;
+    qryProdutoDUN14: TStringField;
+    cdsProdutoEAN13: TStringField;
+    cdsProdutoDUN14: TStringField;
+    qryProdutoCODIGO_NCM: TStringField;
+    cdsProdutoCODIGO_NCM: TStringField;
+    qryProdutoTIPO_PROD: TStringField;
+    cdsProdutoTIPO_PROD: TStringField;
+    qryClienteCNPJ_CPF: TStringField;
+    cdsClienteCNPJ_CPF: TStringField;
+    qryEntrada_ProdutoDATA_VALIDADE: TDateField;
+    cdsEntrada_ProdutoDATA_VALIDADE: TDateField;
+    strngfldCaixaRESPONSAVEL: TStringField;
+    strngfldCaixaOBSERVACAO: TStringField;
+    strngfldCaixaRESPONSAVEL1: TStringField;
+    strngfldCaixaOBSERVACAO1: TStringField;
+    qryVenda_FornecedorEAN13: TStringField;
+    cdsVenda_FornecedorDESC_PROD: TStringField;
+    cdsVenda_FornecedorCOD_FORN: TStringField;
+    cdsVenda_FornecedorDESC_FORN: TStringField;
+    cdsVenda_FornecedorDATA_CADASTRO: TDateField;
+    cdsVenda_FornecedorTOTAL: TLargeintField;
+    cdsVenda_FornecedorEAN13: TStringField;
+    qryEntrada_ProdutoPERC_LUCRO: TFMTBCDField;
+    cdsEntrada_ProdutoPERC_LUCRO: TFMTBCDField;
+    qryUnidade: TSQLQuery;
+    dspUnidade: TDataSetProvider;
+    cdsUnidade: TClientDataSet;
+    dtsUnidade: TDataSource;
+    qryUnidadeCOD_UND: TStringField;
+    qryUnidadeDESC_UND: TStringField;
+    qryUnidadeSIGLA: TStringField;
+    cdsUnidadeCOD_UND: TStringField;
+    cdsUnidadeDESC_UND: TStringField;
+    cdsUnidadeSIGLA: TStringField;
+    qryProdutoUND_VENDA: TStringField;
+    qryProdutoLOCAL_ESTOQUE: TStringField;
+    qryProdutoSECAO: TStringField;
+    cdsProdutoUND_VENDA: TStringField;
+    cdsProdutoLOCAL_ESTOQUE: TStringField;
+    cdsProdutoSECAO: TStringField;
+    qryEntradaNF: TSQLQuery;
+    dspEntradaNF: TDataSetProvider;
+    cdsEntradaNF: TClientDataSet;
+    dtsEntradaNF: TDataSource;
+    qryEntradaNFN_NOTA: TStringField;
+    qryEntradaNFCHAVE_NFE: TStringField;
+    qryEntradaNFCOD_FORN: TStringField;
+    qryEntradaNFDATA_ENTRADA: TDateField;
+    qryEntradaNFVALOR_TOTAL: TFMTBCDField;
+    qryEntradaNFRESPONSAVEL: TStringField;
+    qryEntradaNFDESC_FORN: TStringField;
+    cdsEntradaNFN_NOTA: TStringField;
+    cdsEntradaNFCHAVE_NFE: TStringField;
+    cdsEntradaNFCOD_FORN: TStringField;
+    cdsEntradaNFDATA_ENTRADA: TDateField;
+    cdsEntradaNFVALOR_TOTAL: TFMTBCDField;
+    cdsEntradaNFRESPONSAVEL: TStringField;
+    cdsEntradaNFDESC_FORN: TStringField;
+    strngfldEntrada_ProdutoUND_COMPRA: TStringField;
+    strngfldEntrada_ProdutoUND_COMPRA1: TStringField;
+    qryEntrada_ProdutoID: TIntegerField;
+    intgrfldEntrada_ProdutoID: TIntegerField;
+    cdsEntrada_ProdutoVAL_CUSTO: TFMTBCDField;
+    cdsEntrada_ProdutoVAL_VENDA: TFMTBCDField;
+    qryEstoqueUND_VENDA: TStringField;
+    cdsEstoqueUND_VENDA: TStringField;
+    qryVendaDINHEIRO: TFMTBCDField;
+    qryVendaCARTAO: TFMTBCDField;
+    qryVendaCHEQUE: TFMTBCDField;
+    qryVendaTICKET: TFMTBCDField;
+    cdsVendaDINHEIRO: TFMTBCDField;
+    cdsVendaCARTAO: TFMTBCDField;
+    cdsVendaCHEQUE: TFMTBCDField;
+    cdsVendaTICKET: TFMTBCDField;
+    qryCaixaDINHEIRO: TFMTBCDField;
+    qryCaixaCARTAO: TFMTBCDField;
+    qryCaixaCHEQUE: TFMTBCDField;
+    qryCaixaTICKET: TFMTBCDField;
+    cdsCaixaDINHEIRO: TFMTBCDField;
+    cdsCaixaCARTAO: TFMTBCDField;
+    cdsCaixaCHEQUE: TFMTBCDField;
+    cdsCaixaTICKET: TFMTBCDField;
+    RLPDFFilter1: TRLPDFFilter;
+    qryProdutoESTOQUE_MINIMO: TFMTBCDField;
+    cdsProdutoESTOQUE_MINIMO: TFMTBCDField;
+    qryEntrada_ProdutoQTDE: TFMTBCDField;
+    cdsEntrada_ProdutoQTDE: TFMTBCDField;
+    qryItem_VendaQTDE: TFMTBCDField;
+    cdsItem_VendaQTDE: TFMTBCDField;
+    qryEstoqueQTDE: TFMTBCDField;
+    qryEstoqueESTOQUE_MINIMO: TFMTBCDField;
+    cdsEstoqueQTDE: TFMTBCDField;
+    cdsEstoqueESTOQUE_MINIMO: TFMTBCDField;
+    qryEntrada_ProdutoQTDE_CONVERSAO: TFMTBCDField;
+    qryEntrada_ProdutoUND_CONVERSAO: TStringField;
+    cdsEntrada_ProdutoQTDE_CONVERSAO: TFMTBCDField;
+    cdsEntrada_ProdutoUND_CONVERSAO: TStringField;
+    qryEntrada_ProdutoVAL_PROD_NF: TFMTBCDField;
+    cdsEntrada_ProdutoVAL_PROD_NF: TFMTBCDField;
     function CarregaPrivilegio: TStringList;
+    function CarregaUnidadeMedida: TStringList;
     procedure intgrfldItem_OrcQTDE1Validate(Sender: TField);
     procedure cdsItem_OrcAfterPost(DataSet: TDataSet);
     function Busca_ItemPedido(N_Venda: string): Boolean;
     function Busca_EntradaProduto(Referencia: string):boolean;
     function Busca_Produto(Codigo: string):boolean;
+    procedure cdsItem_VendaAfterScroll(DataSet: TDataSet);
   private
-    { Private declarations }
+
   public
-    { Public declarations }
+    procedure AtualizaCDSProduto(Nota: string);
   end;
 
 var
@@ -310,11 +363,33 @@ const
                      'FROM ENTRADA_PRODUTO E, PRODUTO P, FORNECEDOR F '          +
                      'WHERE E.COD_PROD = P.COD_PROD AND E.COD_FORN = F.COD_FORN AND REF_PROD = :REF';
 
+    SELECT_UND: string = 'SELECT SIGLA FROM UNIDADE ';
+
+    ORDERBY_UND: string = 'ORDER BY SIGLA';
+
+    SELECT_PRODUTO: string = 'SELECT E.ID, E.N_NOTA, E.REF_PROD, P.DESC_PROD, E.QTDE, E.UND_COMPRA, E.VAL_CUSTO, E.VAL_VENDA, P.EAN13, P.DUN14, E.DATA_VALIDADE, E.PERC_LUCRO, E.UND_CONVERSAO, '+
+                             'E.QTDE_CONVERSAO, E.VAL_PROD_NF '+
+                             'FROM ENTRADA_PRODUTO E INNER JOIN PRODUTO P ON E.EAN13=P.EAN13 ';
+
+    WHERE_PRODUTO: string = 'WHERE E.N_NOTA = :nota';
+
 implementation
 
 uses UdmConexao, uOrcamento, uPDV;
 
 {$R *.dfm}
+
+procedure Tdm.AtualizaCDSProduto(Nota: string);
+begin
+     dm.cdsEntrada_Produto.Close;
+     dm.qryEntrada_Produto.Close;
+     dm.qryEntrada_Produto.SQL.Clear;
+     dm.qryEntrada_Produto.SQL.Add(SELECT_PRODUTO);
+     dm.qryEntrada_Produto.SQL.Add(WHERE_PRODUTO);
+     dm.qryEntrada_Produto.ParamByName('nota').AsString := Nota;
+     dm.qryEntrada_Produto.Open;
+     dm.cdsEntrada_Produto.Open;
+end;
 
 function Tdm.Busca_ItemPedido(N_Venda: string): Boolean;
 begin
@@ -384,6 +459,37 @@ begin
       Result := lista;
 end;
 
+function Tdm.CarregaUnidadeMedida: TStringList;
+var
+    lista : TStringList;
+    qry   : TSQLQuery;
+begin
+      try
+         qry := TSQLQuery.Create(nil);
+         qry.SQLConnection := dmConexao.Conexao;
+
+         qry.Close;
+         qry.SQL.Clear;
+         qry.SQL.Add(SELECT_UND);
+         qry.SQL.Add(ORDERBY_UND);
+         qry.Open;
+
+         lista := TStringList.Create;
+         if not qry.IsEmpty then
+         begin
+              while not qry.Eof do
+              begin
+                  //Carrega as unidades de medida
+                  lista.Add(qry.Fields[0].AsString);
+                  qry.Next;
+              end;
+         end;
+      except
+
+      end;
+      Result := lista;
+end;
+
 procedure Tdm.cdsItem_OrcAfterPost(DataSet: TDataSet);
 begin
     //Carrega o valor total dos itens no edtVal_Total
@@ -391,6 +497,17 @@ begin
     begin
         frmOrcamento.edtVal_Total.Text := FormatFloat('##0.00', dm.cdsItem_Orc.FieldByName('S_TOTAL_PROD').Value);
     end;
+end;
+
+procedure Tdm.cdsItem_VendaAfterScroll(DataSet: TDataSet);
+begin
+     if Assigned(frmPDV) then
+     begin
+         //Carrega os valores no Form PDV
+         frmPDV.edtProduto.Text        := dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString;
+         frmPDV.edtValor_Unitario.Text := IntToStr(dm.cdsItem_Venda.FieldByName('QTDE').AsInteger) + ' x ' + FormatFloat('##0.00', dm.cdsItem_Venda.FieldByName('VAL_PROD').AsFloat);
+         frmPDV.edtSub_total.Text      := FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('TOTAL_PROD').AsFloat);
+     end;
 end;
 
 procedure Tdm.intgrfldItem_OrcQTDE1Validate(Sender: TField);

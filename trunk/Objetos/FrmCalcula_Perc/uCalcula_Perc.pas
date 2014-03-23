@@ -11,7 +11,6 @@ type
     pnl1: TPanel;
     lbl1: TLabel;
     edtValor: TEdit;
-    procedure FormKeyPress(Sender: TObject; var Key: Char);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
   private
     { Private declarations }
@@ -32,17 +31,6 @@ procedure TfrmCalula_Perc.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
      if Key = VK_ESCAPE then frmCalula_Perc.Close;
-end;
-
-procedure TfrmCalula_Perc.FormKeyPress(Sender: TObject; var Key: Char);
-begin
-    //Verifica se a tecla pressionada foi ENTER e existe texto no edtValor
-    if (key = #13) and (edtValor.Text <> '') then
-    begin
-         frmCalula_Perc.Close;
-         frmEntrada_Produtos.edtVal_Venda.Text :=
-            FormatFloat('##0.00', TFuncoes.CalcularPorcentagem(StrToFloat(edtValor.Text), StrToFloat(frmEntrada_Produtos.edtVal_Custo.Text)));
-    end;
 end;
 
 end.

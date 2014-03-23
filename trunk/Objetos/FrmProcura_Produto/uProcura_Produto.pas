@@ -11,31 +11,22 @@ type
     Panel2: TPanel;
     grdProd: TDBGrid;
     pnlTitulo: TPanel;
-    Panel3: TPanel;
-    Label2: TLabel;
-    edtAplicacao: TEdit;
-    pnlAplicacao: TPanel;
-    Label3: TLabel;
     pnlRodape: TPanel;
     Label4: TLabel;
-    lbl1: TLabel;
-    edtDescricao: TEdit;
-    lbl2: TLabel;
     edtCodigo: TEdit;
-    mmAplicacao: TDBRichEdit;
+    lbl5: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
     procedure CarregaCampos();
-    procedure CarregaCodigo();
     procedure CarregaConsulta();
     procedure grdProdKeyPress(Sender: TObject; var Key: Char);
     procedure grdProdTitleClick(Column: TColumn);
-    procedure FindRichEdit(RichEdit: TDBRichEdit; texto: string);
     procedure ConsultaUniversal();
     procedure ConsultaUniversalChange(Sender: TObject);
     procedure Enter(Sender: TObject; var Key: Char);
     procedure grdProdDblClick(Sender: TObject);
+    procedure CarregaCodigo();
   private
     { Private declarations }
   public
@@ -47,8 +38,8 @@ var
 
 const
      //Cláusula SELECT básica para todas as consultas
-     SELECT : string = 'SELECT P.COD_PROD, P.DESC_PROD, P.ESTOQUE_MINIMO, P.UND, P.COD_GRUPO, G.DESC_GRUPO, P.APLICACAO ' +
-                       'FROM PRODUTO P, GRUPO G';
+     SELECT : string = 'SELECT P.COD_PROD, P.DESC_PROD, P.ESTOQUE_MINIMO, P.UND_VENDA, P.COD_GRUPO, G.DESC_GRUPO, P.EAN13, P.DUN14, P.CODIGO_NCM, P.TIPO_PROD, P.LOCAL_ESTOQUE, P.SECAO ' +
+                       'FROM PRODUTO P LEFT JOIN GRUPO G ON P.COD_GRUPO = G.ID';
 
      //Cláusula WHERE básica para todas as consultas
      WHERE  : string = 'WHERE P.COD_GRUPO = G.COD_GRUPO ';
@@ -57,41 +48,9 @@ const
 implementation
 
 uses uDm, uCad_Produto, uEntrada_Produtos, uPDV, uQtde, uAgenda, uRelatorio,
-  uMenu;
+  uMenu, uProdutoNF;
 
 {$R *.dfm}
-
-procedure TfrmProcura_Produto.FindRichEdit(RichEdit: TDBRichEdit; texto: string);
-var
-  PosIni : integer;
-
-begin
-    //Carrega o RichEdit com as propriedades padrão
-    RichEdit.SelStart  := 0;
-    RichEdit.SelLength := length(RichEdit.Text);
-    RichEdit.SelAttributes.color := clBlack;
-    RichEdit.SelAttributes.style := [];
-    RichEdit.SelAttributes.Size  := 8;
-
-    //Encontra e atribui a posição inicial do texto no RichEdit
-    PosIni := RichEdit.FindText(texto, 0, length(RichEdit.Text), []);
-
-    //Verifica se o texto foi encontrado
-    if PosIni >= 0 then
-    begin
-        RichEdit.SelStart  := PosIni;
-        RichEdit.SelLength := length(texto);
-        RichEdit.SelAttributes.color := clRed;
-        RichEdit.SelAttributes.style := [fsBold];
-        RichEdit.SelAttributes.Size  := RichEdit.SelAttributes.Size + 18;
-    end;
-end;
-
-procedure TfrmProcura_Produto.CarregaCodigo;
-begin
-    //Procedimento para carragar código do produto no Formulário de Cadastro de Produto
-    frmEntrada_Produtos.edtCod_Prod.Text := dm.cdsProduto.FieldByName('COD_PROD').AsString;
-end;
 
 procedure TfrmProcura_Produto.CarregaCampos;
 begin
@@ -99,9 +58,20 @@ begin
     frmCadProduto.edtCodigo.Text         := dm.cdsProduto.FieldByName('COD_PROD').AsString;
     frmCadProduto.edtDesc.Text           := dm.cdsProduto.FieldByName('DESC_PROD').AsString;
     frmCadProduto.edtGrupo.Text          := dm.cdsProduto.FieldByName('COD_GRUPO').AsString;
-    frmCadProduto.edtEstoque_Min.Text    := IntToStr(dm.cdsProduto.FieldByName('ESTOQUE_MINIMO').AsInteger);
-    frmCadProduto.edtUnd.Text            := dm.cdsProduto.FieldByName('UND').AsString;
-    frmCadProduto.mmAplicacao.Lines.Text := dm.cdsProduto.FieldByName('APLICACAO').AsString;
+    frmCadProduto.edtEstoque.Value       := dm.cdsProduto.FieldByName('ESTOQUE_MINIMO').AsInteger;
+    frmCadProduto.edtEAN13.Text          := dm.cdsProduto.FieldByName('EAN13').AsString;
+    frmCadProduto.edtDUN14.Text          := dm.cdsProduto.FieldByName('DUN14').AsString;
+    frmCadProduto.cmbUnd.ItemIndex       := frmCadProduto.cmbUnd.Items.IndexOf(dm.cdsProduto.FieldByName('UND_VENDA').AsString);
+    frmCadProduto.edtTipo.Text           := dm.cdsProduto.FieldByName('TIPO_PROD').AsString;
+    frmCadProduto.edtNcm.Text            := dm.cdsProduto.FieldByName('CODIGO_NCM').AsString;
+    frmCadProduto.edtLocalEstoque.Text   := dm.cdsProduto.FieldByName('LOCAL_ESTOQUE').AsString;
+    frmCadProduto.edtSecao.Text          := dm.cdsProduto.FieldByName('SECAO').AsString;
+end;
+
+procedure TfrmProcura_Produto.CarregaCodigo;
+begin
+    // Carrega o código de barras na tela para entrada de produtos NF
+    frmProdutoNF.edtCod_Prod.Text := dm.cdsProduto.FieldByName('EAN13').AsString;
 end;
 
 procedure TfrmProcura_Produto.CarregaConsulta;
@@ -110,7 +80,6 @@ begin
      dm.qryProduto.Close;
      dm.qryProduto.SQL.Clear;
      dm.qryProduto.SQL.Add(SELECT);
-     dm.qryProduto.SQL.Add('WHERE P.COD_GRUPO = G.COD_GRUPO');
      dm.qryProduto.Open;
      dm.cdsProduto.Open;
      dm.cdsProduto.Refresh;
@@ -122,16 +91,8 @@ begin
      dm.qryProduto.Close;
      dm.qryProduto.SQL.Clear;
      dm.qryProduto.SQL.Add(SELECT);
-     dm.qryProduto.SQL.Add(WHERE);
-
      if edtCodigo.Text <> '' then
-        dm.qryProduto.SQL.Add('AND COD_PROD LIKE' + QuotedStr(edtCodigo.Text + '%'));
-
-     if edtDescricao.Text <> '' then
-        dm.qryProduto.SQL.Add('AND DESC_PROD LIKE' + QuotedStr(edtDescricao.Text + '%'));
-
-     if edtAplicacao.Text <> '' then
-        dm.qryProduto.SQL.Add('AND APLICACAO LIKE'+ QuotedStr('%' + edtAplicacao.Text + '%'));
+        dm.qryProduto.SQL.Add(' WHERE EAN13 LIKE' + QuotedStr(edtCodigo.Text + '%') + ' OR DESC_PROD LIKE' + QuotedStr(edtCodigo.Text + '%'));
 
      dm.qryProduto.Open;
      dm.cdsProduto.Refresh;
@@ -141,7 +102,6 @@ procedure TfrmProcura_Produto.ConsultaUniversalChange;
 begin
     //Evento universal de consulta para todos edts
     ConsultaUniversal();
-    FindRichEdit(mmAplicacao, edtAplicacao.Text);
 end;
 
 procedure TfrmProcura_Produto.Enter(Sender: TObject; var Key: Char);
@@ -172,13 +132,18 @@ begin
      if Key = VK_ESCAPE then frmProcura_Produto.Close;
      if Key = VK_F5 then
      begin
-        try
-          frmRelatorio := TfrmRelatorio.Create(self);
-          frmRelatorio.GeraReport('Report_Produtos', 'RTProdutos.rav');
-        finally
-          FreeAndNil(frmRelatorio);
-        end;
-     end;
+        if not dm.cdsProduto.IsEmpty then
+        begin
+            try
+              frmRelatorio := TfrmRelatorio.Create(nil);
+              frmRelatorio.rlProduto.Preview();
+            finally
+              FreeAndNil(frmRelatorio);
+            end;
+        end
+        else
+           MessageDlg('Não existem registros!', mtWarning, [mbOK], 0);
+    end;
 end;
 
 procedure TfrmProcura_Produto.grdProdDblClick(Sender: TObject);
@@ -190,9 +155,9 @@ begin
         frmProcura_Produto.Close;
      end;
 
-     if Assigned(frmEntrada_Produtos) then
+     if Assigned(frmProdutoNF) then
      begin
-         CarregaCodigo();
+         CarregaCodigo;
          frmProcura_Produto.Close;
      end;
 end;
@@ -209,7 +174,7 @@ begin
 
          if Assigned(frmEntrada_Produtos) then
          begin
-             CarregaCodigo();
+             CarregaCodigo;
              frmProcura_Produto.Close;
          end;
      end;

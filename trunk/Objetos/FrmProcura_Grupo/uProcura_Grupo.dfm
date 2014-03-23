@@ -96,6 +96,7 @@ object frmProcura_Grupo: TfrmProcura_Grupo
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
+    OnDblClick = dbgrdFornDblClick
     OnKeyPress = dbgrdFornKeyPress
     OnTitleClick = dbgrdFornTitleClick
     Columns = <
@@ -131,7 +132,7 @@ object frmProcura_Grupo: TfrmProcura_Grupo
     ParentFont = False
     TabOrder = 3
     object Label4: TLabel
-      Left = 0
+      Left = 7
       Top = 8
       Width = 428
       Height = 18

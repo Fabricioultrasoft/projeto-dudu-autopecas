@@ -5,30 +5,48 @@ object dmConexao: TdmConexao
   Height = 196
   Width = 227
   object Conexao: TSQLConnection
-    ConnectionName = 'FBCONN_DUDU'
     DriverName = 'Firebird'
     GetDriverFunc = 'getSQLDriverINTERBASE'
     LibraryName = 'dbxfb.dll'
     LoginPrompt = False
     Params.Strings = (
-      'drivername=Firebird'
+      'DriverUnit=DBXFirebird'
       
-        'database=C:\Sistema DUDU AUTO_PE'#199'AS\Banco de Dados\AUTO_PECAS.FD' +
-        'B'
-      'rolename=RoleName'
-      'user_name=sysdba'
+        'DriverPackageLoader=TDBXDynalinkDriverLoader,DbxCommonDriver150.' +
+        'bpl'
+      
+        'DriverAssemblyLoader=Borland.Data.TDBXDynalinkDriverLoader,Borla' +
+        'nd.Data.DbxCommonDriver,Version=15.0.0.0,Culture=neutral,PublicK' +
+        'eyToken=91d62ebb5b0d1b1b'
+      
+        'MetaDataPackageLoader=TDBXFirebirdMetaDataCommandFactory,DbxFire' +
+        'birdDriver150.bpl'
+      
+        'MetaDataAssemblyLoader=Borland.Data.TDBXFirebirdMetaDataCommandF' +
+        'actory,Borland.Data.DbxFirebirdDriver,Version=15.0.0.0,Culture=n' +
+        'eutral,PublicKeyToken=91d62ebb5b0d1b1b'
+      'GetDriverFunc=getSQLDriverINTERBASE'
+      'LibraryName=dbxfb.dll'
+      'VendorLib=fbclient.DLL'
+      'Database=C:\Sistema MINIMERCADO\Banco de Dados\MINIMERCADO.FDB'
+      'User_Name=sysdba'
       'Password=masterkey'
-      'sqldialect=3'
-      'localecode=0000'
-      'blobsize=-1'
-      'commitretain=False'
-      'waitonlocks=True'
-      'isolationlevel=ReadCommitted'
-      'trim char=False'
-      'port=3306'
-      'hostname=localhost')
-    VendorLib = 'fbclient.dll'
+      'Role=RoleName'
+      'MaxBlobSize=-1'
+      'LocaleCode=0000'
+      'IsolationLevel=ReadCommitted'
+      'SQLDialect=3'
+      'CommitRetain=False'
+      'WaitOnLocks=True'
+      'TrimChar=False'
+      'BlobSize=-1'
+      'ErrorResourceFile='
+      'RoleName=RoleName'
+      'ServerCharSet='
+      'Trim Char=False')
+    VendorLib = 'fbclient.DLL'
     BeforeConnect = ConexaoBeforeConnect
+    Connected = True
     Left = 88
     Top = 16
   end
