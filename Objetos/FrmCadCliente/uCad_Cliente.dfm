@@ -1,6 +1,6 @@
 object frmCadCliente: TfrmCadCliente
-  Left = 484
-  Top = 234
+  Left = 872
+  Top = 268
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Cadastro de Cliente'
@@ -1988,5 +1988,10 @@ object frmCadCliente: TfrmCadCliente
         end
       end
     end
+  end
+  object ACBrValidador1: TACBrValidador
+    IgnorarChar = './-'
+    Left = 300
+    Top = 124
   end
 end

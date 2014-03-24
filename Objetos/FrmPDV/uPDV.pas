@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, Grids, DBGrids, ExtCtrls, FMTBcd, DB, SqlExpr, DBXCommon, uFormBase,
-  pcnConversao, uImpressora, jpeg, ComCtrls;
+  pcnConversao, uImpressora, jpeg, ComCtrls, ShellAPI;
 
 type
    TStatusVenda = (svAberto, svFechado, svBloqueado);
@@ -26,17 +26,17 @@ type
     img2: TImage;
     redtItem: TRichEdit;
     tmr1: TTimer;
-    btn1: TSpeedButton;
-    btn2: TSpeedButton;
-    btn3: TSpeedButton;
-    btn4: TSpeedButton;
-    btn5: TSpeedButton;
-    btn6: TSpeedButton;
-    btn8: TSpeedButton;
-    btn9: TSpeedButton;
-    btn10: TSpeedButton;
-    btn11: TSpeedButton;
-    btn12: TSpeedButton;
+    btnConsultarEstoque: TSpeedButton;
+    btnIniciarVenda: TSpeedButton;
+    btnFinalizarVenda: TSpeedButton;
+    btnAlterarQuantidade: TSpeedButton;
+    btnFechamentoCaixa: TSpeedButton;
+    btnCancelarVenda: TSpeedButton;
+    btnCancelarItem: TSpeedButton;
+    btnIncluirProduto: TSpeedButton;
+    btnProcurarVenda: TSpeedButton;
+    btnSuprimento: TSpeedButton;
+    btnSangria: TSpeedButton;
     btn13: TSpeedButton;
     pnl1: TPanel;
     img3: TImage;
@@ -45,6 +45,7 @@ type
     lbl3: TLabel;
     lbl4: TLabel;
     lblVersao: TLabel;
+    lbl1: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure KeyDown(var Key: Word; Shift: TShiftState);override;
     procedure LimpaCampos();override;
@@ -71,6 +72,21 @@ type
     procedure ImprimeFinalizacaoVenda();
     procedure ImprimeCancelaItem(Item, Descricao: string);
     procedure tmr1Timer(Sender: TObject);
+    procedure btnConsultarEstoqueClick(Sender: TObject);
+    procedure btnIniciarVendaClick(Sender: TObject);
+    procedure btnFinalizarVendaClick(Sender: TObject);
+    procedure btnAlterarQuantidadeClick(Sender: TObject);
+    procedure btnFechamentoCaixaClick(Sender: TObject);
+    procedure btnCancelarVendaClick(Sender: TObject);
+    procedure btnCancelarItemClick(Sender: TObject);
+    procedure btnIncluirProdutoClick(Sender: TObject);
+    procedure btnProcurarVendaClick(Sender: TObject);
+    procedure btnSangriaClick(Sender: TObject);
+    procedure btnSuprimentoClick(Sender: TObject);
+    procedure btn13Click(Sender: TObject);
+    procedure lbl4MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
+    procedure lbl4Click(Sender: TObject);
+    procedure pnl1MouseMove(Sender: TObject; Shift: TShiftState; X, Y: Integer);
     //procedure GeraNfe();
   private
 
@@ -135,6 +151,123 @@ begin
          on E:Exception do
              ShowMessage('Erro ao atualizar Vendas!'#13 + E.Message);
     end;
+end;
+
+procedure TfrmPDV.btn13Click(Sender: TObject);
+begin
+    Self.Close;
+end;
+
+procedure TfrmPDV.btnAlterarQuantidadeClick(Sender: TObject);
+begin
+     if (not dm.cdsItem_Venda.IsEmpty) and (StatusPDV = svAberto) then
+     begin
+         try
+            frmQtde := TfrmQtde.Create(self);
+            frmQtde.ShowModal;
+         finally
+            FreeAndNil(frmQtde);
+         end;
+     end;
+end;
+
+procedure TfrmPDV.btnCancelarItemClick(Sender: TObject);
+begin
+    CancelarItem;
+end;
+
+procedure TfrmPDV.btnCancelarVendaClick(Sender: TObject);
+begin
+    CancelarVenda;
+end;
+
+procedure TfrmPDV.btnConsultarEstoqueClick(Sender: TObject);
+begin
+    try
+        frmProcura_Estoque := TfrmProcura_Estoque.Create(self);
+        frmProcura_Estoque.ShowModal;
+    finally
+        FreeAndNil(frmProcura_Estoque);
+    end;
+end;
+
+procedure TfrmPDV.btnFechamentoCaixaClick(Sender: TObject);
+begin
+    if (StatusPDV = svFechado)  then
+     begin
+          try
+              frmFechamento_Caixa := TfrmFechamento_Caixa.Create(nil);
+              frmFechamento_Caixa.ShowModal;
+          finally
+               FreeAndNil(frmFechamento_Caixa);
+          end;
+     end;
+end;
+
+procedure TfrmPDV.btnFinalizarVendaClick(Sender: TObject);
+begin
+    FinalizarVenda;
+end;
+
+procedure TfrmPDV.btnIncluirProdutoClick(Sender: TObject);
+begin
+    if (StatusPDV = svAberto) then
+     begin
+          try
+              frmProcura_Estoque := TfrmProcura_Estoque.Create(self);
+              frmProcura_Estoque.ShowModal;
+          finally
+              FreeAndNil(frmProcura_Estoque);
+          end;
+     end;
+end;
+
+procedure TfrmPDV.btnIniciarVendaClick(Sender: TObject);
+begin
+    NewVenda;
+end;
+
+procedure TfrmPDV.btnProcurarVendaClick(Sender: TObject);
+begin
+    if (StatusPDV = svFechado) then
+     begin
+          try
+              frmProcura_Venda := TfrmProcura_Venda.Create(self);
+              frmProcura_Venda.ShowModal;
+          finally
+              FreeAndNil(frmProcura_Venda);
+          end;
+     end;
+end;
+
+procedure TfrmPDV.btnSangriaClick(Sender: TObject);
+begin
+     if StatusPDV = svFechado then
+     begin
+         try
+             frmSangria := TfrmSangria.Create(self);
+             frmSangria.ShowModal;
+         finally
+             FreeAndNil(frmSangria);
+         end;
+     end
+     else
+        MessageDlg('É necessário que o caixa esteja livre!', mtWarning, [mbOK], 0);
+end;
+
+procedure TfrmPDV.btnSuprimentoClick(Sender: TObject);
+begin
+     if StatusPDV = svFechado then
+     begin
+         try
+             frmSuprimento := TfrmSuprimento.Create(self);
+             frmSuprimento.ShowModal;
+         finally
+             FreeAndNil(frmSuprimento);
+         end;
+     end
+     else
+        MessageDlg('É necessário que o caixa esteja livre!', mtWarning, [mbOK], 0);
 end;
 
 procedure TfrmPDV.CancelarItem;
@@ -232,7 +365,7 @@ begin
          dm.cdsItem_Venda.Post;
          dm.cdsEstoque.Close;
 
-         frmPDV.edtProduto.Text           := copy(dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString, 1, 25);
+         frmPDV.edtProduto.Text           := copy(dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString, 1, 28);
          frmPDV.edtValor_Unitario.Text    := FormatFloat('#.000', dm.cdsItem_Venda.FieldByName('QTDE').value) + ' x ' + FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('VAL_PROD').AsFloat);
          frmPDV.edtSub_total.Text         := FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('TOTAL_PROD').AsFloat);
          frmPDV.edtTotal.Text             := FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('S_TOTAL').Value);
@@ -377,6 +510,11 @@ begin
                      begin
                          Texto := '';
                          Texto := Concat(Texto, FImpressora.InseriTraco(48, False, true));
+                         Texto := Concat(Texto, '<ad><b>SUBTOTAL R$ ' + FormatFloat('##0.00', dFSub_total) + '</b></ad>'#10);
+
+                         if dFDesconto > 0 then
+                            Texto := Concat(Texto, '<ad><c>DESCONTO(%) ' + FormatFloat('##.00', dFDesconto) + '</c></ad>'#10);
+
                          Texto := Concat(Texto, '<ad><b>TOTAL R$ ' + FormatFloat('##0.00', dFTotal) + '</b></ad>'#10);
                          Texto := Concat(Texto, '<c>Forma de Pagamento:</c>'#10);
 
@@ -624,7 +762,6 @@ begin
           finally
                FreeAndNil(frmFechamento_Caixa);
           end;
-
      end;
 
      if Key = VK_F6 then
@@ -693,6 +830,20 @@ begin
      end;
 
      if Key = VK_DELETE then CancelarItem;
+end;
+
+procedure TfrmPDV.lbl4Click(Sender: TObject);
+var
+    buffer: String;
+begin
+      buffer := lbl4.Caption;
+      ShellExecute(Application.Handle, nil, PChar(buffer), nil, nil, SW_SHOWNORMAL);
+end;
+
+procedure TfrmPDV.lbl4MouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+    lbl4.Font.Style := lbl4.Font.Style + [fsUnderline];
 end;
 
 procedure TfrmPDV.LimpaCampos;
@@ -931,13 +1082,24 @@ procedure TfrmPDV.ImprimeFinalizacaoVenda;
 begin
     redtItem.Paragraph.Alignment := taCenter;
     redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
+
     redtItem.Paragraph.Alignment := taRightJustify;
+    redtItem.SelAttributes.Style:=[fsBold];
+    redtItem.Lines.Add('SUBTOTAL R$ ' + FormatFloat('##0.00', dFSub_total));
+
+    if dFDesconto > 0 then
+       redtItem.Lines.Add('DESCONTO(%) ' + FormatFloat('##.00', dFDesconto));
+
+    redtItem.Paragraph.Alignment := taRightJustify;
+    redtItem.SelAttributes.Style:=[fsBold];
     redtItem.Lines.Add('TOTAL R$ ' + FormatFloat('##0.00', dFTotal));
+    redtItem.SelAttributes.Style:=[];
     redtItem.Paragraph.Alignment := taLeftJustify;
+
     redtItem.Lines.Add('Forma de Pagamento:');
 
     if dFDinheiro > 0 then
-       redtItem.Lines.Add('DINHEIRO R$ ' + FormatFloat('##0.00', dFDinheiro));
+       redtItem.Lines.Add('DINHEIRO R$ ' + FormatFloat('##0.00', dFDinheiro) + #10);
 
     if dFCheque > 0 then
        redtItem.Lines.Add('CHEQUE R$ ' + FormatFloat('##0.00', dFCheque));
@@ -1010,6 +1172,12 @@ begin
            MessageDlg('Existe uma venda em andamento!', mtWarning, [mbOK], 0)
         else
            MessageDlg('O caixa está bloqueado!', mtWarning, [mbOK], 0)
+end;
+
+procedure TfrmPDV.pnl1MouseMove(Sender: TObject; Shift: TShiftState; X,
+  Y: Integer);
+begin
+    lbl4.Font.Style := lbl4.Font.Style - [fsUnderline];
 end;
 
 procedure TfrmPDV.setStatusCaixa(Status: TStatusVenda);

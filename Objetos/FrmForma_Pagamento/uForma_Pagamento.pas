@@ -35,6 +35,7 @@ type
     edtCliente: TJvComboEdit;
     Label4: TLabel;
     edtValorPago: TJvCalcEdit;
+    btnAdicionarGrupo: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure KeyDown(var Key: Word; Shift: TShiftState);override;
     procedure Finalizar();
@@ -46,6 +47,7 @@ type
     procedure edtDescontoExit(Sender: TObject);
     procedure edtClienteButtonClick(Sender: TObject);
     procedure edtValorPagoExit(Sender: TObject);
+    procedure btnAdicionarGrupoClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -57,9 +59,19 @@ var
 
 implementation
 
-uses uDm, uPDV, uProcura_Cliente;
+uses uDm, uPDV, uProcura_Cliente, uCad_Cliente;
 
 {$R *.dfm}
+
+procedure TfrmForma_Pagamento.btnAdicionarGrupoClick(Sender: TObject);
+begin
+    try
+        frmCadCliente := TfrmCadCliente.Create(nil);
+        frmCadCliente.ShowModal;
+    finally
+        FreeAndNil(frmCadCliente);
+    end;
+end;
 
 procedure TfrmForma_Pagamento.btnFinalizarClick(Sender: TObject);
 begin
@@ -156,7 +168,6 @@ begin
     edtSubTotal.Text := frmPDV.edtTotal.Text;
     edtTotal.Text    := frmPDV.edtTotal.Text;
     edtDinheiro.Text := frmPDV.edtTotal.Text;
-    edtDesconto.Text := FormatFloat('##0.00', frmPDV.dFDesconto);
     edtCliente.Text  := frmPDV.sFCodCliente;
 end;
 

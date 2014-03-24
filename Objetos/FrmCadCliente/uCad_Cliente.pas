@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, ToolWin, ComCtrls, ExtCtrls, Grids, DBGrids,
-  uFormBase, SqlExpr;
+  uFormBase, SqlExpr, ACBrBase, ACBrValidador;
 
 type
   TfrmCadCliente = class(TFormBaseCad)
@@ -51,6 +51,7 @@ type
     Label14: TLabel;
     Label15: TLabel;
     btnCancelar: TBitBtn;
+    ACBrValidador1: TACBrValidador;
     procedure btnSairClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure Incluir();                override;
@@ -74,6 +75,7 @@ type
     procedure dbgrdPesquisaTitleClick(Column: TColumn);
     procedure DoClose(var Action: TCloseAction);override;
     procedure btnRelatClick(Sender: TObject);
+    function ValidarDocumento(Doc: string): Boolean;
   private
     { Private declarations }
   public
@@ -276,7 +278,7 @@ begin
      //Procedimento de gravação
 
      //Verifica se os campos obrigatórios foram preenchidos
-     if (self.VerificaCampos()) then
+     if (self.VerificaCampos()) and (ValidarDocumento(edtCNPJ.Text)) then
      begin
          //Verifica se é operação de Inclusão
          if (Operacao = opInsert) and (VerificaDuplicidade(edtCNPJ.Text)) then
@@ -363,6 +365,28 @@ begin
     except
         on E:Exception do
         MessageDlg('Erro ao verificar duplicidade: ' + E.Message, mtError, [mbOK], 0);
+    end;
+end;
+
+function TfrmCadCliente.ValidarDocumento(Doc: string): Boolean;
+begin
+     ACBrValidador1.Documento := edtCNPJ.Text ;
+     ACBrValidador1.TipoDocto := docCNPJ;
+
+    if ACBrValidador1.Validar then
+    begin
+       Result := True;
+    end
+    else
+    begin
+        ACBrValidador1.TipoDocto := docCPF;
+        if ACBrValidador1.Validar then
+           Result := True
+        else
+        begin
+           MessageDlg('Documento CNPJ/CPF inválido!', mtError, [mbOK], 0);
+           Result := false;
+        end;
     end;
 end;
 

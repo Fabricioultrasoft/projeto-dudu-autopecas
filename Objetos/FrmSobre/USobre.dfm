@@ -346,9 +346,9 @@ object frmSobre: TfrmSobre
     BevelOuter = bvSpace
     TabOrder = 1
     object BitBtn1: TBitBtn
-      Left = 454
+      Left = 440
       Top = 4
-      Width = 83
+      Width = 97
       Height = 29
       Cursor = crHandPoint
       Caption = '&Fechar'

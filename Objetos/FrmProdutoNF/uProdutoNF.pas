@@ -52,6 +52,7 @@ type
     Label19: TLabel;
     btnAtualizarValores: TBitBtn;
     ACBrEnterTab1: TACBrEnterTab;
+    btnAdicionarGrupo: TBitBtn;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure edtCod_ProdButtonClick(Sender: TObject);
@@ -61,6 +62,7 @@ type
     procedure btnGravarClick(Sender: TObject);
     procedure edtValProdNfExit(Sender: TObject);
     procedure btnAtualizarValoresClick(Sender: TObject);
+    procedure btnAdicionarGrupoClick(Sender: TObject);
   private
     procedure Incluir();                   override;
     procedure Editar();                    override;
@@ -101,6 +103,16 @@ procedure TfrmProdutoNF.btnGravarClick(Sender: TObject);
 begin
     btnAtualizarValores.Click;
     Gravar(FOperacao);
+end;
+
+procedure TfrmProdutoNF.btnAdicionarGrupoClick(Sender: TObject);
+begin
+    try
+       frmCadProduto := TfrmCadProduto.Create(nil);
+       frmCadProduto.ShowModal;
+    finally
+       FreeAndNil(frmCadProduto);
+    end;
 end;
 
 procedure TfrmProdutoNF.btnAtualizarValoresClick(Sender: TObject);

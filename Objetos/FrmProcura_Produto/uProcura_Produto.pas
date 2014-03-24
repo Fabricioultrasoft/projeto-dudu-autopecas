@@ -66,6 +66,7 @@ begin
     frmCadProduto.edtNcm.Text            := dm.cdsProduto.FieldByName('CODIGO_NCM').AsString;
     frmCadProduto.edtLocalEstoque.Text   := dm.cdsProduto.FieldByName('LOCAL_ESTOQUE').AsString;
     frmCadProduto.edtSecao.Text          := dm.cdsProduto.FieldByName('SECAO').AsString;
+    frmCadProduto.CarregaDescGrupo(dm.cdsProduto.FieldByName('COD_GRUPO').AsString);
 end;
 
 procedure TfrmProcura_Produto.CarregaCodigo;

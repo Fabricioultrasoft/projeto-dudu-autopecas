@@ -146,15 +146,12 @@ begin
      dm.cdsItem_Venda.IndexFieldNames := 'ID_ITEM';
 
      //Verifica se o item existe, caso não exista inseri um novo registro
-     if not dm.cdsItem_Venda.Locate('EAN13', dm.cdsEstoque.FieldByName('EAN13').AsString, [loCaseInsensitive, loPartialKey]) then
-     begin
-         dm.cdsItem_Venda.Append;
-         dm.cdsItem_Venda.FieldByName('ID_ITEM').AsInteger     := dm.cdsItem_Venda.RecordCount + 1;
-         dm.cdsItem_Venda.FieldByName('N_VENDA').AsString      := frmPDV.sFNumeroVenda;
-         dm.cdsItem_Venda.FieldByName('EAN13').AsString        := dm.cdsEstoque.FieldByName('EAN13').AsString;
-         dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString    := dm.cdsEstoque.FieldByName('DESC_PROD').AsString;
-         dm.cdsItem_Venda.FieldByName('VAL_PROD').AsFloat      := dm.cdsEstoque.FieldByName('VAL_VENDA').AsFloat;
-     end;
+     dm.cdsItem_Venda.Append;
+     dm.cdsItem_Venda.FieldByName('ID_ITEM').AsInteger     := dm.cdsItem_Venda.RecordCount + 1;
+     dm.cdsItem_Venda.FieldByName('N_VENDA').AsString      := frmPDV.sFNumeroVenda;
+     dm.cdsItem_Venda.FieldByName('EAN13').AsString        := dm.cdsEstoque.FieldByName('EAN13').AsString;
+     dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString    := dm.cdsEstoque.FieldByName('DESC_PROD').AsString;
+     dm.cdsItem_Venda.FieldByName('VAL_PROD').AsFloat      := dm.cdsEstoque.FieldByName('VAL_VENDA').AsFloat;
 end;
 
 procedure TfrmProcura_Estoque.ConsultaUniversal;
@@ -236,7 +233,7 @@ begin
          CarregaItensOrcamento();
      end;
 
-     if Assigned(frmPDV) and (frmPDV.edtStatus.Text = 'Venda Aberta')then
+     if Assigned(frmPDV) and (frmPDV.StatusPDV = svAberto)then
      begin
          CarregaItensVenda();
          frmProcura_Estoque.Close;
@@ -273,7 +270,7 @@ begin
            CarregaItensOrcamento();
        end;
 
-       if Assigned(frmPDV) and (frmPDV.edtStatus.Text = 'Venda Aberta')then
+       if Assigned(frmPDV) and (frmPDV.StatusPDV = svAberto)then
        begin
            CarregaItensVenda();
            frmProcura_Estoque.Close;

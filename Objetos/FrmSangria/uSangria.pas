@@ -42,7 +42,7 @@ var
 
 implementation
 
-uses UConexao, UdmConexao, uPDV;
+uses UConexao, UdmConexao, uPDV, uMenu;
 
 {$R *.dfm}
 
@@ -106,6 +106,7 @@ var
 begin
     Impressora := TImpressora.Create(miEpson, PAnsiChar('USB'));
 
+    texto := Concat(texto, Impressora.InseriTraco(48, false, true));
     texto := Concat(texto, '<ce><b>SANGRIA</b></ce>'#10#10);
     texto := Concat(texto, 'Responsável: ' + Responsavel + #10);
     texto := Concat(texto, 'Valor: ' + FormatFloat('R$ ##0.00', Valor) + #10);
@@ -116,7 +117,7 @@ begin
     texto := Concat(texto, Impressora.InseriTraco(48, True, true));
 
     Impressora.AbrirComunicacao;
-    Impressora.ImprimeTextoTag(PAnsiChar(texto), true);
+    Impressora.ImprimeTextoTag(PAnsiChar(texto), frmMenu.FCabSangria);
     Impressora.AcionaGuilhotina(0);
 end;
 
