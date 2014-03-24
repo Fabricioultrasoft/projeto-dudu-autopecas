@@ -5,10 +5,10 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, Grids, DBGrids, ExtCtrls, StdCtrls, uDm, ComCtrls, DBCtrls, uFormBase,
-  Buttons, uPDV, pcnConversao, UdmConexao, uMenu, uForma_Pagamento, uQtde;
+  Buttons, uPDV, pcnConversao, UdmConexao, uMenu, uForma_Pagamento, uQtde, Mask, uSenhaFiscal;
 
 type
-  TfrmProcura_Venda = class(TFormBase)
+  TfrmProcura_Venda = class(TForm)
     pnlProcura: TPanel;
     grdItemVenda: TDBGrid;
     pnlInformacao: TPanel;
@@ -19,18 +19,34 @@ type
     lbl4: TLabel;
     lbl5: TLabel;
     edtNVenda: TEdit;
-    dbtNVenda: TDBText;
-    dbtDataVenda: TDBText;
-    dbtValorTotal: TDBText;
-    dbtPagamento: TDBText;
     pnlRodape: TPanel;
-    lbl6: TLabel;
-    btnCarregaVenda: TBitBtn;
+    Label1: TLabel;
+    DBEdit1: TDBEdit;
+    DBEdit2: TDBEdit;
+    DBEdit3: TDBEdit;
+    DBEdit4: TDBEdit;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    DBEdit5: TDBEdit;
+    DBEdit6: TDBEdit;
+    DBEdit7: TDBEdit;
+    DBEdit8: TDBEdit;
+    Label5: TLabel;
+    Label6: TLabel;
+    DBEdit9: TDBEdit;
+    DBEdit10: TDBEdit;
+    btnFechar: TBitBtn;
+    btnTrocaDevolucao: TBitBtn;
     procedure edtNVendaChange(Sender: TObject);
     procedure PesquisaVenda();
     //procedure GeraNFe();
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure btnCarregaVendaClick(Sender: TObject);
+    procedure btnCancelarVendaClick(Sender: TObject);
+    procedure btnFecharClick(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure btnTrocaDevolucaoClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -43,20 +59,47 @@ var
 
 const
     //Cláusula SELECT padrão para todas as consultas
-    SELECT : string = 'SELECT V.N_VENDA, V.DATA_VENDA, V.COD_CLI, V.VAL_TOTAL, V.ID_PAGAMENTO, P.TIPO_PAGAMENTO, V.COD_FUNC, V.STATUS, V.DESCONTO, V.SUB_TOTAL ' +
-                       'FROM VENDA V, PAGAMENTO P ';
+    SELECT : string = 'SELECT V.N_VENDA, V.DATA_VENDA, V.COD_CLI, V.VAL_TOTAL, V.COD_FUNC, V.STATUS, V.DESCONTO, V.SUB_TOTAL, V.DINHEIRO, V.CHEQUE, V.CARTAO, V.TICKET ' +
+                       'FROM VENDA V ';
 
     //Cláusula WHERE padrão para todas as consultas
-    WHERE  : string = 'WHERE V.ID_PAGAMENTO = P.ID';
+    WHERE  : string = 'WHERE V.N_VENDA = :venda';
 
 implementation
 
+uses uTrocaDevolucao;
+
 {$R *.dfm}
+
+procedure TfrmProcura_Venda.btnCancelarVendaClick(Sender: TObject);
+begin
+    try
+       frmSenhaFiscal := TfrmSenhaFiscal.Create(nil);
+       frmSenhaFiscal.ShowModal;
+    finally
+       FreeAndNil(frmSenhaFiscal);
+    end;
+end;
 
 procedure TfrmProcura_Venda.btnCarregaVendaClick(Sender: TObject);
 begin
      CarregaVenda();
      frmProcura_Venda.Close;
+end;
+
+procedure TfrmProcura_Venda.btnFecharClick(Sender: TObject);
+begin
+     Self.Close;
+end;
+
+procedure TfrmProcura_Venda.btnTrocaDevolucaoClick(Sender: TObject);
+begin
+    try
+       frmTrocaDevolucao := TfrmTrocaDevolucao.Create(nil);
+       frmTrocaDevolucao.ShowModal;
+    finally
+       //FreeAndNil(frmTrocaDevolucao);
+    end;
 end;
 
 procedure TfrmProcura_Venda.CarregaVenda;
@@ -83,6 +126,15 @@ end;
 procedure TfrmProcura_Venda.edtNVendaChange(Sender: TObject);
 begin
     PesquisaVenda();
+end;
+
+procedure TfrmProcura_Venda.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+    dm.cdsVenda.Close;
+    dm.cdsItem_Venda.Close;
+    Action := caFree;
+    frmProcura_Venda := nil;
 end;
 
 procedure TfrmProcura_Venda.FormKeyDown(Sender: TObject; var Key: Word;
@@ -260,30 +312,32 @@ end; }
 
 procedure TfrmProcura_Venda.PesquisaVenda;
 begin
-    //Pesquisa Venda com todos parâmetros
-    dm.qryVenda.Close;
-    dm.qryVenda.SQL.Clear;
-    dm.qryVenda.SQL.Add(SELECT);
-    dm.qryVenda.SQL.Add(WHERE);
+    try
+        //Pesquisa Venda com todos parâmetros
+        dm.qryVenda.Close;
+        dm.qryVenda.SQL.Clear;
+        dm.qryVenda.SQL.Add(SELECT);
+        dm.qryVenda.SQL.Add(WHERE);
+        dm.qryVenda.ParamByName('venda').AsString := trim(edtNVenda.Text);
+        dm.qryVenda.Open;
 
-    if edtNVenda.Text <> '' then
-       dm.qryVenda.SQL.Add('AND V.N_VENDA =' + QuotedStr(edtNVenda.Text));
+        if not dm.qryVenda.IsEmpty then
+        begin
+            dm.cdsVenda.Open;
+            dm.cdsVenda.Refresh;
 
-    dm.qryVenda.Open;
-
-    if dm.qryVenda.RecordCount > 0 then
-    begin
-        dm.cdsVenda.Open;
-        dm.cdsVenda.Refresh;
-
-        dm.qryItem_Venda.Close;
-        dm.qryItem_Venda.SQL.Clear;
-        dm.qryItem_Venda.SQL.Add('SELECT ID, ID_ITEM, N_VENDA, COD_PROD, REF_PROD, DESC_PROD, QTDE, VAL_PROD, TOTAL_PROD, TIPO_ENTRADA, DESCONTO');
-        dm.qryItem_Venda.SQL.Add('FROM ITEM_VENDA');
-        dm.qryItem_Venda.SQL.Add('WHERE N_VENDA =' + QuotedStr(edtNVenda.Text));
-        dm.qryItem_Venda.Open;
-        dm.cdsItem_Venda.Open;
-        dm.cdsItem_Venda.Refresh;
+            dm.qryItem_Venda.Close;
+            dm.qryItem_Venda.SQL.Clear;
+            dm.qryItem_Venda.SQL.Add('SELECT ID, ID_ITEM, N_VENDA, EAN13, COD_PROD, DESC_PROD, QTDE, VAL_PROD, TOTAL_PROD, DESCONTO, STATUS ');
+            dm.qryItem_Venda.SQL.Add('FROM ITEM_VENDA');
+            dm.qryItem_Venda.SQL.Add('WHERE N_VENDA =' + QuotedStr(edtNVenda.Text));
+            dm.qryItem_Venda.Open;
+            dm.cdsItem_Venda.Open;
+            dm.cdsItem_Venda.Refresh;
+        end;
+    except
+         on E:Exception do
+         MessageDlg('Erro ao pesquisar venda ' + E.Message, mtError, [mbOK], 0);
     end;
 end;
 

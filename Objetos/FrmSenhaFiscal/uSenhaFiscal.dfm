@@ -24,14 +24,10 @@ object frmSenhaFiscal: TfrmSenhaFiscal
     Height = 106
     Align = alClient
     TabOrder = 0
-    ExplicitLeft = 80
-    ExplicitTop = 40
-    ExplicitWidth = 185
-    ExplicitHeight = 41
     object lbl1: TLabel
       Left = 1
       Top = 0
-      Width = 319
+      Width = 235
       Height = 38
       Alignment = taCenter
       Caption = 'Senha do Fiscal'

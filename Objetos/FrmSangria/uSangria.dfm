@@ -1,6 +1,6 @@
 object frmSangria: TfrmSangria
-  Left = 953
-  Top = 181
+  Left = 919
+  Top = 225
   ActiveControl = edtValor
   BorderStyle = bsNone
   Caption = 'frmSangria'

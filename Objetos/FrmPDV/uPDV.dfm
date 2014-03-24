@@ -1,6 +1,6 @@
 object frmPDV: TfrmPDV
-  Left = 298
-  Top = 171
+  Left = 103
+  Top = 205
   ActiveControl = edtConsulta
   AutoSize = True
   BorderStyle = bsNone
@@ -7718,11 +7718,12 @@ object frmPDV: TfrmPDV
   end
   object lblCaixa: TLabel
     Left = 1088
-    Top = 38
+    Top = 36
     Width = 137
     Height = 16
     Alignment = taRightJustify
     AutoSize = False
+    Caption = '001'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -13
@@ -7732,7 +7733,7 @@ object frmPDV: TfrmPDV
   end
   object lblOperador: TLabel
     Left = 888
-    Top = 38
+    Top = 36
     Width = 153
     Height = 16
     Alignment = taRightJustify
@@ -9594,6 +9595,7 @@ object frmPDV: TfrmPDV
     Font.Name = 'Courier New'
     Font.Style = []
     ParentFont = False
+    ReadOnly = True
     ScrollBars = ssHorizontal
     TabOrder = 6
   end
@@ -10020,6 +10022,7 @@ object frmPDV: TfrmPDV
       Width = 209
       Height = 16
       AutoSize = False
+      Caption = 'label'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clHotLight
       Font.Height = -12
@@ -10074,10 +10077,11 @@ object frmPDV: TfrmPDV
     end
     object lblVersao: TLabel
       Left = 16
-      Top = 232
+      Top = 226
       Width = 209
       Height = 16
       AutoSize = False
+      Caption = 'label'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clHotLight
       Font.Height = -12

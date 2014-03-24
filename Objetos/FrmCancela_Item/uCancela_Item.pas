@@ -27,7 +27,7 @@ var
 
 implementation
 
-uses uDm, uPDV;
+uses uDm, uPDV, uSenhaFiscal;
 
 {$R *.dfm}
 

@@ -389,7 +389,6 @@ begin
                       dm.qryEntradaNF.Params.ParamByName('nfe').AsString    := edtChaveNfe.Text;
                       dm.qryEntradaNF.Params.ParamByName('resp').AsString   := edtResponsavel.Text;
                       dm.qryEntradaNF.ExecSQL();
-                      LimpaCAmpos();
                       grpEntrada_Produtos.Enabled := False;
                       setOperacao(opNone);
                  except
@@ -423,6 +422,7 @@ begin
               end;
          end;
      end;
+     MessageDlg('Gravado com sucesso!', mtInformation,[mbOK], 0);
 end;
 
 procedure TfrmEntrada_Produtos.Incluir;

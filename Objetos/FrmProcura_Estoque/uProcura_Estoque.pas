@@ -32,6 +32,7 @@ type
     procedure grdEstoqueDblClick(Sender: TObject);
     procedure grdEstoqueKeyPress(Sender: TObject; var Key: Char);
     function GeraID: integer;
+    function HexToTColor(sColor : string) : TColor;
   private
     { Private declarations }
   public
@@ -252,7 +253,7 @@ begin
     //Muda a cor da coluna estoque_minimo caso o valor esteja abaixo do estoque minímo
     if dm.cdsEstoque.FieldByName('ESTOQUE_MINIMO').AsInteger > dm.cdsEstoque.FieldByName('QTDE').AsInteger then
     begin
-        grdEstoque.Canvas.Brush.Color := clRed;
+        grdEstoque.Canvas.Brush.Color := HexToTColor('D04646');
         grdEstoque.Canvas.FillRect(Rect);
         grdEstoque.DefaultDrawColumnCell(Rect, DataCol, Column, State);
     end;
@@ -288,6 +289,16 @@ procedure TfrmProcura_Estoque.grdEstoqueTitleClick(Column: TColumn);
 begin
     //Ordena os dados a partir do click no título da coluna
     dm.cdsEstoque.IndexFieldNames := Column.FieldName;
+end;
+
+function TfrmProcura_Estoque.HexToTColor(sColor: string): TColor;
+begin
+   Result :=
+     RGB(
+       StrToInt('$'+Copy(sColor, 1, 2)),
+       StrToInt('$'+Copy(sColor, 3, 2)),
+       StrToInt('$'+Copy(sColor, 5, 2))
+     ) ;
 end;
 
 procedure TfrmProcura_Estoque.rgOpcaoClick(Sender: TObject);

@@ -2270,9 +2270,9 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
             Left = 685
             Top = 32
             Width = 150
-            Height = 48
+            Height = 59
             Cursor = crHandPoint
-            Hint = 'Incluir produto '
+            Hint = 'INCLUIR PRODUTO'
             Caption = 'F7 - INCLUIR'
             DoubleBuffered = True
             Font.Charset = DEFAULT_CHARSET
@@ -2293,23 +2293,22 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
               993337777777777F77F33CCCCCCCCCC3993337777777777377333333333CC333
               333333333337733333FF3333333C333330003333333733333777333333333333
               3000333333333333377733333333333333333333333333333333}
-            Layout = blGlyphRight
+            Layout = blGlyphTop
             NumGlyphs = 2
             ParentDoubleBuffered = False
             ParentFont = False
             ParentShowHint = False
             ShowHint = True
-            Spacing = 20
             TabOrder = 1
             OnClick = btnIncluirProdutoClick
           end
           object btnEditarProduto: TBitBtn
             Left = 685
-            Top = 83
+            Top = 107
             Width = 150
-            Height = 48
+            Height = 59
             Cursor = crHandPoint
-            Hint = 'Editar produto'
+            Hint = 'EDITAR PRODUTO'
             Caption = 'F8 - EDITAR'
             DoubleBuffered = True
             Font.Charset = DEFAULT_CHARSET
@@ -2330,23 +2329,22 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
               00037F7F333333337F7F000FFFFFFFFF00037F7F333333337F7F000FFFFFFFFF
               00037F7F333333337F7F000FFFFFFFFF07037F7F33333333777F000FFFFFFFFF
               0003737FFFFFFFFF7F7330099999999900333777777777777733}
-            Layout = blGlyphRight
+            Layout = blGlyphTop
             NumGlyphs = 2
             ParentDoubleBuffered = False
             ParentFont = False
             ParentShowHint = False
             ShowHint = True
-            Spacing = 20
             TabOrder = 2
             OnClick = btnEditarProdutoClick
           end
           object btnExcluirProduto: TBitBtn
             Left = 685
-            Top = 134
+            Top = 181
             Width = 150
-            Height = 48
+            Height = 59
             Cursor = crHandPoint
-            Hint = 'Excluir produto'
+            Hint = 'EXCLUIR PRODUTO'
             Caption = 'F9 - EXCLUIR'
             DoubleBuffered = True
             Font.Charset = DEFAULT_CHARSET
@@ -2367,13 +2365,12 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
               33333337F7F7F7F7FF3333000000000003333377777777777F33330F88877777
               0333337FFFFFFFFF7F3333000000000003333377777777777333333330777033
               3333333337FFF7F3333333333000003333333333377777333333}
-            Layout = blGlyphRight
+            Layout = blGlyphTop
             NumGlyphs = 2
             ParentDoubleBuffered = False
             ParentFont = False
             ParentShowHint = False
             ShowHint = True
-            Spacing = 20
             TabOrder = 3
             OnClick = btnExcluirProdutoClick
           end

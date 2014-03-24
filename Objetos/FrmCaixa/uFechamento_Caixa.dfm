@@ -1,10 +1,10 @@
 object frmFechamento_Caixa: TfrmFechamento_Caixa
-  Left = 442
-  Top = 158
+  Left = 297
+  Top = 92
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Fechamento de Caixa'
-  ClientHeight = 616
+  ClientHeight = 623
   ClientWidth = 704
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -48,40 +48,40 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
       Caption = 'Por Data de Entrada'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -16
+      Font.Height = -15
       Font.Name = 'Verdana'
       Font.Style = []
       ParentFont = False
       TabOrder = 0
       object lbl1: TLabel
         Left = 51
-        Top = 29
-        Width = 95
+        Top = 23
+        Width = 80
         Height = 18
         Caption = 'Data Inicial'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -16
+        Font.Height = -15
         Font.Name = 'Verdana'
         Font.Style = []
         ParentFont = False
       end
       object lbl2: TLabel
         Left = 470
-        Top = 29
-        Width = 84
+        Top = 23
+        Width = 73
         Height = 18
         Caption = 'Data Final'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -16
+        Font.Height = -15
         Font.Name = 'Verdana'
         Font.Style = []
         ParentFont = False
       end
       object lbl3: TLabel
         Left = 341
-        Top = 52
+        Top = 45
         Width = 12
         Height = 25
         Caption = #224
@@ -94,15 +94,15 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
       end
       object dtpIncial: TDateTimePicker
         Left = 51
-        Top = 51
+        Top = 45
         Width = 173
-        Height = 26
+        Height = 25
         Cursor = crHandPoint
         Date = 40938.858257858800000000
         Time = 40938.858257858800000000
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -16
+        Font.Height = -15
         Font.Name = 'Arial'
         Font.Style = []
         ParentFont = False
@@ -111,15 +111,15 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
       end
       object dtpFinal: TDateTimePicker
         Left = 470
-        Top = 53
+        Top = 45
         Width = 173
-        Height = 26
+        Height = 25
         Cursor = crHandPoint
         Date = 40938.858362199080000000
         Time = 40938.858362199080000000
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -16
+        Font.Height = -15
         Font.Name = 'Arial'
         Font.Style = []
         ParentFont = False
@@ -130,16 +130,17 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
   end
   object pnl3: TPanel
     Left = 0
-    Top = 566
+    Top = 551
     Width = 704
-    Height = 50
+    Height = 72
     Align = alBottom
     TabOrder = 3
+    ExplicitTop = 567
     object btn1: TBitBtn
       Left = 578
       Top = 8
       Width = 121
-      Height = 35
+      Height = 59
       Cursor = crHandPoint
       Hint = 'FECHAR FORMUL'#193'RIO'
       Caption = 'ESC - Fechar'
@@ -150,17 +151,17 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
       Font.Name = 'Tahoma'
       Font.Style = []
       Kind = bkCancel
-      Layout = blGlyphRight
+      Layout = blGlyphTop
       NumGlyphs = 2
       ParentDoubleBuffered = False
       ParentFont = False
       TabOrder = 0
     end
     object btn2: TBitBtn
-      Left = 438
+      Left = 457
       Top = 8
       Width = 121
-      Height = 35
+      Height = 59
       Cursor = crHandPoint
       Hint = 'GRAVAR REGISTRO'
       Caption = 'F3 - Imprimir'
@@ -183,7 +184,7 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
         03333337F3FF3FFF7F333330F00F000003333337F773777773333330FFFF0FF0
         33333337F3FF7F3733333330F08F0F0333333337F7737F7333333330FFFF0033
         33333337FFFF7733333333300000033333333337777773333333}
-      Layout = blGlyphRight
+      Layout = blGlyphTop
       NumGlyphs = 2
       ParentDoubleBuffered = False
       ParentFont = False
@@ -198,7 +199,7 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
     Left = 0
     Top = 177
     Width = 704
-    Height = 389
+    Height = 374
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -207,14 +208,12 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitTop = 209
-    ExplicitWidth = 554
-    ExplicitHeight = 304
+    ExplicitHeight = 368
     object pgc1: TPageControl
       Left = 1
       Top = 1
       Width = 702
-      Height = 387
+      Height = 372
       Cursor = crHandPoint
       ActivePage = tsValores
       Align = alClient
@@ -225,15 +224,18 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
       Font.Style = []
       ParentFont = False
       TabOrder = 0
+      ExplicitHeight = 368
       object tsValores: TTabSheet
         Caption = 'Valores'
+        ExplicitHeight = 352
         object grp2: TGroupBox
           Left = 0
           Top = 0
           Width = 694
-          Height = 352
+          Height = 337
           Align = alClient
           TabOrder = 0
+          ExplicitHeight = 352
           object lbl7: TLabel
             Left = 92
             Top = 147
@@ -479,11 +481,12 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
         Font.Style = []
         ImageIndex = 1
         ParentFont = False
+        ExplicitHeight = 352
         object grdRegistros: TDBGrid
           Left = 0
           Top = 0
           Width = 694
-          Height = 352
+          Height = 337
           Cursor = crHandPoint
           Align = alClient
           DataSource = dm.dtsCaixa

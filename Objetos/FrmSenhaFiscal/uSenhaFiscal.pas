@@ -17,7 +17,9 @@ type
   private
     { Private declarations }
   public
-    { Public declarations }
+    function VerificaSenha(Senha, Privilegio:string):boolean;
+    procedure CancelarItem();
+    procedure TrocaDevolucao();
   end;
 
 var
@@ -25,45 +27,41 @@ var
 
 implementation
 
-uses uDm, uCancela_Item;
+uses uDm, uCancela_Item, uProcura_Venda, uTrocaDevolucao;
 
 {$R *.dfm}
 
-procedure TfrmSenhaFiscal.edtSenhaKeyPress(Sender: TObject; var Key: Char);
+procedure TfrmSenhaFiscal.CancelarItem;
 begin
-     if key = #13 then
-     begin
-          if edtSenha.Text <> '' then
+      if edtSenha.Text <> '' then
+      begin
+          if VerificaSenha(edtSenha.Text, 'ADMINISTRAÇÃO') then
           begin
-              dm.cdsUsuario.Close;
-              dm.qryUsuario.Close;
-              dm.qryUsuario.SQL.Clear;
-              dm.qryUsuario.SQL.Add('SELECT * FROM USUARIO ');
-              dm.qryUsuario.SQL.Add('WHERE SENHA = :senha AND PRIVILEGIO = :privilegio');
-              dm.qryUsuario.ParamByName('senha').AsString      := Trim(edtSenha.Text);
-              dm.qryUsuario.ParamByName('privilegio').AsString := 'ADMINISTRAÇÃO';
-              dm.qryUsuario.Open;
-              dm.cdsUsuario.Open;
-
-              if dm.cdsUsuario.RecordCount > 0 then
-              begin
-                 try
-                    frmSenhaFiscal.Close;
-                    frmCancelaItem := TfrmCancelaItem.Create(nil);
-                    frmCancelaItem.ShowModal;
-                 finally
-                    FreeAndNil(frmCancelaItem);
-                 end;
-              end
-              else
-              begin
-                 MessageDlg('Senha não liberada!', mtWarning, [mbOK], 0);
-                 edtSenha.Clear;
-              end;
+             try
+                frmSenhaFiscal.Close;
+                frmCancelaItem := TfrmCancelaItem.Create(nil);
+                frmCancelaItem.ShowModal;
+             finally
+                FreeAndNil(frmCancelaItem);
+             end;
           end
           else
-            MessageDlg('É necessário informar a senha do fiscal!', mtWarning, [mbOK], 0);
-     end;
+          begin
+             MessageDlg('Senha não liberada!', mtWarning, [mbOK], 0);
+             edtSenha.Clear;
+          end;
+      end
+      else
+        MessageDlg('É necessário informar a senha do fiscal!', mtWarning, [mbOK], 0);
+end;
+
+procedure TfrmSenhaFiscal.edtSenhaKeyPress(Sender: TObject; var Key: Char);
+begin
+     if (key = #13) and (not Assigned(frmProcura_Venda)) then
+        CancelarItem;
+
+     if (key = #13) and (Assigned(frmProcura_Venda)) then
+        TrocaDevolucao;
 end;
 
 procedure TfrmSenhaFiscal.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -76,6 +74,49 @@ procedure TfrmSenhaFiscal.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
     if Key = VK_ESCAPE then self.Close; 
+end;
+
+procedure TfrmSenhaFiscal.TrocaDevolucao;
+begin
+    if edtSenha.Text <> '' then
+      begin
+          if VerificaSenha(edtSenha.Text, 'ADMINISTRAÇÃO') then
+          begin
+             try
+                frmTrocaDevolucao := TfrmTrocaDevolucao.Create(nil);
+                frmTrocaDevolucao.ShowModal;
+             finally
+                FreeAndNil(frmTrocaDevolucao);
+             end;
+          end
+          else
+          begin
+             MessageDlg('Senha não liberada!', mtWarning, [mbOK], 0);
+             edtSenha.Clear;
+          end;
+      end
+      else
+        MessageDlg('É necessário informar a senha do fiscal!', mtWarning, [mbOK], 0);
+end;
+
+function TfrmSenhaFiscal.VerificaSenha(Senha, Privilegio: string): boolean;
+begin
+    try
+        dm.qryUsuario.Close;
+        dm.qryUsuario.SQL.Clear;
+        dm.qryUsuario.SQL.Add('SELECT * FROM USUARIO ');
+        dm.qryUsuario.SQL.Add('WHERE SENHA = :senha AND PRIVILEGIO = :privilegio');
+        dm.qryUsuario.ParamByName('senha').AsString      := Trim(Senha);
+        dm.qryUsuario.ParamByName('privilegio').AsString := Trim(Privilegio);
+        dm.qryUsuario.Open;
+
+        if not dm.qryUsuario.IsEmpty then
+           Result := true
+        else
+           Result := false;
+    except
+
+    end;
 end;
 
 end.
