@@ -1,11 +1,11 @@
 object frmConfig: TfrmConfig
-  Left = 449
+  Left = 450
   Top = 194
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Configura'#231#227'o'
-  ClientHeight = 384
-  ClientWidth = 732
+  ClientHeight = 407
+  ClientWidth = 731
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,17 +20,19 @@ object frmConfig: TfrmConfig
   TextHeight = 13
   object pnl3: TPanel
     Left = 0
-    Top = 334
-    Width = 732
-    Height = 50
+    Top = 335
+    Width = 731
+    Height = 72
     Align = alBottom
     TabOrder = 0
-    ExplicitWidth = 707
+    ExplicitLeft = 1
+    ExplicitTop = 336
+    ExplicitWidth = 732
     object btn1: TBitBtn
-      Left = 578
-      Top = 7
+      Left = 603
+      Top = 6
       Width = 121
-      Height = 35
+      Height = 59
       Cursor = crHandPoint
       Hint = 'FECHAR FORMUL'#193'RIO'
       Cancel = True
@@ -58,7 +60,7 @@ object frmConfig: TfrmConfig
         38F338F300003333333333333919333333388333338FFF830000333333333333
         3333333333333333333888330000333333333333333333333333333333333333
         0000}
-      Layout = blGlyphRight
+      Layout = blGlyphTop
       ModalResult = 2
       NumGlyphs = 2
       ParentDoubleBuffered = False
@@ -66,10 +68,10 @@ object frmConfig: TfrmConfig
       TabOrder = 1
     end
     object btn2: TBitBtn
-      Left = 445
-      Top = 7
+      Left = 482
+      Top = 6
       Width = 121
-      Height = 35
+      Height = 59
       Cursor = crHandPoint
       Hint = 'GRAVAR REGISTRO'
       Caption = 'F3 - Gravar'
@@ -92,13 +94,12 @@ object frmConfig: TfrmConfig
         00037F7F333333337F7F000FFFFFFFFF00037F7F333333337F7F000FFFFFFFFF
         00037F7F333333337F7F000FFFFFFFFF07037F7F33333333777F000FFFFFFFFF
         0003737FFFFFFFFF7F7330099999999900333777777777777733}
-      Layout = blGlyphRight
+      Layout = blGlyphTop
       NumGlyphs = 2
       ParentDoubleBuffered = False
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
-      Spacing = 10
       TabOrder = 0
       OnClick = btn2Click
     end
@@ -106,8 +107,8 @@ object frmConfig: TfrmConfig
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 732
-    Height = 334
+    Width = 731
+    Height = 335
     Align = alClient
     TabOrder = 1
     ExplicitLeft = 136
@@ -117,8 +118,8 @@ object frmConfig: TfrmConfig
     object pgConfig: TPageControl
       Left = 1
       Top = 1
-      Width = 730
-      Height = 332
+      Width = 729
+      Height = 333
       Cursor = crHandPoint
       ActivePage = TabSheet1
       Align = alClient
@@ -130,14 +131,16 @@ object frmConfig: TfrmConfig
       ParentFont = False
       TabOrder = 0
       ExplicitWidth = 719
+      ExplicitHeight = 332
       object TabSheet1: TTabSheet
         Caption = 'Informa'#231#245'es da Empresa'
-        ExplicitWidth = 697
+        ExplicitWidth = 722
+        ExplicitHeight = 301
         object GroupBox1: TGroupBox
           Left = 0
           Top = 0
-          Width = 722
-          Height = 301
+          Width = 721
+          Height = 302
           Align = alClient
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clWindowText
@@ -146,7 +149,8 @@ object frmConfig: TfrmConfig
           Font.Style = []
           ParentFont = False
           TabOrder = 0
-          ExplicitWidth = 697
+          ExplicitWidth = 722
+          ExplicitHeight = 301
           object Label1: TLabel
             Left = 48
             Top = 79
@@ -389,13 +393,14 @@ object frmConfig: TfrmConfig
         object GroupBox2: TGroupBox
           Left = 0
           Top = 0
-          Width = 722
-          Height = 301
+          Width = 721
+          Height = 302
           Align = alClient
           TabOrder = 0
           ExplicitLeft = 3
           ExplicitTop = -1
           ExplicitWidth = 697
+          ExplicitHeight = 301
           object lbl7: TLabel
             Left = 5
             Top = 288

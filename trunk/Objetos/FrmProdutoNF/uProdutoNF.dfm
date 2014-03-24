@@ -3,7 +3,7 @@ object frmProdutoNF: TfrmProdutoNF
   Top = 168
   BorderIcons = []
   Caption = 'Formul'#225'rio :- Produtos da Nota Fiscal'
-  ClientHeight = 401
+  ClientHeight = 434
   ClientWidth = 752
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -38,7 +38,7 @@ object frmProdutoNF: TfrmProdutoNF
     Left = 0
     Top = 57
     Width = 752
-    Height = 294
+    Height = 305
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -48,7 +48,7 @@ object frmProdutoNF: TfrmProdutoNF
     ParentFont = False
     TabOrder = 1
     ExplicitTop = 63
-    ExplicitHeight = 349
+    ExplicitHeight = 298
     object Label2: TLabel
       Left = 56
       Top = 25
@@ -512,16 +512,16 @@ object frmProdutoNF: TfrmProdutoNF
   end
   object pnl3: TPanel
     Left = 0
-    Top = 351
+    Top = 362
     Width = 752
-    Height = 50
+    Height = 72
     Align = alBottom
     TabOrder = 2
     object btn1: TBitBtn
-      Left = 615
-      Top = 6
-      Width = 134
-      Height = 35
+      Left = 623
+      Top = 7
+      Width = 121
+      Height = 59
       Cursor = crHandPoint
       Hint = 'FECHAR FORMUL'#193'RIO'
       Cancel = True
@@ -549,18 +549,20 @@ object frmProdutoNF: TfrmProdutoNF
         38F338F300003333333333333919333333388333338FFF830000333333333333
         3333333333333333333888330000333333333333333333333333333333333333
         0000}
-      Layout = blGlyphRight
+      Layout = blGlyphTop
       ModalResult = 2
       NumGlyphs = 2
       ParentDoubleBuffered = False
       ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 1
     end
     object btnGravar: TBitBtn
-      Left = 478
-      Top = 6
-      Width = 134
-      Height = 35
+      Left = 502
+      Top = 7
+      Width = 121
+      Height = 59
       Cursor = crHandPoint
       Hint = 'GRAVAR REGISTRO'
       Caption = 'F3 - Gravar'
@@ -583,21 +585,21 @@ object frmProdutoNF: TfrmProdutoNF
         00037F7F333333337F7F000FFFFFFFFF00037F7F333333337F7F000FFFFFFFFF
         00037F7F333333337F7F000FFFFFFFFF07037F7F33333333777F000FFFFFFFFF
         0003737FFFFFFFFF7F7330099999999900333777777777777733}
-      Layout = blGlyphRight
+      Layout = blGlyphTop
       NumGlyphs = 2
       ParentDoubleBuffered = False
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
-      Spacing = 10
       TabOrder = 0
       OnClick = btnGravarClick
     end
     object btnAtualizarValores: TBitBtn
-      Left = 341
-      Top = 6
-      Width = 134
-      Height = 35
+      Left = 381
+      Top = 7
+      Width = 121
+      Height = 59
+      Hint = 'ATUALIZAR VALORES ($)'
       Caption = 'F5 - Atualizar Valores'
       DoubleBuffered = True
       Font.Charset = DEFAULT_CHARSET
@@ -622,10 +624,12 @@ object frmProdutoNF: TfrmProdutoNF
         33FF88F800003333AA222222AA33A3333388FFFFFF8833830000333333AAAAAA
         3333333333338888883333330000333333333333333333333333333333333333
         0000}
-      Layout = blGlyphRight
+      Layout = blGlyphTop
       NumGlyphs = 2
       ParentDoubleBuffered = False
       ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 2
       OnClick = btnAtualizarValoresClick
     end

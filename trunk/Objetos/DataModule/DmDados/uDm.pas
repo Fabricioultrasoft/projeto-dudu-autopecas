@@ -375,7 +375,7 @@ const
 
 implementation
 
-uses UdmConexao, uOrcamento, uPDV;
+uses UdmConexao, uOrcamento, uPDV, uProcura_Venda;
 
 {$R *.dfm}
 
@@ -501,7 +501,7 @@ end;
 
 procedure Tdm.cdsItem_VendaAfterScroll(DataSet: TDataSet);
 begin
-     if Assigned(frmPDV) then
+     if (Assigned(frmPDV)) and (not Assigned(frmProcura_Venda))then
      begin
          //Carrega os valores no Form PDV
          frmPDV.edtProduto.Text        := dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString;

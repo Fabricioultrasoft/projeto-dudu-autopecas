@@ -232,7 +232,7 @@ begin
     if (StatusPDV = svFechado) then
      begin
           try
-              frmProcura_Venda := TfrmProcura_Venda.Create(self);
+              frmProcura_Venda := TfrmProcura_Venda.Create(nil);
               frmProcura_Venda.ShowModal;
           finally
               FreeAndNil(frmProcura_Venda);

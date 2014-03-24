@@ -32,6 +32,7 @@ type
   private
     procedure GravarSangria();
     procedure ImprimirCupom(Valor: Double; Responsavel, Motivo, Tipo: string);
+    procedure ImprimirTela(Valor: Double; Responsavel, Motivo, Tipo: string);
   public
     { Public declarations }
   end;
@@ -116,9 +117,40 @@ begin
     texto := Concat(texto, 'Motivo: ' + #10 + UpperCase(Motivo) + #10);
     texto := Concat(texto, Impressora.InseriTraco(48, True, true));
 
-    Impressora.AbrirComunicacao;
-    Impressora.ImprimeTextoTag(PAnsiChar(texto), frmMenu.FCabSangria);
-    Impressora.AcionaGuilhotina(0);
+    ImprimirTela(Valor, Responsavel, Motivo, Tipo);
+    if frmPDV.FVerificacaoImpressora then
+    begin
+        Impressora.ImprimeTextoTag(PAnsiChar(texto), frmMenu.FCabSangria);
+        Impressora.AcionaGuilhotina(0);
+    end;
+end;
+
+procedure TfrmSangria.ImprimirTela(Valor: Double; Responsavel, Motivo,
+  Tipo: string);
+begin
+    if frmMenu.FCabSangria then
+    begin
+        frmPDV.redtItem.Paragraph.Alignment := taCenter;
+        frmPDV.redtItem.Lines.Add(frmMenu.FMsgCabecalho);
+        frmPDV.redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
+        frmPDV.redtItem.Lines.Add('*** ' + frmMenu.FRazao + ' ***');
+        frmPDV.redtItem.Lines.Add('CNPJ: ' + frmMenu.FCNPJ  + ' Inscrição Estadual: '+ frmMenu.FInscricao);
+        frmPDV.redtItem.Lines.Add('Rua: '+ frmMenu.FRua +', Número: '+ frmMenu.FNumero+ ' Bairro: ' + frmMenu.FBairro);
+        frmPDV.redtItem.Lines.Add('Cidade: ' + frmMenu.FCidade);
+        frmPDV.redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
+    end;
+
+    frmPDV.redtItem.Paragraph.Alignment := taCenter;
+    frmPDV.redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
+    frmPDV.redtItem.Lines.Add('SANGRIA'+#10);
+    frmPDV.redtItem.Paragraph.Alignment := taLeftJustify;
+    frmPDV.redtItem.Lines.Add('Responsável: '+ Responsavel);
+    frmPDV.redtItem.Lines.Add('Valor: ' + FormatFloat('R$ ##0.00', Valor));
+    frmPDV.redtItem.Lines.Add('Tipo: ' + Tipo);
+    frmPDV.redtItem.Lines.Add('Data: ' + FormatDateTime('dd/mm/yyyy', Date));
+    frmPDV.redtItem.Lines.Add('Hora: ' + FormatDateTime('hh:mm:ss', time));
+    frmPDV.redtItem.Lines.Add('Motivo: ' + #10 + UpperCase(Motivo));
+    frmPDV.redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
 end;
 
 end.

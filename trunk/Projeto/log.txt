@@ -1,1 +1,2 @@
 20/03/2014 - 22:22:06 - Erro na conexão com o banco de dados
+24/03/2014 - 07:20:37 - Erro na conexão com o banco de dados

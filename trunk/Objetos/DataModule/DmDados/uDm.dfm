@@ -1,7 +1,7 @@
 object dm: Tdm
   OldCreateOrder = False
-  Left = 473
-  Top = 113
+  Left = 489
+  Top = 146
   Height = 717
   Width = 906
   object dspUsuario: TDataSetProvider
@@ -464,6 +464,7 @@ object dm: Tdm
     object cdsProdutoESTOQUE_MINIMO: TFMTBCDField
       FieldName = 'ESTOQUE_MINIMO'
       Required = True
+      DisplayFormat = '#.000'
       Precision = 18
       Size = 3
     end
@@ -566,12 +567,14 @@ object dm: Tdm
     end
     object cdsEstoqueQTDE: TFMTBCDField
       FieldName = 'QTDE'
+      DisplayFormat = '#.000'
       Precision = 18
       Size = 3
     end
     object cdsEstoqueESTOQUE_MINIMO: TFMTBCDField
       FieldName = 'ESTOQUE_MINIMO'
       Required = True
+      DisplayFormat = '#.000'
       Precision = 18
       Size = 3
     end
@@ -588,7 +591,6 @@ object dm: Tdm
     Top = 96
   end
   object qryEntrada_Produto: TSQLQuery
-    Active = True
     MaxBlobSize = -1
     Params = <>
     SQL.Strings = (
@@ -746,11 +748,13 @@ object dm: Tdm
     object cdsEntrada_ProdutoQTDE: TFMTBCDField
       FieldName = 'QTDE'
       Required = True
+      DisplayFormat = '#.000'
       Precision = 18
       Size = 3
     end
     object cdsEntrada_ProdutoQTDE_CONVERSAO: TFMTBCDField
       FieldName = 'QTDE_CONVERSAO'
+      DisplayFormat = '#.000'
       Precision = 18
       Size = 3
     end
@@ -1168,12 +1172,14 @@ object dm: Tdm
     Left = 464
     Top = 536
     object stringVendaN_VENDA1: TStringField
+      Alignment = taCenter
       FieldName = 'N_VENDA'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
       Required = True
       Size = 10
     end
     object dtfldVendaDATA_VENDA1: TDateField
+      Alignment = taCenter
       FieldName = 'DATA_VENDA'
     end
     object stringVendaCOD_CLI1: TStringField
@@ -1183,11 +1189,12 @@ object dm: Tdm
     end
     object fmtbcdfldVendaVAL_TOTAL1: TFMTBCDField
       FieldName = 'VAL_TOTAL'
-      DisplayFormat = '##0.00'
+      DisplayFormat = '##,##0.00'
       Precision = 15
       Size = 2
     end
     object stringVendaCOD_FUNC1: TStringField
+      Alignment = taCenter
       FieldName = 'COD_FUNC'
       Size = 10
     end
@@ -1203,31 +1210,31 @@ object dm: Tdm
     end
     object fmtbcdfldVendaSUB_TOTAL1: TFMTBCDField
       FieldName = 'SUB_TOTAL'
-      DisplayFormat = '##0.00'
+      DisplayFormat = '##,##0.00'
       Precision = 15
       Size = 2
     end
     object cdsVendaDINHEIRO: TFMTBCDField
       FieldName = 'DINHEIRO'
-      DisplayFormat = '##0.00'
+      DisplayFormat = '##,##0.00'
       Precision = 18
       Size = 2
     end
     object cdsVendaCARTAO: TFMTBCDField
       FieldName = 'CARTAO'
-      DisplayFormat = '##0.00'
+      DisplayFormat = '##,##0.00'
       Precision = 18
       Size = 2
     end
     object cdsVendaCHEQUE: TFMTBCDField
       FieldName = 'CHEQUE'
-      DisplayFormat = '##0.00'
+      DisplayFormat = '##,##0.00'
       Precision = 18
       Size = 2
     end
     object cdsVendaTICKET: TFMTBCDField
       FieldName = 'TICKET'
-      DisplayFormat = '##0.00'
+      DisplayFormat = '##,##0.00'
       Precision = 18
       Size = 2
     end
@@ -1371,6 +1378,7 @@ object dm: Tdm
     end
     object cdsItem_VendaQTDE: TFMTBCDField
       FieldName = 'QTDE'
+      DisplayFormat = '#.000'
       Precision = 18
       Size = 3
     end

@@ -36,6 +36,9 @@ type
     Label4: TLabel;
     edtValorPago: TJvCalcEdit;
     btnAdicionarGrupo: TBitBtn;
+    Label5: TLabel;
+    Label6: TLabel;
+    edtValeTroca: TJvComboEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure KeyDown(var Key: Word; Shift: TShiftState);override;
     procedure Finalizar();

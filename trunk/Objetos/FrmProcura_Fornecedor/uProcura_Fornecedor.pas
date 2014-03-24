@@ -61,7 +61,9 @@ end;
 procedure TfrmProcura_Fornecedor.dbgrdFornDblClick(Sender: TObject);
 begin
     //Carrega os campos após duplo click no registro
-    CarregaCampo();
+    if Assigned(frmEntrada_Produtos) then
+       CarregaCampo();
+
     frmProcura_Fornecedor.Close;
 end;
 

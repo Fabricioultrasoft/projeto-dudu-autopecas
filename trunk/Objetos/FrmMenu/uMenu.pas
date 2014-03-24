@@ -129,7 +129,7 @@ const
    SELECT_EMPRESA: string = 'SELECT RAZAO, RUA, BAIRRO, NUMERO, CIDADE, UF, CNPJ, INSCRICAO_ESTADUAL, PROPRIETARIO, FONE FROM EMPRESA';
 
    // Intrução SQL para carregar os dados gerais
-   SELECT_GERAL : string = 'SELECT MODELO_IMPRESSORA, PORTA, VELOCIDADE, MSG_CABECALHO, MSG_RODAPE FROM CONFIG';
+   SELECT_GERAL : string = 'SELECT MODELO_IMPRESSORA, PORTA, VELOCIDADE, MSG_CABECALHO, MSG_RODAPE, CABECALHO_SANGRIA, CABECALHO_SUPRIMENTO, CABECALHO_FECHAMENTO FROM CONFIG';
 
 implementation
 
@@ -499,11 +499,15 @@ begin
           FVelocidade   := qry2.Fields[2].AsString;
           FMsgCabecalho := qry2.Fields[3].AsString;
           FMsgRodape    := qry2.Fields[4].AsString;
+          FCabSangria    := Boolean(qry2.Fields[5].AsInteger);
+          FCabSuprimento := Boolean(qry2.Fields[6].AsInteger);
+          FCabFechamento := Boolean(qry2.Fields[7].AsInteger);
 
           Result := True;
        end;
     except
-
+         on E:Exception do
+         MessageDlg('Erro ao carregar dados: ' + E.Message, mtError, [mbOK], 0);
     end;
 end;
 
