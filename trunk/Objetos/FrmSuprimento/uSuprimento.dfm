@@ -27,7 +27,6 @@ object frmSuprimento: TfrmSuprimento
     BevelOuter = bvNone
     BevelWidth = 15
     TabOrder = 0
-    ExplicitHeight = 302
     object lbl2: TLabel
       Left = 77
       Top = 101

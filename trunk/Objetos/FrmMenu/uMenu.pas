@@ -40,8 +40,6 @@ type
     EfetuarVenda1: TMenuItem;
     Acessrios1: TMenuItem;
     CadastrarContatos1: TMenuItem;
-    Oramento1: TMenuItem;
-    MontarOramento1: TMenuItem;
     Fecham1: TMenuItem;
     ProdutosVendidos1: TMenuItem;
     actlst: TActionList;
@@ -51,7 +49,6 @@ type
     actProduto: TAction;
     actEntrada: TAction;
     actVenda: TAction;
-    actOrcamento: TAction;
     actEstoque: TAction;
     actAgenda: TAction;
     actCaixa: TAction;
@@ -116,6 +113,9 @@ type
      FPorta       : string;
      FVelocidade  : string;
      FMensagem    : TStringBuilder;
+     FCabSangria  : Boolean;
+     FCabSuprimento  : Boolean;
+     FCabFechamento : Boolean;
 
      function VerificaConfig(): Boolean;
   end;

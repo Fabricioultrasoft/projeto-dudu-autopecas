@@ -41,10 +41,19 @@ begin
     end;
 
     if Assigned(frmPDV) then
-       frmPDV.FVerificacaoImpressora := frmPDV.FImpressora.AbrirComunicacao;
+    begin
+        frmPDV.FVerificacaoImpressora := frmPDV.FImpressora.AbrirComunicacao;
+        if frmPDV.FVerificacaoImpressora then
+           frmPDV.FImpressora.ImprimeTextoTag(''+#10, false);
+    end;
+
 
     if Assigned(frmFechamento_Caixa) then
+    begin
        frmFechamento_Caixa.FVerificacaoImpressora := frmFechamento_Caixa.FImpressora.AbrirComunicacao;
+       if frmFechamento_Caixa.FVerificacaoImpressora then
+           frmFechamento_Caixa.FImpressora.ImprimeTextoTag(''+#10, false);
+    end;
 
     frmProgresso.Close;
 end;

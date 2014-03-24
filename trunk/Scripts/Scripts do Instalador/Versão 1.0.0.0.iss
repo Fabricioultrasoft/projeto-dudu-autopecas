@@ -4,8 +4,11 @@
 #define MyAppName "Sistema de Gestão - Mini Mercado"
 #define MyAppVersion "1.0.0.0"
 #define MyAppPublisher "WLL - SISTEMAS"
-#define MyAppURL "wllfl@ig.com.br"
+#define AppPublisherURL "http://www.wllsistemas.com.br"
+#define MyAppURL "http://www.wllsistemas.com.br"
+#define AppContact "wllfl@ig.com.br"
 #define MyAppExeName "DUDU_AUTO_PEÇAS.exe"
+#define AppSupportPhone "(11) 99845-2278"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application.
@@ -21,7 +24,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName=C:\Sistema MINIMERCADO
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=Setup_Version 1.0.0.0
+OutputBaseFilename=Gestão Mini-Mercado 1.0.0.0
 Compression=lzma
 SolidCompression=yes
 
@@ -33,18 +36,19 @@ Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortugue
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Sistema MINIMERCADO\Projeto\DUDU_AUTO_PEÇAS.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Sistema MINIMERCADO\Banco de Dados\MINIMERCADO.FDB"; DestDir: "{app}\Banco de Dados"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Sistema MINIMERCADO\Projeto\dbxconnections.ini"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Sistema MINIMERCADO\Projeto\dbxdrivers.ini"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Sistema MINIMERCADO\Projeto\String_Conexao.ini"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Sistema MINIMERCADO\Projeto\UF.txt"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Sistema MINIMERCADO\DLLs\*"; DestDir: "{app}\DLLs"; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: "C:\Sistema MINIMERCADO\DLLs\fbclient.dll"; DestDir: "{sys}"; Flags: ignoreversion
-Source: "C:\Sistema MINIMERCADO\DLLs\midas.dll"; DestDir: "{sys}"; Flags: regserver
-Source: "C:\Sistema MINIMERCADO\DLLs\dbxfb.dll"; DestDir: "{sys}"; Flags: ignoreversion
-Source: "C:\Sistema MINIMERCADO\DLLs\dbxint.dll"; DestDir: "{sys}"; Flags: ignoreversion
-Source: "C:\Sistema MINIMERCADO\DLLs\InterfaceEpsonNF.dll"; DestDir: "{sys}"; Flags: ignoreversion
+Source: "C:\Sistema Mini-Mercado\Projeto\DUDU_AUTO_PEÇAS.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Sistema Mini-Mercado\Banco de Dados\MINIMERCADO.FDB"; DestDir: "{app}\Banco de Dados"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Sistema Mini-Mercado\Projeto\dbxconnections.ini"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Sistema Mini-Mercado\Projeto\dbxdrivers.ini"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Sistema Mini-Mercado\Projeto\String_Conexao.ini"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Sistema Mini-Mercado\Projeto\UF.txt"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Sistema Mini-Mercado\DLLs\*"; DestDir: "{app}\DLLs"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "C:\Sistema Mini-Mercado\DLLs\fbclient.dll"; DestDir: "{sys}"; Flags: ignoreversion
+Source: "C:\Sistema Mini-Mercado\DLLs\midas.dll"; DestDir: "{sys}"; Flags: regserver
+Source: "C:\Sistema Mini-Mercado\DLLs\dbxfb.dll"; DestDir: "{sys}"; Flags: ignoreversion
+Source: "C:\Sistema Mini-Mercado\DLLs\dbxint.dll"; DestDir: "{sys}"; Flags: ignoreversion
+Source: "C:\Sistema Mini-Mercado\DLLs\InterfaceEpsonNF.dll"; DestDir: "{sys}"; Flags: ignoreversion
+Source: "C:\Sistema Mini-Mercado\Firebird-2.5.2.26540.exe"; DestDir: {tmp}; Flags: deleteafterinstall promptifolder
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -55,4 +59,6 @@ Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: 
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+Filename: {tmp}\Firebird-2.5.2.26540.exe; WorkingDir: {tmp}; Parameters: "/VERYSILENT /NOICONS /COMPONENTS=""SuperServerComponent, ServerComponent, DevAdminComponent, ClientComponent"" /FORCE /NOGDS32 /COPYFBCLIENT"
+
 

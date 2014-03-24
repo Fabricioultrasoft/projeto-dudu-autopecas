@@ -76,7 +76,7 @@ const
 
 implementation
 
-uses uDm, UdmConexao, uProgresso;
+uses uDm, UdmConexao, uProgresso, uMenu;
 
 {$R *.dfm}
 
@@ -86,6 +86,7 @@ var
 begin
     FImpressora := TImpressora.Create(miEpson, PAnsiChar('USB'));
 
+    texto := Concat(texto, FImpressora.InseriTraco(48, false, true));
     texto := Concat(texto, '<ce><b>FECHAMENTO DE CAIXA</b></ce>'#10#10);
     texto := Concat(texto, 'Responsável: William'#10);
     texto := Concat(texto, 'Hora: ' + FormatDateTime('hh:mm:ss', time) + #10);
@@ -109,7 +110,7 @@ begin
 
     if FVerificacaoImpressora then
     begin
-        FImpressora.ImprimeTextoTag(PAnsiChar(texto), true);
+        FImpressora.ImprimeTextoTag(PAnsiChar(texto),  frmMenu.FCabFechamento);
         FImpressora.AcionaGuilhotina(0);
     end;
 end;
@@ -134,7 +135,7 @@ begin
         qrySoma.ParamByName('DTF').AsDate := dtpFinal.Date;
         qrySoma.ParamByName('tipo').AsString := 'V';
         qrySoma.Open;
-        edtSubTotal.Text := FormatFloat('R$ ##0.00', qrySoma.Fields[0].Value);
+        edtSubTotal.Text := FormatFloat('R$ ##,##0.00', qrySoma.Fields[0].Value);
         subtotal         := qrySoma.Fields[0].Value;
 
         //Soma somente os pagamentos em DINHEIRO
@@ -146,10 +147,10 @@ begin
         qrySoma.ParamByName('DTF').AsDate := dtpFinal.Date;
         qrySoma.ParamByName('tipo').AsString := 'V';
         qrySoma.Open;
-        edtDinheiro.Text := FormatFloat('R$ ##0.00', qrySoma.Fields[0].Value);
-        edtCheque.Text   := FormatFloat('R$ ##0.00', qrySoma.Fields[1].Value);
-        edtCartao.Text   := FormatFloat('R$ ##0.00', qrySoma.Fields[2].Value);
-        edtTicket.Text   := FormatFloat('R$ ##0.00', qrySoma.Fields[3].Value);
+        edtDinheiro.Text := FormatFloat('R$ ##,##0.00', qrySoma.Fields[0].Value);
+        edtCheque.Text   := FormatFloat('R$ ##,##0.00', qrySoma.Fields[1].Value);
+        edtCartao.Text   := FormatFloat('R$ ##,##0.00', qrySoma.Fields[2].Value);
+        edtTicket.Text   := FormatFloat('R$ ##,##0.00', qrySoma.Fields[3].Value);
 
         //Soma somente as Sangrias
         qrySoma.Close;
@@ -160,7 +161,7 @@ begin
         qrySoma.ParamByName('DTF').AsDate := dtpFinal.Date;
         qrySoma.ParamByName('tipo').AsString := 'R';
         qrySoma.Open;
-        edtSangria.Text := FormatFloat('R$ ##0.00', qrySoma.Fields[0].Value);
+        edtSangria.Text := FormatFloat('R$ ##,##0.00', qrySoma.Fields[0].Value);
         sangria         := qrySoma.Fields[0].Value;
 
         //Soma somente os Suprimentos
@@ -172,11 +173,11 @@ begin
         qrySoma.ParamByName('DTF').AsDate := dtpFinal.Date;
         qrySoma.ParamByName('tipo').AsString := 'S';
         qrySoma.Open;
-        edtSuprimento.Text := FormatFloat('R$ ##0.00', qrySoma.Fields[0].Value);
+        edtSuprimento.Text := FormatFloat('R$ ##,##0.00', qrySoma.Fields[0].Value);
         suprimento         := qrySoma.Fields[0].Value;
 
         // Calcula o total deduzindo a sangria
-          edtTotal.Text   := FormatFloat('R$ ##0.00', ((suprimento + subtotal)- sangria));
+          edtTotal.Text   := FormatFloat('R$ ##,##0.00', ((suprimento + subtotal)- sangria));
 
     finally
          FreeAndNil(qrySoma);

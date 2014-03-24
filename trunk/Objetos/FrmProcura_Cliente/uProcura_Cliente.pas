@@ -32,6 +32,13 @@ type
 var
   frmProcura_Cliente: TfrmProcura_Cliente;
 
+const
+    // Instrução SQL consulta genérica Cliente
+    SELECT : string = 'SELECT COD_CLI, NOME_RAZAO, CNPJ_CPF, INSC_EST, FONE, CEP, RUA, NUMERO, BAIRRO, CIDADE, UF FROM CLIENTE ';
+
+    // Instrução SQL WHERE por nome/razao
+    WHERE : string = 'WHERE NOME_RAZAO LIKE :nome ';
+
 implementation
 
 uses uDm, uPDV, uForma_Pagamento, uRelatorio;
@@ -43,8 +50,7 @@ begin
      //Carregando consulta básica
      dm.qryCliente.Close;
      dm.qryCliente.SQL.Clear;
-     dm.qryCliente.SQL.Add('SELECT COD_CLI, NOME_RAZAO, CNPJ, INSC_EST, FONE, CEP, RUA, NUMERO, BAIRRO, CIDADE, UF');
-     dm.qryCliente.SQL.Add('FROM CLIENTE');
+     dm.qryCliente.SQL.Add(SELECT);
      dm.qryCliente.Open;
      dm.cdsCliente.Open;
      dm.cdsCliente.Refresh;
@@ -57,9 +63,9 @@ begin
     begin
        dm.qryCliente.Close;
        dm.qryCliente.SQL.Clear;
-       dm.qryCliente.SQL.Add('SELECT COD_CLI, NOME_RAZAO, CNPJ, INSC_EST, FONE, CEP, RUA, NUMERO, BAIRRO, CIDADE, UF');
-       dm.qryCliente.SQL.Add('FROM CLIENTE');
-       dm.qryCliente.SQL.Add('WHERE NOME_RAZAO LIKE'+ QuotedStr(edtPesquisa.Text + '%'));
+       dm.qryCliente.SQL.Add(SELECT);
+       dm.qryCliente.SQL.Add(WHERE);
+       dm.qryCliente.ParamByName('nome').AsString := edtPesquisa.Text + '%';
        dm.qryCliente.Open;
        dm.cdsCliente.Refresh;
     end

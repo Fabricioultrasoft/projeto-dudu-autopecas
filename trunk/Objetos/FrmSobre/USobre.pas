@@ -51,8 +51,8 @@ begin
      lblResponsavel.Caption := 'William F. Leite';
      lblINI.Caption         := 'Arquivo INI: ' + ExtractFilePath(Application.ExeName) + 'String_Conexao.ini';
      lblPlataforma.Caption  := 'Delphi XE';
-     lblRelatorio.Caption   := 'Rave Report 9';
-     lblBancoDados.Caption  := 'Firebird 2.5';
+     lblRelatorio.Caption   := 'RL Report';
+     lblBancoDados.Caption  := 'Firebird 2.5.2';
 end;
 
 procedure TfrmSobre.FormMouseMove(Sender: TObject; Shift: TShiftState; X,

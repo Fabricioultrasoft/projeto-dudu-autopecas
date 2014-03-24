@@ -51,10 +51,11 @@ type
     edtEstoque: TJvCalcEdit;
     edtGrupo: TJvComboEdit;
     btnCancelar: TBitBtn;
-    lblDescricaoFornecedor: TEdit;
+    edtDescricaoGrupo: TEdit;
     BitBtn1: TBitBtn;
     ACBrBarCode: TACBrBarCode;
     Label18: TLabel;
+    btnAdicionarGrupo: TBitBtn;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnSairClick(Sender: TObject);
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
@@ -80,10 +81,12 @@ type
     function GerarCodigoBarra(): string;
     procedure BitBtn1Click(Sender: TObject);
     procedure edtEAN13Change(Sender: TObject);
+    procedure btnAdicionarGrupoClick(Sender: TObject);
+    procedure edtGrupoExit(Sender: TObject);
   private
     { Private declarations }
   public
-    { Public declarations }
+    procedure CarregaDescGrupo(Codigo: string);
   end;
 
 var
@@ -105,6 +108,9 @@ const
   // Instrução SQL para verificação de Duplicidade
   SQLVERIF: string  = 'SELECT DESC_PROD FROM PRODUTO WHERE EAN13 = :ean13';
 
+  // Instrução SQL para carregar a descrição do grupo
+  SQLDESC_FORN : string = 'SELECT DESC_GRUPO FROM GRUPO WHERE COD_GRUPO = :cod';
+
 
 implementation
 
@@ -116,6 +122,16 @@ uses uDm, uProcura_Fornecedor, uCad_Grupo, uProcura_Grupo, uProcura_Produto, uRe
 procedure TfrmCadProduto.BitBtn1Click(Sender: TObject);
 begin
     edtEAN13.Text := GerarCodigoBarra;
+end;
+
+procedure TfrmCadProduto.btnAdicionarGrupoClick(Sender: TObject);
+begin
+    try
+        frmCadGrupo := TfrmCadGrupo.Create(nil);
+        frmCadGrupo.ShowModal;
+    finally
+        FreeAndNil(frmCadGrupo);
+    end;
 end;
 
 procedure TfrmCadProduto.btnCancelarClick(Sender: TObject);
@@ -180,6 +196,36 @@ end;
 procedure TfrmCadProduto.CarregaCampos;
 begin
       //
+end;
+
+procedure TfrmCadProduto.CarregaDescGrupo(Codigo: string);
+var
+   qry: TSQLQuery;
+begin
+    if Codigo <> '' then
+    begin
+         try
+             qry := TSQLQuery.Create(nil);
+             qry.SQLConnection := dmConexao.Conexao;
+
+             qry.Close;
+             qry.SQL.Clear;
+             qry.SQL.Add(SQLDESC_FORN);
+             qry.ParamByName('cod').AsString := codigo;
+             qry.Open;
+
+             if not qry.IsEmpty then
+                edtDescricaoGrupo.Text := qry.Fields[0].AsString
+             else
+             begin
+                 MessageDlg('Grupo não encontrado!', mtError, [mbOK], 0);
+                 edtGrupo.SetFocus;
+             end;
+         except
+            on E:Exception do
+            ShowMessage('Erro ao procurar grupo !'#13#10 + E.Message);
+         end;
+    end;
 end;
 
 procedure TfrmCadProduto.Editar;
@@ -413,6 +459,11 @@ begin
      finally
        FreeAndNil(frmProcura_Grupo);
      end;
+end;
+
+procedure TfrmCadProduto.edtGrupoExit(Sender: TObject);
+begin
+    CarregaDescGrupo(edtGrupo.Text);
 end;
 
 function TfrmCadProduto.VerificaCampos: Boolean;

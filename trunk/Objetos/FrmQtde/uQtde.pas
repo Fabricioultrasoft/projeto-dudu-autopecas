@@ -47,6 +47,10 @@ begin
          dm.cdsItem_Venda.FieldByName('TOTAL_PROD').AsFloat := TFuncoes.CalculaValorProd(dm.cdsItem_Venda.FieldByName('QTDE').AsInteger, dm.cdsItem_Venda.FieldByName('VAL_PROD').AsFloat);
          dm.cdsItem_Venda.Post;
 
+         frmPDV.ImprimeItemVenda(frmPDV.FormataImpressaoItem(IntToStr(dm.cdsItem_Venda.FieldByName('ID_ITEM').AsInteger), dm.cdsItem_Venda.FieldByName('EAN13').AsString,
+                                 copy(dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString, 1, 24), FormatFloat('##.000', qtde), FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('VAL_PROD').AsFloat),
+                                 FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('TOTAL_PROD').AsFloat), 24));
+
          //Carrega os valores na tela de PDV
          if Assigned(frmPDV) then
          begin

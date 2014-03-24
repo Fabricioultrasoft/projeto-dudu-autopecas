@@ -5,7 +5,7 @@ object frmConfig: TfrmConfig
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Configura'#231#227'o'
   ClientHeight = 384
-  ClientWidth = 707
+  ClientWidth = 732
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -21,11 +21,11 @@ object frmConfig: TfrmConfig
   object pnl3: TPanel
     Left = 0
     Top = 334
-    Width = 707
+    Width = 732
     Height = 50
     Align = alBottom
     TabOrder = 0
-    ExplicitWidth = 721
+    ExplicitWidth = 707
     object btn1: TBitBtn
       Left = 578
       Top = 7
@@ -40,7 +40,7 @@ object frmConfig: TfrmConfig
       Font.Color = clWindowText
       Font.Height = -13
       Font.Name = 'Tahoma'
-      Font.Style = [fsBold]
+      Font.Style = []
       Glyph.Data = {
         DE010000424DDE01000000000000760000002800000024000000120000000100
         0400000000006801000000000000000000001000000000000000000000000000
@@ -78,7 +78,7 @@ object frmConfig: TfrmConfig
       Font.Color = clWindowText
       Font.Height = -13
       Font.Name = 'Tahoma'
-      Font.Style = [fsBold]
+      Font.Style = []
       Glyph.Data = {
         76010000424D7601000000000000760000002800000020000000100000000100
         04000000000000010000120B0000120B00001000000000000000000000000000
@@ -106,7 +106,7 @@ object frmConfig: TfrmConfig
   object Panel1: TPanel
     Left = 0
     Top = 0
-    Width = 707
+    Width = 732
     Height = 334
     Align = alClient
     TabOrder = 1
@@ -117,7 +117,7 @@ object frmConfig: TfrmConfig
     object pgConfig: TPageControl
       Left = 1
       Top = 1
-      Width = 705
+      Width = 730
       Height = 332
       Cursor = crHandPoint
       ActivePage = TabSheet1
@@ -132,11 +132,11 @@ object frmConfig: TfrmConfig
       ExplicitWidth = 719
       object TabSheet1: TTabSheet
         Caption = 'Informa'#231#245'es da Empresa'
-        ExplicitWidth = 711
+        ExplicitWidth = 697
         object GroupBox1: TGroupBox
           Left = 0
           Top = 0
-          Width = 697
+          Width = 722
           Height = 301
           Align = alClient
           Font.Charset = DEFAULT_CHARSET
@@ -146,7 +146,7 @@ object frmConfig: TfrmConfig
           Font.Style = []
           ParentFont = False
           TabOrder = 0
-          ExplicitWidth = 711
+          ExplicitWidth = 697
           object Label1: TLabel
             Left = 48
             Top = 79
@@ -389,12 +389,13 @@ object frmConfig: TfrmConfig
         object GroupBox2: TGroupBox
           Left = 0
           Top = 0
-          Width = 697
+          Width = 722
           Height = 301
           Align = alClient
           TabOrder = 0
+          ExplicitLeft = 3
           ExplicitTop = -1
-          ExplicitWidth = 711
+          ExplicitWidth = 697
           object lbl7: TLabel
             Left = 5
             Top = 288
@@ -410,34 +411,34 @@ object frmConfig: TfrmConfig
           end
           object GroupBox3: TGroupBox
             Left = 9
-            Top = 12
-            Width = 392
+            Top = 9
+            Width = 376
             Height = 125
             Caption = 'Impressora'
             TabOrder = 0
             object lbl4: TLabel
-              Left = 128
+              Left = 118
               Top = 91
               Width = 77
               Height = 16
               Caption = 'Velocidade:'
             end
             object lbl3: TLabel
-              Left = 164
+              Left = 154
               Top = 62
               Width = 41
               Height = 16
               Caption = 'Porta:'
             end
             object lbl2: TLabel
-              Left = 18
+              Left = 8
               Top = 32
               Width = 187
               Height = 16
               Caption = 'Mod. Impressora N'#227'o Fiscal:'
             end
             object lbl5: TLabel
-              Left = 370
+              Left = 356
               Top = 33
               Width = 8
               Height = 14
@@ -450,7 +451,7 @@ object frmConfig: TfrmConfig
               ParentFont = False
             end
             object Label11: TLabel
-              Left = 370
+              Left = 356
               Top = 63
               Width = 8
               Height = 14
@@ -463,7 +464,7 @@ object frmConfig: TfrmConfig
               ParentFont = False
             end
             object cmbImpressora: TComboBox
-              Left = 207
+              Left = 197
               Top = 29
               Width = 157
               Height = 24
@@ -474,7 +475,7 @@ object frmConfig: TfrmConfig
                 'Epson')
             end
             object edtVelocidade: TEdit
-              Left = 207
+              Left = 197
               Top = 89
               Width = 157
               Height = 24
@@ -489,7 +490,7 @@ object frmConfig: TfrmConfig
               TabOrder = 2
             end
             object cmbPorta: TComboBox
-              Left = 207
+              Left = 197
               Top = 59
               Width = 157
               Height = 24
@@ -504,20 +505,20 @@ object frmConfig: TfrmConfig
           object grp1: TGroupBox
             Left = 9
             Top = 143
-            Width = 678
+            Width = 704
             Height = 130
             Caption = 'Mensagens no Cupom'
             TabOrder = 1
             object lbl6: TLabel
-              Left = 18
-              Top = 32
+              Left = 25
+              Top = 34
               Width = 169
               Height = 16
               Caption = 'Mensagem do Cabe'#231'alho:'
             end
             object lbl8: TLabel
-              Left = 38
-              Top = 80
+              Left = 45
+              Top = 82
               Width = 149
               Height = 16
               Caption = 'Mensagem do Rodap'#233':'
@@ -536,8 +537,8 @@ object frmConfig: TfrmConfig
               ParentFont = False
             end
             object edtMsgCabecalho: TEdit
-              Left = 189
-              Top = 29
+              Left = 196
+              Top = 31
               Width = 468
               Height = 24
               Color = clSilver
@@ -551,8 +552,8 @@ object frmConfig: TfrmConfig
               TabOrder = 0
             end
             object edtMsgRodape: TEdit
-              Left = 189
-              Top = 77
+              Left = 196
+              Top = 79
               Width = 468
               Height = 24
               Color = clSilver
@@ -566,13 +567,48 @@ object frmConfig: TfrmConfig
               TabOrder = 1
             end
           end
+          object grp2: TGroupBox
+            Left = 391
+            Top = 9
+            Width = 322
+            Height = 125
+            Caption = 'Layout Cupom'
+            TabOrder = 2
+            object ckbCabecalhoSuprimento: TCheckBox
+              Left = 11
+              Top = 31
+              Width = 270
+              Height = 17
+              Cursor = crHandPoint
+              Caption = 'Imprimir Cabe'#231'alho Suprimento'
+              TabOrder = 0
+            end
+            object ckbCabecalhoSangria: TCheckBox
+              Left = 11
+              Top = 63
+              Width = 249
+              Height = 17
+              Cursor = crHandPoint
+              Caption = 'Imprimir Cabe'#231'alho Sangria'
+              TabOrder = 1
+            end
+            object ckbCabecalhoFechamento: TCheckBox
+              Left = 11
+              Top = 96
+              Width = 308
+              Height = 17
+              Cursor = crHandPoint
+              Caption = 'Imprimir Cabe'#231'alho Fechamento de Caixa'
+              TabOrder = 2
+            end
+          end
         end
       end
     end
   end
   object ACBrEnterTab1: TACBrEnterTab
     EnterAsTab = True
-    Left = 653
-    Top = 4
+    Left = 93
+    Top = 340
   end
 end

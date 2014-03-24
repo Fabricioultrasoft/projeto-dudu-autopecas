@@ -1,6 +1,6 @@
 object frmPDV: TfrmPDV
-  Left = 428
-  Top = 169
+  Left = 298
+  Top = 171
   ActiveControl = edtConsulta
   AutoSize = True
   BorderStyle = bsNone
@@ -9121,7 +9121,7 @@ object frmPDV: TfrmPDV
       0658EAC5B269FD38AF5767FB36BF883FFFD9}
     Stretch = True
   end
-  object btn1: TSpeedButton
+  object btnConsultarEstoque: TSpeedButton
     Left = 50
     Top = 624
     Width = 193
@@ -9149,8 +9149,9 @@ object frmPDV: TfrmPDV
     NumGlyphs = 2
     ParentFont = False
     Spacing = 20
+    OnClick = btnConsultarEstoqueClick
   end
-  object btn2: TSpeedButton
+  object btnIniciarVenda: TSpeedButton
     Left = 50
     Top = 666
     Width = 193
@@ -9178,8 +9179,9 @@ object frmPDV: TfrmPDV
     NumGlyphs = 2
     ParentFont = False
     Spacing = 55
+    OnClick = btnIniciarVendaClick
   end
-  object btn3: TSpeedButton
+  object btnFinalizarVenda: TSpeedButton
     Left = 249
     Top = 624
     Width = 193
@@ -9207,8 +9209,9 @@ object frmPDV: TfrmPDV
     NumGlyphs = 2
     ParentFont = False
     Spacing = 40
+    OnClick = btnFinalizarVendaClick
   end
-  object btn4: TSpeedButton
+  object btnAlterarQuantidade: TSpeedButton
     Left = 249
     Top = 666
     Width = 193
@@ -9236,8 +9239,9 @@ object frmPDV: TfrmPDV
     NumGlyphs = 2
     ParentFont = False
     Spacing = 10
+    OnClick = btnAlterarQuantidadeClick
   end
-  object btn5: TSpeedButton
+  object btnFechamentoCaixa: TSpeedButton
     Left = 448
     Top = 624
     Width = 193
@@ -9265,8 +9269,9 @@ object frmPDV: TfrmPDV
     NumGlyphs = 2
     ParentFont = False
     Spacing = 10
+    OnClick = btnFechamentoCaixaClick
   end
-  object btn6: TSpeedButton
+  object btnCancelarVenda: TSpeedButton
     Left = 448
     Top = 666
     Width = 193
@@ -9294,8 +9299,9 @@ object frmPDV: TfrmPDV
     NumGlyphs = 2
     ParentFont = False
     Spacing = 40
+    OnClick = btnCancelarVendaClick
   end
-  object btn8: TSpeedButton
+  object btnCancelarItem: TSpeedButton
     Left = 647
     Top = 624
     Width = 193
@@ -9323,13 +9329,14 @@ object frmPDV: TfrmPDV
     NumGlyphs = 2
     ParentFont = False
     Spacing = 40
+    OnClick = btnCancelarItemClick
   end
-  object btn9: TSpeedButton
+  object btnIncluirProduto: TSpeedButton
     Left = 647
     Top = 666
     Width = 193
     Height = 32
-    Caption = 'F8 - INCLUIR PRDOUTO'
+    Caption = 'F8 - INCLUIR PRODUTO'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -9352,8 +9359,9 @@ object frmPDV: TfrmPDV
     NumGlyphs = 2
     ParentFont = False
     Spacing = 30
+    OnClick = btnIncluirProdutoClick
   end
-  object btn10: TSpeedButton
+  object btnProcurarVenda: TSpeedButton
     Left = 846
     Top = 624
     Width = 193
@@ -9381,8 +9389,9 @@ object frmPDV: TfrmPDV
     NumGlyphs = 2
     ParentFont = False
     Spacing = 30
+    OnClick = btnProcurarVendaClick
   end
-  object btn11: TSpeedButton
+  object btnSuprimento: TSpeedButton
     Left = 1045
     Top = 624
     Width = 193
@@ -9410,8 +9419,9 @@ object frmPDV: TfrmPDV
     NumGlyphs = 2
     ParentFont = False
     Spacing = 45
+    OnClick = btnSuprimentoClick
   end
-  object btn12: TSpeedButton
+  object btnSangria: TSpeedButton
     Left = 846
     Top = 666
     Width = 193
@@ -9439,6 +9449,7 @@ object frmPDV: TfrmPDV
     NumGlyphs = 2
     ParentFont = False
     Spacing = 75
+    OnClick = btnSangriaClick
   end
   object btn13: TSpeedButton
     Left = 1045
@@ -9468,6 +9479,7 @@ object frmPDV: TfrmPDV
     NumGlyphs = 2
     ParentFont = False
     Spacing = 80
+    OnClick = btn13Click
   end
   object edtStatus: TEdit
     Left = 588
@@ -9590,7 +9602,9 @@ object frmPDV: TfrmPDV
     Top = 201
     Width = 238
     Height = 281
+    BevelInner = bvLowered
     TabOrder = 7
+    OnMouseMove = pnl1MouseMove
     object img3: TImage
       Left = 41
       Top = 20
@@ -10001,14 +10015,14 @@ object frmPDV: TfrmPDV
       Stretch = True
     end
     object lblTitulo: TLabel
-      Left = 8
+      Left = 16
       Top = 208
-      Width = 219
+      Width = 209
       Height = 16
       AutoSize = False
       Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
+      Font.Color = clHotLight
+      Font.Height = -12
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
@@ -10040,29 +10054,48 @@ object frmPDV: TfrmPDV
       ParentFont = False
     end
     object lbl4: TLabel
-      Left = 16
-      Top = 140
-      Width = 143
+      Left = 44
+      Top = 141
+      Width = 118
       Height = 13
-      Caption = 'Site: www.wllsistemas.com.br'
+      Cursor = crHandPoint
+      Hint = 'Visite nosso site'
+      Caption = 'www.wllsistemas.com.br'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
+      OnClick = lbl4Click
+      OnMouseMove = lbl4MouseMove
+    end
+    object lblVersao: TLabel
+      Left = 16
+      Top = 232
+      Width = 209
+      Height = 16
+      AutoSize = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clHotLight
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lbl1: TLabel
+      Left = 16
+      Top = 141
+      Width = 22
+      Height = 13
+      Caption = 'Site:'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -11
       Font.Name = 'Tahoma'
       Font.Style = []
-      ParentFont = False
-    end
-    object lblVersao: TLabel
-      Left = 8
-      Top = 232
-      Width = 219
-      Height = 16
-      AutoSize = False
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'Tahoma'
-      Font.Style = [fsBold]
       ParentFont = False
     end
   end

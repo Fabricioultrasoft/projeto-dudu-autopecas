@@ -46,6 +46,7 @@ type
     lblDescricaoFornecedor: TEdit;
     Label6: TLabel;
     btnCancelar: TBitBtn;
+    btnAdicionarGrupo: TBitBtn;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure Incluir();                   override;
     procedure Editar();                    override;
@@ -73,6 +74,7 @@ type
     procedure btnExcluirProdutoClick(Sender: TObject);
     procedure DBGrid1DblClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
+    procedure btnAdicionarGrupoClick(Sender: TObject);
   private
     procedure IncluirProduto();
     procedure EditarProduto();
@@ -114,9 +116,19 @@ const
 implementation
 
 uses uProcura_Produto, uDm, uRelatorio, uCalcula_Perc, UdmConexao,
-  uProdura_EntradaProduto, uProdutoNF;
+  uProdura_EntradaProduto, uProdutoNF, uCad_Fornecedor;
 
 {$R *.dfm}
+
+procedure TfrmEntrada_Produtos.btnAdicionarGrupoClick(Sender: TObject);
+begin
+    try
+        frmCadFornecedor := TfrmCadFornecedor.Create(nil);
+        frmCadFornecedor.ShowModal;
+    finally
+        FreeAndNil(frmCadFornecedor);
+    end;
+end;
 
 procedure TfrmEntrada_Produtos.btnCancelarClick(Sender: TObject);
 begin
