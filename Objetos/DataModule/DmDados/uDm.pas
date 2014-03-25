@@ -4,7 +4,7 @@ interface
 
 uses
   SysUtils, Classes, FMTBcd, DB, DBClient, Provider, SqlExpr, uFuncao, ACBrNFe,
-  RLFilters, RLPDFFilter;
+  RLFilters, RLPDFFilter, RLRichFilter, RLXLSFilter, RLHTMLFilter;
 
 type
   Tdm = class(TDataModule)
@@ -339,6 +339,43 @@ type
     cdsEntrada_ProdutoUND_CONVERSAO: TStringField;
     qryEntrada_ProdutoVAL_PROD_NF: TFMTBCDField;
     cdsEntrada_ProdutoVAL_PROD_NF: TFMTBCDField;
+    RLHTMLFilter1: TRLHTMLFilter;
+    RLXLSFilter1: TRLXLSFilter;
+    RLRichFilter1: TRLRichFilter;
+    qryDevolucao: TSQLQuery;
+    dspDevolucao: TDataSetProvider;
+    cdsDevolucao: TClientDataSet;
+    dtsDevolucao: TDataSource;
+    intgrfldDevolucaoID: TIntegerField;
+    strngfldDevolucaoCOD_DEVOLUCAO: TStringField;
+    strngfldDevolucaoMOTIVO: TStringField;
+    qryDevolucaoVALOR_ITEM: TFMTBCDField;
+    strngfldDevolucaoOBSERVACAO: TStringField;
+    strngfldDevolucaoACAO_TOMADA: TStringField;
+    qryDevolucaoQTDE: TFMTBCDField;
+    strngfldDevolucaoCOD_FUNC: TStringField;
+    strngfldDevolucaoN_VENDA: TStringField;
+    intgrfldDevolucaoITEM: TIntegerField;
+    qryDevolucaoDATA: TDateField;
+    strngfldDevolucaoEAN13: TStringField;
+    intgrfldDevolucaoID1: TIntegerField;
+    strngfldDevolucaoCOD_DEVOLUCAO1: TStringField;
+    strngfldDevolucaoMOTIVO1: TStringField;
+    cdsDevolucaoVALOR_ITEM: TFMTBCDField;
+    strngfldDevolucaoOBSERVACAO1: TStringField;
+    strngfldDevolucaoACAO_TOMADA1: TStringField;
+    cdsDevolucaoQTDE: TFMTBCDField;
+    strngfldDevolucaoCOD_FUNC1: TStringField;
+    strngfldDevolucaoN_VENDA1: TStringField;
+    intgrfldDevolucaoITEM1: TIntegerField;
+    cdsDevolucaoDATA: TDateField;
+    strngfldDevolucaoEAN14: TStringField;
+    strngfldDevolucaoREF_PROD: TStringField;
+    strngfldDevolucaoREF_PROD1: TStringField;
+    strngfldDevolucaoSTATUS: TStringField;
+    strngfldDevolucaoDESC_PROD: TStringField;
+    strngfldDevolucaoSTATUS1: TStringField;
+    strngfldDevolucaoDESC_PROD1: TStringField;
     function CarregaPrivilegio: TStringList;
     function CarregaUnidadeMedida: TStringList;
     procedure intgrfldItem_OrcQTDE1Validate(Sender: TField);

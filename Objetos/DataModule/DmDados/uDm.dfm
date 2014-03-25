@@ -3,7 +3,7 @@ object dm: Tdm
   Left = 489
   Top = 146
   Height = 717
-  Width = 906
+  Width = 1005
   object dspUsuario: TDataSetProvider
     DataSet = qryUsuario
     Options = [poAllowCommandText, poUseQuoteChar]
@@ -1751,7 +1751,187 @@ object dm: Tdm
     ViewerOptions = []
     FontEncoding = feNoEncoding
     DisplayName = 'Documento PDF'
-    Left = 736
-    Top = 24
+    Left = 928
+    Top = 16
+  end
+  object RLHTMLFilter1: TRLHTMLFilter
+    DocumentStyle = dsCSS2
+    DisplayName = 'P'#225'gina da Web'
+    Left = 936
+    Top = 72
+  end
+  object RLXLSFilter1: TRLXLSFilter
+    DisplayName = 'Planilha Excel'
+    Left = 928
+    Top = 128
+  end
+  object RLRichFilter1: TRLRichFilter
+    DisplayName = 'Formato RichText'
+    Left = 928
+    Top = 192
+  end
+  object qryDevolucao: TSQLQuery
+    Active = True
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      'SELECT '
+      '      D. ID,'
+      '      D.COD_DEVOLUCAO,'
+      '      D.MOTIVO,'
+      '      D.VALOR_ITEM,'
+      '      D.OBSERVACAO,'
+      '      D.ACAO_TOMADA,'
+      '      D.QTDE,'
+      '      D.COD_FUNC,'
+      '      D.N_VENDA,'
+      '      D.ITEM,'
+      '      D.DATA,'
+      '      D.EAN13,'
+      '      D.REF_PROD,'
+      '      D.STATUS,'
+      '      P.DESC_PROD'
+      'FROM '
+      '     DEVOLUCAO D INNER JOIN PRODUTO P ON D.EAN13 = P.EAN13')
+    SQLConnection = dmConexao.Conexao
+    Left = 896
+    Top = 368
+    object intgrfldDevolucaoID: TIntegerField
+      FieldName = 'ID'
+    end
+    object strngfldDevolucaoCOD_DEVOLUCAO: TStringField
+      FieldName = 'COD_DEVOLUCAO'
+      Size = 10
+    end
+    object strngfldDevolucaoMOTIVO: TStringField
+      FieldName = 'MOTIVO'
+      Size = 30
+    end
+    object qryDevolucaoVALOR_ITEM: TFMTBCDField
+      FieldName = 'VALOR_ITEM'
+      Precision = 18
+      Size = 2
+    end
+    object strngfldDevolucaoOBSERVACAO: TStringField
+      FieldName = 'OBSERVACAO'
+      Size = 255
+    end
+    object strngfldDevolucaoACAO_TOMADA: TStringField
+      FieldName = 'ACAO_TOMADA'
+      Size = 30
+    end
+    object qryDevolucaoQTDE: TFMTBCDField
+      FieldName = 'QTDE'
+      Precision = 18
+      Size = 3
+    end
+    object strngfldDevolucaoCOD_FUNC: TStringField
+      FieldName = 'COD_FUNC'
+      Size = 10
+    end
+    object strngfldDevolucaoN_VENDA: TStringField
+      FieldName = 'N_VENDA'
+      Size = 10
+    end
+    object intgrfldDevolucaoITEM: TIntegerField
+      FieldName = 'ITEM'
+    end
+    object qryDevolucaoDATA: TDateField
+      FieldName = 'DATA'
+    end
+    object strngfldDevolucaoEAN13: TStringField
+      FieldName = 'EAN13'
+      Size = 13
+    end
+    object strngfldDevolucaoREF_PROD: TStringField
+      FieldName = 'REF_PROD'
+    end
+    object strngfldDevolucaoSTATUS: TStringField
+      FieldName = 'STATUS'
+      Size = 1
+    end
+    object strngfldDevolucaoDESC_PROD: TStringField
+      FieldName = 'DESC_PROD'
+      ProviderFlags = []
+      Size = 100
+    end
+  end
+  object dspDevolucao: TDataSetProvider
+    DataSet = qryDevolucao
+    Left = 888
+    Top = 440
+  end
+  object cdsDevolucao: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspDevolucao'
+    Left = 888
+    Top = 528
+    object intgrfldDevolucaoID1: TIntegerField
+      FieldName = 'ID'
+    end
+    object strngfldDevolucaoCOD_DEVOLUCAO1: TStringField
+      FieldName = 'COD_DEVOLUCAO'
+      Size = 10
+    end
+    object strngfldDevolucaoMOTIVO1: TStringField
+      FieldName = 'MOTIVO'
+      Size = 30
+    end
+    object cdsDevolucaoVALOR_ITEM: TFMTBCDField
+      FieldName = 'VALOR_ITEM'
+      DisplayFormat = '##,##0.00'
+      Precision = 18
+      Size = 2
+    end
+    object strngfldDevolucaoOBSERVACAO1: TStringField
+      FieldName = 'OBSERVACAO'
+      Size = 255
+    end
+    object strngfldDevolucaoACAO_TOMADA1: TStringField
+      FieldName = 'ACAO_TOMADA'
+      Size = 30
+    end
+    object cdsDevolucaoQTDE: TFMTBCDField
+      FieldName = 'QTDE'
+      DisplayFormat = '#0.000'
+      Precision = 18
+      Size = 3
+    end
+    object strngfldDevolucaoCOD_FUNC1: TStringField
+      FieldName = 'COD_FUNC'
+      Size = 10
+    end
+    object strngfldDevolucaoN_VENDA1: TStringField
+      FieldName = 'N_VENDA'
+      Size = 10
+    end
+    object intgrfldDevolucaoITEM1: TIntegerField
+      FieldName = 'ITEM'
+    end
+    object cdsDevolucaoDATA: TDateField
+      FieldName = 'DATA'
+    end
+    object strngfldDevolucaoEAN14: TStringField
+      FieldName = 'EAN13'
+      Size = 13
+    end
+    object strngfldDevolucaoREF_PROD1: TStringField
+      FieldName = 'REF_PROD'
+    end
+    object strngfldDevolucaoSTATUS1: TStringField
+      FieldName = 'STATUS'
+      Size = 1
+    end
+    object strngfldDevolucaoDESC_PROD1: TStringField
+      FieldName = 'DESC_PROD'
+      Required = True
+      Size = 100
+    end
+  end
+  object dtsDevolucao: TDataSource
+    DataSet = cdsDevolucao
+    Left = 888
+    Top = 616
   end
 end

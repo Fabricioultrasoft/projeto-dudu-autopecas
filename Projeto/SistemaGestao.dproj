@@ -174,6 +174,9 @@
 			<DCCReference Include="..\Objetos\FrmTrocaDevolucao\uTrocaDevolucao.pas">
 				<Form>frmTrocaDevolucao</Form>
 			</DCCReference>
+			<DCCReference Include="..\Objetos\FrmProcura_Devolucao\uProcuraDevolucao.pas">
+				<Form>frmProcuraDevolucao</Form>
+			</DCCReference>
 			<None Include="ModelSupport_SistemaGestao\default.txvpck"/>
 			<None Include="ModelSupport_SistemaGestao\uFuncao\default.txvpck"/>
 			<None Include="ModelSupport_SistemaGestao\uProdutoNF\default.txvpck"/>

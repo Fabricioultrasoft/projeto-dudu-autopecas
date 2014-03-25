@@ -49,7 +49,8 @@ uses
   uImpressoraEpson in '..\Objetos\ImpressoraEpson\uImpressoraEpson.pas',
   uInterfaceEpson in '..\Objetos\InterfaceDll\uInterfaceEpson.pas',
   uImpressora in '..\Objetos\Impressora\uImpressora.pas',
-  uTrocaDevolucao in '..\Objetos\FrmTrocaDevolucao\uTrocaDevolucao.pas' {frmTrocaDevolucao};
+  uTrocaDevolucao in '..\Objetos\FrmTrocaDevolucao\uTrocaDevolucao.pas' {frmTrocaDevolucao},
+  uProcuraDevolucao in '..\Objetos\FrmProcura_Devolucao\uProcuraDevolucao.pas' {frmProcuraDevolucao};
 
 {$R *.res}
 

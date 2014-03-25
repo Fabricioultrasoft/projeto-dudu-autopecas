@@ -106,10 +106,12 @@ type
     dFTicket        : Double;
     dFValPago       : Double;
     dFTroco         : Double;
+    dFValeTroca     : Double;
     bFResposta      : boolean;
     StatusPDV       : TStatusVenda;
     FImpressora     : TImpressora;
     FVerificacaoImpressora: boolean;
+    sFCodigoDeolucao: string;
 
     procedure setStatusCaixa(Status: TStatusVenda);
   end;
@@ -458,6 +460,7 @@ end;
 procedure TfrmPDV.FinalizarVenda;
 var
   dValDesc: Double;
+  qry: TSQLQuery;
 begin
      //Procedimento para finalizar venda
 
@@ -490,8 +493,8 @@ begin
                      //Inseri a venda na banco de dados
                      dm.qryVenda.Close;
                      dm.qryVenda.SQL.Clear;
-                     dm.qryVenda.SQL.Add('INSERT INTO VENDA (N_VENDA, COD_CLI, DATA_VENDA, VAL_TOTAL, COD_FUNC, DESCONTO, SUB_TOTAL, DINHEIRO, CHEQUE, CARTAO, TICKET)'+
-                                         'VALUES(:venda, :cli, :data, :total, :func, :desc, :subtotal, :dinheiro, :cheque, :cartao, :ticket)');
+                     dm.qryVenda.SQL.Add('INSERT INTO VENDA (N_VENDA, COD_CLI, DATA_VENDA, VAL_TOTAL, COD_FUNC, DESCONTO, SUB_TOTAL, DINHEIRO, CHEQUE, CARTAO, TICKET, N_DEVOLUCAO, VALOR_TROCA)'+
+                                         'VALUES(:venda, :cli, :data, :total, :func, :desc, :subtotal, :dinheiro, :cheque, :cartao, :ticket, :dev, :troca)');
                      dm.qryVenda.ParamByName('venda').AsString    := sFNumeroVenda;
                      dm.qryVenda.ParamByName('cli').AsString      := sFCod_cli;
                      dm.qryVenda.ParamByName('data').AsDate       := Now;
@@ -503,6 +506,8 @@ begin
                      dm.qryVenda.ParamByName('cheque').AsFloat    := dFCheque;
                      dm.qryVenda.ParamByName('cartao').AsFloat    := dFCartao;
                      dm.qryVenda.ParamByName('ticket').AsFloat    := dFTicket;
+                     dm.qryVenda.ParamByName('dev').AsString      := sFCodigoDeolucao;
+                     dm.qryVenda.ParamByName('troca').AsFloat     := dFValeTroca;
                      dm.qryVenda.ExecSQL();
 
                      ImprimeFinalizacaoVenda;
@@ -560,8 +565,17 @@ begin
                      end;
 
                      //Inseri os itens no banco de dados, limpa o DataSet e finaliza transação caso não ocorra erros
-                     if dm.cdsItem_Venda.ApplyUpdates(0) > 0 then
-                        raise Exception.Create('Falha ao gravar itens!');
+                     if dm.cdsItem_Venda.ApplyUpdates(0) > 0 then raise Exception.Create('Falha ao gravar itens!');
+
+                     // Atualiza a tabela de devolução se necessário
+                     dm.cdsDevolucao.Open;
+                     if dm.cdsDevolucao.Locate('COD_DEVOLUCAO', sFCodigoDeolucao, [loCaseInsensitive, loPartialKey]) then
+                     begin
+                         dm.cdsDevolucao.Edit;
+                         dm.cdsDevolucao.FieldByName('STATUS').AsString := 'F';
+                         dm.cdsDevolucao.Post;
+                         if dm.cdsDevolucao.ApplyUpdates(0) > 0 then raise Exception.Create('Falha ao atualizar tabela de devoluções!');
+                     end;
 
                      dm.cdsItem_Venda.EmptyDataSet;
                      LimpaCampos();
