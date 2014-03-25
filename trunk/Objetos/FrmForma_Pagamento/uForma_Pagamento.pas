@@ -42,19 +42,21 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure KeyDown(var Key: Word; Shift: TShiftState);override;
     procedure Finalizar();
-    function CalculaTroco(Total, ValorPago, Dinheiro, Cheque, Cartao, Ticket: Double): Double;
+    function CalculaTroco(Subtotal, Total, ValorPago, Dinheiro, Cheque, Cartao, Ticket: Double): Double;
     function CalculaDesconto(subTotal: Double; percent: Double): Double;
-    function VerificaValores(Total, Dinheiro, Cheque, Cartao, Ticket: Double): Boolean;
+    function VerificaValores(Subtotal, Total, Dinheiro, Cheque, Cartao, Ticket: Double): Boolean;
     procedure FormCreate(Sender: TObject);
     procedure btnFinalizarClick(Sender: TObject);
     procedure edtDescontoExit(Sender: TObject);
     procedure edtClienteButtonClick(Sender: TObject);
     procedure edtValorPagoExit(Sender: TObject);
     procedure btnAdicionarGrupoClick(Sender: TObject);
+    procedure edtValeTrocaButtonClick(Sender: TObject);
   private
     { Private declarations }
   public
     FResposta : boolean;
+    sFTmpDevolucao: string;
   end;
 
 var
@@ -62,7 +64,7 @@ var
 
 implementation
 
-uses uDm, uPDV, uProcura_Cliente, uCad_Cliente;
+uses uDm, uPDV, uProcura_Cliente, uCad_Cliente, uProcuraDevolucao;
 
 {$R *.dfm}
 
@@ -81,11 +83,11 @@ begin
     Finalizar;
 end;
 
-function TfrmForma_Pagamento.CalculaTroco(Total, ValorPago, Dinheiro, Cheque, Cartao, Ticket: Double): Double;
+function TfrmForma_Pagamento.CalculaTroco(Subtotal, Total, ValorPago, Dinheiro, Cheque, Cartao, Ticket: Double): Double;
 begin
     //Função para calcular o troco
     Result := 0;
-    if VerificaValores(Total, Dinheiro, Cheque, Cartao, Ticket) then
+    if VerificaValores(Subtotal, Total, Dinheiro, Cheque, Cartao, Ticket) then
        Result := ValorPago - Dinheiro;
 end;
 
@@ -119,12 +121,22 @@ begin
      end;
 end;
 
+procedure TfrmForma_Pagamento.edtValeTrocaButtonClick(Sender: TObject);
+begin
+     try
+         frmProcuraDevolucao := TfrmProcuraDevolucao.Create(nil);
+         frmProcuraDevolucao.ShowModal;
+     finally
+         FreeAndNil(frmProcuraDevolucao);
+     end;
+end;
+
 procedure TfrmForma_Pagamento.edtValorPagoExit(Sender: TObject);
 begin
     //Verifica se a tecla pressionada for ENTER e se o Edit Dinheiro contém valor
      if (edtValorPago.Value > 0) then
      begin
-         edtTroco.Text := FormatFloat('##0.00', CalculaTroco(StrToFloat(edtTotal.Text), edtValorPago.Value, edtDinheiro.Value, edtCheque.Value, edtCartao.Value, edtTicket.Value ));
+         edtTroco.Text := FormatFloat('##0.00', CalculaTroco(StrToFloat(edtSubTotal.Text), StrToFloat(edtTotal.Text), edtValorPago.Value, edtDinheiro.Value, edtCheque.Value, edtCartao.Value, edtTicket.Value ));
      end;
 end;
 
@@ -136,7 +148,7 @@ begin
      if Application.MessageBox('Deseja finalizar essa venda', 'Confirmação', MB_YESNO)= mrYes then
      begin
          //Verifica se a soma das formas de pagamento é igual ao valor total
-         if VerificaValores(StrToFloat(edtTotal.Text), edtDinheiro.Value,  edtCheque.Value, edtCartao.Value, edtTicket.Value) and (edtCliente.Text <> '') then
+         if VerificaValores(StrToFloat(edtSubTotal.Text), StrToFloat(edtTotal.Text), edtDinheiro.Value,  edtCheque.Value, edtCartao.Value, edtTicket.Value) and (edtCliente.Text <> '') then
          begin
              FrmPDV.sFID_Funcionario := '002';
              frmPDV.sFCod_cli        := edtCliente.Text;
@@ -150,6 +162,13 @@ begin
              frmPDV.dFValPago        := edtValorPago.Value;
              frmPDV.dFTroco          := StrToFloat(edtTroco.Text);
              frmPDV.bFResposta       := true;
+
+             if edtValeTroca.Text <> '' then
+             begin
+                frmPDV.sFCodigoDeolucao := sFTmpDevolucao;
+                frmPDV.dFValeTroca      := StrToFloat(edtValeTroca.Text);
+             end;
+
              frmForma_Pagamento.Close;
          end
          else
@@ -192,20 +211,45 @@ begin
 
 end;
 
-function TfrmForma_Pagamento.VerificaValores(Total, Dinheiro, Cheque, Cartao,
+function TfrmForma_Pagamento.VerificaValores(Subtotal, Total, Dinheiro, Cheque, Cartao,
   Ticket: Double): Boolean;
   var
-    soma: double;
+    soma, diferenca: double;
 begin
-    soma := Dinheiro + Cartao + Cheque + Ticket;
-    if Total <> soma then
+    if (edtValeTroca.Text <> '') then
     begin
-        Result := false;
-        MessageDlg('Valor Total é diferente da soma das formas de pagamento (Dinheiro+Cheque+Cartão+Ticket)!', mtError, [mbOK], 0);
-        Abort;
+        if (StrToFloat(edtValeTroca.Text) < StrToFloat(edtSubTotal.Text)) then
+        begin
+            soma      := Dinheiro + Cartao + Cheque + Ticket;
+            diferenca := StrToFloat(edtValeTroca.Text)+ soma;
+            if Subtotal <> diferenca then
+            begin
+                Result := false;
+                MessageDlg('Valor Total é diferente da soma das formas de pagamento + vale troca!', mtError, [mbOK], 0);
+                Abort;
+            end
+            else
+              Result := true;
+        end
+        else
+        begin
+            Result := false;
+            MessageDlg('Vale troca é maior que o valor total!'#10'É necessário completar o valor.', mtError, [mbOK], 0);
+            Abort;
+        end;
     end
     else
-      Result := true;
+    begin
+        soma := Dinheiro + Cartao + Cheque + Ticket;
+        if Total <> soma then
+        begin
+            Result := false;
+            MessageDlg('Valor Total é diferente da soma das formas de pagamento (Dinheiro+Cheque+Cartão+Ticket)!', mtError, [mbOK], 0);
+            Abort;
+        end
+        else
+          Result := true;
+    end;
 
 end;
 

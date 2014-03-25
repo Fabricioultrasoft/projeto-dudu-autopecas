@@ -1,6 +1,6 @@
 object frmForma_Pagamento: TfrmForma_Pagamento
-  Left = 524
-  Top = 144
+  Left = 819
+  Top = 64
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Finalizando Venda'
@@ -75,6 +75,7 @@ object frmForma_Pagamento: TfrmForma_Pagamento
       Width = 279
       Height = 46
       Cursor = crHandPoint
+      Hint = 'FINALIZAR VENDA'
       Caption = 'F5 - FINALIZAR VENDA'
       DoubleBuffered = True
       Font.Charset = DEFAULT_CHARSET
@@ -84,6 +85,8 @@ object frmForma_Pagamento: TfrmForma_Pagamento
       Font.Style = []
       ParentDoubleBuffered = False
       ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 2
       OnClick = btnFinalizarClick
     end
@@ -392,7 +395,10 @@ object frmForma_Pagamento: TfrmForma_Pagamento
         Top = 97
         Width = 251
         Height = 32
+        Hint = 'PROCURAR DEVOLU'#199#195'O'
         AutoSize = False
+        Flat = False
+        ParentFlat = False
         ButtonWidth = 23
         Color = clSilver
         Font.Charset = DEFAULT_CHARSET
@@ -443,16 +449,18 @@ object frmForma_Pagamento: TfrmForma_Pagamento
           0909EC07FFFFFFFF0000F6F509F6F6F6F60907F6FFFFFFFF0000FFF6F5090909
           0907F6FFFFFFFFFF0000FFFFF6F60909F6F6FFFFFFFFFFFF0000}
         ParentFont = False
-        ReadOnly = True
+        ParentShowHint = False
+        ShowHint = True
         TabOrder = 9
-        OnButtonClick = edtClienteButtonClick
+        OnButtonClick = edtValeTrocaButtonClick
       end
     end
     object edtCliente: TJvComboEdit
-      Left = 166
+      Left = 161
       Top = 18
       Width = 270
       Height = 28
+      Hint = 'PROCURAR CLIENTE'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
       Font.Height = -17
@@ -501,6 +509,8 @@ object frmForma_Pagamento: TfrmForma_Pagamento
         0909EC07FFFFFFFF0000F6F509F6F6F6F60907F6FFFFFFFF0000FFF6F5090909
         0907F6FFFFFFFFFF0000FFFFF6F60909F6F6FFFFFFFFFFFF0000}
       ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 0
       OnButtonClick = edtClienteButtonClick
     end

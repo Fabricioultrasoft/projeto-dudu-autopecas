@@ -28,7 +28,7 @@ object dmConexao: TdmConexao
       'GetDriverFunc=getSQLDriverINTERBASE'
       'LibraryName=dbxfb.dll'
       'VendorLib=fbclient.DLL'
-      'Database=C:\Sistema MINIMERCADO\Banco de Dados\MINIMERCADO.FDB'
+      'Database=C:\Sistema Mini-Mercado\Banco de Dados\MINIMERCADO.FDB'
       'User_Name=sysdba'
       'Password=masterkey'
       'Role=RoleName'
