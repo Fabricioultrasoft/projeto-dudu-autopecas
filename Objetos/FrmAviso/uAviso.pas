@@ -52,7 +52,6 @@ procedure TfrmAviso.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
     if Key = VK_ESCAPE then Self.Close;
-    
 end;
 
 end.

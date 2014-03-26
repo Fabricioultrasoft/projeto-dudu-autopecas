@@ -63,7 +63,7 @@ begin
 
             qry.Close;
             qry.SQL.Clear;
-            qry.SQL.Add('EXECUTE PROCEDURE SP_CAIXA(:data, :valor, :dinheiro, :cheque, :cartao, :ticket, :nDoc, :tipoDoc, :resp, :observ)');
+            qry.SQL.Add('EXECUTE PROCEDURE SP_CAIXA(:data, :valor, :dinheiro, :cheque, :cartao, :ticket, :nDoc, :tipoDoc, :resp, :observ, :estorn)');
             qry.ParamByName('data').AsDate       := Date;
             qry.ParamByName('valor').AsFloat     := edtValor.Value;
             qry.ParamByName('dinheiro').AsFloat  := 0;
@@ -74,6 +74,7 @@ begin
             qry.ParamByName('tipoDoc').AsString  := 'S';
             qry.ParamByName('resp').AsString     := edtResponsavel.Text;
             qry.ParamByName('observ').AsString   := mmoObservacao.Lines.Text;
+            qry.ParamByName('estorn').AsFloat    := 0;
             qry.ExecSQL();
 
             if ckbCupom.Checked then

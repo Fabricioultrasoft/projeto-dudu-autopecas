@@ -1,6 +1,6 @@
 object frmProcura_Estoque: TfrmProcura_Estoque
-  Left = 252
-  Top = 163
+  Left = 490
+  Top = 171
   BorderStyle = bsNone
   Caption = 'Form Padr'#227'o'
   ClientHeight = 637
@@ -136,8 +136,9 @@ object frmProcura_Estoque: TfrmProcura_Estoque
       item
         Alignment = taCenter
         Expanded = False
-        FieldName = 'UND'
+        FieldName = 'UND_VENDA'
         Title.Alignment = taCenter
+        Title.Caption = 'UND DE VENDA'
         Visible = True
       end
       item

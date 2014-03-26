@@ -165,7 +165,7 @@ begin
 
              if edtValeTroca.Text <> '' then
              begin
-                frmPDV.sFCodigoDeolucao := sFTmpDevolucao;
+                frmPDV.sFCodigoDevolucao := sFTmpDevolucao;
                 frmPDV.dFValeTroca      := StrToFloat(edtValeTroca.Text);
              end;
 
@@ -218,7 +218,7 @@ function TfrmForma_Pagamento.VerificaValores(Subtotal, Total, Dinheiro, Cheque, 
 begin
     if (edtValeTroca.Text <> '') then
     begin
-        if (StrToFloat(edtValeTroca.Text) < StrToFloat(edtSubTotal.Text)) then
+        if (StrToFloat(edtValeTroca.Text) <= StrToFloat(edtSubTotal.Text)) then
         begin
             soma      := Dinheiro + Cartao + Cheque + Ticket;
             diferenca := StrToFloat(edtValeTroca.Text)+ soma;

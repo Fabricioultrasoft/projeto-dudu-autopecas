@@ -1,6 +1,6 @@
 object frmPDV: TfrmPDV
-  Left = 103
-  Top = 205
+  Left = 384
+  Top = 179
   ActiveControl = edtConsulta
   AutoSize = True
   BorderStyle = bsNone
@@ -9123,9 +9123,9 @@ object frmPDV: TfrmPDV
     Stretch = True
   end
   object btnConsultarEstoque: TSpeedButton
-    Left = 50
+    Left = 43
     Top = 624
-    Width = 193
+    Width = 197
     Height = 32
     Caption = 'F1 - CONSULTAR ESTOQUE'
     Font.Charset = DEFAULT_CHARSET
@@ -9153,9 +9153,9 @@ object frmPDV: TfrmPDV
     OnClick = btnConsultarEstoqueClick
   end
   object btnIniciarVenda: TSpeedButton
-    Left = 50
+    Left = 43
     Top = 666
-    Width = 193
+    Width = 197
     Height = 32
     Caption = 'F2 - INICIAR VENDA'
     Font.Charset = DEFAULT_CHARSET
@@ -9183,9 +9183,9 @@ object frmPDV: TfrmPDV
     OnClick = btnIniciarVendaClick
   end
   object btnFinalizarVenda: TSpeedButton
-    Left = 249
+    Left = 244
     Top = 624
-    Width = 193
+    Width = 197
     Height = 32
     Caption = 'F3 - FINALIZAR VENDA'
     Font.Charset = DEFAULT_CHARSET
@@ -9212,12 +9212,12 @@ object frmPDV: TfrmPDV
     Spacing = 40
     OnClick = btnFinalizarVendaClick
   end
-  object btnAlterarQuantidade: TSpeedButton
-    Left = 249
+  object btnConsultarDevolucao: TSpeedButton
+    Left = 244
     Top = 666
-    Width = 193
+    Width = 197
     Height = 32
-    Caption = 'F4 - ALTERAR QUANTIDADE'
+    Caption = 'F4 - CONSULTAR DEVOLU'#199#213'ES'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -9239,15 +9239,15 @@ object frmPDV: TfrmPDV
     Layout = blGlyphRight
     NumGlyphs = 2
     ParentFont = False
-    Spacing = 10
-    OnClick = btnAlterarQuantidadeClick
+    Spacing = 2
+    OnClick = btnConsultarDevolucaoClick
   end
-  object btnFechamentoCaixa: TSpeedButton
-    Left = 448
+  object btnEstornoFinanceiro: TSpeedButton
+    Left = 444
     Top = 624
-    Width = 193
+    Width = 197
     Height = 32
-    Caption = 'F5 - FECHAMENTO DE CAIXA'
+    Caption = 'F5 - ESTORNO FINANCEIRO'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -9269,13 +9269,13 @@ object frmPDV: TfrmPDV
     Layout = blGlyphRight
     NumGlyphs = 2
     ParentFont = False
-    Spacing = 10
-    OnClick = btnFechamentoCaixaClick
+    Spacing = 20
+    OnClick = btnEstornoFinanceiroClick
   end
   object btnCancelarVenda: TSpeedButton
-    Left = 448
+    Left = 444
     Top = 666
-    Width = 193
+    Width = 197
     Height = 32
     Caption = 'F6 - CANCELAR VENDA'
     Font.Charset = DEFAULT_CHARSET
@@ -9299,13 +9299,13 @@ object frmPDV: TfrmPDV
     Layout = blGlyphRight
     NumGlyphs = 2
     ParentFont = False
-    Spacing = 40
+    Spacing = 45
     OnClick = btnCancelarVendaClick
   end
   object btnCancelarItem: TSpeedButton
-    Left = 647
+    Left = 644
     Top = 624
-    Width = 193
+    Width = 197
     Height = 32
     Caption = 'DEL - CANCELAR ITEM'
     Font.Charset = DEFAULT_CHARSET
@@ -9333,9 +9333,9 @@ object frmPDV: TfrmPDV
     OnClick = btnCancelarItemClick
   end
   object btnIncluirProduto: TSpeedButton
-    Left = 647
+    Left = 644
     Top = 666
-    Width = 193
+    Width = 197
     Height = 32
     Caption = 'F8 - INCLUIR PRODUTO'
     Font.Charset = DEFAULT_CHARSET
@@ -9363,11 +9363,11 @@ object frmPDV: TfrmPDV
     OnClick = btnIncluirProdutoClick
   end
   object btnProcurarVenda: TSpeedButton
-    Left = 846
+    Left = 845
     Top = 624
-    Width = 193
+    Width = 197
     Height = 32
-    Caption = 'F9 - PROCURAR VENDA'
+    Caption = 'F9 - TROCA / DEVOLU'#199#195'O'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -11
@@ -9389,13 +9389,13 @@ object frmPDV: TfrmPDV
     Layout = blGlyphRight
     NumGlyphs = 2
     ParentFont = False
-    Spacing = 30
+    Spacing = 20
     OnClick = btnProcurarVendaClick
   end
   object btnSuprimento: TSpeedButton
-    Left = 1045
+    Left = 1046
     Top = 624
-    Width = 193
+    Width = 197
     Height = 32
     Caption = 'F11 - SUPRIMENTO'
     Font.Charset = DEFAULT_CHARSET
@@ -9419,13 +9419,13 @@ object frmPDV: TfrmPDV
     Layout = blGlyphRight
     NumGlyphs = 2
     ParentFont = False
-    Spacing = 45
+    Spacing = 50
     OnClick = btnSuprimentoClick
   end
   object btnSangria: TSpeedButton
-    Left = 846
+    Left = 845
     Top = 666
-    Width = 193
+    Width = 197
     Height = 32
     Caption = 'F10 - SANGRIA'
     Font.Charset = DEFAULT_CHARSET
@@ -9449,13 +9449,13 @@ object frmPDV: TfrmPDV
     Layout = blGlyphRight
     NumGlyphs = 2
     ParentFont = False
-    Spacing = 75
+    Spacing = 80
     OnClick = btnSangriaClick
   end
   object btn13: TSpeedButton
-    Left = 1045
+    Left = 1046
     Top = 666
-    Width = 193
+    Width = 197
     Height = 32
     Caption = 'ESC - FECHAR'
     Font.Charset = DEFAULT_CHARSET
@@ -9481,6 +9481,21 @@ object frmPDV: TfrmPDV
     ParentFont = False
     Spacing = 80
     OnClick = btn13Click
+  end
+  object lblVenda: TLabel
+    Left = 1000
+    Top = 504
+    Width = 243
+    Height = 21
+    AutoSize = False
+    Caption = 'Venda:'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWhite
+    Font.Height = -17
+    Font.Name = 'Tahoma'
+    Font.Style = [fsBold]
+    ParentFont = False
+    Visible = False
   end
   object edtStatus: TEdit
     Left = 588
@@ -9608,10 +9623,11 @@ object frmPDV: TfrmPDV
     TabOrder = 7
     OnMouseMove = pnl1MouseMove
     object img3: TImage
-      Left = 41
+      Left = 8
       Top = 20
-      Width = 168
+      Width = 225
       Height = 73
+      Center = True
       Picture.Data = {
         0A544A504547496D616765DB310000FFD8FFE000104A46494600010101004800
         480000FFDB004300010101010101010101010101010101010101010101010101
@@ -10105,7 +10121,7 @@ object frmPDV: TfrmPDV
   end
   object tmr1: TTimer
     OnTimer = tmr1Timer
-    Left = 1008
-    Top = 544
+    Left = 1232
+    Top = 72
   end
 end

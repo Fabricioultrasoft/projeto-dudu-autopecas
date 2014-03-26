@@ -197,7 +197,10 @@ begin
             TComboBox(Components[i]).Cursor := -21;
 
          if Components[i] is TDBGrid then
+         begin
             TDBGrid(Components[i]).Cursor := -21;
+            TDBGrid(Components[i]).DrawingStyle := gdsGradient;
+         end;
 
          if Components[i] is TDateTimePicker then
             TDateTimePicker(Components[i]).Cursor := -21;

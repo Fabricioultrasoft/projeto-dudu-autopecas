@@ -29,8 +29,8 @@ type
     btnConsultarEstoque: TSpeedButton;
     btnIniciarVenda: TSpeedButton;
     btnFinalizarVenda: TSpeedButton;
-    btnAlterarQuantidade: TSpeedButton;
-    btnFechamentoCaixa: TSpeedButton;
+    btnConsultarDevolucao: TSpeedButton;
+    btnEstornoFinanceiro: TSpeedButton;
     btnCancelarVenda: TSpeedButton;
     btnCancelarItem: TSpeedButton;
     btnIncluirProduto: TSpeedButton;
@@ -46,6 +46,7 @@ type
     lbl4: TLabel;
     lblVersao: TLabel;
     lbl1: TLabel;
+    lblVenda: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure KeyDown(var Key: Word; Shift: TShiftState);override;
     procedure LimpaCampos();override;
@@ -75,8 +76,8 @@ type
     procedure btnConsultarEstoqueClick(Sender: TObject);
     procedure btnIniciarVendaClick(Sender: TObject);
     procedure btnFinalizarVendaClick(Sender: TObject);
-    procedure btnAlterarQuantidadeClick(Sender: TObject);
-    procedure btnFechamentoCaixaClick(Sender: TObject);
+    procedure btnConsultarDevolucaoClick(Sender: TObject);
+    procedure btnEstornoFinanceiroClick(Sender: TObject);
     procedure btnCancelarVendaClick(Sender: TObject);
     procedure btnCancelarItemClick(Sender: TObject);
     procedure btnIncluirProdutoClick(Sender: TObject);
@@ -108,10 +109,12 @@ type
     dFTroco         : Double;
     dFValeTroca     : Double;
     bFResposta      : boolean;
+    bFCancelaItem   : boolean;
+    bFEstornaValor  : boolean;
     StatusPDV       : TStatusVenda;
     FImpressora     : TImpressora;
     FVerificacaoImpressora: boolean;
-    sFCodigoDeolucao: string;
+    sFCodigoDevolucao: string;
 
     procedure setStatusCaixa(Status: TStatusVenda);
   end;
@@ -125,7 +128,8 @@ implementation
 
 uses uProcura_Estoque, uOrcamento, uProcura_Cliente, uProcura_Produto,
   UdmConexao, uDm, uQtde, uForma_Pagamento, uCancela_Item, uProcura_Venda,
-  uSenhaFiscal, uSuprimento, uSangria, uFechamento_Caixa, uMenu, uProgresso;
+  uSenhaFiscal, uSuprimento, uSangria, uFechamento_Caixa, uMenu, uProgresso,
+  uProcuraDevolucao, uEstornoFinanceiro;
 
 {$R *.dfm}
 
@@ -160,15 +164,15 @@ begin
     Self.Close;
 end;
 
-procedure TfrmPDV.btnAlterarQuantidadeClick(Sender: TObject);
+procedure TfrmPDV.btnConsultarDevolucaoClick(Sender: TObject);
 begin
-     if (not dm.cdsItem_Venda.IsEmpty) and (StatusPDV = svAberto) then
+     if (StatusPDV = svFechado) then
      begin
          try
-            frmQtde := TfrmQtde.Create(self);
-            frmQtde.ShowModal;
+            frmProcuraDevolucao := TfrmProcuraDevolucao.Create(self);
+            frmProcuraDevolucao.ShowModal;
          finally
-            FreeAndNil(frmQtde);
+            FreeAndNil(frmProcuraDevolucao);
          end;
      end;
 end;
@@ -193,15 +197,16 @@ begin
     end;
 end;
 
-procedure TfrmPDV.btnFechamentoCaixaClick(Sender: TObject);
+procedure TfrmPDV.btnEstornoFinanceiroClick(Sender: TObject);
 begin
     if (StatusPDV = svFechado)  then
      begin
           try
-              frmFechamento_Caixa := TfrmFechamento_Caixa.Create(nil);
-              frmFechamento_Caixa.ShowModal;
+              bFEstornaValor := True;
+              frmSenhaFiscal := TfrmSenhaFiscal.Create(nil);
+              frmSenhaFiscal.ShowModal;
           finally
-               FreeAndNil(frmFechamento_Caixa);
+               FreeAndNil(frmEstornoFinanceiro);
           end;
      end;
 end;
@@ -259,7 +264,7 @@ end;
 
 procedure TfrmPDV.btnSuprimentoClick(Sender: TObject);
 begin
-     if StatusPDV = svFechado then
+     if (StatusPDV = svFechado) or (StatusPDV = svBloqueado) then
      begin
          try
              frmSuprimento := TfrmSuprimento.Create(self);
@@ -277,6 +282,7 @@ begin
     //Procedimento para cancelar item
     if StatusPDV = svAberto then
     begin
+        bFCancelaItem := True;
         frmSenhaFiscal := TfrmSenhaFiscal.Create(nil);
         frmSenhaFiscal.ShowModal;
     end;
@@ -293,6 +299,7 @@ begin
                   dm.cdsItem_Venda.EmptyDataSet;
 
                LimpaCampos;
+               lblVenda.Visible := False;
                setStatusCaixa(svFechado);
                ImprimeCancelaVenda;
 
@@ -359,6 +366,7 @@ begin
 
          dm.cdsItem_Venda.Append;
          dm.cdsItem_Venda.FieldByName('ID_ITEM').AsInteger     := dm.cdsItem_Venda.RecordCount + 1;
+         dm.cdsItem_Venda.FieldByName('N_VENDA').AsString      := frmPDV.sFNumeroVenda;
          dm.cdsItem_Venda.FieldByName('EAN13').AsString        := dm.cdsEstoque.FieldByName('EAN13').AsString;
          dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString    := dm.cdsEstoque.FieldByName('DESC_PROD').AsString;
          dm.cdsItem_Venda.FieldByName('VAL_PROD').AsFloat      := dm.cdsEstoque.FieldByName('VAL_VENDA').AsFloat;
@@ -506,7 +514,7 @@ begin
                      dm.qryVenda.ParamByName('cheque').AsFloat    := dFCheque;
                      dm.qryVenda.ParamByName('cartao').AsFloat    := dFCartao;
                      dm.qryVenda.ParamByName('ticket').AsFloat    := dFTicket;
-                     dm.qryVenda.ParamByName('dev').AsString      := sFCodigoDeolucao;
+                     dm.qryVenda.ParamByName('dev').AsString      := sFCodigoDevolucao;
                      dm.qryVenda.ParamByName('troca').AsFloat     := dFValeTroca;
                      dm.qryVenda.ExecSQL();
 
@@ -516,6 +524,9 @@ begin
                          Texto := '';
                          Texto := Concat(Texto, FImpressora.InseriTraco(48, False, true));
                          Texto := Concat(Texto, '<ad><b>SUBTOTAL R$ ' + FormatFloat('##0.00', dFSub_total) + '</b></ad>'#10);
+
+                         if dFValeTroca > 0 then
+                            Texto := Concat(Texto, '<ad><c>VALE TROCA R$ ' + FormatFloat('##.00', dFValeTroca) + '</c></ad>'#10);
 
                          if dFDesconto > 0 then
                             Texto := Concat(Texto, '<ad><c>DESCONTO(%) ' + FormatFloat('##.00', dFDesconto) + '</c></ad>'#10);
@@ -568,17 +579,23 @@ begin
                      if dm.cdsItem_Venda.ApplyUpdates(0) > 0 then raise Exception.Create('Falha ao gravar itens!');
 
                      // Atualiza a tabela de devolução se necessário
-                     dm.cdsDevolucao.Open;
-                     if dm.cdsDevolucao.Locate('COD_DEVOLUCAO', sFCodigoDeolucao, [loCaseInsensitive, loPartialKey]) then
+                     if sFCodigoDevolucao <> '' then
                      begin
-                         dm.cdsDevolucao.Edit;
-                         dm.cdsDevolucao.FieldByName('STATUS').AsString := 'F';
-                         dm.cdsDevolucao.Post;
-                         if dm.cdsDevolucao.ApplyUpdates(0) > 0 then raise Exception.Create('Falha ao atualizar tabela de devoluções!');
+                         dm.cdsDevolucao.Open;
+                         if dm.cdsDevolucao.Locate('COD_DEVOLUCAO', sFCodigoDevolucao, [loCaseInsensitive, loPartialKey]) then
+                         begin
+                             dm.cdsDevolucao.Edit;
+                             dm.cdsDevolucao.FieldByName('STATUS').AsString := 'F';
+                             dm.cdsDevolucao.Post;
+                             if dm.cdsDevolucao.ApplyUpdates(0) > 0 then raise Exception.Create('Falha ao atualizar tabela de devoluções!');
+                         end;
                      end;
 
+                     dm.cdsVenda.Close;
                      dm.cdsItem_Venda.EmptyDataSet;
                      LimpaCampos();
+                     lblVenda.Caption := '';
+                     lblVenda.Visible := False;
                      setStatusCaixa(svFechado);
 
                      //Finaliza a transação e descarrega o objeto
@@ -745,104 +762,16 @@ procedure TfrmPDV.KeyDown(var Key: Word;
   Shift: TShiftState);
 begin
      inherited;
-     if Key = VK_F1 then
-     begin
-          try
-              frmProcura_Estoque := TfrmProcura_Estoque.Create(self);
-              frmProcura_Estoque.ShowModal;
-          finally
-              FreeAndNil(frmProcura_Estoque);
-          end;
-     end;
-
+     if Key = VK_F1 then btnConsultarEstoque.Click;
      if Key = VK_F2 then NewVenda;
      if key = VK_F3 then FinalizarVenda;
-
-     if (Key = VK_F4) and (not dm.cdsItem_Venda.IsEmpty) and (StatusPDV = svAberto) then
-     begin
-         try
-            frmQtde := TfrmQtde.Create(self);
-            frmQtde.ShowModal;
-         finally
-            FreeAndNil(frmQtde);
-         end;
-     end;
-
-     if (Key = VK_F5) and (StatusPDV = svFechado)  then
-     begin
-          try
-              frmFechamento_Caixa := TfrmFechamento_Caixa.Create(nil);
-              frmFechamento_Caixa.ShowModal;
-          finally
-               FreeAndNil(frmFechamento_Caixa);
-          end;
-     end;
-
-     if Key = VK_F6 then
-     begin
-          CancelarVenda;
-     end;
-
-     if (Key = VK_F7) and (StatusPDV = svAberto) then
-     begin
-           try
-               frmProcura_Cliente := TfrmProcura_Cliente.Create(self);
-               frmProcura_Cliente.ShowModal;
-           finally
-               FreeAndNil(frmProcura_Cliente);
-           end;
-     end;
-
-     if (Key = VK_F8) and (StatusPDV = svAberto) then
-     begin
-          try
-              frmProcura_Estoque := TfrmProcura_Estoque.Create(self);
-              frmProcura_Estoque.ShowModal;
-          finally
-              FreeAndNil(frmProcura_Estoque);
-          end;
-     end;
-
-     if (Key = VK_F9) and (StatusPDV = svFechado) then
-     begin
-          try
-              frmProcura_Venda := TfrmProcura_Venda.Create(self);
-              frmProcura_Venda.ShowModal;
-          finally
-              FreeAndNil(frmProcura_Venda);
-          end;
-     end;
-
-     if Key = VK_F10 then
-     begin
-         if StatusPDV = svFechado then
-         begin
-             try
-                 frmSangria := TfrmSangria.Create(self);
-                 frmSangria.ShowModal;
-             finally
-                 FreeAndNil(frmSangria);
-             end;
-         end
-         else
-            MessageDlg('É necessário que o caixa esteja livre!', mtWarning, [mbOK], 0);
-     end;
-
-     if Key = VK_F11 then
-     begin
-         if StatusPDV = svFechado then
-         begin
-             try
-                 frmSuprimento := TfrmSuprimento.Create(self);
-                 frmSuprimento.ShowModal;
-             finally
-                 FreeAndNil(frmSuprimento);
-             end;
-         end
-         else
-            MessageDlg('É necessário que o caixa esteja livre!', mtWarning, [mbOK], 0);
-     end;
-
+     if (Key = VK_F4) and (not dm.cdsItem_Venda.IsEmpty) and (StatusPDV = svAberto) then btnConsultarDevolucao.Click;
+     if (Key = VK_F5) and (StatusPDV = svFechado) then btnEstornoFinanceiro.Click;
+     if Key = VK_F6   then CancelarVenda;
+     if (Key = VK_F8) and (StatusPDV = svAberto) then btnIncluirProduto.Click;
+     if (Key = VK_F9) and (StatusPDV = svFechado) then btnProcurarVenda.Click;
+     if Key = VK_F10    then btnSangria.Click;
+     if Key = VK_F11    then btnSuprimento.Click;
      if Key = VK_DELETE then CancelarItem;
 end;
 
@@ -865,6 +794,25 @@ begin
     inherited;
     if not dm.cdsItem_Venda.IsEmpty then
        dm.cdsItem_Venda.EmptyDataSet;
+
+    sFNumeroVenda    := '';
+    sFCodCliente     := '';
+    sFStatus         := '';
+    sFID_Funcionario := '';
+    sFCod_cli        := '';
+    dFDesconto       := 0;
+    dFSub_total      := 0;
+    dFTotal          := 0;
+    dFDinheiro       := 0;
+    dFCheque         := 0;
+    dFCartao         := 0;
+    dFTicket         := 0;
+    dFValPago        := 0;
+    dFTroco          := 0;
+    dFValeTroca      := 0;
+    bFResposta       := false;
+    sFCodigoDevolucao := '';
+
 end;
 
 {procedure TfrmPDV.GeraNfe;
@@ -1101,6 +1049,9 @@ begin
     redtItem.SelAttributes.Style:=[fsBold];
     redtItem.Lines.Add('SUBTOTAL R$ ' + FormatFloat('##0.00', dFSub_total));
 
+    if dFValeTroca > 0 then
+       redtItem.Lines.Add('VALE TROCA R$ ' + FormatFloat('##.00', dFValeTroca));
+
     if dFDesconto > 0 then
        redtItem.Lines.Add('DESCONTO(%) ' + FormatFloat('##.00', dFDesconto));
 
@@ -1168,6 +1119,8 @@ begin
          sFNumeroVenda := GeraNVenda;
          sFCodCliente  := '001';
          setStatusCaixa(svAberto);
+         lblVenda.Visible := True;
+         lblVenda.Caption := 'Venda Número: ' + sFNumeroVenda;
          redtItem.Clear;
          ImprimiCabecalho;
 
@@ -1197,12 +1150,21 @@ end;
 procedure TfrmPDV.setStatusCaixa(Status: TStatusVenda);
 begin
     if Status = svAberto then
-       edtStatus.Text := 'Venda Aberta'
+    begin
+       edtStatus.Font.Color:= clHighlight;
+       edtStatus.Text := 'Venda Aberta';
+    end
     else
        if Status = svFechado then
-          edtStatus.Text := 'Caixa Livre'
+       begin
+          edtStatus.Font.Color:= clGreen;
+          edtStatus.Text := 'Caixa Livre';
+       end
        else
+       begin
+          edtStatus.Font.Color:= clRed;
           edtStatus.Text := 'Bloqueado';
+       end;
 
     StatusPDV := Status;
 end;

@@ -1892,8 +1892,6 @@ object frmCadFornecedor: TfrmCadFornecedor
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    ExplicitWidth = 606
-    ExplicitHeight = 356
     object tsCadastro: TTabSheet
       Caption = 'Cadastro de Fornecedor'
       object grpFornecedor: TGroupBox
@@ -1904,7 +1902,6 @@ object frmCadFornecedor: TfrmCadFornecedor
         Align = alClient
         Enabled = False
         TabOrder = 0
-        ExplicitLeft = -2
         object Label13: TLabel
           Left = 159
           Top = 67
@@ -2033,7 +2030,7 @@ object frmCadFornecedor: TfrmCadFornecedor
       end
     end
     object TabSheet1: TTabSheet
-      Caption = 'Pesquisar'
+      Caption = 'Pesquisa R'#225'pida'
       ImageIndex = 1
       OnShow = TabSheet1Show
       object grp1: TGroupBox
@@ -2111,7 +2108,7 @@ object frmCadFornecedor: TfrmCadFornecedor
           TabOrder = 0
           object Label3: TLabel
             Left = 9
-            Top = 3
+            Top = 5
             Width = 173
             Height = 16
             Caption = 'Digite Nome/Raz'#227'o Social:'
@@ -2124,8 +2121,8 @@ object frmCadFornecedor: TfrmCadFornecedor
           end
           object edtpesq: TEdit
             Left = 188
-            Top = 2
-            Width = 317
+            Top = 4
+            Width = 613
             Height = 21
             CharCase = ecUpperCase
             Font.Charset = DEFAULT_CHARSET

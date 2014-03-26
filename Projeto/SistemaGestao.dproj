@@ -177,6 +177,9 @@
 			<DCCReference Include="..\Objetos\FrmProcura_Devolucao\uProcuraDevolucao.pas">
 				<Form>frmProcuraDevolucao</Form>
 			</DCCReference>
+			<DCCReference Include="..\Objetos\FrmEstornoFinanceiro\uEstornoFinanceiro.pas">
+				<Form>frmEstornoFinanceiro</Form>
+			</DCCReference>
 			<None Include="ModelSupport_SistemaGestao\default.txvpck"/>
 			<None Include="ModelSupport_SistemaGestao\uFuncao\default.txvpck"/>
 			<None Include="ModelSupport_SistemaGestao\uProdutoNF\default.txvpck"/>

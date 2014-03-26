@@ -1413,11 +1413,8 @@ object frmCadUsuario: TfrmCadUsuario
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    ExplicitWidth = 605
-    ExplicitHeight = 291
     object tsCadastro: TTabSheet
       Caption = 'Cadastro de Usu'#225'rio'
-      ExplicitHeight = 335
       object grpCadastro: TGroupBox
         Left = 0
         Top = 0
@@ -1426,7 +1423,6 @@ object frmCadUsuario: TfrmCadUsuario
         Align = alClient
         Enabled = False
         TabOrder = 0
-        ExplicitHeight = 335
         object Label1: TLabel
           Left = 60
           Top = 93
@@ -1532,7 +1528,7 @@ object frmCadUsuario: TfrmCadUsuario
           Left = 266
           Top = 148
           Width = 16
-          Height = 8
+          Height = 14
           Caption = '**'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clRed
@@ -1545,7 +1541,7 @@ object frmCadUsuario: TfrmCadUsuario
           Left = 550
           Top = 148
           Width = 16
-          Height = 9
+          Height = 14
           Caption = '**'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clRed
@@ -1648,10 +1644,9 @@ object frmCadUsuario: TfrmCadUsuario
       end
     end
     object tsPesquisa: TTabSheet
-      Caption = 'Pesquisar'
+      Caption = 'Pesquisa R'#225'pida'
       ImageIndex = 1
       OnShow = tsPesquisaShow
-      ExplicitHeight = 335
       object grdUsuario: TDBGrid
         Left = 0
         Top = 41
@@ -1719,16 +1714,16 @@ object frmCadUsuario: TfrmCadUsuario
         BevelOuter = bvNone
         TabOrder = 0
         object Label2: TLabel
-          Left = 2
+          Left = 10
           Top = 13
-          Width = 163
+          Width = 150
           Height = 16
-          Caption = 'Informe o Nome ou Usu'#225'rio:'
+          Caption = 'Digite o Nome ou Usu'#225'rio:'
         end
         object edtPesquisa: TEdit
-          Left = 179
+          Left = 166
           Top = 10
-          Width = 396
+          Width = 427
           Height = 24
           CharCase = ecUpperCase
           TabOrder = 0

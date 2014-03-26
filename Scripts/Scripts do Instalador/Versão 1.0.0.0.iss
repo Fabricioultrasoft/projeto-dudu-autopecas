@@ -7,7 +7,7 @@
 #define AppPublisherURL "http://www.wllsistemas.com.br"
 #define MyAppURL "http://www.wllsistemas.com.br"
 #define AppContact "wllfl@ig.com.br"
-#define MyAppExeName "DUDU_AUTO_PEÇAS.exe"
+#define MyAppExeName "SistemaGestao.exe"
 #define AppSupportPhone "(11) 99845-2278"
 
 [Setup]
@@ -36,7 +36,7 @@ Name: "brazilianportuguese"; MessagesFile: "compiler:Languages\BrazilianPortugue
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "C:\Sistema Mini-Mercado\Projeto\DUDU_AUTO_PEÇAS.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Sistema Mini-Mercado\Projeto\SistemaGestao.exe"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Sistema Mini-Mercado\Banco de Dados\MINIMERCADO.FDB"; DestDir: "{app}\Banco de Dados"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Sistema Mini-Mercado\Projeto\dbxconnections.ini"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Sistema Mini-Mercado\Projeto\dbxdrivers.ini"; DestDir: "{app}"; Flags: ignoreversion
@@ -48,6 +48,7 @@ Source: "C:\Sistema Mini-Mercado\DLLs\midas.dll"; DestDir: "{sys}"; Flags: regse
 Source: "C:\Sistema Mini-Mercado\DLLs\dbxfb.dll"; DestDir: "{sys}"; Flags: ignoreversion
 Source: "C:\Sistema Mini-Mercado\DLLs\dbxint.dll"; DestDir: "{sys}"; Flags: ignoreversion
 Source: "C:\Sistema Mini-Mercado\DLLs\InterfaceEpsonNF.dll"; DestDir: "{sys}"; Flags: ignoreversion
+Source: "C:\Sistema Mini-Mercado\DLLs\InterfaceEpsonNF.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Sistema Mini-Mercado\Firebird-2.5.2.26540.exe"; DestDir: {tmp}; Flags: deleteafterinstall promptifolder
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 

@@ -1,7 +1,7 @@
 object dm: Tdm
   OldCreateOrder = False
-  Left = 489
-  Top = 146
+  Left = 586
+  Top = 152
   Height = 717
   Width = 1005
   object dspUsuario: TDataSetProvider
@@ -1264,7 +1264,8 @@ object dm: Tdm
       '     VAL_PROD,'
       '     TOTAL_PROD,'
       '     DESCONTO,'
-      '     EAN13'
+      '     EAN13,'
+      '     STATUS'
       'FROM'
       '      ITEM_VENDA'
       'WHERE'
@@ -1317,6 +1318,11 @@ object dm: Tdm
       FieldName = 'QTDE'
       Precision = 18
       Size = 3
+    end
+    object strngfldItem_VendaSTATUS: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 1
     end
   end
   object dspItem_Venda: TDataSetProvider
@@ -1381,6 +1387,11 @@ object dm: Tdm
       DisplayFormat = '#.000'
       Precision = 18
       Size = 3
+    end
+    object strngfldItem_VendaSTATUS1: TStringField
+      FieldName = 'STATUS'
+      FixedChar = True
+      Size = 1
     end
     object cdsItem_VendaS_TOTAL: TAggregateField
       FieldName = 'S_TOTAL'
@@ -1771,7 +1782,6 @@ object dm: Tdm
     Top = 192
   end
   object qryDevolucao: TSQLQuery
-    Active = True
     MaxBlobSize = -1
     Params = <>
     SQL.Strings = (

@@ -1,6 +1,6 @@
 object frmCadAgenda: TfrmCadAgenda
-  Left = 543
-  Top = 273
+  Left = 808
+  Top = 194
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Cadastro - Agenda'
@@ -1411,8 +1411,6 @@ object frmCadAgenda: TfrmCadAgenda
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    ExplicitWidth = 611
-    ExplicitHeight = 350
     object tsCadastro: TTabSheet
       Caption = 'Cadastro - Agenda'
       object grpAgenda: TGroupBox
@@ -1488,7 +1486,7 @@ object frmCadAgenda: TfrmCadAgenda
       end
     end
     object TabSheet1: TTabSheet
-      Caption = 'Pesquisar'
+      Caption = 'Pesquisa R'#225'pida'
       ImageIndex = 1
       OnShow = TabSheet1Show
       object grp1: TGroupBox
@@ -1558,10 +1556,10 @@ object frmCadAgenda: TfrmCadAgenda
           TabOrder = 0
           object Label3: TLabel
             Left = 17
-            Top = 3
-            Width = 152
+            Top = 5
+            Width = 114
             Height = 16
-            Caption = 'Pesquisar por Contato:'
+            Caption = 'Digite o Contato:'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
             Font.Height = -13
@@ -1570,9 +1568,9 @@ object frmCadAgenda: TfrmCadAgenda
             ParentFont = False
           end
           object edtpesq: TEdit
-            Left = 175
-            Top = 0
-            Width = 354
+            Left = 137
+            Top = 2
+            Width = 528
             Height = 24
             CharCase = ecUpperCase
             Font.Charset = DEFAULT_CHARSET

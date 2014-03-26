@@ -73,7 +73,7 @@ begin
 
             qry.Close;
             qry.SQL.Clear;
-            qry.SQL.Add('EXECUTE PROCEDURE SP_CAIXA(:data, :valor, :dinheiro, :cheque, :cartao, :ticket, :nDoc, :tipoDoc, :resp, :observ)');
+            qry.SQL.Add('EXECUTE PROCEDURE SP_CAIXA(:data, :valor, :dinheiro, :cheque, :cartao, :ticket, :nDoc, :tipoDoc, :resp, :observ, :estorn)');
             qry.ParamByName('data').AsDate       := Date;
             qry.ParamByName('valor').AsFloat     := edtValor.Value;
             qry.ParamByName('dinheiro').AsFloat  := 0;
@@ -84,6 +84,7 @@ begin
             qry.ParamByName('tipoDoc').AsString  := 'R';
             qry.ParamByName('resp').AsString     := edtResponsavel.Text;
             qry.ParamByName('observ').AsString   := mmoObservacao.Lines.Text;
+            qry.ParamByName('estorn').AsFloat    := 0;
             qry.ExecSQL();
 
             if ckbCupom.Checked then
@@ -105,7 +106,6 @@ procedure TfrmSangria.ImprimirCupom(Valor: Double; Responsavel, Motivo,
 var
   texto: AnsiString;
 begin
-    Impressora := TImpressora.Create(miEpson, PAnsiChar('USB'));
 
     texto := Concat(texto, Impressora.InseriTraco(48, false, true));
     texto := Concat(texto, '<ce><b>SANGRIA</b></ce>'#10#10);
