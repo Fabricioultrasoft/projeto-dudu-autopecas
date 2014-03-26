@@ -1,6 +1,6 @@
 object frmCadCliente: TfrmCadCliente
-  Left = 701
-  Top = 352
+  Left = 517
+  Top = 217
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Cadastro de Cliente'
@@ -1643,7 +1643,7 @@ object frmCadCliente: TfrmCadCliente
     Width = 734
     Height = 417
     Cursor = crHandPoint
-    ActivePage = tsCadastro
+    ActivePage = TabSheet1
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -1652,8 +1652,6 @@ object frmCadCliente: TfrmCadCliente
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    ExplicitWidth = 611
-    ExplicitHeight = 350
     object tsCadastro: TTabSheet
       Caption = 'Cadastro de Cliente'
       object grpCliente: TGroupBox
@@ -1886,7 +1884,7 @@ object frmCadCliente: TfrmCadCliente
       end
     end
     object TabSheet1: TTabSheet
-      Caption = 'Pesquisar'
+      Caption = 'Pesquisa R'#225'pida'
       ImageIndex = 1
       OnShow = TabSheet1Show
       object grp1: TGroupBox
@@ -1958,22 +1956,22 @@ object frmCadCliente: TfrmCadCliente
           BevelOuter = bvNone
           TabOrder = 0
           object Label3: TLabel
-            Left = 41
-            Top = 6
-            Width = 164
-            Height = 13
+            Left = 14
+            Top = 5
+            Width = 186
+            Height = 16
             Caption = 'Digite o Nome/Raz'#227'o Social:'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
-            Font.Height = -11
+            Font.Height = -13
             Font.Name = 'Verdana'
             Font.Style = []
             ParentFont = False
           end
           object edtpesq: TEdit
             Left = 211
-            Top = 2
-            Width = 383
+            Top = 4
+            Width = 502
             Height = 21
             CharCase = ecUpperCase
             Font.Charset = DEFAULT_CHARSET

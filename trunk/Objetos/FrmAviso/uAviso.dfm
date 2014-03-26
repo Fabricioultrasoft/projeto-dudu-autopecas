@@ -1,6 +1,7 @@
 object frmAviso: TfrmAviso
-  Left = 685
-  Top = 227
+  Left = 407
+  Top = 189
+  BorderIcons = [biSystemMenu]
   Caption = 'Mensagens'
   ClientHeight = 442
   ClientWidth = 782
@@ -24,8 +25,6 @@ object frmAviso: TfrmAviso
     Height = 50
     Align = alBottom
     TabOrder = 0
-    ExplicitTop = 354
-    ExplicitWidth = 817
     object btn1: TBitBtn
       Left = 651
       Top = 6
@@ -81,7 +80,6 @@ object frmAviso: TfrmAviso
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    ExplicitWidth = 704
   end
   object mmoAviso: TMemo
     Left = 0
@@ -98,9 +96,5 @@ object frmAviso: TfrmAviso
     ParentFont = False
     ReadOnly = True
     TabOrder = 2
-    ExplicitLeft = 88
-    ExplicitTop = 112
-    ExplicitWidth = 185
-    ExplicitHeight = 89
   end
 end

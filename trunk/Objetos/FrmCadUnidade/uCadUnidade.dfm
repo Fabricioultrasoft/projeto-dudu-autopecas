@@ -1,6 +1,6 @@
 object frmCadUnidade: TfrmCadUnidade
-  Left = 341
-  Top = 300
+  Left = 513
+  Top = 262
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Cadastro de Unidade'
@@ -1412,7 +1412,6 @@ object frmCadUnidade: TfrmCadUnidade
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    ExplicitWidth = 581
     object tsCadastro: TTabSheet
       Caption = 'Cadastro de Unidade'
       object grpUnidade: TGroupBox
@@ -1521,7 +1520,7 @@ object frmCadUnidade: TfrmCadUnidade
       end
     end
     object TabSheet1: TTabSheet
-      Caption = 'Pesquisar'
+      Caption = 'Pesquisa R'#225'pida'
       ImageIndex = 1
       object grp1: TGroupBox
         Left = 0
@@ -1583,22 +1582,22 @@ object frmCadUnidade: TfrmCadUnidade
           TabOrder = 0
           object Label4: TLabel
             Left = 9
-            Top = 5
-            Width = 159
-            Height = 13
+            Top = 10
+            Width = 182
+            Height = 18
             Caption = 'Digite a Descri'#231#227'o ou Sigla:'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
-            Font.Height = -11
+            Font.Height = -13
             Font.Name = 'Verdana'
             Font.Style = []
             ParentFont = False
           end
           object edtpesq: TEdit
-            Left = 181
-            Top = 2
-            Width = 383
-            Height = 21
+            Left = 197
+            Top = 4
+            Width = 388
+            Height = 24
             CharCase = ecUpperCase
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText

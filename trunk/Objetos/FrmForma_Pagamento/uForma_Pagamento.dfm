@@ -1,6 +1,6 @@
 object frmForma_Pagamento: TfrmForma_Pagamento
-  Left = 819
-  Top = 64
+  Left = 901
+  Top = 251
   BorderIcons = []
   BorderStyle = bsSingle
   Caption = 'Finalizando Venda'
@@ -57,8 +57,8 @@ object frmForma_Pagamento: TfrmForma_Pagamento
       Layout = tlCenter
     end
     object lbl1: TLabel
-      Left = 91
-      Top = 19
+      Left = 43
+      Top = 18
       Width = 64
       Height = 22
       Caption = 'Cliente:'
@@ -71,7 +71,7 @@ object frmForma_Pagamento: TfrmForma_Pagamento
     end
     object btnFinalizar: TBitBtn
       Left = 100
-      Top = 523
+      Top = 505
       Width = 279
       Height = 46
       Cursor = crHandPoint
@@ -94,7 +94,7 @@ object frmForma_Pagamento: TfrmForma_Pagamento
       Left = 24
       Top = 52
       Width = 412
-      Height = 457
+      Height = 429
       Caption = 'Valores:'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -105,7 +105,7 @@ object frmForma_Pagamento: TfrmForma_Pagamento
       TabOrder = 1
       object lbl3: TLabel
         Left = 16
-        Top = 136
+        Top = 127
         Width = 48
         Height = 22
         Caption = 'Total:'
@@ -118,7 +118,7 @@ object frmForma_Pagamento: TfrmForma_Pagamento
       end
       object lbl4: TLabel
         Left = 16
-        Top = 227
+        Top = 201
         Width = 74
         Height = 22
         Caption = 'Dinheiro:'
@@ -131,7 +131,7 @@ object frmForma_Pagamento: TfrmForma_Pagamento
       end
       object lbl5: TLabel
         Left = 19
-        Top = 412
+        Top = 382
         Width = 53
         Height = 22
         Caption = 'Troco:'
@@ -144,7 +144,7 @@ object frmForma_Pagamento: TfrmForma_Pagamento
       end
       object lbl7: TLabel
         Left = 16
-        Top = 68
+        Top = 64
         Width = 115
         Height = 22
         Caption = 'Desconto (%):'
@@ -170,7 +170,7 @@ object frmForma_Pagamento: TfrmForma_Pagamento
       end
       object Label1: TLabel
         Left = 16
-        Top = 258
+        Top = 232
         Width = 67
         Height = 22
         Caption = 'Cheque:'
@@ -183,7 +183,7 @@ object frmForma_Pagamento: TfrmForma_Pagamento
       end
       object Label2: TLabel
         Left = 16
-        Top = 290
+        Top = 264
         Width = 61
         Height = 22
         Caption = 'Cart'#227'o:'
@@ -196,7 +196,7 @@ object frmForma_Pagamento: TfrmForma_Pagamento
       end
       object Label3: TLabel
         Left = 16
-        Top = 322
+        Top = 296
         Width = 58
         Height = 22
         Caption = 'Ticket:'
@@ -209,7 +209,7 @@ object frmForma_Pagamento: TfrmForma_Pagamento
       end
       object Label4: TLabel
         Left = 19
-        Top = 381
+        Top = 351
         Width = 95
         Height = 22
         Caption = 'Valor Pago:'
@@ -222,7 +222,7 @@ object frmForma_Pagamento: TfrmForma_Pagamento
       end
       object Label5: TLabel
         Left = 16
-        Top = 196
+        Top = 170
         Width = 189
         Height = 22
         Caption = 'Formas de Pagamento:'
@@ -235,7 +235,7 @@ object frmForma_Pagamento: TfrmForma_Pagamento
       end
       object Label6: TLabel
         Left = 16
-        Top = 102
+        Top = 98
         Width = 95
         Height = 22
         Caption = 'Vale Troca:'
@@ -248,9 +248,9 @@ object frmForma_Pagamento: TfrmForma_Pagamento
       end
       object edtTotal: TEdit
         Left = 142
-        Top = 133
+        Top = 124
         Width = 253
-        Height = 32
+        Height = 28
         Alignment = taRightJustify
         AutoSize = False
         Color = clSilver
@@ -261,11 +261,11 @@ object frmForma_Pagamento: TfrmForma_Pagamento
         Font.Style = [fsBold]
         ParentFont = False
         ReadOnly = True
-        TabOrder = 2
+        TabOrder = 3
       end
       object edtTroco: TEdit
         Left = 142
-        Top = 409
+        Top = 379
         Width = 253
         Height = 32
         Alignment = taRightJustify
@@ -278,14 +278,14 @@ object frmForma_Pagamento: TfrmForma_Pagamento
         Font.Style = [fsBold]
         ParentFont = False
         ReadOnly = True
-        TabOrder = 8
+        TabOrder = 9
         Text = '0,00'
       end
       object edtSubTotal: TEdit
         Left = 142
         Top = 31
         Width = 253
-        Height = 32
+        Height = 28
         Alignment = taRightJustify
         AutoSize = False
         Color = clSilver
@@ -300,22 +300,7 @@ object frmForma_Pagamento: TfrmForma_Pagamento
       end
       object edtCheque: TJvCalcEdit
         Left = 142
-        Top = 255
-        Width = 253
-        Height = 28
-        DisplayFormat = '##,##0.00'
-        Font.Charset = DEFAULT_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -17
-        Font.Name = 'Verdana'
-        Font.Style = [fsBold]
-        ParentFont = False
-        TabOrder = 4
-        DecimalPlacesAlwaysShown = False
-      end
-      object edtCartao: TJvCalcEdit
-        Left = 142
-        Top = 287
+        Top = 229
         Width = 253
         Height = 28
         DisplayFormat = '##,##0.00'
@@ -328,9 +313,9 @@ object frmForma_Pagamento: TfrmForma_Pagamento
         TabOrder = 5
         DecimalPlacesAlwaysShown = False
       end
-      object edtTicket: TJvCalcEdit
+      object edtCartao: TJvCalcEdit
         Left = 142
-        Top = 319
+        Top = 261
         Width = 253
         Height = 28
         DisplayFormat = '##,##0.00'
@@ -343,9 +328,9 @@ object frmForma_Pagamento: TfrmForma_Pagamento
         TabOrder = 6
         DecimalPlacesAlwaysShown = False
       end
-      object edtDinheiro: TJvCalcEdit
+      object edtTicket: TJvCalcEdit
         Left = 142
-        Top = 224
+        Top = 293
         Width = 253
         Height = 28
         DisplayFormat = '##,##0.00'
@@ -355,14 +340,30 @@ object frmForma_Pagamento: TfrmForma_Pagamento
         Font.Name = 'Verdana'
         Font.Style = [fsBold]
         ParentFont = False
-        TabOrder = 3
+        TabOrder = 7
+        DecimalPlacesAlwaysShown = False
+      end
+      object edtDinheiro: TJvCalcEdit
+        Left = 142
+        Top = 198
+        Width = 253
+        Height = 28
+        DisplayFormat = '##,##0.00'
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -17
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        ParentFont = False
+        TabOrder = 4
         DecimalPlacesAlwaysShown = False
       end
       object edtDesconto: TJvCalcEdit
         Left = 142
-        Top = 65
+        Top = 61
         Width = 253
         Height = 28
+        AutoSize = False
         DisplayFormat = '##,##0.00'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
@@ -376,7 +377,7 @@ object frmForma_Pagamento: TfrmForma_Pagamento
       end
       object edtValorPago: TJvCalcEdit
         Left = 142
-        Top = 378
+        Top = 348
         Width = 253
         Height = 28
         DisplayFormat = '##,##0.00'
@@ -386,15 +387,15 @@ object frmForma_Pagamento: TfrmForma_Pagamento
         Font.Name = 'Verdana'
         Font.Style = [fsBold]
         ParentFont = False
-        TabOrder = 7
+        TabOrder = 8
         DecimalPlacesAlwaysShown = False
         OnExit = edtValorPagoExit
       end
       object edtValeTroca: TJvComboEdit
         Left = 142
-        Top = 97
+        Top = 93
         Width = 251
-        Height = 32
+        Height = 28
         Hint = 'PROCURAR DEVOLU'#199#195'O'
         AutoSize = False
         Flat = False
@@ -451,14 +452,14 @@ object frmForma_Pagamento: TfrmForma_Pagamento
         ParentFont = False
         ParentShowHint = False
         ShowHint = True
-        TabOrder = 9
+        TabOrder = 2
         OnButtonClick = edtValeTrocaButtonClick
       end
     end
     object edtCliente: TJvComboEdit
       Left = 161
       Top = 18
-      Width = 270
+      Width = 246
       Height = 28
       Hint = 'PROCURAR CLIENTE'
       Font.Charset = DEFAULT_CHARSET
@@ -515,7 +516,7 @@ object frmForma_Pagamento: TfrmForma_Pagamento
       OnButtonClick = edtClienteButtonClick
     end
     object btnAdicionarGrupo: TBitBtn
-      Left = 436
+      Left = 406
       Top = 18
       Width = 30
       Height = 28
@@ -571,7 +572,7 @@ object frmForma_Pagamento: TfrmForma_Pagamento
   end
   object ACBrEnterTab1: TACBrEnterTab
     EnterAsTab = True
-    Left = 23
-    Top = 5
+    Left = 415
+    Top = 549
   end
 end

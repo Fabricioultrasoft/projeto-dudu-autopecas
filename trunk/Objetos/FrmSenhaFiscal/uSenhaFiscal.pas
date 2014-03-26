@@ -20,6 +20,7 @@ type
     function VerificaSenha(Senha, Privilegio:string):boolean;
     procedure CancelarItem();
     procedure TrocaDevolucao();
+    procedure EstornaValor();
   end;
 
 var
@@ -27,7 +28,8 @@ var
 
 implementation
 
-uses uDm, uCancela_Item, uProcura_Venda, uTrocaDevolucao;
+uses uDm, uCancela_Item, uProcura_Venda, uTrocaDevolucao, uPDV,
+  uEstornoFinanceiro;
 
 {$R *.dfm}
 
@@ -38,6 +40,7 @@ begin
           if VerificaSenha(edtSenha.Text, 'ADMINISTRAÇÃO') then
           begin
              try
+                frmPDV.bFCancelaItem := False;
                 frmSenhaFiscal.Close;
                 frmCancelaItem := TfrmCancelaItem.Create(nil);
                 frmCancelaItem.ShowModal;
@@ -57,11 +60,40 @@ end;
 
 procedure TfrmSenhaFiscal.edtSenhaKeyPress(Sender: TObject; var Key: Char);
 begin
-     if (key = #13) and (not Assigned(frmProcura_Venda)) then
+     if (key = #13) and (frmPDV.bFCancelaItem) then
         CancelarItem;
 
      if (key = #13) and (Assigned(frmProcura_Venda)) then
         TrocaDevolucao;
+
+     if (key = #13) and (frmPDV.bFEstornaValor) then
+        EstornaValor;
+end;
+
+procedure TfrmSenhaFiscal.EstornaValor;
+begin
+      if edtSenha.Text <> '' then
+      begin
+          if VerificaSenha(edtSenha.Text, 'ADMINISTRAÇÃO') then
+          begin
+             try
+                frmPDV.bFEstornaValor := False;
+                frmSenhaFiscal.Close;
+                frmEstornoFinanceiro := TfrmEstornoFinanceiro.Create(nil);
+                frmEstornoFinanceiro.ShowModal;
+             finally
+                FreeAndNil(frmEstornoFinanceiro);
+             end;
+          end
+          else
+          begin
+             MessageDlg('Senha não liberada!', mtWarning, [mbOK], 0);
+             edtSenha.Clear;
+          end;
+      end
+      else
+        MessageDlg('É necessário informar a senha do fiscal!', mtWarning, [mbOK], 0);
+
 end;
 
 procedure TfrmSenhaFiscal.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -78,7 +110,7 @@ end;
 
 procedure TfrmSenhaFiscal.TrocaDevolucao;
 begin
-    if edtSenha.Text <> '' then
+      if edtSenha.Text <> '' then
       begin
           if VerificaSenha(edtSenha.Text, 'ADMINISTRAÇÃO') then
           begin

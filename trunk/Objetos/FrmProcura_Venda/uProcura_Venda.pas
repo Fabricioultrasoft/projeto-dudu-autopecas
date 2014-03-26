@@ -20,26 +20,27 @@ type
     edtNVenda: TEdit;
     pnlRodape: TPanel;
     Label1: TLabel;
-    DBEdit1: TDBEdit;
-    DBEdit2: TDBEdit;
-    DBEdit3: TDBEdit;
-    DBEdit4: TDBEdit;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
-    DBEdit5: TDBEdit;
-    DBEdit6: TDBEdit;
-    DBEdit7: TDBEdit;
-    DBEdit8: TDBEdit;
     Label5: TLabel;
     Label6: TLabel;
-    DBEdit9: TDBEdit;
-    DBEdit10: TDBEdit;
     btnFechar: TBitBtn;
     btnTrocaDevolucao: TBitBtn;
     pnl1: TPanel;
     grdItemVenda: TDBGrid;
     lbl6: TLabel;
+    lbl7: TLabel;
+    edtVenda: TEdit;
+    edtData: TEdit;
+    edtCodFunc: TEdit;
+    edtSubTotal: TEdit;
+    edtDesconto: TEdit;
+    edtValorTotal: TEdit;
+    edtDinheiro: TEdit;
+    edtCheque: TEdit;
+    edtCartao: TEdit;
+    edtTicket: TEdit;
     procedure edtNVendaChange(Sender: TObject);
     procedure PesquisaVenda();
     //procedure GeraNFe();
@@ -50,6 +51,8 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnTrocaDevolucaoClick(Sender: TObject);
     procedure grdItemVendaDblClick(Sender: TObject);
+    procedure grdItemVendaDrawColumnCell(Sender: TObject; const Rect: TRect;
+      DataCol: Integer; Column: TColumn; State: TGridDrawState);
   private
     { Private declarations }
   public
@@ -98,14 +101,19 @@ end;
 
 procedure TfrmProcura_Venda.btnTrocaDevolucaoClick(Sender: TObject);
 begin
-    if grdItemVenda.SelectedRows.Count > 0 then
+    if (grdItemVenda.SelectedRows.Count > 0) then
     begin
-        try
-           frmTrocaDevolucao := TfrmTrocaDevolucao.Create(Self);
-           frmTrocaDevolucao.ShowModal;
-        finally
-           FreeAndNil(frmTrocaDevolucao);
-        end;
+        if (dm.cdsItem_Venda.FieldByName('QTDE').AsFloat > 0) then
+        begin
+            try
+               frmTrocaDevolucao := TfrmTrocaDevolucao.Create(Self);
+               frmTrocaDevolucao.ShowModal;
+            finally
+               FreeAndNil(frmTrocaDevolucao);
+            end;
+        end
+        else
+           MessageDlg('Item sem quantidade!', mtWarning, [mbOK], 0);
     end;
 end;
 
@@ -159,6 +167,18 @@ begin
     btnTrocaDevolucao.Click;
 end;
 
+procedure TfrmProcura_Venda.grdItemVendaDrawColumnCell(Sender: TObject;
+  const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+begin
+    //Muda a cor da coluna conforme o status da devolução
+    if dm.cdsItem_Venda.FieldByName('STATUS').AsString = 'A' then
+    begin
+        grdItemVenda.Canvas.Brush.Color := dm.HexToTColor('D04646');
+        grdItemVenda.Canvas.FillRect(Rect);
+        grdItemVenda.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+    end;
+end;
+
 procedure TfrmProcura_Venda.PesquisaVenda;
 begin
     try
@@ -172,8 +192,16 @@ begin
 
         if not dm.qryVenda.IsEmpty then
         begin
-            dm.cdsVenda.Open;
-            dm.cdsVenda.Refresh;
+            edtVenda.Text      := dm.qryVenda.FieldByName('N_VENDA').AsString;
+            edtData.Text       := FormatDateTime('dd/mm/yyyy', dm.qryVenda.FieldByName('DATA_VENDA').AsDateTime);
+            edtCodFunc.Text    := dm.qryVenda.FieldByName('COD_FUNC').AsString;
+            edtSubTotal.Text   := FormatFloat('##,##0.00', dm.qryVenda.FieldByName('SUB_TOTAL').AsFloat);
+            edtDesconto.Text   := FormatFloat('#0.00', dm.qryVenda.FieldByName('DESCONTO').AsFloat);
+            edtValorTotal.Text := FormatFloat('##,##0.00', dm.qryVenda.FieldByName('VAL_TOTAL').AsFloat);
+            edtDinheiro.Text   := FormatFloat('##,##0.00', dm.qryVenda.FieldByName('DINHEIRO').AsFloat);
+            edtCheque.Text     := FormatFloat('##,##0.00', dm.qryVenda.FieldByName('CHEQUE').AsFloat);
+            edtCartao.Text     := FormatFloat('##,##0.00', dm.qryVenda.FieldByName('CARTAO').AsFloat);
+            edtTicket.Text     := FormatFloat('##,##0.00', dm.qryVenda.FieldByName('TICKET').AsFloat);
 
             dm.qryItem_Venda.Close;
             dm.qryItem_Venda.SQL.Clear;

@@ -4,7 +4,7 @@ interface
 
 uses
   SysUtils, Classes, FMTBcd, DB, DBClient, Provider, SqlExpr, uFuncao, ACBrNFe,
-  RLFilters, RLPDFFilter, RLRichFilter, RLXLSFilter, RLHTMLFilter;
+  RLFilters, RLPDFFilter, RLRichFilter, RLXLSFilter, RLHTMLFilter, Graphics, Windows;
 
 type
   Tdm = class(TDataModule)
@@ -376,6 +376,8 @@ type
     strngfldDevolucaoDESC_PROD: TStringField;
     strngfldDevolucaoSTATUS1: TStringField;
     strngfldDevolucaoDESC_PROD1: TStringField;
+    strngfldItem_VendaSTATUS: TStringField;
+    strngfldItem_VendaSTATUS1: TStringField;
     function CarregaPrivilegio: TStringList;
     function CarregaUnidadeMedida: TStringList;
     procedure intgrfldItem_OrcQTDE1Validate(Sender: TField);
@@ -388,6 +390,7 @@ type
 
   public
     procedure AtualizaCDSProduto(Nota: string);
+    function HexToTColor(sColor: string): TColor;
   end;
 
 var
@@ -415,6 +418,16 @@ implementation
 uses UdmConexao, uOrcamento, uPDV, uProcura_Venda;
 
 {$R *.dfm}
+
+function Tdm.HexToTColor(sColor: string): TColor;
+begin
+   Result :=
+     RGB(
+       StrToInt('$'+Copy(sColor, 1, 2)),
+       StrToInt('$'+Copy(sColor, 3, 2)),
+       StrToInt('$'+Copy(sColor, 5, 2))
+     ) ;
+end;
 
 procedure Tdm.AtualizaCDSProduto(Nota: string);
 begin

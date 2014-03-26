@@ -1,6 +1,6 @@
 object frmProcura_Venda: TfrmProcura_Venda
-  Left = 484
-  Top = 116
+  Left = 622
+  Top = 185
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio - Procurar Venda'
@@ -84,7 +84,7 @@ object frmProcura_Venda: TfrmProcura_Venda
       TabOrder = 0
       object lbl1: TLabel
         Left = 64
-        Top = 34
+        Top = 33
         Width = 63
         Height = 16
         Caption = 'N'#186' Venda: '
@@ -136,7 +136,7 @@ object frmProcura_Venda: TfrmProcura_Venda
       end
       object Label1: TLabel
         Left = 351
-        Top = 34
+        Top = 33
         Width = 56
         Height = 16
         Caption = 'SubTotal:'
@@ -162,7 +162,7 @@ object frmProcura_Venda: TfrmProcura_Venda
       end
       object Label3: TLabel
         Left = 639
-        Top = 90
+        Top = 89
         Width = 43
         Height = 16
         Caption = 'Cart'#227'o:'
@@ -175,7 +175,7 @@ object frmProcura_Venda: TfrmProcura_Venda
       end
       object Label4: TLabel
         Left = 643
-        Top = 121
+        Top = 118
         Width = 39
         Height = 16
         Caption = 'Ticket:'
@@ -212,170 +212,160 @@ object frmProcura_Venda: TfrmProcura_Venda
         Font.Style = []
         ParentFont = False
       end
-      object DBEdit1: TDBEdit
-        Left = 128
-        Top = 29
+      object edtVenda: TEdit
+        Left = 131
+        Top = 28
         Width = 174
-        Height = 24
+        Height = 26
+        Alignment = taCenter
         Color = clSilver
-        DataField = 'N_VENDA'
-        DataSource = dm.dtsVenda
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clHotLight
-        Font.Height = -13
+        Font.Height = -15
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         ParentFont = False
         ReadOnly = True
         TabOrder = 0
       end
-      object DBEdit2: TDBEdit
-        Left = 128
-        Top = 58
+      object edtData: TEdit
+        Left = 131
+        Top = 56
         Width = 174
-        Height = 24
+        Height = 26
+        Alignment = taCenter
         Color = clSilver
-        DataField = 'DATA_VENDA'
-        DataSource = dm.dtsVenda
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clHotLight
-        Font.Height = -13
+        Font.Height = -15
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         ParentFont = False
         ReadOnly = True
         TabOrder = 1
       end
-      object DBEdit3: TDBEdit
-        Left = 412
-        Top = 29
+      object edtCodFunc: TEdit
+        Left = 131
+        Top = 85
         Width = 174
-        Height = 24
+        Height = 26
+        Alignment = taCenter
         Color = clSilver
-        DataField = 'SUB_TOTAL'
-        DataSource = dm.dtsVenda
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clHotLight
-        Font.Height = -13
+        Font.Height = -15
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         ParentFont = False
         ReadOnly = True
         TabOrder = 2
       end
-      object DBEdit4: TDBEdit
-        Left = 412
-        Top = 88
+      object edtSubTotal: TEdit
+        Left = 413
+        Top = 28
         Width = 174
-        Height = 24
+        Height = 26
+        Alignment = taRightJustify
         Color = clSilver
-        DataField = 'VAL_TOTAL'
-        DataSource = dm.dtsVenda
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clHotLight
-        Font.Height = -13
+        Font.Height = -15
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         ParentFont = False
         ReadOnly = True
         TabOrder = 3
       end
-      object DBEdit5: TDBEdit
-        Left = 688
-        Top = 29
-        Width = 176
-        Height = 24
+      object edtDesconto: TEdit
+        Left = 413
+        Top = 56
+        Width = 174
+        Height = 26
+        Alignment = taRightJustify
         Color = clSilver
-        DataField = 'DINHEIRO'
-        DataSource = dm.dtsVenda
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clHotLight
-        Font.Height = -13
+        Font.Height = -15
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         ParentFont = False
         ReadOnly = True
         TabOrder = 4
       end
-      object DBEdit6: TDBEdit
-        Left = 688
-        Top = 58
-        Width = 176
-        Height = 24
+      object edtValorTotal: TEdit
+        Left = 413
+        Top = 85
+        Width = 174
+        Height = 26
+        Alignment = taRightJustify
         Color = clSilver
-        DataField = 'CHEQUE'
-        DataSource = dm.dtsVenda
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clHotLight
-        Font.Height = -13
+        Font.Height = -15
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         ParentFont = False
         ReadOnly = True
         TabOrder = 5
       end
-      object DBEdit7: TDBEdit
+      object edtDinheiro: TEdit
         Left = 688
-        Top = 88
-        Width = 176
-        Height = 24
+        Top = 28
+        Width = 174
+        Height = 26
+        Alignment = taRightJustify
         Color = clSilver
-        DataField = 'CARTAO'
-        DataSource = dm.dtsVenda
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clHotLight
-        Font.Height = -13
+        Font.Height = -15
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         ParentFont = False
         ReadOnly = True
         TabOrder = 6
       end
-      object DBEdit8: TDBEdit
+      object edtCheque: TEdit
         Left = 688
-        Top = 118
-        Width = 176
-        Height = 24
+        Top = 56
+        Width = 174
+        Height = 26
+        Alignment = taRightJustify
         Color = clSilver
-        DataField = 'TICKET'
-        DataSource = dm.dtsVenda
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clHotLight
-        Font.Height = -13
+        Font.Height = -15
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         ParentFont = False
         ReadOnly = True
         TabOrder = 7
       end
-      object DBEdit9: TDBEdit
-        Left = 128
-        Top = 88
+      object edtCartao: TEdit
+        Left = 688
+        Top = 84
         Width = 174
-        Height = 24
+        Height = 26
+        Alignment = taRightJustify
         Color = clSilver
-        DataField = 'COD_FUNC'
-        DataSource = dm.dtsVenda
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clHotLight
-        Font.Height = -13
+        Font.Height = -15
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         ParentFont = False
         ReadOnly = True
         TabOrder = 8
       end
-      object DBEdit10: TDBEdit
-        Left = 412
-        Top = 58
+      object edtTicket: TEdit
+        Left = 688
+        Top = 113
         Width = 174
-        Height = 24
+        Height = 26
+        Alignment = taRightJustify
         Color = clSilver
-        DataField = 'DESCONTO'
-        DataSource = dm.dtsVenda
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clHotLight
-        Font.Height = -13
+        Font.Height = -15
         Font.Name = 'Tahoma'
         Font.Style = [fsBold]
         ParentFont = False
@@ -391,17 +381,28 @@ object frmProcura_Venda: TfrmProcura_Venda
     Height = 72
     Align = alBottom
     TabOrder = 2
-    ExplicitLeft = -1
-    ExplicitTop = 533
     object lbl6: TLabel
       Left = 7
       Top = 21
-      Width = 307
+      Width = 313
       Height = 44
       Caption = 
-        '* Para selecionar o item para devolu'#231#227'o, selecione o registro:'#13#10 +
-        '- Pressione a tecla F2 '#13#10'- Duplo clique sobre o registro'#13#10'- Pres' +
-        'sione o bot'#227'o Troca/Devolu'#231#227'o'
+        '** Para selecionar o item para devolu'#231#227'o, selecione o registro:'#13 +
+        #10'- Pressione a tecla F2 '#13#10'- Duplo clique sobre o registro'#13#10'- Pre' +
+        'ssione o bot'#227'o Troca/Devolu'#231#227'o'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -9
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object lbl7: TLabel
+      Left = 7
+      Top = 6
+      Width = 156
+      Height = 11
+      Caption = '* Itens alterados em vermelho.'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clRed
       Font.Height = -9
@@ -449,7 +450,7 @@ object frmProcura_Venda: TfrmProcura_Venda
       OnClick = btnFecharClick
     end
     object btnTrocaDevolucao: TBitBtn
-      Left = 661
+      Left = 658
       Top = 6
       Width = 137
       Height = 59
@@ -494,8 +495,6 @@ object frmProcura_Venda: TfrmProcura_Venda
     Height = 310
     Align = alClient
     TabOrder = 3
-    ExplicitTop = 224
-    ExplicitHeight = 288
     object grdItemVenda: TDBGrid
       Left = 1
       Top = 1
@@ -507,7 +506,7 @@ object frmProcura_Venda: TfrmProcura_Venda
       DrawingStyle = gdsGradient
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -16
+      Font.Height = -13
       Font.Name = 'Tahoma'
       Font.Style = []
       Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgMultiSelect, dgTitleClick, dgTitleHotTrack]
@@ -518,24 +517,24 @@ object frmProcura_Venda: TfrmProcura_Venda
       TitleFont.Height = -11
       TitleFont.Name = 'Tahoma'
       TitleFont.Style = []
+      OnDrawColumnCell = grdItemVendaDrawColumnCell
       OnDblClick = grdItemVendaDblClick
       Columns = <
         item
           Alignment = taCenter
           Expanded = False
+          FieldName = 'N_VENDA'
+          Title.Alignment = taCenter
+          Title.Caption = 'N'#186' DA VENDA'
+          Width = 100
+          Visible = True
+        end
+        item
+          Alignment = taCenter
+          Expanded = False
           FieldName = 'ID_ITEM'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'Tahoma'
-          Font.Style = []
           Title.Alignment = taCenter
           Title.Caption = 'ITEM'
-          Title.Font.Charset = DEFAULT_CHARSET
-          Title.Font.Color = clWindowText
-          Title.Font.Height = -13
-          Title.Font.Name = 'Tahoma'
-          Title.Font.Style = []
           Width = 100
           Visible = True
         end
@@ -543,36 +542,16 @@ object frmProcura_Venda: TfrmProcura_Venda
           Alignment = taCenter
           Expanded = False
           FieldName = 'EAN13'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'Tahoma'
-          Font.Style = []
           Title.Alignment = taCenter
-          Title.Caption = 'C'#211'DIGO'
-          Title.Font.Charset = DEFAULT_CHARSET
-          Title.Font.Color = clWindowText
-          Title.Font.Height = -13
-          Title.Font.Name = 'Tahoma'
-          Title.Font.Style = []
-          Width = 150
+          Width = 100
           Visible = True
         end
         item
+          Alignment = taCenter
           Expanded = False
           FieldName = 'DESC_PROD'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'Tahoma'
-          Font.Style = []
           Title.Alignment = taCenter
           Title.Caption = 'DESCRI'#199#195'O'
-          Title.Font.Charset = DEFAULT_CHARSET
-          Title.Font.Color = clWindowText
-          Title.Font.Height = -13
-          Title.Font.Name = 'Tahoma'
-          Title.Font.Style = []
           Width = 250
           Visible = True
         end
@@ -580,54 +559,26 @@ object frmProcura_Venda: TfrmProcura_Venda
           Alignment = taCenter
           Expanded = False
           FieldName = 'QTDE'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'Tahoma'
-          Font.Style = []
           Title.Alignment = taCenter
-          Title.Font.Charset = DEFAULT_CHARSET
-          Title.Font.Color = clWindowText
-          Title.Font.Height = -13
-          Title.Font.Name = 'Tahoma'
-          Title.Font.Style = []
-          Width = 100
+          Width = 90
           Visible = True
         end
         item
+          Alignment = taCenter
           Expanded = False
           FieldName = 'VAL_PROD'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'Tahoma'
-          Font.Style = []
           Title.Alignment = taCenter
-          Title.Caption = 'VALOR PRODUTO'
-          Title.Font.Charset = DEFAULT_CHARSET
-          Title.Font.Color = clWindowText
-          Title.Font.Height = -13
-          Title.Font.Name = 'Tahoma'
-          Title.Font.Style = []
-          Width = 150
+          Title.Caption = 'VAL. UNIT'#193'RIO'
+          Width = 120
           Visible = True
         end
         item
+          Alignment = taCenter
           Expanded = False
           FieldName = 'TOTAL_PROD'
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'Tahoma'
-          Font.Style = []
           Title.Alignment = taCenter
-          Title.Caption = 'TOTAL PRODUTO'
-          Title.Font.Charset = DEFAULT_CHARSET
-          Title.Font.Color = clWindowText
-          Title.Font.Height = -13
-          Title.Font.Name = 'Tahoma'
-          Title.Font.Style = []
-          Width = 150
+          Title.Caption = 'SUBTOTAL'
+          Width = 120
           Visible = True
         end>
     end
