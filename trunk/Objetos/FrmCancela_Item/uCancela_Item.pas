@@ -40,6 +40,17 @@ begin
             //Confirma a exclusão
             if Application.MessageBox('Deseja cancelar esse item?', 'Confirmação', MB_YESNO)= mrYes then
             begin
+
+                // Imprime na tela e na impressora
+                frmPDV.FImpressao.ImprimirCancelamentoItem(edtItem.Text, Copy(dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString, 1, 24));
+                if frmPDV.FVerificacaoImpressora then
+                begin
+                    // Imprime o item cancelado
+                    Texto := '';
+                    Texto := Concat(Texto, #10+'<c>ITEM ' + edtItem.Text + ' *' + Copy(dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString, 1, 24) + '* CANCELADO</c>'#10);
+                    frmPDV.FImpressora.ImprimeTextoTag(PAnsiChar(Texto), false);
+                end;
+
                 dm.cdsItem_Venda.Delete;
 
                 //Verifico se a venda já está gravada no banco
@@ -56,15 +67,6 @@ begin
                    frmPDV.edtTotal.Text := FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('S_TOTAL').Value)
                 else
                    frmPDV.edtTotal.Clear;
-
-                frmPDV.ImprimeCancelaItem(edtItem.Text, Copy(dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString, 1, 24));
-                if frmPDV.FVerificacaoImpressora then
-                begin
-                    // Imprime o item cancelado
-                    Texto := '';
-                    Texto := Concat(Texto, #10+'<c>ITEM ' + edtItem.Text + ' *' + Copy(dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString, 1, 24) + '* CANCELADO</c>'#10);
-                    frmPDV.FImpressora.ImprimeTextoTag(PAnsiChar(Texto), false);
-                end;
 
                 // Posiciona o cursor nó último item
                 dm.cdsItem_Venda.Last;

@@ -111,6 +111,7 @@ type
       procedure Cancelar(); virtual;
       procedure KeyDown(var Key: Word; Shift: TShiftState); override;
       procedure DoClose(var Action: TCloseAction);override;
+      procedure IniciarComponentes();override;
 
   public
       procedure SetOperacao(Operacao: TOperacao); virtual;
@@ -125,8 +126,6 @@ constructor TFormBase.Create(Awoner: TComponent);
 begin
      //Inicializa o objeto
      inherited Create(Awoner);
-     KeyPreview := True;
-     ShowHint   := true;
      IniciarComponentes;
 end;
 
@@ -179,8 +178,11 @@ procedure TFormBase.IniciarComponentes;
 var
    i: integer;
 begin
-     //Inicializa os componentes do form
+     self.Position    := poDesktopCenter;
+     self.KeyPreview  := true;
+     self.ShowHint    := true;
 
+     //Inicializa os componentes do form
      for i := 0 to ComponentCount - 1 do
      begin
          //Seta a propriedade cursor para HandPoint
@@ -198,8 +200,10 @@ begin
 
          if Components[i] is TDBGrid then
          begin
-            TDBGrid(Components[i]).Cursor := -21;
+            TDBGrid(Components[i]).Cursor       := -21;
             TDBGrid(Components[i]).DrawingStyle := gdsGradient;
+            TDBGrid(Components[i]).Options      := [dgTitles,dgIndicator,dgColumnResize,dgColLines,dgRowLines,dgTabs,dgRowSelect,dgTitleClick,dgTitleHotTrack];
+            TDBGrid(Components[i]).BorderStyle  := bsNone;
          end;
 
          if Components[i] is TDateTimePicker then
@@ -271,6 +275,13 @@ begin
          ShowMessage('Existe uma operação em andamento!');
          Abort;
      end;
+end;
+
+procedure TFormBaseCad.IniciarComponentes;
+begin
+  self.BorderStyle := bsSingle;
+  self.BorderIcons := [biSystemMenu];
+  inherited;
 end;
 
 procedure TFormBaseCad.KeyDown(var Key: Word; Shift: TShiftState);

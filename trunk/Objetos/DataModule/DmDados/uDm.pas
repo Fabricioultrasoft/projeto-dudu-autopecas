@@ -378,6 +378,8 @@ type
     strngfldDevolucaoDESC_PROD1: TStringField;
     strngfldItem_VendaSTATUS: TStringField;
     strngfldItem_VendaSTATUS1: TStringField;
+    qryItem_VendaUND: TStringField;
+    cdsItem_VendaUND: TStringField;
     function CarregaPrivilegio: TStringList;
     function CarregaUnidadeMedida: TStringList;
     procedure intgrfldItem_OrcQTDE1Validate(Sender: TField);

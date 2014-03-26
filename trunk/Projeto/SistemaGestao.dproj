@@ -180,6 +180,7 @@
 			<DCCReference Include="..\Objetos\FrmEstornoFinanceiro\uEstornoFinanceiro.pas">
 				<Form>frmEstornoFinanceiro</Form>
 			</DCCReference>
+			<DCCReference Include="..\Objetos\Impressao\uImpressao.pas"/>
 			<None Include="ModelSupport_SistemaGestao\default.txvpck"/>
 			<None Include="ModelSupport_SistemaGestao\uFuncao\default.txvpck"/>
 			<None Include="ModelSupport_SistemaGestao\uProdutoNF\default.txvpck"/>
@@ -305,7 +306,7 @@
 						<VersionInfo Name="MajorVer">1</VersionInfo>
 						<VersionInfo Name="MinorVer">0</VersionInfo>
 						<VersionInfo Name="Release">0</VersionInfo>
-						<VersionInfo Name="Build">2</VersionInfo>
+						<VersionInfo Name="Build">3</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -317,7 +318,7 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName">WLL - SISTEMAS</VersionInfoKeys>
 						<VersionInfoKeys Name="FileDescription"/>
-						<VersionInfoKeys Name="FileVersion">1.0.0.2</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">1.0.0.3</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName"/>
 						<VersionInfoKeys Name="LegalCopyright"/>
 						<VersionInfoKeys Name="LegalTrademarks"/>

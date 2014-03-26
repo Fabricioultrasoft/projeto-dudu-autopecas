@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, Grids, DBGrids, ExtCtrls, FMTBcd, DB, SqlExpr, DBXCommon, uFormBase,
-  pcnConversao, uImpressora, jpeg, ComCtrls, ShellAPI;
+  pcnConversao, uImpressora, jpeg, ComCtrls, ShellAPI, uImpressao;
 
 type
    TStatusVenda = (svAberto, svFechado, svBloqueado);
@@ -64,7 +64,7 @@ type
     procedure edtConsultaKeyPress(Sender: TObject; var Key: Char);
     procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    function FormataImpressaoItem(Item, Codigo, Descricao, Qtde, Valor, Subtotal: string; Limite: Integer): string;
+    function FormataImpressaoItem(Item, Codigo, Descricao, Qtde, Und, Valor, Subtotal: string; Limite: Integer): string;
     procedure FormShow(Sender: TObject);
     function HexToTColor(sColor : string) : TColor;
     procedure ImprimiCabecalho();
@@ -115,6 +115,7 @@ type
     FImpressora     : TImpressora;
     FVerificacaoImpressora: boolean;
     sFCodigoDevolucao: string;
+    FImpressao      :TImpressao;
 
     procedure setStatusCaixa(Status: TStatusVenda);
   end;
@@ -301,7 +302,7 @@ begin
                LimpaCampos;
                lblVenda.Visible := False;
                setStatusCaixa(svFechado);
-               ImprimeCancelaVenda;
+               FImpressao.ImprimirCancelamentoVenda;
 
                if FVerificacaoImpressora then
                begin
@@ -317,10 +318,11 @@ end;
 
 procedure TfrmPDV.CarregarItem(const TextoDigitado: string);
 var
-  qtde, item: integer;
-  codigo, descricao, valor, subtotal: string;
+  item: integer;
+  qtde: double;
+  codigo, descricao, valor, subtotal, unidade: string;
 
-  procedure DecomporCodigo(const ATexto: string; var AQuantidade: integer; var ACodigo: String);
+  procedure DecomporCodigo(const ATexto: string; var AQuantidade: double; var ACodigo: String);
   var
     PosicaoQuant: Integer;
     CodigoProduto: String;
@@ -331,7 +333,7 @@ var
       if PosicaoQuant > 0 then
       begin
         ACodigo     := Copy(CodigoProduto, PosicaoQuant + 1, Length(CodigoProduto));
-        AQuantidade := StrToIntDef(Copy(CodigoProduto, 0, PosicaoQuant - 1), 1);
+        AQuantidade := StrToFloatDef(Copy(CodigoProduto, 0, PosicaoQuant - 1), 1);
       end
       else
       begin
@@ -360,7 +362,8 @@ begin
      begin
          item      := dm.cdsItem_Venda.RecordCount + 1;
          codigo    := dm.cdsEstoque.FieldByName('EAN13').AsString;
-         descricao := Copy(dm.cdsEstoque.FieldByName('DESC_PROD').AsString, 1, 24);
+         descricao := Copy(dm.cdsEstoque.FieldByName('DESC_PROD').AsString, 1, 23);
+         unidade   := dm.cdsEstoque.FieldByName('UND_VENDA').AsString;
          valor     := FormatFloat('##0.00', dm.cdsEstoque.FieldByName('VAL_VENDA').AsFloat);
          subtotal  := FormatFloat('##0.00', dm.cdsEstoque.FieldByName('VAL_VENDA').AsFloat * qtde);
 
@@ -368,23 +371,24 @@ begin
          dm.cdsItem_Venda.FieldByName('ID_ITEM').AsInteger     := dm.cdsItem_Venda.RecordCount + 1;
          dm.cdsItem_Venda.FieldByName('N_VENDA').AsString      := frmPDV.sFNumeroVenda;
          dm.cdsItem_Venda.FieldByName('EAN13').AsString        := dm.cdsEstoque.FieldByName('EAN13').AsString;
+         dm.cdsItem_Venda.FieldByName('UND').AsString          := dm.cdsEstoque.FieldByName('UND_VENDA').AsString;
          dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString    := dm.cdsEstoque.FieldByName('DESC_PROD').AsString;
          dm.cdsItem_Venda.FieldByName('VAL_PROD').AsFloat      := dm.cdsEstoque.FieldByName('VAL_VENDA').AsFloat;
          dm.cdsItem_Venda.FieldByName('TOTAL_PROD').AsFloat    := dm.cdsItem_Venda.FieldByName('VAL_PROD').AsFloat * qtde;
-         dm.cdsItem_Venda.FieldByName('QTDE').AsInteger        := qtde;
+         dm.cdsItem_Venda.FieldByName('QTDE').AsFloat          := qtde;
          dm.cdsItem_Venda.Post;
          dm.cdsEstoque.Close;
 
          frmPDV.edtProduto.Text           := copy(dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString, 1, 28);
-         frmPDV.edtValor_Unitario.Text    := FormatFloat('#.000', dm.cdsItem_Venda.FieldByName('QTDE').value) + ' x ' + FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('VAL_PROD').AsFloat);
+         frmPDV.edtValor_Unitario.Text    := FormatFloat('#0.000', dm.cdsItem_Venda.FieldByName('QTDE').value) + ' x ' + FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('VAL_PROD').AsFloat);
          frmPDV.edtSub_total.Text         := FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('TOTAL_PROD').AsFloat);
          frmPDV.edtTotal.Text             := FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('S_TOTAL').Value);
 
-         ImprimeItemVenda(FormataImpressaoItem(IntToStr(item), codigo, descricao, FormatFloat('##.000', qtde), valor, subtotal, 24));
+         FImpressao.ImprimirItem(IntToStr(item), codigo, descricao, FormatFloat('#0.000', qtde), unidade, valor, subtotal, 23);
          if FVerificacaoImpressora then
          begin
              Texto := '';
-             Texto := Concat(Texto, '<c>' + FormataImpressaoItem(IntToStr(item), codigo, descricao, FormatFloat('##.000', qtde), valor, subtotal, 24) + '</c>'#10);
+             Texto := Concat(Texto, '<c>' + FormataImpressaoItem(IntToStr(item), codigo, descricao, FormatFloat('#0.000', qtde), unidade, valor, subtotal, 24) + '</c>'#10);
              FImpressora.ImprimeTextoTag(PAnsiChar(Texto), false);
          end;
      end
@@ -518,7 +522,7 @@ begin
                      dm.qryVenda.ParamByName('troca').AsFloat     := dFValeTroca;
                      dm.qryVenda.ExecSQL();
 
-                     ImprimeFinalizacaoVenda;
+                     FImpressao.ImprimirFinalizacao(dFTotal, dFSub_total, dFDesconto, dFValeTroca, dFDinheiro, dFCheque, dFCartao, dFTicket, dFValPago, dFTroco);
                      if FVerificacaoImpressora then
                      begin
                          Texto := '';
@@ -684,10 +688,10 @@ begin
 
 end;
 
-function TfrmPDV.FormataImpressaoItem(Item, Codigo, Descricao, Qtde, Valor,
+function TfrmPDV.FormataImpressaoItem(Item, Codigo, Descricao, Qtde, Und, Valor,
   Subtotal: string; Limite: Integer): string;
 var
-   retorno, desc, qt, v1, v2: string;
+   retorno, desc, qt, v1,  v2: string;
    i: Integer;
 begin
      desc := Descricao;
@@ -714,6 +718,7 @@ begin
      retorno := Concat(retorno, ' '+Codigo);
      retorno := Concat(retorno, ' '+desc);
      retorno := Concat(retorno, ' '+qt);
+     retorno := Concat(retorno, ' '+Und);
      retorno := Concat(retorno, ' '+v1);
      retorno := Concat(retorno, ' '+v2);
 
@@ -741,6 +746,8 @@ procedure TfrmPDV.FormCreate(Sender: TObject);
 begin
      setStatusCaixa(svBloqueado);
      FImpressora    := TImpressora.Create(miEpson, PAnsiChar('USB'));
+     FImpressao     := TImpressao.Create(frmMenu.FCabSangria, frmMenu.FCabSuprimento, frmMenu.FCabFechamento, redtItem, frmMenu.FRazao, frmMenu.FCNPJ, frmMenu.FInscricao,
+                                         frmMenu.FRua, frmMenu.FNumero, frmMenu.FBairro, frmMenu.FCidade, frmMenu.FMsgCabecalho, frmMenu.FMsgRodape);
      Self.Caption   := Application.Title + ' : PDV';
      redtItem.Color := HexToTColor('FFFFCC');
      lblData.Caption:= FormatDateTime('dd/mm/yyyy', Date);
@@ -1103,7 +1110,7 @@ begin
     redtItem.Lines.Add('Cidade: ' + frmMenu.FCidade);
     redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
     redtItem.Lines.Add('DATA: ' + FormatDateTime('dd/mm/yyyy', Date) + ' - HORA: ' +  FormatDateTime('hh:mm:ss', time) + '         VENDA NUMERO: ' + sFNumeroVenda);
-    redtItem.Lines.Add(Format('%1s %5s %19s %14s %8s %8s', ['ITEM', 'CODIGO', 'DESCRICAO', 'QTDE', 'VALOR', 'TOTAL']));
+    redtItem.Lines.Add(Format('%1s %5s %19s %14s %4s %6s %6s', ['ITEM', 'CODIGO', 'DESCRICAO', 'QTDE', 'UND', 'VALOR', 'TOTAL']));
     redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
 end;
 
@@ -1122,7 +1129,7 @@ begin
          lblVenda.Visible := True;
          lblVenda.Caption := 'Venda Número: ' + sFNumeroVenda;
          redtItem.Clear;
-         ImprimiCabecalho;
+         FImpressao.ImprimirCabecalho(sFNumeroVenda);
 
          if FVerificacaoImpressora then
          begin
