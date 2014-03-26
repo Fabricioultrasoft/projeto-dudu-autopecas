@@ -1514,7 +1514,7 @@ object frmCadUnidade: TfrmCadUnidade
           Height = 24
           CharCase = ecUpperCase
           Color = clSilver
-          MaxLength = 3
+          MaxLength = 2
           TabOrder = 2
         end
       end
@@ -1584,7 +1584,7 @@ object frmCadUnidade: TfrmCadUnidade
             Left = 9
             Top = 10
             Width = 182
-            Height = 18
+            Height = 16
             Caption = 'Digite a Descri'#231#227'o ou Sigla:'
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
@@ -1597,7 +1597,7 @@ object frmCadUnidade: TfrmCadUnidade
             Left = 197
             Top = 4
             Width = 388
-            Height = 24
+            Height = 21
             CharCase = ecUpperCase
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText

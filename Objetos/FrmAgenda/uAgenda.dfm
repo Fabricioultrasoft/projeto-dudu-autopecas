@@ -1,7 +1,6 @@
 object frmCadAgenda: TfrmCadAgenda
-  Left = 808
-  Top = 194
-  BorderIcons = [biSystemMenu]
+  Left = 566
+  Top = 156
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Cadastro - Agenda'
   ClientHeight = 382
@@ -1503,6 +1502,7 @@ object frmCadAgenda: TfrmCadAgenda
           Height = 213
           Cursor = crHandPoint
           Align = alClient
+          BorderStyle = bsNone
           DataSource = dm.dtsAgenda
           Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgTitleClick, dgTitleHotTrack]
           ReadOnly = True

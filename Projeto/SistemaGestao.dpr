@@ -51,7 +51,8 @@ uses
   uImpressora in '..\Objetos\Impressora\uImpressora.pas',
   uTrocaDevolucao in '..\Objetos\FrmTrocaDevolucao\uTrocaDevolucao.pas' {frmTrocaDevolucao},
   uProcuraDevolucao in '..\Objetos\FrmProcura_Devolucao\uProcuraDevolucao.pas' {frmProcuraDevolucao},
-  uEstornoFinanceiro in '..\Objetos\FrmEstornoFinanceiro\uEstornoFinanceiro.pas' {frmEstornoFinanceiro};
+  uEstornoFinanceiro in '..\Objetos\FrmEstornoFinanceiro\uEstornoFinanceiro.pas' {frmEstornoFinanceiro},
+  uImpressao in '..\Objetos\Impressao\uImpressao.pas';
 
 {$R *.res}
 

@@ -1,7 +1,7 @@
 object dm: Tdm
   OldCreateOrder = False
-  Left = 586
-  Top = 152
+  Left = 475
+  Top = 108
   Height = 717
   Width = 1005
   object dspUsuario: TDataSetProvider
@@ -1251,6 +1251,7 @@ object dm: Tdm
     Top = 456
   end
   object qryItem_Venda: TSQLQuery
+    Active = True
     MaxBlobSize = -1
     Params = <>
     SQL.Strings = (
@@ -1265,7 +1266,8 @@ object dm: Tdm
       '     TOTAL_PROD,'
       '     DESCONTO,'
       '     EAN13,'
-      '     STATUS'
+      '     STATUS,'
+      '     UND'
       'FROM'
       '      ITEM_VENDA'
       'WHERE'
@@ -1323,6 +1325,10 @@ object dm: Tdm
       FieldName = 'STATUS'
       FixedChar = True
       Size = 1
+    end
+    object qryItem_VendaUND: TStringField
+      FieldName = 'UND'
+      Size = 10
     end
   end
   object dspItem_Venda: TDataSetProvider
@@ -1392,6 +1398,10 @@ object dm: Tdm
       FieldName = 'STATUS'
       FixedChar = True
       Size = 1
+    end
+    object cdsItem_VendaUND: TStringField
+      FieldName = 'UND'
+      Size = 10
     end
     object cdsItem_VendaS_TOTAL: TAggregateField
       FieldName = 'S_TOTAL'

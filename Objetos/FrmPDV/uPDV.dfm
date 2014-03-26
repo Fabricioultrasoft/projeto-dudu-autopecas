@@ -1,6 +1,6 @@
 object frmPDV: TfrmPDV
-  Left = 384
-  Top = 179
+  Left = 116
+  Top = 174
   ActiveControl = edtConsulta
   AutoSize = True
   BorderStyle = bsNone
