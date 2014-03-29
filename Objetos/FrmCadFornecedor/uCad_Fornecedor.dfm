@@ -1152,6 +1152,7 @@ object frmCadFornecedor: TfrmCadFornecedor
       ParentShowHint = False
       ShowHint = True
       TabOrder = 7
+      OnClick = btnCancelarClick
     end
     object btnRelat: TBitBtn
       Left = 504

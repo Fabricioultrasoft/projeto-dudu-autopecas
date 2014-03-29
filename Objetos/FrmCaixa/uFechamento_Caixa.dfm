@@ -1,6 +1,6 @@
 object frmFechamento_Caixa: TfrmFechamento_Caixa
-  Left = 297
-  Top = 92
+  Left = 439
+  Top = 151
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Fechamento de Caixa'
@@ -37,72 +37,72 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
     Left = 0
     Top = 73
     Width = 704
-    Height = 104
+    Height = 88
     Align = alTop
     TabOrder = 1
     object grp1: TGroupBox
       Left = 5
-      Top = 6
+      Top = 1
       Width = 694
-      Height = 91
+      Height = 80
       Caption = 'Por Data de Entrada'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -15
+      Font.Height = -13
       Font.Name = 'Verdana'
       Font.Style = []
       ParentFont = False
       TabOrder = 0
       object lbl1: TLabel
         Left = 51
-        Top = 23
-        Width = 80
-        Height = 18
+        Top = 24
+        Width = 74
+        Height = 16
         Caption = 'Data Inicial'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -15
+        Font.Height = -13
         Font.Name = 'Verdana'
         Font.Style = []
         ParentFont = False
       end
       object lbl2: TLabel
         Left = 470
-        Top = 23
-        Width = 73
-        Height = 18
+        Top = 24
+        Width = 66
+        Height = 16
         Caption = 'Data Final'
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -15
+        Font.Height = -13
         Font.Name = 'Verdana'
         Font.Style = []
         ParentFont = False
       end
       object lbl3: TLabel
         Left = 341
-        Top = 45
-        Width = 12
-        Height = 25
+        Top = 42
+        Width = 10
+        Height = 20
         Caption = #224
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -20
+        Font.Height = -17
         Font.Name = 'Verdana'
         Font.Style = []
         ParentFont = False
       end
       object dtpIncial: TDateTimePicker
         Left = 51
-        Top = 45
+        Top = 42
         Width = 173
-        Height = 25
+        Height = 24
         Cursor = crHandPoint
         Date = 40938.858257858800000000
         Time = 40938.858257858800000000
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -15
+        Font.Height = -13
         Font.Name = 'Arial'
         Font.Style = []
         ParentFont = False
@@ -111,15 +111,15 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
       end
       object dtpFinal: TDateTimePicker
         Left = 470
-        Top = 45
+        Top = 42
         Width = 173
-        Height = 25
+        Height = 24
         Cursor = crHandPoint
         Date = 40938.858362199080000000
         Time = 40938.858362199080000000
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clWindowText
-        Font.Height = -15
+        Font.Height = -13
         Font.Name = 'Arial'
         Font.Style = []
         ParentFont = False
@@ -135,7 +135,6 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
     Height = 72
     Align = alBottom
     TabOrder = 3
-    ExplicitTop = 567
     object btn1: TBitBtn
       Left = 578
       Top = 8
@@ -197,9 +196,9 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
   end
   object pnl4: TPanel
     Left = 0
-    Top = 177
+    Top = 161
     Width = 704
-    Height = 374
+    Height = 390
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -208,12 +207,13 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
     Font.Style = []
     ParentFont = False
     TabOrder = 2
+    ExplicitTop = 177
     ExplicitHeight = 368
     object pgc1: TPageControl
       Left = 1
       Top = 1
       Width = 702
-      Height = 372
+      Height = 388
       Cursor = crHandPoint
       ActivePage = tsValores
       Align = alClient
@@ -227,15 +227,13 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
       ExplicitHeight = 368
       object tsValores: TTabSheet
         Caption = 'Valores'
-        ExplicitHeight = 352
         object grp2: TGroupBox
           Left = 0
           Top = 0
           Width = 694
-          Height = 337
+          Height = 353
           Align = alClient
           TabOrder = 0
-          ExplicitHeight = 352
           object lbl7: TLabel
             Left = 92
             Top = 147
@@ -290,7 +288,7 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
           end
           object lbl8: TLabel
             Left = 92
-            Top = 238
+            Top = 232
             Width = 204
             Height = 18
             Caption = 'TOTAL DE  RETIRADAS'
@@ -303,7 +301,7 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
           end
           object lbl9: TLabel
             Left = 92
-            Top = 301
+            Top = 316
             Width = 153
             Height = 18
             Caption = 'TOTAL NO CAIXA'
@@ -316,7 +314,7 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
           end
           object lbl10: TLabel
             Left = 92
-            Top = 205
+            Top = 199
             Width = 227
             Height = 18
             Caption = 'TOTAL DE SUPRIMENTOS'
@@ -340,6 +338,19 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
             Font.Style = []
             ParentFont = False
           end
+          object Label2: TLabel
+            Left = 92
+            Top = 265
+            Width = 229
+            Height = 18
+            Caption = 'ESTORNOS FINANCEIROS'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clInactiveCaptionText
+            Font.Height = -16
+            Font.Name = 'Verdana'
+            Font.Style = [fsBold]
+            ParentFont = False
+          end
           object edtSubTotal: TEdit
             Left = 348
             Top = 144
@@ -350,8 +361,8 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
             Color = clSilver
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clBlack
-            Font.Height = -16
-            Font.Name = 'Verdana'
+            Font.Height = -21
+            Font.Name = 'Courier New'
             Font.Style = [fsBold]
             ParentFont = False
             ReadOnly = True
@@ -367,8 +378,8 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
             Color = clSilver
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
-            Font.Height = -16
-            Font.Name = 'Verdana'
+            Font.Height = -21
+            Font.Name = 'Courier New'
             Font.Style = []
             ParentFont = False
             ReadOnly = True
@@ -384,8 +395,8 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
             Color = clSilver
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
-            Font.Height = -16
-            Font.Name = 'Verdana'
+            Font.Height = -21
+            Font.Name = 'Courier New'
             Font.Style = []
             ParentFont = False
             ReadOnly = True
@@ -401,8 +412,8 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
             Color = clSilver
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clWindowText
-            Font.Height = -16
-            Font.Name = 'Verdana'
+            Font.Height = -21
+            Font.Name = 'Courier New'
             Font.Style = []
             ParentFont = False
             ReadOnly = True
@@ -410,7 +421,7 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
           end
           object edtSangria: TEdit
             Left = 348
-            Top = 235
+            Top = 229
             Width = 271
             Height = 30
             Alignment = taRightJustify
@@ -418,8 +429,8 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
             Color = clSilver
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clRed
-            Font.Height = -16
-            Font.Name = 'Verdana'
+            Font.Height = -21
+            Font.Name = 'Courier New'
             Font.Style = [fsBold]
             ParentFont = False
             ReadOnly = True
@@ -427,7 +438,7 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
           end
           object edtTotal: TEdit
             Left = 348
-            Top = 298
+            Top = 313
             Width = 271
             Height = 30
             Alignment = taRightJustify
@@ -435,8 +446,8 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
             Color = clSilver
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clHotLight
-            Font.Height = -16
-            Font.Name = 'Verdana'
+            Font.Height = -21
+            Font.Name = 'Courier New'
             Font.Style = [fsBold]
             ParentFont = False
             ReadOnly = True
@@ -444,7 +455,7 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
           end
           object edtSuprimento: TEdit
             Left = 348
-            Top = 202
+            Top = 196
             Width = 271
             Height = 30
             Alignment = taRightJustify
@@ -452,9 +463,9 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
             Color = clSilver
             Font.Charset = DEFAULT_CHARSET
             Font.Color = clGreen
-            Font.Height = -16
-            Font.Name = 'Verdana'
-            Font.Style = []
+            Font.Height = -21
+            Font.Name = 'Courier New'
+            Font.Style = [fsBold]
             ParentFont = False
             ReadOnly = True
             TabOrder = 6
@@ -463,12 +474,35 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
             Left = 348
             Top = 113
             Width = 271
-            Height = 28
+            Height = 31
             Alignment = taRightJustify
             AutoSelect = False
             Color = clSilver
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -21
+            Font.Name = 'Courier New'
+            Font.Style = []
+            ParentFont = False
             ReadOnly = True
             TabOrder = 7
+          end
+          object edtEstorno: TEdit
+            Left = 348
+            Top = 262
+            Width = 271
+            Height = 30
+            Alignment = taRightJustify
+            AutoSize = False
+            Color = clSilver
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clInactiveCaptionText
+            Font.Height = -21
+            Font.Name = 'Courier New'
+            Font.Style = [fsBold]
+            ParentFont = False
+            ReadOnly = True
+            TabOrder = 8
           end
         end
       end
@@ -481,12 +515,15 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
         Font.Style = []
         ImageIndex = 1
         ParentFont = False
-        ExplicitHeight = 352
+        ExplicitLeft = 0
+        ExplicitTop = 0
+        ExplicitWidth = 0
+        ExplicitHeight = 337
         object grdRegistros: TDBGrid
           Left = 0
           Top = 0
           Width = 694
-          Height = 337
+          Height = 353
           Cursor = crHandPoint
           Align = alClient
           DataSource = dm.dtsCaixa

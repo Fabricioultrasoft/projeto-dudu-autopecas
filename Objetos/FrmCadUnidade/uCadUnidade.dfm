@@ -1,6 +1,6 @@
 object frmCadUnidade: TfrmCadUnidade
-  Left = 513
-  Top = 262
+  Left = 534
+  Top = 186
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Cadastro de Unidade'
@@ -1439,9 +1439,9 @@ object frmCadUnidade: TfrmCadUnidade
         object Label15: TLabel
           Left = 10
           Top = 223
-          Width = 212
+          Width = 169
           Height = 11
-          Caption = '* Campo(s) de preenchimento obrigat'#243'rio.'
+          Caption = '** Sigla com apenas 2 caracteres.'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clRed
           Font.Height = -9
@@ -1472,12 +1472,25 @@ object frmCadUnidade: TfrmCadUnidade
         object Label3: TLabel
           Left = 256
           Top = 122
-          Width = 8
+          Width = 16
           Height = 14
-          Caption = '*'
+          Caption = '**'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clRed
           Font.Height = -12
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
+        object Label6: TLabel
+          Left = 10
+          Top = 206
+          Width = 212
+          Height = 11
+          Caption = '* Campo(s) de preenchimento obrigat'#243'rio.'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clRed
+          Font.Height = -9
           Font.Name = 'Tahoma'
           Font.Style = [fsBold]
           ParentFont = False

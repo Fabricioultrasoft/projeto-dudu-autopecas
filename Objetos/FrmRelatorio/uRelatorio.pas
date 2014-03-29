@@ -81,6 +81,28 @@ type
     RLLabel26: TRLLabel;
     RLLabel27: TRLLabel;
     RLPDFFilter1: TRLPDFFilter;
+    RLDescarte: TRLReport;
+    RLBand13: TRLBand;
+    RLLabel28: TRLLabel;
+    RLBand14: TRLBand;
+    RLLabel29: TRLLabel;
+    RLLabel30: TRLLabel;
+    RLLabel31: TRLLabel;
+    RLLabel32: TRLLabel;
+    RLLabel33: TRLLabel;
+    RLBand15: TRLBand;
+    RLDBText20: TRLDBText;
+    RLDBText21: TRLDBText;
+    RLDBText22: TRLDBText;
+    RLDBText23: TRLDBText;
+    RLDBText24: TRLDBText;
+    RLBand16: TRLBand;
+    RLLabel34: TRLLabel;
+    RLSystemInfo5: TRLSystemInfo;
+    RLLabel35: TRLLabel;
+    RLLabel36: TRLLabel;
+    RLDBText25: TRLDBText;
+    RLDBText26: TRLDBText;
   private
     { Private declarations }
   public

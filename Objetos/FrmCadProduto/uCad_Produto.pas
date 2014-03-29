@@ -469,7 +469,7 @@ end;
 function TfrmCadProduto.VerificaCampos: Boolean;
 begin
      //Verifica se existem campos obrigatórios sem preenchimento
-     if (edtDesc.Text <> '') and (edtDesc.Text <> '') and (edtEstoque.Value <> 0) and (edtGrupo.Text <> '') and (cmbUnd.Text <> '') then
+     if (edtEAN13.Text <> '') and (edtDesc.Text <> '') and (edtEstoque.Value <> 0) and (edtGrupo.Text <> '') and (cmbUnd.Text <> '') then
      begin
         if Length(edtEAN13.Text) = 13 then
         begin

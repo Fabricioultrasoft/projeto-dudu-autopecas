@@ -203,14 +203,16 @@ begin
             edtCartao.Text     := FormatFloat('##,##0.00', dm.qryVenda.FieldByName('CARTAO').AsFloat);
             edtTicket.Text     := FormatFloat('##,##0.00', dm.qryVenda.FieldByName('TICKET').AsFloat);
 
+            dm.cdsItem_Venda.Close;
             dm.qryItem_Venda.Close;
             dm.qryItem_Venda.SQL.Clear;
-            dm.qryItem_Venda.SQL.Add('SELECT ID, ID_ITEM, N_VENDA, EAN13, COD_PROD, DESC_PROD, QTDE, VAL_PROD, TOTAL_PROD, DESCONTO, STATUS ');
+            dm.qryItem_Venda.SQL.Add('SELECT ID, ID_ITEM, N_VENDA, EAN13, COD_PROD, DESC_PROD, QTDE, VAL_PROD, TOTAL_PROD, DESCONTO, STATUS, UND ');
             dm.qryItem_Venda.SQL.Add('FROM ITEM_VENDA');
             dm.qryItem_Venda.SQL.Add('WHERE N_VENDA =' + QuotedStr(edtNVenda.Text));
             dm.qryItem_Venda.Open;
             dm.cdsItem_Venda.Open;
             dm.cdsItem_Venda.Refresh;
+
         end;
     except
          on E:Exception do

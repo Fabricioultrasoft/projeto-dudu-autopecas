@@ -1,8 +1,9 @@
 object frmRelatorio: TfrmRelatorio
-  Left = 552
-  Top = 178
+  Left = 728
+  Top = 168
   Width = 949
   Height = 588
+  VertScrollBar.Position = 4348
   AutoScroll = True
   Caption = 'frmRelatorio'
   Color = clBtnFace
@@ -18,7 +19,7 @@ object frmRelatorio: TfrmRelatorio
   TextHeight = 16
   object rlCliente: TRLReport
     Left = 56
-    Top = 8
+    Top = -4340
     Width = 794
     Height = 1123
     DataSource = dm.dtsCliente
@@ -43,9 +44,9 @@ object frmRelatorio: TfrmRelatorio
       ParentColor = False
       Transparent = False
       object RLLabel1: TRLLabel
-        Left = 213
+        Left = 212
         Top = 10
-        Width = 323
+        Width = 324
         Height = 32
         Alignment = taCenter
         Caption = 'Relat'#243'rio de Clientes'
@@ -123,7 +124,7 @@ object frmRelatorio: TfrmRelatorio
       object RLDBText2: TRLDBText
         Left = 120
         Top = 5
-        Width = 305
+        Width = 85
         Height = 13
         DataField = 'NOME_RAZAO'
         DataSource = dm.dtsCliente
@@ -176,7 +177,7 @@ object frmRelatorio: TfrmRelatorio
   end
   object rlFornecedor: TRLReport
     Left = 56
-    Top = 1165
+    Top = -3183
     Width = 794
     Height = 1123
     DataSource = dm.dtsFornecedor
@@ -350,7 +351,7 @@ object frmRelatorio: TfrmRelatorio
   end
   object RLProduto: TRLReport
     Left = 56
-    Top = 2314
+    Top = -2034
     Width = 794
     Height = 1123
     DataSource = dm.dtsProduto
@@ -479,7 +480,7 @@ object frmRelatorio: TfrmRelatorio
       object RLDBText13: TRLDBText
         Left = 580
         Top = 5
-        Width = 78
+        Width = 77
         Height = 14
         DataField = 'DESC_GRUPO'
         DataSource = dm.dtsProduto
@@ -523,7 +524,7 @@ object frmRelatorio: TfrmRelatorio
   end
   object RLEstoque: TRLReport
     Left = 56
-    Top = 3455
+    Top = -893
     Width = 794
     Height = 1123
     DataSource = dm.dtsEstoque
@@ -694,12 +695,217 @@ object frmRelatorio: TfrmRelatorio
       end
     end
   end
+  object RLDescarte: TRLReport
+    Left = 56
+    Top = 248
+    Width = 794
+    Height = 1123
+    DataSource = dm.dtsDescarte
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -11
+    Font.Name = 'Courier New'
+    Font.Style = []
+    PreviewOptions.ShowModal = True
+    object RLBand13: TRLBand
+      Left = 38
+      Top = 38
+      Width = 718
+      Height = 51
+      BandType = btHeader
+      Borders.Sides = sdCustom
+      Borders.DrawLeft = True
+      Borders.DrawTop = True
+      Borders.DrawRight = True
+      Borders.DrawBottom = True
+      Color = clSilver
+      ParentColor = False
+      Transparent = False
+      object RLLabel28: TRLLabel
+        Left = 199
+        Top = 10
+        Width = 336
+        Height = 32
+        Alignment = taCenter
+        Caption = 'Relat'#243'rio de Descarte'
+        Color = clSilver
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -27
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        Transparent = False
+      end
+    end
+    object RLBand14: TRLBand
+      Left = 38
+      Top = 89
+      Width = 718
+      Height = 24
+      BandType = btHeader
+      Borders.Sides = sdCustom
+      Borders.DrawLeft = True
+      Borders.DrawTop = True
+      Borders.DrawRight = True
+      Borders.DrawBottom = True
+      object RLLabel29: TRLLabel
+        Left = 151
+        Top = 6
+        Width = 147
+        Height = 14
+        Caption = 'Descri'#231#227'o do Produto'
+      end
+      object RLLabel30: TRLLabel
+        Left = 28
+        Top = 6
+        Width = 49
+        Height = 14
+        Caption = 'C'#243'digo'
+      end
+      object RLLabel31: TRLLabel
+        Left = 378
+        Top = 6
+        Width = 98
+        Height = 14
+        Caption = 'Data Descarte'
+      end
+      object RLLabel32: TRLLabel
+        Left = 497
+        Top = 6
+        Width = 35
+        Height = 14
+        Caption = 'Qtde'
+      end
+      object RLLabel33: TRLLabel
+        Left = 550
+        Top = 6
+        Width = 28
+        Height = 14
+        Caption = 'Und'
+      end
+      object RLLabel35: TRLLabel
+        Left = 592
+        Top = 6
+        Width = 49
+        Height = 14
+        Caption = 'Origem'
+      end
+      object RLLabel36: TRLLabel
+        Left = 656
+        Top = 6
+        Width = 49
+        Height = 14
+        Caption = 'Status'
+      end
+    end
+    object RLBand15: TRLBand
+      Left = 38
+      Top = 113
+      Width = 718
+      Height = 24
+      Borders.Sides = sdCustom
+      Borders.DrawLeft = False
+      Borders.DrawTop = False
+      Borders.DrawRight = False
+      Borders.DrawBottom = False
+      Completion = ctFullPage
+      object RLDBText20: TRLDBText
+        Left = 28
+        Top = 4
+        Width = 42
+        Height = 14
+        Alignment = taCenter
+        DataField = 'EAN13'
+        DataSource = dm.dtsDescarte
+      end
+      object RLDBText21: TRLDBText
+        Left = 115
+        Top = 4
+        Width = 70
+        Height = 14
+        DataField = 'DESC_PROD'
+        DataSource = dm.dtsDescarte
+      end
+      object RLDBText22: TRLDBText
+        Left = 380
+        Top = 4
+        Width = 98
+        Height = 14
+        Alignment = taCenter
+        DataField = 'DATA_DESCARTE'
+        DataSource = dm.dtsDescarte
+      end
+      object RLDBText23: TRLDBText
+        Left = 497
+        Top = 4
+        Width = 35
+        Height = 14
+        DataField = 'QTDE'
+        DataSource = dm.dtsDescarte
+      end
+      object RLDBText24: TRLDBText
+        Left = 550
+        Top = 3
+        Width = 28
+        Height = 14
+        Alignment = taCenter
+        DataField = 'UND'
+        DataSource = dm.dtsDescarte
+      end
+      object RLDBText25: TRLDBText
+        Left = 592
+        Top = 4
+        Width = 50
+        Height = 14
+        Alignment = taCenter
+        DataField = 'ORIGEM'
+        DataSource = dm.dtsDescarte
+      end
+      object RLDBText26: TRLDBText
+        Left = 657
+        Top = 4
+        Width = 50
+        Height = 14
+        Alignment = taCenter
+        DataField = 'STATUS'
+        DataSource = dm.dtsDescarte
+      end
+    end
+    object RLBand16: TRLBand
+      Left = 38
+      Top = 137
+      Width = 718
+      Height = 24
+      BandType = btFooter
+      Borders.Sides = sdCustom
+      Borders.DrawLeft = False
+      Borders.DrawTop = True
+      Borders.DrawRight = False
+      Borders.DrawBottom = False
+      object RLLabel34: TRLLabel
+        Left = 597
+        Top = 8
+        Width = 42
+        Height = 14
+        Caption = 'Data:'
+      end
+      object RLSystemInfo5: TRLSystemInfo
+        Left = 656
+        Top = 8
+        Width = 41
+        Height = 13
+        Alignment = taCenter
+      end
+    end
+  end
   object RLPDFFilter1: TRLPDFFilter
     DocumentInfo.Creator = 'FortesReport v1.0 \251 Copyright '#169' 1999-2004 Fortes Inform'#225'tica'
     ViewerOptions = []
     FontEncoding = feNoEncoding
     DisplayName = 'Documento PDF'
-    Left = 128
-    Top = 224
+    Left = 872
+    Top = 40
   end
 end

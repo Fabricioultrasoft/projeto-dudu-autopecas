@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, uFormBase, ExtCtrls, Grids, DBGrids, StdCtrls, ComCtrls, Buttons,
-  ToolWin, Mask, JvExMask, JvToolEdit, JvBaseEdits, ACBrBase, ACBrEnterTab;
+  ToolWin, Mask, JvExMask, JvToolEdit, JvBaseEdits, ACBrBase, ACBrEnterTab, SqlExpr;
 
 type
   TfrmDescarte = class(TFormBaseCad)
@@ -50,6 +50,10 @@ type
     Label8: TLabel;
     cmbUnd: TComboBox;
     Label12: TLabel;
+    btnRelat: TBitBtn;
+    lbl1: TLabel;
+    cmbStatus: TComboBox;
+    lbl2: TLabel;
     procedure btnCancelarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
@@ -60,6 +64,10 @@ type
     procedure edtCod_ProdButtonClick(Sender: TObject);
     procedure edtCod_FornButtonClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure edtpesqChange(Sender: TObject);
+    procedure dbgrdPesquisaCellClick(Column: TColumn);
+    procedure btnPesquisarClick(Sender: TObject);
+    procedure btnRelatClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -75,6 +83,7 @@ type
     procedure CarregaConsulta();
     procedure AtualizaGrid();
     function VerificaCampos(): boolean;
+    function VerificarComboStatus():string;
   end;
 
 var
@@ -82,12 +91,12 @@ var
 
 const
   // Instrução SQL para INSERT
-  INSERT: string = 'INSERT INTO DESCARTE (EAN13, QTDE, DATA_DESCARTE, MOTIVO, COD_FORN, COD_FUNC, REF_PROD, UND)'+
-                                         'VALUES(:ean13, :qtde, :data, :motivo, :forn, :func, :ref, :und)';
+  INSERT: string = 'INSERT INTO DESCARTE (EAN13, QTDE, DATA_DESCARTE, MOTIVO, COD_FORN, COD_FUNC, REF_PROD, UND, ORIGEM, STATUS)'+
+                                         'VALUES(:ean13, :qtde, :data, :motivo, :forn, :func, :ref, :und, :orig, :status)';
 
   // Instrução SQL para EDIÇÃO, o nome UPDATE dá conflito com o método Update nativo da unit Controls
   EDICAO: string = 'UPDATE DESCARTE SET '+
-                   'EAN13=:ean13, QTDE=:qtde, DATA_DESCARTE=:data, MOTIVO=:motivo, COD_FORN=:forn, COD_FUNC=:func, REF_PROD=:ref, UND=:und '+
+                   'EAN13=:ean13, QTDE=:qtde, DATA_DESCARTE=:data, MOTIVO=:motivo, COD_FORN=:forn, COD_FUNC=:func, REF_PROD=:ref, UND=:und, ORIGEM=:orig, STATUS=:status '+
                    'WHERE ID=:id';
 
   // Instrução SQL para DELETE
@@ -95,18 +104,22 @@ const
 
   // Instrução SQL para SELECT geral
   SELECT: string = 'SELECT D.ID, D.EAN13, D.QTDE, D.DATA_DESCARTE, D.MOTIVO, D.COD_FORN, D.COD_FUNC, P.DESC_PROD, D.REF_PROD, D.UND '+
-                   'FROM DESCARTE D INNER JOIN PRODUTO P = D.EAN13 = P.EAN13';
+                   'FROM DESCARTE D INNER JOIN PRODUTO P ON D.EAN13 = P.EAN13';
 
   // Instrução SQL para WHERE de pesquisa
-  WHERE: string = 'WHERE EAN13 LIKE :ean13 OR DESC_PROD LIKE :desc ';
+  WHERE: string = 'WHERE D.EAN13 LIKE :ean13 OR P.DESC_PROD LIKE :desc ';
 
   // Instrução SQL para verificação de Duplicidade
   SQLVERIF: string  = 'SELECT EAN13 FROM DESCARTE WHERE EAN13 = :ean13 AND DATA_DESCARTE = :data';
 
+  // Instrução SQL para ordenação de registros
+  ORDERBY : string = ' ORDER BY DATA_DESCARTE';
+
 
 implementation
 
-uses uDm, uProcura_Produto, uProcura_Fornecedor;
+uses uDm, uProcura_Produto, uProcura_Fornecedor, UdmConexao, uProcuraDescarte,
+  uRelatorio;
 
 {$R *.dfm}
 
@@ -138,6 +151,31 @@ end;
 procedure TfrmDescarte.btnIncluirClick(Sender: TObject);
 begin
     Incluir;
+end;
+
+procedure TfrmDescarte.btnPesquisarClick(Sender: TObject);
+begin
+    try
+        frmProcuraDescarte := TfrmProcuraDescarte.Create(nil);
+        frmProcuraDescarte.ShowModal;
+    finally
+        FreeAndNil(frmProcuraDescarte);
+    end;
+end;
+
+procedure TfrmDescarte.btnRelatClick(Sender: TObject);
+begin
+    if not dm.cdsDescarte.IsEmpty then
+    begin
+        try
+          frmRelatorio := TfrmRelatorio.Create(nil);
+          frmRelatorio.RLDescarte.Preview();
+        finally
+          FreeAndNil(frmRelatorio);
+        end;
+    end
+    else
+       MessageDlg('Não existem registros!', mtWarning, [mbOK], 0);
 end;
 
 procedure TfrmDescarte.btnSairClick(Sender: TObject);
@@ -177,7 +215,13 @@ begin
     dm.qryDescarte.Close;
     dm.qryDescarte.SQL.Clear;
     dm.qryDescarte.SQL.Add(SELECT);
+    dm.qryDescarte.SQL.Add(ORDERBY);
     dm.qryDescarte.Open;
+end;
+
+procedure TfrmDescarte.dbgrdPesquisaCellClick(Column: TColumn);
+begin
+    CarregaCampos;
 end;
 
 procedure TfrmDescarte.Editar;
@@ -209,6 +253,26 @@ begin
     end;
 end;
 
+procedure TfrmDescarte.edtpesqChange(Sender: TObject);
+begin
+    if (edtpesq.Text <> '') then
+    begin
+          dm.qryDescarte.Close;
+          dm.qryDescarte.SQL.Clear;
+          dm.qryDescarte.SQL.Add(SELECT);
+          dm.qryDescarte.SQL.Add(WHERE);
+          dm.qryDescarte.SQL.Add(ORDERBY);
+          dm.qryDescarte.ParamByName('ean13').AsString := edtpesq.Text + '%';
+          dm.qryDescarte.ParamByName('desc').AsString  := edtpesq.Text + '%';
+          dm.qryDescarte.Open;
+    end
+    else
+    begin
+         CarregaConsulta();
+    end;
+    dm.cdsDescarte.Refresh;
+end;
+
 procedure TfrmDescarte.Excluir;
 begin
    inherited;
@@ -218,7 +282,7 @@ begin
           dm.qryDescarte.Close;
           dm.qryDescarte.SQL.Clear;
           dm.qryDescarte.SQL.Add(DELETE);
-          dm.qryDescarte.ParamByName('codigo').AsString := dm.cdsCliente.FieldByName('COD_CLI').AsString;
+          dm.qryDescarte.ParamByName('id').AsInteger := dm.cdsDescarte.FieldByName('ID').AsInteger;
           dm.qryDescarte.ExecSQL();
           LimpaCampos();
           AtualizaGrid();
@@ -238,6 +302,7 @@ end;
 
 procedure TfrmDescarte.FormCreate(Sender: TObject);
 begin
+    dm.cdsDescarte.Open;
     cmbUnd.Items.AddStrings(dm.CarregaUnidadeMedida);
 end;
 
@@ -257,10 +322,14 @@ begin
                   dm.qryDescarte.Params.ParamByName('forn').AsString   := edtCod_Forn.Text;
                   dm.qryDescarte.Params.ParamByName('ref').AsString    := edtReferencia.Text;
                   dm.qryDescarte.Params.ParamByName('qtde').AsFloat    := edtQtdeDescartada.Value;
-                  dm.qryDescarte.Params.ParamByName('motivo').AsString := mmoObservacao.Lines.Text;
-                  dm.qryDescarte.Params.ParamByName('data').AsDate     := dtpDescarte.Date;
+                  dm.qryDescarte.Params.ParamByName('motivo').AsString := mmoObservacao.Text;
+                  dm.qryDescarte.Params.ParamByName('data').AsDateTime := dtpDescarte.Date;
                   dm.qryDescarte.Params.ParamByName('und').AsString    := cmbUnd.Text;
+                  dm.qryDescarte.Params.ParamByName('func').AsString   := '001';
+                  dm.qryDescarte.Params.ParamByName('orig').AsString   := 'E';
+                  dm.qryDescarte.Params.ParamByName('status').AsString := VerificarComboStatus;
                   dm.qryDescarte.ExecSQL();
+                  AtualizaGrid();
                   LimpaCampos();
                   grpDescarte.Enabled := False;
                   SetOperacao(opNone);
@@ -285,8 +354,12 @@ begin
                       dm.qryDescarte.Params.ParamByName('motivo').AsString := mmoObservacao.Lines.Text;
                       dm.qryDescarte.Params.ParamByName('data').AsDate     := dtpDescarte.Date;
                       dm.qryDescarte.Params.ParamByName('und').AsString    := cmbUnd.Text;
-                      dm.qryDescarte.Params.ParamByName('codigo').AsInteger:= FID;
+                      dm.qryDescarte.Params.ParamByName('func').AsString   := '001';
+                      dm.qryDescarte.Params.ParamByName('orig').AsString   := 'E';
+                      dm.qryDescarte.Params.ParamByName('status').AsString := VerificarComboStatus;
+                      dm.qryDescarte.Params.ParamByName('id').AsInteger    := FID;
                       dm.qryDescarte.ExecSQL();
+                      AtualizaGrid();
                       grpDescarte.Enabled := False;
                       LimpaCampos();
                       SetOperacao(opNone);
@@ -297,7 +370,7 @@ begin
               end;
          end;
      end;
-
+     MessageDlg('Após essa operação o produtos será retirado do Estoque!', mtInformation, [mbOK], 0);
 end;
 
 procedure TfrmDescarte.Incluir;
@@ -309,6 +382,7 @@ begin
    pgCadastro.ActivePageIndex := 0;
    LimpaCampos();
    edtQtdeDescartada.Text     := '0';
+   cmbStatus.ItemIndex        := 0;
    edtCod_Prod.SetFocus;
 end;
 
@@ -341,6 +415,15 @@ begin
         MessageDlg('Existem campos obrigatórios(*) sem preenchimento!', mtError, [mbOK], 0);
         Abort;
      end;
+end;
+
+function TfrmDescarte.VerificarComboStatus: string;
+begin
+    if cmbStatus.Text = 'AGUARDANDO' then
+       Result := 'A'
+    else
+        if cmbStatus.Text = 'FINALIZADO' then
+           Result := 'F'
 end;
 
 end.

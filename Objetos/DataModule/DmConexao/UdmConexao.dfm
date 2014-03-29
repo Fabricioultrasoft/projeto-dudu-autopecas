@@ -46,7 +46,6 @@ object dmConexao: TdmConexao
       'Trim Char=False')
     VendorLib = 'fbclient.DLL'
     BeforeConnect = ConexaoBeforeConnect
-    Connected = True
     Left = 88
     Top = 16
   end

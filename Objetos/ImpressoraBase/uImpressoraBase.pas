@@ -44,7 +44,7 @@ type
           procedure StatusGaveta(); virtual; abstract;
           procedure StatusImpressora(); virtual; abstract;
           procedure ImprimeRodape(); virtual; abstract;
-          function MontaCabecalho():PAnsiChar;virtual;
+          function MontaCabecalho():PAnsiChar; virtual;
           class function InseriTraco(qtde: integer; EnterInicio, EnterFinal: Boolean): string; virtual;
 
           property Porta  : PAnsiChar  read getPorta  write setPorta;

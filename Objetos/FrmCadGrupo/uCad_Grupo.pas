@@ -24,6 +24,12 @@ type
     Label15: TLabel;
     Label5: TLabel;
     btnCancelar: TBitBtn;
+    TabSheet1: TTabSheet;
+    grp1: TGroupBox;
+    dbgrdPesquisa: TDBGrid;
+    pnl: TPanel;
+    Label4: TLabel;
+    edtpesq: TEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnSairClick(Sender: TObject);
     procedure Incluir;                     override;
@@ -37,10 +43,15 @@ type
     procedure btnSalvarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
+    procedure edtpesqChange(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure dbgrdPesquisaCellClick(Column: TColumn);
   private
     { Private declarations }
   public
-    { Public declarations }
+    procedure CarregaConsulta;
+    procedure CarregaCampos;
+    procedure AtualizaGrid();
   end;
 
 var
@@ -59,12 +70,50 @@ const
   // Instrução SQL para verificação de Duplicidade
   SQLVERIF: string  = 'SELECT DESC_GRUPO FROM GRUPO WHERE DESC_GRUPO = :desc';
 
+  // Intrução SQL básica de consulta
+  SELECT: string = 'SELECT COD_GRUPO, DESC_GRUPO, DATA_CADASTRO FROM GRUPO ';
+
+  //Instrução WHERE para consulta
+  WHERE: string = 'WHERE DESC_GRUPO LIKE :desc ';
+
+  // Instrução SQL para ordenar as consultas
+  ORDERBY: string = 'ORDER BY DESC_GRUPO';
+
 
 implementation
 
 uses uDm, UdmConexao;
 
 {$R *.dfm}
+
+procedure TfrmCadGrupo.CarregaCampos;
+begin
+     //Carrega os valores do cds nos campos do formulário
+      edtCodigo.Text    := dm.cdsGrupo.FieldByName('COD_GRUPO').AsString;
+      edtDescricao.Text := dm.cdsGrupo.FieldByName('DESC_GRUPO').AsString;
+end;
+
+procedure TfrmCadGrupo.CarregaConsulta;
+begin
+      //Carrega consulta básica
+      dm.qryGrupo.Close;
+      dm.qryGrupo.SQL.Clear;
+      dm.qryGrupo.SQL.Add(SELECT);
+      dm.qryGrupo.SQL.Add(ORDERBY);
+      dm.qryGrupo.Open;
+end;
+
+procedure TfrmCadGrupo.dbgrdPesquisaCellClick(Column: TColumn);
+begin
+     CarregaCampos;
+end;
+
+procedure TfrmCadGrupo.AtualizaGrid;
+begin
+     dm.cdsGrupo.Close;
+     CarregaConsulta();
+     dm.cdsGrupo.Open;
+end;
 
 procedure TfrmCadGrupo.btnCancelarClick(Sender: TObject);
 begin
@@ -112,6 +161,25 @@ begin
     edtDescricao.SetFocus;
 end;
 
+procedure TfrmCadGrupo.edtpesqChange(Sender: TObject);
+begin
+    if (edtpesq.Text <> '') then
+    begin
+          dm.qryGrupo.Close;
+          dm.qryGrupo.SQL.Clear;
+          dm.qryGrupo.SQL.Add(SELECT);
+          dm.qryGrupo.SQL.Add(WHERE);
+          dm.qryGrupo.SQL.Add(ORDERBY);
+          dm.qryGrupo.ParamByName('desc').AsString := edtpesq.Text + '%';
+          dm.qryGrupo.Open;
+    end
+    else
+    begin
+         CarregaConsulta();
+    end;
+    dm.cdsGrupo.Refresh;
+end;
+
 procedure TfrmCadGrupo.Excluir;
 begin
     //Procedimento de Exclusão de registro
@@ -121,7 +189,7 @@ begin
             dm.qryGrupo.Close;
             dm.qryGrupo.SQL.Clear;
             dm.qryGrupo.SQL.Add(DELETE);
-            dm.qryGrupo.ParamByName('codigo').AsString := edtCodigo.Text;
+            dm.qryGrupo.ParamByName('codigo').AsString := dm.cdsGrupo.FieldByName('COD_GRUPO').AsString;
             dm.qryGrupo.ExecSQL();
             LimpaCampos();
         end;
@@ -136,6 +204,11 @@ begin
     dm.cdsAgenda.Close;
     Action      := caFree;
     frmCadGrupo := nil;
+end;
+
+procedure TfrmCadGrupo.FormCreate(Sender: TObject);
+begin
+    dm.cdsGrupo.Open;
 end;
 
 procedure TfrmCadGrupo.Gravar(Operacao: TOperacao);

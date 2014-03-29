@@ -1,6 +1,6 @@
 object frmProdutoNF: TfrmProdutoNF
-  Left = 354
-  Top = 168
+  Left = 823
+  Top = 143
   BorderIcons = []
   Caption = 'Formul'#225'rio :- Produtos da Nota Fiscal'
   ClientHeight = 434

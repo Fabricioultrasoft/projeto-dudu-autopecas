@@ -52,7 +52,9 @@ uses
   uTrocaDevolucao in '..\Objetos\FrmTrocaDevolucao\uTrocaDevolucao.pas' {frmTrocaDevolucao},
   uProcuraDevolucao in '..\Objetos\FrmProcura_Devolucao\uProcuraDevolucao.pas' {frmProcuraDevolucao},
   uEstornoFinanceiro in '..\Objetos\FrmEstornoFinanceiro\uEstornoFinanceiro.pas' {frmEstornoFinanceiro},
-  uImpressao in '..\Objetos\Impressao\uImpressao.pas';
+  uImpressao in '..\Objetos\Impressao\uImpressao.pas',
+  uCadDescarte in '..\Objetos\FrmDescarte\uCadDescarte.pas' {frmDescarte},
+  uProcuraDescarte in '..\Objetos\FrmProcuraDescarte\uProcuraDescarte.pas' {frmProcuraDescarte};
 
 {$R *.res}
 

@@ -92,26 +92,8 @@ begin
 end;
 
 procedure TfrmSuprimento.ImprimirCupom(Valor: Double; Responsavel, Motivo: string);
-var
-  texto: AnsiString;
 begin
-    Impressora := TImpressora.Create(miEpson, PAnsiChar('USB'));
-
-    texto := Concat(texto, Impressora.InseriTraco(48, false, true));
-    texto := Concat(texto, '<ce><b>SUPRIMENTO</b></ce>'#10#10);
-    texto := Concat(texto, 'Responsável: ' + Responsavel + #10);
-    texto := Concat(texto, 'Valor: ' + FormatFloat('R$ ##0.00', Valor) + #10);
-    texto := Concat(texto, 'Data: ' + FormatDateTime('dd/mm/yyyy', Date) + #10);
-    texto := Concat(texto, 'Hora: ' + FormatDateTime('hh:mm:ss', time) + #10);
-    texto := Concat(texto, 'Motivo: ' + #10 + UpperCase(Motivo) + #10);
-    texto := Concat(texto, Impressora.InseriTraco(48, True, true));
-
-    ImprimirTela(Valor, Responsavel, Motivo);
-    if frmPDV.FVerificacaoImpressora then
-    begin
-      Impressora.ImprimeTextoTag(PAnsiChar(texto),  frmMenu.FCabSuprimento);
-      Impressora.AcionaGuilhotina(0);
-    end;
+    frmPDV.FImpressao.ImprimirSuprimento(FloatToStr(Valor), Responsavel, Motivo);
 end;
 
 procedure TfrmSuprimento.ImprimirTela(Valor: Double; Responsavel,

@@ -1,6 +1,6 @@
 object frmProcura_Fornecedor: TfrmProcura_Fornecedor
-  Left = 353
-  Top = 194
+  Left = 412
+  Top = 232
   BorderStyle = bsNone
   Caption = 'Form Padr'#227'o'
   ClientHeight = 488

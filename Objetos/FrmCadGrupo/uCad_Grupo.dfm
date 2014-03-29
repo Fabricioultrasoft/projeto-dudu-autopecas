@@ -1,10 +1,10 @@
 object frmCadGrupo: TfrmCadGrupo
-  Left = 523
-  Top = 214
+  Left = 547
+  Top = 191
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Cadastro de Grupo'
-  ClientHeight = 311
+  ClientHeight = 352
   ClientWidth = 612
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -16,6 +16,7 @@ object frmCadGrupo: TfrmCadGrupo
   OldCreateOrder = False
   Position = poDesktopCenter
   OnClose = FormClose
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object ToolBar1: TToolBar
@@ -1400,9 +1401,9 @@ object frmCadGrupo: TfrmCadGrupo
     Left = 0
     Top = 81
     Width = 612
-    Height = 230
+    Height = 271
     Cursor = crHandPoint
-    ActivePage = tsCadastro
+    ActivePage = TabSheet1
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -1411,34 +1412,34 @@ object frmCadGrupo: TfrmCadGrupo
     Font.Style = []
     ParentFont = False
     TabOrder = 1
-    ExplicitWidth = 504
+    ExplicitHeight = 230
     object tsCadastro: TTabSheet
       Caption = 'Cadastro de Grupo'
       object grpGrupo: TGroupBox
         Left = 0
         Top = 0
         Width = 604
-        Height = 199
+        Height = 240
         Align = alClient
         Enabled = False
         TabOrder = 0
         object Label1: TLabel
           Left = 77
-          Top = 86
+          Top = 108
           Width = 115
           Height = 16
           Caption = 'Descri'#231#227'o do grupo:'
         end
         object lbl2: TLabel
           Left = 148
-          Top = 60
+          Top = 82
           Width = 44
           Height = 16
           Caption = 'C'#243'digo:'
         end
         object Label15: TLabel
-          Left = 10
-          Top = 183
+          Left = 5
+          Top = 224
           Width = 212
           Height = 11
           Caption = '* Campo(s) de preenchimento obrigat'#243'rio.'
@@ -1451,7 +1452,7 @@ object frmCadGrupo: TfrmCadGrupo
         end
         object Label5: TLabel
           Left = 477
-          Top = 87
+          Top = 109
           Width = 8
           Height = 14
           Caption = '*'
@@ -1464,7 +1465,7 @@ object frmCadGrupo: TfrmCadGrupo
         end
         object edtDescricao: TEdit
           Left = 198
-          Top = 83
+          Top = 105
           Width = 276
           Height = 24
           CharCase = ecUpperCase
@@ -1473,7 +1474,7 @@ object frmCadGrupo: TfrmCadGrupo
         end
         object edtCodigo: TEdit
           Left = 198
-          Top = 57
+          Top = 79
           Width = 135
           Height = 24
           CharCase = ecUpperCase
@@ -1486,6 +1487,90 @@ object frmCadGrupo: TfrmCadGrupo
           ParentFont = False
           ReadOnly = True
           TabOrder = 0
+        end
+      end
+    end
+    object TabSheet1: TTabSheet
+      Caption = 'Pesquisa R'#225'pida'
+      ImageIndex = 1
+      object grp1: TGroupBox
+        Left = 0
+        Top = 0
+        Width = 604
+        Height = 240
+        Align = alClient
+        TabOrder = 0
+        object dbgrdPesquisa: TDBGrid
+          Left = 2
+          Top = 55
+          Width = 600
+          Height = 183
+          Cursor = crHandPoint
+          Align = alClient
+          DataSource = dm.dtsGrupo
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgTitleClick, dgTitleHotTrack]
+          TabOrder = 1
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -13
+          TitleFont.Name = 'Tahoma'
+          TitleFont.Style = []
+          OnCellClick = dbgrdPesquisaCellClick
+          Columns = <
+            item
+              Alignment = taCenter
+              Expanded = False
+              FieldName = 'COD_GRUPO'
+              Title.Alignment = taCenter
+              Title.Caption = 'C'#211'DIGO'
+              Width = 120
+              Visible = True
+            end
+            item
+              Expanded = False
+              FieldName = 'DESC_GRUPO'
+              Title.Alignment = taCenter
+              Title.Caption = 'DESCRI'#199#195'O'
+              Width = 450
+              Visible = True
+            end>
+        end
+        object pnl: TPanel
+          Left = 2
+          Top = 18
+          Width = 600
+          Height = 37
+          Align = alTop
+          BevelOuter = bvNone
+          TabOrder = 0
+          object Label4: TLabel
+            Left = 9
+            Top = 5
+            Width = 125
+            Height = 16
+            Caption = 'Digite a Descri'#231#227'o:'
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clBlack
+            Font.Height = -13
+            Font.Name = 'Verdana'
+            Font.Style = []
+            ParentFont = False
+          end
+          object edtpesq: TEdit
+            Left = 140
+            Top = 4
+            Width = 445
+            Height = 21
+            CharCase = ecUpperCase
+            Font.Charset = DEFAULT_CHARSET
+            Font.Color = clWindowText
+            Font.Height = -11
+            Font.Name = 'MS Sans Serif'
+            Font.Style = []
+            ParentFont = False
+            TabOrder = 0
+            OnChange = edtpesqChange
+          end
         end
       end
     end

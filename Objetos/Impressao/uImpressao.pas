@@ -3,7 +3,7 @@ unit uImpressao;
 interface
 
 uses
-   ComCtrls, Classes, SysUtils, Graphics;
+   ComCtrls, Classes, SysUtils, Graphics, uImpressora;
 
 type
    TImpressao = class
@@ -21,6 +21,11 @@ type
           FCidade           : string;
           FMensagemCabecalho: string;
           FMensagemRodape   : string;
+          FImpressora       : TImpressora;
+          FStatusImpressora : Boolean;
+          Texto            : AnsiString;
+          function getStatusImpressora: Boolean;
+          procedure setStatusImpressora(const Value: Boolean);
 
       protected
           function InseriTraco(qtde: integer; EnterInicio,EnterFinal: Boolean): string; virtual;
@@ -36,9 +41,10 @@ type
           procedure ImprimirMsgRodape(); virtual;
           procedure ImprimirMsgCabecalho(); virtual;
           procedure ImprimirFinalizacao(Total, SubTotal, Desconto, ValeTroca, Dinheiro, Cheque, Cartao, Ticket, ValorPago, Troco: Double); virtual;
+          property StatusImpressora: Boolean read getStatusImpressora write setStatusImpressora;
 
           constructor Create(CabSuprimento, CabSangria, CabFechamento: Boolean; var RichEdit: TRichEdit;
-                             Empresa, CNPJ, Inscricao, Rua, Numero, Bairro, Cidade, MensagemCabecalho, MensagemRodape: string); overload;
+                             Empresa, CNPJ, Inscricao, Rua, Numero, Bairro, Cidade, MensagemCabecalho, MensagemRodape: string; Impressora: TImpressora); overload;
           constructor Create(CabSuprimento, CabSangria, CabFechamento: Boolean; var RichEdit: TRichEdit;
                              MensagemCabecalho, MensagemRodape: string); overload;
           constructor Create(CabSuprimento, CabSangria, CabFechamento: Boolean; var RichEdit: TRichEdit;
@@ -50,7 +56,7 @@ implementation
 { TImpressao }
 
 constructor TImpressao.Create(CabSuprimento, CabSangria,
-  CabFechamento: Boolean; var RichEdit: TRichEdit; Empresa, CNPJ, Inscricao, Rua, Numero, Bairro, Cidade, MensagemCabecalho, MensagemRodape: string);
+  CabFechamento: Boolean; var RichEdit: TRichEdit; Empresa, CNPJ, Inscricao, Rua, Numero, Bairro, Cidade, MensagemCabecalho, MensagemRodape: string; Impressora: TImpressora);
 begin
     FCabSuprimento    := CabSuprimento;
     FCabSangria       := CabSangria;
@@ -65,6 +71,7 @@ begin
     FBairro           := Bairro;
     FMensagemCabecalho:= MensagemCabecalho;
     FMensagemRodape   := MensagemRodape;
+    FImpressora       := Impressora;
 end;
 
 constructor TImpressao.Create(CabSuprimento, CabSangria,
@@ -98,6 +105,8 @@ end;
 
 procedure TImpressao.ImprimirCabecalho(Venda: string);
 begin
+    FRichEdit.Clear;
+    ImprimirMsgCabecalho;
     FRichEdit.Paragraph.Alignment := taCenter;
     FRichEdit.Lines.Add(InseriTraco(66, false, false));
     FRichEdit.Lines.Add('*** ' + FEmpresa + ' ***');
@@ -106,14 +115,30 @@ begin
     FRichEdit.Lines.Add('Cidade: ' + FCidade);
     FRichEdit.Lines.Add(InseriTraco(66, false, false));
     FRichEdit.Lines.Add('DATA: ' + FormatDateTime('dd/mm/yyyy', Date) + ' - HORA: ' +  FormatDateTime('hh:mm:ss', time) + '         VENDA NUMERO: ' + Venda);
-    FRichEdit.Lines.Add(Format('%1s %5s %19s %14s %4s %6s %6s', ['ITEM', 'CODIGO', 'DESCRICAO', 'QTDE', 'UND', 'VALOR', 'TOTAL']));
+    FRichEdit.Lines.Add(Format('%1s %5s %19s %14s %3s %7s %6s', ['ITEM', 'CODIGO', 'DESCRICAO', 'QTDE', 'UND', 'VALOR', 'TOTAL']));
     FRichEdit.Lines.Add(InseriTraco(66, false, false));
+
+    if getStatusImpressora then
+    begin
+        Texto := '';
+        Texto := Concat(Texto, '<c>' + Format('%s %s %28s', ['DATA: '+FormatDateTime('dd/mm/yyyy', Date), ' - HORA: '+FormatDateTime('hh:mm:ss', time), Venda]) + '</c>'#10);
+        Texto := Concat(Texto, '<c>ITEM    CODIGO          DESCRICAO        QTDE  UND  VALOR  TOTAL</c>'#10);
+        Texto := Concat(Texto, FImpressora.InseriTraco(48, False, true));
+        FImpressora.ImprimeTextoTag(PAnsiChar(Texto), true);
+    end;
 end;
 
 procedure TImpressao.ImprimirCancelamentoItem(Item, Descricao: string);
 begin
     FRichEdit.Paragraph.Alignment := taLeftJustify;
     FRichEdit.Lines.Add(#10'ITEM ' + Item + ' *' + Descricao + '* CANCELADO'#10);
+
+    if getStatusImpressora then
+    begin
+        Texto := '';
+        Texto := Concat(Texto, #10+'<c>ITEM ' + Item + ' *' + Descricao + '* CANCELADO</c>'#10);
+        FImpressora.ImprimeTextoTag(PAnsiChar(Texto), false);
+    end;
 end;
 
 procedure TImpressao.ImprimirCancelamentoVenda;
@@ -121,6 +146,15 @@ begin
     FRichEdit.Paragraph.Alignment := taCenter;
     FRichEdit.Lines.Add('VENDA CANCELADA');
     FRichEdit.Lines.Add(InseriTraco(66, false, false));
+
+    if getStatusImpressora then
+    begin
+       Texto := '';
+       Texto := Concat(Texto, '<ce>VENDA CANCELADA</ce>'#10);
+       Texto := Concat(Texto, FImpressora.InseriTraco(48, False, true));
+       FImpressora.ImprimeTextoTag(PAnsiChar(Texto), false);
+       FImpressora.AcionaGuilhotina(0);
+    end;
 end;
 
 procedure TImpressao.ImprimirFinalizacao(Total, SubTotal, Desconto, ValeTroca, Dinheiro, Cheque, Cartao, Ticket, ValorPago, Troco: Double);
@@ -147,7 +181,7 @@ begin
     FRichEdit.Lines.Add('Forma de Pagamento:');
 
     if Dinheiro > 0 then
-       FRichEdit.Lines.Add('DINHEIRO R$ ' + FormatFloat('##0.00', Dinheiro) + #10);
+       FRichEdit.Lines.Add('DINHEIRO R$ ' + FormatFloat('##0.00', Dinheiro));
 
     if Cheque > 0 then
        FRichEdit.Lines.Add('CHEQUE R$ ' + FormatFloat('##0.00', Cheque));
@@ -159,7 +193,7 @@ begin
        FRichEdit.Lines.Add('TICKET R$ ' + FormatFloat('##0.00', Ticket));
 
     if ValorPago > 0 then
-       FRichEdit.Lines.Add('VALOR PAGO R$ ' + FormatFloat('##0.00', ValorPago));
+       FRichEdit.Lines.Add(#10 + 'VALOR PAGO R$ ' + FormatFloat('##0.00', ValorPago));
 
     if Troco > 0 then
        FRichEdit.Lines.Add('TROCO R$ ' + FormatFloat('##0.00', Troco));
@@ -167,6 +201,46 @@ begin
     FRichEdit.Paragraph.Alignment := taCenter;
     FRichEdit.Lines.Add(InseriTraco(66, false, false));
     ImprimirMsgRodape();
+
+    if getStatusImpressora then
+    begin
+         Texto := '';
+         Texto := Concat(Texto, FImpressora.InseriTraco(48, False, true));
+         Texto := Concat(Texto, '<ad><b>SUBTOTAL R$ ' + FormatFloat('##0.00', SubTotal) + '</b></ad>'#10);
+
+         if ValeTroca > 0 then
+            Texto := Concat(Texto, '<ad><c>VALE TROCA R$ ' + FormatFloat('##.00', ValeTroca) + '</c></ad>'#10);
+
+         if Desconto > 0 then
+            Texto := Concat(Texto, '<ad><c>DESCONTO(%) ' + FormatFloat('##.00', Desconto) + '</c></ad>'#10);
+
+         Texto := Concat(Texto, '<ad><b>TOTAL R$ ' + FormatFloat('##0.00', Total) + '</b></ad>'#10);
+         Texto := Concat(Texto, '<c>Forma de Pagamento:</c>'#10);
+
+         if Dinheiro > 0 then
+            Texto := Concat(Texto, '<c>DINHEIRO R$ ' + FormatFloat('##0.00', Dinheiro) + '</c>'#10);
+
+         if Cheque > 0 then
+            Texto := Concat(Texto, '<c>CHEQUE R$ ' + FormatFloat('##0.00', Cheque) + '</c>'#10);
+
+         if Cartao > 0 then
+            Texto := Concat(Texto, '<c>CARTÃO R$ ' + FormatFloat('##0.00', Cartao) + '</c>'#10);
+
+         if Ticket > 0 then
+            Texto := Concat(Texto, '<c>TICKET R$ ' + FormatFloat('##0.00', Ticket) + '</c>'#10);
+
+         if ValorPago > 0 then
+             Texto := Concat(Texto, #10'<c>VALOR PAGO R$ ' + FormatFloat('##0.00', ValorPago) + '</c>'#10);
+
+         if Troco > 0 then
+             Texto := Concat(Texto, '<c>TROCO R$ ' + FormatFloat('##0.00', Troco) + '</c>'#10);
+
+
+         Texto := Concat(Texto, FImpressora.InseriTraco(48, False, true));
+         Texto := Concat(Texto, '<ce><c>' + FMensagemRodape + '</c></ce>'#10);
+         FImpressora.ImprimeTextoTag(PAnsiChar(Texto), false);
+         FImpressora.AcionaGuilhotina(0);
+    end;
 end;
 
 procedure TImpressao.ImprimirItem(Item, Codigo, Descricao, Qtde, Und,
@@ -174,6 +248,13 @@ procedure TImpressao.ImprimirItem(Item, Codigo, Descricao, Qtde, Und,
 begin
     FRichEdit.Paragraph.Alignment := taCenter;
     FRichEdit.Lines.Add(FormataImpressaoItem(Item, Codigo, Descricao, Qtde, Und, ValUNit, ValTotal, LimiteDesc));
+
+    if getStatusImpressora then
+    begin
+       Texto := '';
+       Texto := Concat(Texto, '<c>' + FormataImpressaoItem(Item, Codigo, Descricao, Qtde, Und, ValUnit, ValTotal, LimiteDesc) + '</c>'#10);
+       FImpressora.ImprimeTextoTag(PAnsiChar(Texto), false);
+    end;
 end;
 
 procedure TImpressao.ImprimirMsgCabecalho();
@@ -191,11 +272,16 @@ end;
 procedure TImpressao.ImprimirSangria(Valor, Responsavel, Tipo,
   Observacao: string);
 begin
+    FRichEdit.Clear;
+
     if FCabSangria then
        ImprimirMsgCabecalho();
 
     FRichEdit.Paragraph.Alignment := taCenter;
     FRichEdit.Lines.Add(InseriTraco(66, false, false));
+    FRichEdit.SelAttributes.Style:=[fsBold];
+    FRichEdit.Lines.Add('RELATÓRIO GERENCIAL');
+    FRichEdit.SelAttributes.Style:=[];
     FRichEdit.Lines.Add('SANGRIA'+#10);
     FRichEdit.Paragraph.Alignment := taLeftJustify;
     FRichEdit.Lines.Add('Responsável: '+ Responsavel);
@@ -205,16 +291,38 @@ begin
     FRichEdit.Lines.Add('Hora: ' + FormatDateTime('hh:mm:ss', time));
     FRichEdit.Lines.Add('Motivo: ' + #10 + UpperCase(Observacao));
     FRichEdit.Lines.Add(InseriTraco(66, false, false));
+
+    if getStatusImpressora then
+    begin
+        Texto := '';
+        Texto := Concat(Texto,  FImpressora.InseriTraco(48, false, true));
+        Texto := Concat(Texto, '<ce><b>RELATÓRIO GERENCIAL</b></ce>'#10);
+        Texto := Concat(Texto, '<ce>SANGRIA</ce>'#10#10);
+        Texto := Concat(Texto, 'Responsável: ' + Responsavel + #10);
+        Texto := Concat(Texto, 'Valor: ' + Valor + #10);
+        Texto := Concat(Texto, 'Tipo: ' + Tipo + #10);
+        Texto := Concat(Texto, 'Data: ' + FormatDateTime('dd/mm/yyyy', Date) + #10);
+        Texto := Concat(Texto, 'Hora: ' + FormatDateTime('hh:mm:ss', time) + #10);
+        Texto := Concat(Texto, 'Motivo: ' + #10 + UpperCase(Observacao) + #10);
+        Texto := Concat(Texto, FImpressora.InseriTraco(48, True, true));
+        FImpressora.ImprimeTextoTag(PAnsiChar(texto), false);
+        FImpressora.AcionaGuilhotina(0);
+    end;
 end;
 
 procedure TImpressao.ImprimirSuprimento(Valor, Responsavel,
   Observacao: string);
 begin
+    FRichEdit.Clear;
+
     if FCabSangria then
        ImprimirMsgCabecalho();
 
     FRichEdit.Paragraph.Alignment := taCenter;
     FRichEdit.Lines.Add(InseriTraco(66, false, false));
+    FRichEdit.SelAttributes.Style:=[fsBold];
+    FRichEdit.Lines.Add('RELATÓRIO GERENCIAL');
+    FRichEdit.SelAttributes.Style:=[];
     FRichEdit.Lines.Add('SUPRIMENTO'+#10);
     FRichEdit.Paragraph.Alignment := taLeftJustify;
     FRichEdit.Lines.Add('Responsável: '+ Responsavel);
@@ -223,6 +331,22 @@ begin
     FRichEdit.Lines.Add('Hora: ' + FormatDateTime('hh:mm:ss', time));
     FRichEdit.Lines.Add('Motivo: ' + #10 + UpperCase(Observacao));
     FRichEdit.Lines.Add(InseriTraco(66, false, false));
+
+    if getStatusImpressora then
+    begin
+       Texto := '';
+       Texto := Concat(Texto,  FImpressora.InseriTraco(48, false, true));
+       Texto := Concat(Texto, '<ce><b>RELATÓRIO GERENCIAL</b></ce>'#10);
+       Texto := Concat(Texto, '<ce>SUPRIMENTO</ce>'#10#10);
+       Texto := Concat(Texto, 'Responsável: ' + Responsavel + #10);
+       Texto := Concat(Texto, 'Valor: ' + Valor + #10);
+       Texto := Concat(Texto, 'Data: ' + FormatDateTime('dd/mm/yyyy', Date) + #10);
+       Texto := Concat(Texto, 'Hora: ' + FormatDateTime('hh:mm:ss', time) + #10);
+       Texto := Concat(Texto, 'Motivo: ' + #10 + UpperCase(Observacao) + #10);
+       Texto := Concat(Texto, FImpressora.InseriTraco(48, True, true));
+       FImpressora.ImprimeTextoTag(PAnsiChar(texto), false);
+       FImpressora.AcionaGuilhotina(0);
+    end;
 end;
 
 function TImpressao.InseriTraco(qtde: integer; EnterInicio,
@@ -245,6 +369,11 @@ begin
      Result := str;
 end;
 
+procedure TImpressao.setStatusImpressora(const Value: Boolean);
+begin
+    FStatusImpressora := Value;
+end;
+
 function TImpressao.FormataImpressaoItem(Item, Codigo, Descricao, Qtde, Und, Valor,
   Subtotal: string; Limite: Integer): string;
 var
@@ -257,7 +386,9 @@ begin
      begin
          for i := 1 to (Limite - Length(Descricao)) do
              desc := desc + ' ';
-     end;
+     end
+     else
+        desc := Copy(desc, 1, Limite);
 
      qt := Qtde;
      for i := 1 to (7 - Length(Qtde)) do
@@ -280,6 +411,11 @@ begin
      retorno := Concat(retorno, ' '+v2);
 
      Result := retorno;
+end;
+
+function TImpressao.getStatusImpressora: Boolean;
+begin
+     Result := FStatusImpressora;
 end;
 
 end.

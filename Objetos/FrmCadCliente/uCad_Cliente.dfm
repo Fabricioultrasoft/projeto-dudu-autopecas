@@ -1,6 +1,6 @@
 object frmCadCliente: TfrmCadCliente
-  Left = 517
-  Top = 217
+  Left = 750
+  Top = 185
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Cadastro de Cliente'
@@ -1643,7 +1643,7 @@ object frmCadCliente: TfrmCadCliente
     Width = 734
     Height = 417
     Cursor = crHandPoint
-    ActivePage = TabSheet1
+    ActivePage = tsCadastro
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText

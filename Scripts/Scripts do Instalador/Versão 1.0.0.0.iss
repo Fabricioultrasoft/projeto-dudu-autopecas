@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Sistema de Gestão - Mini Mercado"
-#define MyAppVersion "1.0.0.0"
+#define MyAppVersion "1.0.0.4"
 #define MyAppPublisher "WLL - SISTEMAS"
 #define AppPublisherURL "http://www.wllsistemas.com.br"
 #define MyAppURL "http://www.wllsistemas.com.br"
@@ -22,9 +22,9 @@ AppPublisher={#MyAppPublisher}
 AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
-DefaultDirName=C:\Sistema MINIMERCADO
+DefaultDirName=C:\Sistema Mini-Mercado
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=Gestão Mini-Mercado 1.0.0.0
+OutputBaseFilename=Gestão Mini-Mercado 1.0.0.4
 Compression=lzma
 SolidCompression=yes
 
