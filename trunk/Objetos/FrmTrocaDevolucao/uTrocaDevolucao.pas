@@ -33,6 +33,9 @@ type
     lbl6: TLabel;
     btnFechar: TBitBtn;
     btnGravar: TBitBtn;
+    lbl1: TLabel;
+    cmbUnd: TComboBox;
+    lbl5: TLabel;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
     procedure btnGravarClick(Sender: TObject);
@@ -48,8 +51,8 @@ var
 
 const
    // Instrução SQL para INSERT
-   INSERT : string = 'INSERT INTO DEVOLUCAO (MOTIVO, VALOR_ITEM, OBSERVACAO, ACAO_TOMADA, QTDE, COD_FUNC, N_VENDA, ITEM, DATA, EAN13, REF_PROD)'+
-                     'VALUES(:motivo, :valor, :observacao, :acao, :qtde, :func, :venda, :item, :data, :ean13, :ref)';
+   INSERT : string = 'INSERT INTO DEVOLUCAO (MOTIVO, VALOR_ITEM, OBSERVACAO, ACAO_TOMADA, QTDE, COD_FUNC, N_VENDA, ITEM, DATA, EAN13, REF_PROD, UND)'+
+                     'VALUES(:motivo, :valor, :observacao, :acao, :qtde, :func, :venda, :item, :data, :ean13, :ref, :und)';
 
 implementation
 
@@ -70,6 +73,7 @@ end;
 procedure TfrmTrocaDevolucao.FormCreate(Sender: TObject);
 begin
     edtQtdeDevolvida.Value := dm.cdsItem_Venda.FieldByName('QTDE').Value;
+    cmbUnd.Items.AddStrings(dm.CarregaUnidadeMedida);
 end;
 
 procedure TfrmTrocaDevolucao.FormKeyDown(Sender: TObject; var Key: Word;
@@ -84,7 +88,7 @@ procedure TfrmTrocaDevolucao.GravarDevolucao;
 var
    Trans : TDBXTransaction;
 begin
-    if (edtQtdeDevolvida.Value > 0) and (cmbMotivo.Text <> '') and (cmbAcaoTomada.Text <> '') and (mmoObsevacao.Text <> '') then
+    if (edtQtdeDevolvida.Value > 0) and (cmbMotivo.Text <> '') and (cmbAcaoTomada.Text <> '') and (mmoObsevacao.Text <> '') and (cmbUnd.Text <> '') then
         begin
             try
                 // Inicia uma transação
@@ -104,6 +108,7 @@ begin
                 dm.qryDevolucao.ParamByName('data').AsDateTime    := Date;
                 dm.qryDevolucao.ParamByName('ean13').AsString     := dm.cdsItem_Venda.FieldByName('EAN13').AsString;
                 dm.qryDevolucao.ParamByName('ref').AsString       := edtReferencia.Text;
+                dm.qryDevolucao.ParamByName('und').AsString       := cmbUnd.Text;
                 dm.qryDevolucao.ExecSQL();
 
                 dm.cdsItem_Venda.Edit;

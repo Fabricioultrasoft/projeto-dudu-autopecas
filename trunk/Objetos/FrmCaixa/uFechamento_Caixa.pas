@@ -42,6 +42,8 @@ type
     Label1: TLabel;
     edtTicket: TEdit;
     btn2: TBitBtn;
+    Label2: TLabel;
+    edtEstorno: TEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure CarregaConsulta();
     procedure CarregaRegistros();
@@ -64,14 +66,14 @@ const
     SELECT_SOMA : string = 'SELECT COALESCE(SUM(VALOR_PAGAMENTO), 0) AS TOTAL FROM CAIXA ';
 
     // Instrução SQL padrão para somar dinheiro
-    SELECT_ESPECIE : string = 'SELECT COALESCE(SUM(DINHEIRO), 0), COALESCE(SUM(CHEQUE), 0), COALESCE(SUM(CARTAO), 0), COALESCE(SUM(TICKET), 0) AS TOTAL FROM CAIXA ';
+    SELECT_ESPECIE : string = 'SELECT COALESCE(SUM(DINHEIRO), 0), COALESCE(SUM(CHEQUE), 0), COALESCE(SUM(CARTAO), 0), COALESCE(SUM(TICKET), 0), COALESCE(SUM(ESTORNO), 0) FROM CAIXA ';
 
     // Instrução SQL para captura das vendas
-    SELECT_VENDA: string = 'SELECT C.DATA_ENTRADA, C.VALOR_PAGAMENTO, C.N_DOCUMENTO, C.TIPO_DOCUMENTO, C.RESPONSAVEL, C.OBSERVACAO, C.DINHEIRO, C.CARTAO, C.CHEQUE, C.TICKET '+
+    SELECT_VENDA: string = 'SELECT C.DATA_ENTRADA, C.VALOR_PAGAMENTO, C.N_DOCUMENTO, C.TIPO_DOCUMENTO, C.RESPONSAVEL, C.OBSERVACAO, C.DINHEIRO, C.CARTAO, C.CHEQUE, C.TICKET, C.ESTORNO '+
                            'FROM CAIXA C WHERE DATA_ENTRADA BETWEEN :DTI AND :DTF';
 
     // Instrução WHERE padrão para todas as somas
-    WHERE_SOMA: string  = 'WHERE DATA_ENTRADA BETWEEN :DTI AND :DTF AND TIPO_DOCUMENTO = :tipo ';
+    WHERE_SOMA: string  = 'WHERE DATA_ENTRADA BETWEEN :DTI AND :DTF ';
 
 
 implementation
@@ -87,7 +89,8 @@ begin
     FImpressora := TImpressora.Create(miEpson, PAnsiChar('USB'));
 
     texto := Concat(texto, FImpressora.InseriTraco(48, false, true));
-    texto := Concat(texto, '<ce><b>FECHAMENTO DE CAIXA</b></ce>'#10#10);
+    texto := Concat(texto, '<ce><b>RELATÓRIO GERENCIAL</b></ce>'#10);
+    texto := Concat(texto, '<ce>FECHAMENTO DE CAIXA</ce>'#10#10);
     texto := Concat(texto, 'Responsável: William'#10);
     texto := Concat(texto, 'Hora: ' + FormatDateTime('hh:mm:ss', time) + #10);
     texto := Concat(texto, 'Período: ' + FormatDateTime('dd/mm/yyyy', dtpIncial.Date) + ' à ' + FormatDateTime('dd/mm/yyyy', dtpFinal.Date)  + #10#10);
@@ -97,7 +100,8 @@ begin
     texto := Concat(texto, 'TICKET: ' + edtTicket.Text + #10);
     texto := Concat(texto, 'TOTAL VENDIDO: ' + edtSubTotal.Text + #10#10);
     texto := Concat(texto, 'RETIRADAS: ' + edtSangria.Text + #10);
-    texto := Concat(texto, 'SUPRIMENTOS: ' + edtSuprimento.Text + #10#10);
+    texto := Concat(texto, 'SUPRIMENTOS: ' + edtSuprimento.Text + #10);
+    texto := Concat(texto, 'ESTORNOS FINANCEIROS: ' + edtEstorno.Text + #10#10);
     texto := Concat(texto, 'TOTAL NO CAIXA: ' + edtTotal.Text + #10);
     texto := Concat(texto, FImpressora.InseriTraco(48, True, true));
 
@@ -119,7 +123,7 @@ procedure TfrmFechamento_Caixa.CarregaConsulta;
 var
    select: string;
    qrySoma: TSQLQuery;
-   subtotal, sangria, suprimento: Double;
+   subtotal, sangria, suprimento, estorno: Double;
 begin
     try
         //Instâncio objeto do tipo TSQLQuery e seto a conexão com o banco de dados
@@ -130,7 +134,7 @@ begin
         qrySoma.Close;
         qrySoma.SQL.Clear;
         qrySoma.SQL.Add(SELECT_SOMA);
-        qrySoma.SQL.Add(WHERE_SOMA);
+        qrySoma.SQL.Add(WHERE_SOMA + ' AND TIPO_DOCUMENTO = :tipo ');
         qrySoma.ParamByName('DTI').AsDate := dtpIncial.Date;
         qrySoma.ParamByName('DTF').AsDate := dtpFinal.Date;
         qrySoma.ParamByName('tipo').AsString := 'V';
@@ -138,25 +142,26 @@ begin
         edtSubTotal.Text := FormatFloat('R$ ##,##0.00', qrySoma.Fields[0].Value);
         subtotal         := qrySoma.Fields[0].Value;
 
-        //Soma somente os pagamentos em DINHEIRO
+        //Soma somente todos os tipos de pagamento mais o estorno
         qrySoma.Close;
         qrySoma.SQL.Clear;
         qrySoma.SQL.Add(SELECT_ESPECIE);
         qrySoma.SQL.Add(WHERE_SOMA);
         qrySoma.ParamByName('DTI').AsDate := dtpIncial.Date;
         qrySoma.ParamByName('DTF').AsDate := dtpFinal.Date;
-        qrySoma.ParamByName('tipo').AsString := 'V';
         qrySoma.Open;
         edtDinheiro.Text := FormatFloat('R$ ##,##0.00', qrySoma.Fields[0].Value);
         edtCheque.Text   := FormatFloat('R$ ##,##0.00', qrySoma.Fields[1].Value);
         edtCartao.Text   := FormatFloat('R$ ##,##0.00', qrySoma.Fields[2].Value);
         edtTicket.Text   := FormatFloat('R$ ##,##0.00', qrySoma.Fields[3].Value);
+        edtEstorno.Text  := FormatFloat('R$ ##,##0.00', qrySoma.Fields[4].Value);
+        estorno          := qrySoma.Fields[4].Value;
 
         //Soma somente as Sangrias
         qrySoma.Close;
         qrySoma.SQL.Clear;
         qrySoma.SQL.Add(SELECT_SOMA);
-        qrySoma.SQL.Add(WHERE_SOMA);
+        qrySoma.SQL.Add(WHERE_SOMA + ' AND TIPO_DOCUMENTO = :tipo ');
         qrySoma.ParamByName('DTI').AsDate := dtpIncial.Date;
         qrySoma.ParamByName('DTF').AsDate := dtpFinal.Date;
         qrySoma.ParamByName('tipo').AsString := 'R';
@@ -168,7 +173,7 @@ begin
         qrySoma.Close;
         qrySoma.SQL.Clear;
         qrySoma.SQL.Add(SELECT_SOMA);
-        qrySoma.SQL.Add(WHERE_SOMA);
+        qrySoma.SQL.Add(WHERE_SOMA + ' AND TIPO_DOCUMENTO = :tipo ');
         qrySoma.ParamByName('DTI').AsDate := dtpIncial.Date;
         qrySoma.ParamByName('DTF').AsDate := dtpFinal.Date;
         qrySoma.ParamByName('tipo').AsString := 'S';
@@ -177,7 +182,7 @@ begin
         suprimento         := qrySoma.Fields[0].Value;
 
         // Calcula o total deduzindo a sangria
-          edtTotal.Text   := FormatFloat('R$ ##,##0.00', ((suprimento + subtotal)- sangria));
+        edtTotal.Text   := FormatFloat('R$ ##,##0.00', ((suprimento + subtotal)- (sangria + estorno)));
 
     finally
          FreeAndNil(qrySoma);

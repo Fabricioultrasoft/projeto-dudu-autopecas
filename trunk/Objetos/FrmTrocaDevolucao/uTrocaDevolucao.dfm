@@ -1,11 +1,11 @@
 object frmTrocaDevolucao: TfrmTrocaDevolucao
-  Left = 589
-  Top = 149
+  Left = 665
+  Top = 187
   ActiveControl = edtQtdeDevolvida
   BorderIcons = [biSystemMenu]
   BorderStyle = bsNone
   Caption = 'Formul'#225'rio - Troca / Devolu'#231#227'o'
-  ClientHeight = 396
+  ClientHeight = 441
   ClientWidth = 476
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -39,7 +39,7 @@ object frmTrocaDevolucao: TfrmTrocaDevolucao
     Left = 0
     Top = 57
     Width = 476
-    Height = 267
+    Height = 312
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -54,14 +54,14 @@ object frmTrocaDevolucao: TfrmTrocaDevolucao
     ExplicitHeight = 258
     object Label7: TLabel
       Left = 46
-      Top = 164
+      Top = 199
       Width = 88
       Height = 19
       Caption = 'Observa'#231#227'o:'
     end
     object Label9: TLabel
       Left = 30
-      Top = 137
+      Top = 172
       Width = 104
       Height = 19
       Caption = 'A'#231#227'o Tomada:'
@@ -74,14 +74,14 @@ object frmTrocaDevolucao: TfrmTrocaDevolucao
     end
     object Label10: TLabel
       Left = 81
-      Top = 108
+      Top = 143
       Width = 53
       Height = 19
       Caption = 'Motivo:'
     end
     object Label5: TLabel
       Left = 327
-      Top = 112
+      Top = 147
       Width = 8
       Height = 14
       Caption = '*'
@@ -94,7 +94,7 @@ object frmTrocaDevolucao: TfrmTrocaDevolucao
     end
     object Label1: TLabel
       Left = 327
-      Top = 141
+      Top = 176
       Width = 8
       Height = 14
       Caption = '*'
@@ -107,7 +107,7 @@ object frmTrocaDevolucao: TfrmTrocaDevolucao
     end
     object Label2: TLabel
       Left = 463
-      Top = 169
+      Top = 204
       Width = 8
       Height = 14
       Caption = '*'
@@ -120,7 +120,7 @@ object frmTrocaDevolucao: TfrmTrocaDevolucao
     end
     object Label3: TLabel
       Left = 139
-      Top = 246
+      Top = 281
       Width = 145
       Height = 11
       Caption = '** M'#225'ximo de 45 caracteres.'
@@ -133,14 +133,14 @@ object frmTrocaDevolucao: TfrmTrocaDevolucao
     end
     object lbl2: TLabel
       Left = 22
-      Top = 49
+      Top = 53
       Width = 112
       Height = 19
       Caption = 'Qtde devolvida:'
     end
     object lbl3: TLabel
       Left = 327
-      Top = 53
+      Top = 57
       Width = 8
       Height = 14
       Caption = '*'
@@ -153,34 +153,34 @@ object frmTrocaDevolucao: TfrmTrocaDevolucao
     end
     object lbl4: TLabel
       Left = 39
-      Top = 80
+      Top = 115
       Width = 95
       Height = 19
       Caption = 'Ref. produto:'
     end
+    object lbl1: TLabel
+      Left = 70
+      Top = 80
+      Width = 64
+      Height = 19
+      Caption = 'Unidade:'
+    end
+    object lbl5: TLabel
+      Left = 327
+      Top = 84
+      Width = 8
+      Height = 14
+      Caption = '*'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
     object cmbMotivo: TComboBox
       Left = 140
-      Top = 108
-      Width = 182
-      Height = 24
-      Cursor = crHandPoint
-      Style = csDropDownList
-      Font.Charset = DEFAULT_CHARSET
-      Font.Color = clWindowText
-      Font.Height = -13
-      Font.Name = 'Tahoma'
-      Font.Style = []
-      ParentFont = False
-      TabOrder = 3
-      Items.Strings = (
-        'DEFEITO'
-        'VENCIDO'
-        'ERRO NA VENDA'
-        'COMPRA ERRADA')
-    end
-    object cmbAcaoTomada: TComboBox
-      Left = 140
-      Top = 137
+      Top = 143
       Width = 182
       Height = 24
       Cursor = crHandPoint
@@ -193,12 +193,32 @@ object frmTrocaDevolucao: TfrmTrocaDevolucao
       ParentFont = False
       TabOrder = 4
       Items.Strings = (
+        'DEFEITO'
+        'VENCIDO'
+        'ERRO NA VENDA'
+        'COMPRA ERRADA')
+    end
+    object cmbAcaoTomada: TComboBox
+      Left = 140
+      Top = 172
+      Width = 182
+      Height = 24
+      Cursor = crHandPoint
+      Style = csDropDownList
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 5
+      Items.Strings = (
         'TROCA DE PRODUTO'
         'ESTORNO FINANCEIRO')
     end
     object mmoObsevacao: TMemo
       Left = 139
-      Top = 165
+      Top = 200
       Width = 317
       Height = 80
       CharCase = ecUpperCase
@@ -210,7 +230,7 @@ object frmTrocaDevolucao: TfrmTrocaDevolucao
       Font.Style = [fsBold]
       MaxLength = 45
       ParentFont = False
-      TabOrder = 5
+      TabOrder = 6
     end
     object ckbCupom: TCheckBox
       Left = 139
@@ -231,7 +251,7 @@ object frmTrocaDevolucao: TfrmTrocaDevolucao
     end
     object edtQtdeDevolvida: TJvCalcEdit
       Left = 140
-      Top = 46
+      Top = 50
       Width = 182
       Height = 27
       Color = clSilver
@@ -247,7 +267,7 @@ object frmTrocaDevolucao: TfrmTrocaDevolucao
     end
     object edtReferencia: TEdit
       Left = 140
-      Top = 77
+      Top = 112
       Width = 182
       Height = 27
       AutoSize = False
@@ -258,16 +278,26 @@ object frmTrocaDevolucao: TfrmTrocaDevolucao
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
+      TabOrder = 3
+    end
+    object cmbUnd: TComboBox
+      Left = 140
+      Top = 81
+      Width = 182
+      Height = 27
+      Cursor = crHandPoint
+      Style = csDropDownList
       TabOrder = 2
     end
   end
   object pnlRodape: TPanel
     Left = 0
-    Top = 324
+    Top = 369
     Width = 476
     Height = 72
     Align = alBottom
     TabOrder = 2
+    ExplicitTop = 324
     object lbl6: TLabel
       Left = 4
       Top = 55

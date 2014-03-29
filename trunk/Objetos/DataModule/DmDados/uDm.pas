@@ -4,7 +4,8 @@ interface
 
 uses
   SysUtils, Classes, FMTBcd, DB, DBClient, Provider, SqlExpr, uFuncao, ACBrNFe,
-  RLFilters, RLPDFFilter, RLRichFilter, RLXLSFilter, RLHTMLFilter, Graphics, Windows;
+  RLFilters, RLPDFFilter, RLRichFilter, RLXLSFilter, RLHTMLFilter, Graphics, Windows, StdCtrls,
+  Dialogs;
 
 type
   Tdm = class(TDataModule)
@@ -380,6 +381,38 @@ type
     strngfldItem_VendaSTATUS1: TStringField;
     qryItem_VendaUND: TStringField;
     cdsItem_VendaUND: TStringField;
+    qryCaixaESTORNO: TFMTBCDField;
+    cdsCaixaESTORNO: TFMTBCDField;
+    qryDescarte: TSQLQuery;
+    dspDescarte: TDataSetProvider;
+    cdsDescarte: TClientDataSet;
+    dtsDescarte: TDataSource;
+    intgrfldDescarteID: TIntegerField;
+    strngfldDescarteEAN13: TStringField;
+    qryDescarteQTDE: TFMTBCDField;
+    qryDescarteDATA_DESCARTE: TDateField;
+    strngfldDescarteMOTIVO: TStringField;
+    strngfldDescarteCOD_FORN: TStringField;
+    strngfldDescarteCOD_FUNC: TStringField;
+    strngfldDescarteDESC_PROD: TStringField;
+    strngfldDescarteREF_PROD: TStringField;
+    strngfldDescarteUND: TStringField;
+    intgrfldDescarteID1: TIntegerField;
+    strngfldDescarteEAN14: TStringField;
+    cdsDescarteQTDE: TFMTBCDField;
+    cdsDescarteDATA_DESCARTE: TDateField;
+    strngfldDescarteMOTIVO1: TStringField;
+    strngfldDescarteCOD_FORN1: TStringField;
+    strngfldDescarteCOD_FUNC1: TStringField;
+    strngfldDescarteDESC_PROD1: TStringField;
+    strngfldDescarteREF_PROD1: TStringField;
+    strngfldDescarteUND1: TStringField;
+    strngfldDevolucaoUND: TStringField;
+    strngfldDevolucaoUND1: TStringField;
+    strngfldDescarteSTATUS: TStringField;
+    strngfldDescarteSTATUS1: TStringField;
+    strngfldDescarteORIGEM: TStringField;
+    strngfldDescarteORIGEM1: TStringField;
     function CarregaPrivilegio: TStringList;
     function CarregaUnidadeMedida: TStringList;
     procedure intgrfldItem_OrcQTDE1Validate(Sender: TField);
@@ -393,6 +426,8 @@ type
   public
     procedure AtualizaCDSProduto(Nota: string);
     function HexToTColor(sColor: string): TColor;
+    procedure CarregaDescFornecedor(Codigo: string; var Edit: TEdit);
+    procedure CarregaDescProduto(EAN13: string; var Edit: TEdit);
   end;
 
 var
@@ -414,6 +449,12 @@ const
                              'FROM ENTRADA_PRODUTO E INNER JOIN PRODUTO P ON E.EAN13=P.EAN13 ';
 
     WHERE_PRODUTO: string = 'WHERE E.N_NOTA = :nota';
+
+    // Instrução SQL para carregar a descrição do Produto
+    SQLDESC_PROD : string = 'SELECT DESC_PROD FROM PRODUTO WHERE EAN13 = :ean13';
+
+    // Instrução SQL para carregar a descrição do Fornecedor
+    SQLDESC_FORN : string = 'SELECT DESC_FORN FROM FORNECEDOR WHERE COD_FORN = :cod';
 
 implementation
 
@@ -497,6 +538,66 @@ begin
      Result := false;
      if cdsEntrada_Produto.RecordCount > 0 then
         Result := true;
+end;
+
+procedure Tdm.CarregaDescFornecedor(Codigo: string; var Edit: TEdit);
+var
+   qry: TSQLQuery;
+begin
+    if Codigo <> '' then
+    begin
+         try
+             qry := TSQLQuery.Create(nil);
+             qry.SQLConnection := dmConexao.Conexao;
+
+             qry.Close;
+             qry.SQL.Clear;
+             qry.SQL.Add(SQLDESC_FORN);
+             qry.ParamByName('cod').AsString := codigo;
+             qry.Open;
+
+             if not qry.IsEmpty then
+                Edit.text := qry.Fields[0].AsString
+             else
+             begin
+                 MessageDlg('Fornecedor não encontrado!', mtError, [mbOK], 0);
+                 Edit.SetFocus;
+             end;
+         except
+            on E:Exception do
+            ShowMessage('Erro ao procurar fornecedor !'#13#10 + E.Message);
+         end;
+    end;
+end;
+
+procedure Tdm.CarregaDescProduto(EAN13: string; var Edit: TEdit);
+var
+   qry: TSQLQuery;
+begin
+    if EAN13 <> '' then
+    begin
+        try
+             qry := TSQLQuery.Create(nil);
+             qry.SQLConnection := dmConexao.Conexao;
+
+             qry.Close;
+             qry.SQL.Clear;
+             qry.SQL.Add(SQLDESC_PROD);
+             qry.ParamByName('ean13').AsString := EAN13;
+             qry.Open;
+
+             if not qry.IsEmpty then
+                Edit.text := qry.Fields[0].AsString
+             else
+             begin
+                 MessageDlg('Produto não encontrado!', mtError, [mbOK], 0);
+                 Edit.SetFocus;
+             end;
+        except
+            on E:Exception do
+            ShowMessage('Erro ao procurar produto !'#13#10 + E.Message);
+        end;
+    end;
 end;
 
 function Tdm.CarregaPrivilegio: TStringList;

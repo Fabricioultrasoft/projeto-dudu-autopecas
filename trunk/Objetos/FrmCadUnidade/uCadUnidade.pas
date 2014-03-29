@@ -34,6 +34,7 @@ type
     Label4: TLabel;
     edtpesq: TEdit;
     btnCancelar: TBitBtn;
+    Label6: TLabel;
     function VerificaDuplicidade(Descricao, Sigla:string): Boolean;
     function VerificaCampos():Boolean;
     procedure Incluir;                     override;

@@ -54,7 +54,6 @@ object frmQtde: TfrmQtde
       Font.Height = -40
       Font.Name = 'Arial Black'
       Font.Style = []
-      NumbersOnly = True
       ParentFont = False
       TabOrder = 0
     end

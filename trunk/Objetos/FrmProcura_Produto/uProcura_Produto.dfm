@@ -1,6 +1,6 @@
 object frmProcura_Produto: TfrmProcura_Produto
-  Left = 842
-  Top = 134
+  Left = 735
+  Top = 212
   BorderStyle = bsNone
   Caption = 'Form Padr'#227'o'
   ClientHeight = 620

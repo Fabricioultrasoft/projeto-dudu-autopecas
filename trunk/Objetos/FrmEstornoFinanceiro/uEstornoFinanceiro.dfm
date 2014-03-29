@@ -3,7 +3,7 @@ object frmEstornoFinanceiro: TfrmEstornoFinanceiro
   Top = 177
   BorderStyle = bsNone
   Caption = 'frmEstornoFinanceiro'
-  ClientHeight = 286
+  ClientHeight = 309
   ClientWidth = 476
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -35,9 +35,10 @@ object frmEstornoFinanceiro: TfrmEstornoFinanceiro
     Left = 0
     Top = 57
     Width = 476
-    Height = 157
+    Height = 180
     Align = alClient
     TabOrder = 1
+    ExplicitHeight = 157
     object lbl1: TLabel
       Left = 21
       Top = 31
@@ -66,7 +67,7 @@ object frmEstornoFinanceiro: TfrmEstornoFinanceiro
     end
     object lbl6: TLabel
       Left = 4
-      Top = 126
+      Top = 147
       Width = 290
       Height = 11
       Caption = '- Processo de troca ou devolu'#231#227'o tem que estar finalizado.'
@@ -79,7 +80,7 @@ object frmEstornoFinanceiro: TfrmEstornoFinanceiro
     end
     object Label2: TLabel
       Left = 4
-      Top = 112
+      Top = 117
       Width = 67
       Height = 11
       Caption = 'Observa'#231#245'es:'
@@ -92,7 +93,7 @@ object frmEstornoFinanceiro: TfrmEstornoFinanceiro
     end
     object Label3: TLabel
       Left = 4
-      Top = 141
+      Top = 162
       Width = 202
       Height = 11
       Caption = '- A'#231#227'o tomada '#39'DEVOLU'#199#195'O DINHEIRO'#39'.'
@@ -125,6 +126,19 @@ object frmEstornoFinanceiro: TfrmEstornoFinanceiro
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clRed
       Font.Height = -12
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object Label4: TLabel
+      Left = 4
+      Top = 132
+      Width = 274
+      Height = 11
+      Caption = '- Procurar o documento de devolu'#231#227'o, clicando na lupa.'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -9
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
@@ -208,11 +222,12 @@ object frmEstornoFinanceiro: TfrmEstornoFinanceiro
   end
   object pnlRodape: TPanel
     Left = 0
-    Top = 214
+    Top = 237
     Width = 476
     Height = 72
     Align = alBottom
     TabOrder = 2
+    ExplicitTop = 214
     object btnFechar: TBitBtn
       Left = 349
       Top = 6

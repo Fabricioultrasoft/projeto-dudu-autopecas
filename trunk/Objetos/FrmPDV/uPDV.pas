@@ -303,15 +303,6 @@ begin
                lblVenda.Visible := False;
                setStatusCaixa(svFechado);
                FImpressao.ImprimirCancelamentoVenda;
-
-               if FVerificacaoImpressora then
-               begin
-                   Texto := '';
-                   Texto := Concat(Texto, '<ce>VENDA CANCELADA</ce>'#10);
-                   Texto := Concat(Texto, FImpressora.InseriTraco(48, False, true));
-                   FImpressora.ImprimeTextoTag(PAnsiChar(Texto), false);
-                   FImpressora.AcionaGuilhotina(0);
-               end;
           end;
      end;
 end;
@@ -384,13 +375,7 @@ begin
          frmPDV.edtSub_total.Text         := FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('TOTAL_PROD').AsFloat);
          frmPDV.edtTotal.Text             := FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('S_TOTAL').Value);
 
-         FImpressao.ImprimirItem(IntToStr(item), codigo, descricao, FormatFloat('#0.000', qtde), unidade, valor, subtotal, 23);
-         if FVerificacaoImpressora then
-         begin
-             Texto := '';
-             Texto := Concat(Texto, '<c>' + FormataImpressaoItem(IntToStr(item), codigo, descricao, FormatFloat('#0.000', qtde), unidade, valor, subtotal, 24) + '</c>'#10);
-             FImpressora.ImprimeTextoTag(PAnsiChar(Texto), false);
-         end;
+         FImpressao.ImprimirItem(IntToStr(item), codigo, descricao, FormatFloat('#0.000', qtde), unidade, valor, subtotal, 21);
      end
      else
         MessageDlg('Produto não encontrado!', mtWarning, [mbOK], 0);
@@ -523,46 +508,7 @@ begin
                      dm.qryVenda.ExecSQL();
 
                      FImpressao.ImprimirFinalizacao(dFTotal, dFSub_total, dFDesconto, dFValeTroca, dFDinheiro, dFCheque, dFCartao, dFTicket, dFValPago, dFTroco);
-                     if FVerificacaoImpressora then
-                     begin
-                         Texto := '';
-                         Texto := Concat(Texto, FImpressora.InseriTraco(48, False, true));
-                         Texto := Concat(Texto, '<ad><b>SUBTOTAL R$ ' + FormatFloat('##0.00', dFSub_total) + '</b></ad>'#10);
-
-                         if dFValeTroca > 0 then
-                            Texto := Concat(Texto, '<ad><c>VALE TROCA R$ ' + FormatFloat('##.00', dFValeTroca) + '</c></ad>'#10);
-
-                         if dFDesconto > 0 then
-                            Texto := Concat(Texto, '<ad><c>DESCONTO(%) ' + FormatFloat('##.00', dFDesconto) + '</c></ad>'#10);
-
-                         Texto := Concat(Texto, '<ad><b>TOTAL R$ ' + FormatFloat('##0.00', dFTotal) + '</b></ad>'#10);
-                         Texto := Concat(Texto, '<c>Forma de Pagamento:</c>'#10);
-
-                         if dFDinheiro > 0 then
-                            Texto := Concat(Texto, '<c>DINHEIRO R$ ' + FormatFloat('##0.00', dFDinheiro) + '</c>'#10);
-
-                         if dFCheque > 0 then
-                            Texto := Concat(Texto, '<c>CHEQUE R$ ' + FormatFloat('##0.00', dFCheque) + '</c>'#10);
-
-                         if dFCartao > 0 then
-                            Texto := Concat(Texto, '<c>CARTÃO R$ ' + FormatFloat('##0.00', dFCartao) + '</c>'#10);
-
-                         if dFTicket > 0 then
-                            Texto := Concat(Texto, '<c>TICKET R$ ' + FormatFloat('##0.00', dFTicket) + '</c>'#10);
-
-                          if dFValPago > 0 then
-                             Texto := Concat(Texto, #10'<c>VALOR PAGO R$ ' + FormatFloat('##0.00', dFValPago) + '</c>'#10);
-
-                         if dFTroco > 0 then
-                             Texto := Concat(Texto, '<c>TROCO R$ ' + FormatFloat('##0.00', dFTroco) + '</c>'#10);
-
-
-                         Texto := Concat(Texto, FImpressora.InseriTraco(48, False, true));
-                         Texto := Concat(Texto, '<ce><c>' + frmMenu.FMsgRodape + '</c></ce>'#10);
-                         FImpressora.ImprimeTextoTag(PAnsiChar(Texto), false);
-                         FImpressora.AcionaGuilhotina(0);
-                     end;
-
+                    
                      // Verifica se existe desconto, se existir divide pela quantidade itens na venda
                      if dFDesconto > 0 then
                      begin
@@ -596,7 +542,6 @@ begin
                      end;
 
                      dm.cdsVenda.Close;
-                     dm.cdsItem_Venda.EmptyDataSet;
                      LimpaCampos();
                      lblVenda.Caption := '';
                      lblVenda.Visible := False;
@@ -700,7 +645,9 @@ begin
      begin
          for i := 1 to (Limite - Length(Descricao)) do
              desc := desc + ' ';
-     end;
+     end
+     else
+        desc := Copy(desc, 1, Limite);
 
      qt := Qtde;
      for i := 1 to (7 - Length(Qtde)) do
@@ -747,7 +694,7 @@ begin
      setStatusCaixa(svBloqueado);
      FImpressora    := TImpressora.Create(miEpson, PAnsiChar('USB'));
      FImpressao     := TImpressao.Create(frmMenu.FCabSangria, frmMenu.FCabSuprimento, frmMenu.FCabFechamento, redtItem, frmMenu.FRazao, frmMenu.FCNPJ, frmMenu.FInscricao,
-                                         frmMenu.FRua, frmMenu.FNumero, frmMenu.FBairro, frmMenu.FCidade, frmMenu.FMsgCabecalho, frmMenu.FMsgRodape);
+                                         frmMenu.FRua, frmMenu.FNumero, frmMenu.FBairro, frmMenu.FCidade, frmMenu.FMsgCabecalho, frmMenu.FMsgRodape, FImpressora);
      Self.Caption   := Application.Title + ' : PDV';
      redtItem.Color := HexToTColor('FFFFCC');
      lblData.Caption:= FormatDateTime('dd/mm/yyyy', Date);
@@ -763,6 +710,7 @@ begin
     finally
         FreeAndNil(frmProgresso);
     end;
+    FImpressao.StatusImpressora := FVerificacaoImpressora;
 end;
 
 procedure TfrmPDV.KeyDown(var Key: Word;
@@ -1130,16 +1078,6 @@ begin
          lblVenda.Caption := 'Venda Número: ' + sFNumeroVenda;
          redtItem.Clear;
          FImpressao.ImprimirCabecalho(sFNumeroVenda);
-
-         if FVerificacaoImpressora then
-         begin
-            nVenda := 'VENDA NUMERO: ' + sFNumeroVenda;
-            Texto := '';
-            Texto := Concat(Texto, '<c>' + Format('%s %s %28s', ['DATA: '+FormatDateTime('dd/mm/yyyy', Date), ' - HORA: '+FormatDateTime('hh:mm:ss', time), nVenda]) + '</c>'#10);
-            Texto := Concat(Texto, '<c>ITEM    CODIGO           DESCRICAO          QTDE   VALOR   TOTAL</c>'#10);
-            Texto := Concat(Texto, FImpressora.InseriTraco(48, False, true));
-            FImpressora.ImprimeTextoTag(PAnsiChar(Texto), true);
-         end;
      end
      else
         if StatusPDV = svAberto then

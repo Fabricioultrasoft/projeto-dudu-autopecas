@@ -62,6 +62,7 @@ type
     procedure btnPesquisarClick(Sender: TObject);
     function VerificaCampos(): Boolean;
     function VerificaDuplicidade(Razao: string): Boolean;
+    procedure btnCancelarClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -103,6 +104,11 @@ begin
     dm.cdsFornecedor.Close;
     CarregaConsulta();
     dm.cdsFornecedor.Open;
+end;
+
+procedure TfrmCadFornecedor.btnCancelarClick(Sender: TObject);
+begin
+    Cancelar;
 end;
 
 procedure TfrmCadFornecedor.btnEditarClick(Sender: TObject);

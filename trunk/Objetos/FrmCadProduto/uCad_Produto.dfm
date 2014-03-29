@@ -1,6 +1,6 @@
 object frmCadProduto: TfrmCadProduto
-  Left = 373
-  Top = 184
+  Left = 928
+  Top = 400
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Cadastro de Produto'
@@ -2167,7 +2167,7 @@ object frmCadProduto: TfrmCadProduto
   end
   object ACBrEnterTab1: TACBrEnterTab
     EnterAsTab = True
-    Left = 616
-    Top = 72
+    Left = 728
+    Top = 16
   end
 end

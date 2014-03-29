@@ -1,6 +1,6 @@
 object frmPDV: TfrmPDV
-  Left = 116
-  Top = 174
+  Left = 270
+  Top = 84
   ActiveControl = edtConsulta
   AutoSize = True
   BorderStyle = bsNone
@@ -9479,7 +9479,7 @@ object frmPDV: TfrmPDV
     Layout = blGlyphRight
     NumGlyphs = 2
     ParentFont = False
-    Spacing = 80
+    Spacing = 90
     OnClick = btn13Click
   end
   object lblVenda: TLabel

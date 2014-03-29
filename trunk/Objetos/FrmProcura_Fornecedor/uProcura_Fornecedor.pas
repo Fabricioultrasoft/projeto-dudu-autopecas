@@ -36,15 +36,24 @@ var
 
 implementation
 
-uses uDm, uCad_Produto, uEntrada_Produtos, uRelatorio;
+uses uDm, uCad_Produto, uEntrada_Produtos, uRelatorio, uCadDescarte;
 
 {$R *.dfm}
 
 procedure TfrmProcura_Fornecedor.CarregaCampo;
 begin
      //Carrega o campo na form Entrada de produtos
-     frmEntrada_Produtos.edtCod_Forn.Text := dm.cdsFornecedor.FieldByName('COD_FORN').AsString;
-     frmEntrada_Produtos.CarregaDescFornecedor(dm.cdsFornecedor.FieldByName('COD_FORN').AsString);
+     if Assigned(frmEntrada_Produtos) then
+     begin
+         frmEntrada_Produtos.edtCod_Forn.Text := dm.cdsFornecedor.FieldByName('COD_FORN').AsString;
+         dm.CarregaDescFornecedor(dm.cdsFornecedor.FieldByName('COD_FORN').AsString, frmEntrada_Produtos.lblDescricaoFornecedor);
+     end;
+
+     if Assigned(frmDescarte) then
+     begin
+         frmDescarte.edtCod_Forn.Text := dm.cdsFornecedor.FieldByName('COD_FORN').AsString;
+         dm.CarregaDescFornecedor(dm.cdsFornecedor.FieldByName('COD_FORN').AsString, frmDescarte.lblDescricaoFornecedor);
+     end;
 end;
 
 procedure TfrmProcura_Fornecedor.CarregaConsulta;
@@ -61,7 +70,7 @@ end;
 procedure TfrmProcura_Fornecedor.dbgrdFornDblClick(Sender: TObject);
 begin
     //Carrega os campos após duplo click no registro
-    if Assigned(frmEntrada_Produtos) then
+    if Assigned(frmEntrada_Produtos) or Assigned(frmDescarte) then
        CarregaCampo();
 
     frmProcura_Fornecedor.Close;

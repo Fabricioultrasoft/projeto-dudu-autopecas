@@ -66,6 +66,8 @@ type
     Informaes1: TMenuItem;
     UNIDADE1: TMenuItem;
     actUnidade: TAction;
+    DESCARTE1: TMenuItem;
+    actDescarte: TAction;
     procedure FormCreate(Sender: TObject);
     function DataPorExtenso: String;
     procedure TimerTimer(Sender: TObject);
@@ -94,6 +96,7 @@ type
     procedure actUnidadeExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure actDescarteExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -116,6 +119,10 @@ type
      FCabSangria  : Boolean;
      FCabSuprimento  : Boolean;
      FCabFechamento : Boolean;
+     FCodUser     : string;
+     FUser        : string;
+     FNomeUser    : string;
+     FPrivilegio  : string;
 
      function VerificaConfig(): Boolean;
   end;
@@ -137,7 +144,7 @@ uses UdmConexao, uCad_Usuario, uCad_Grupo, uCad_Cliente, uCad_Fornecedor,
   uCad_Produto, uProcura_Estoque, uEntrada_Produtos, uAgenda, uOrcamento, uPDV,
   uFechamento_Caixa, USobre, USplash, uSangria, uSuprimento, uCadUnidade,
   uConfig, uAviso, uProgresso, uImpressoraBase,
-  uImpressoraEpson;
+  uImpressoraEpson, uCadDescarte;
 
 {$R *.dfm}
 
@@ -238,6 +245,16 @@ begin
       frmConfig.ShowModal;
     finally
       FreeAndNil(frmConfig);
+    end;
+end;
+
+procedure TfrmMenu.actDescarteExecute(Sender: TObject);
+begin
+    try
+      frmDescarte := TfrmDescarte.Create(self);
+      frmDescarte.ShowModal;
+    finally
+      FreeAndNil(frmDescarte);
     end;
 end;
 
@@ -399,15 +416,17 @@ end;
 
 procedure TfrmMenu.FormCreate(Sender: TObject);
 begin
-    {try
+    try
       frmLogin := TfrmLogin.Create(nil);
       frmLogin.ShowModal;
     finally
        FreeAndNil(frmLogin);
-    end;}
+    end;
 
     dmConexao.Conexao.Connected := True;
     frmMenu.Caption := FormataCaptionMenu;
+    stbStatus.Panels[1].Text := frmMenu.FUser;
+    stbStatus.Panels[3].Text := frmMenu.FPrivilegio;
 
     if FileExists(ExtractFilePath(Application.ExeName) + 'Imagens\ImgLogo.jpg') then
     begin

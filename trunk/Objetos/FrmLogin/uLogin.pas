@@ -4,7 +4,8 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Buttons, ComCtrls, ExtCtrls, uFormBase, DBXCommon, DBXDBReaders;
+  Dialogs, StdCtrls, Buttons, ComCtrls, ExtCtrls, uFormBase, DBXCommon, DBXDBReaders,
+  jpeg, SqlExpr;
 
 type
   TfrmLogin = class(TFormBase)
@@ -50,7 +51,7 @@ var
 
 implementation
 
-uses uDm, uMenu;
+uses uDm, uMenu, UdmConexao;
 
 {$R *.dfm}
 
@@ -87,30 +88,38 @@ end;
 
 function TfrmLogin.Autentica: Boolean;
 var
-   conexao: TDBXConnection;
-   comand : TDBXCommand;
-   reader : TDBXReader;
+   qry: TSQLQuery;
+   sql : string;
 begin
      //Function de verificação se existe cadastro do usuário no banco de dados
      try
          Result := false;
+         qry := TSQLQuery.Create(nil);
+         qry.SQLConnection := dmConexao.Conexao;
 
-         conexao      := TDBXConnectionFactory.GetConnectionFactory.GetConnection('FBCONN_DUDU', 'SYSDBA', 'masterkey');
-         comand       := conexao.CreateCommand;
-         comand.Text  := 'SELECT DESC_USUARIO, PRIVILEGIO, SENHA FROM USUARIO ' +
-                         'WHERE DESC_USUARIO = ? AND PRIVILEGIO = ? AND SENHA = ?';
-         comand.Prepare;
-         comand.Parameters.Parameter[0].Value.SetWideString(edtUsuario.Text);
-         comand.Parameters.Parameter[1].Value.SetWideString(cmbPrivilegio.Text);
-         comand.Parameters.Parameter[2].Value.SetWideString(edtSenha.Text);
-         reader       := comand.ExecuteQuery;
+         SQL  := 'SELECT COD_USER,  DESC_USUARIO, NOME, PRIVILEGIO FROM USUARIO ' +
+                         'WHERE DESC_USUARIO = :user AND PRIVILEGIO = :privilegio AND SENHA = :senha';
 
-         if reader.Next then
-            Result := true;
-     finally
-         FreeAndNil(conexao);
-         FreeAndNil(comand);
-         FreeAndNil(reader);
+         qry.Close;
+         qry.SQL.Clear;
+         qry.SQL.Add(SQL);
+         qry.ParamByName('user').AsString        := edtUsuario.Text;
+         qry.ParamByName('privilegio').AsString := cmbPrivilegio.Text;
+         qry.ParamByName('senha').AsString      := edtSenha.Text;
+         qry.Open;
+
+         if not qry.IsEmpty then
+         begin
+            frmMenu.FCodUser    := qry.Fields[0].AsString;
+            frmMenu.FUser       := qry.Fields[1].AsString;
+            frmMenu.FNomeUser   := qry.Fields[2].AsString;
+            frmMenu.FPrivilegio := qry.Fields[3].AsString;
+            Result := True;
+         end;
+
+     except
+         on E:Exception do
+         MessageDlg('Erro ao valida dados no banco de dados, ' + E.Message, mtError, [mbOK], 0);
      end;
 end;
 
@@ -128,7 +137,6 @@ begin
     //Chama a function de autenticação
     if not Autentica then
     begin
-       Application.MessageBox('Erro na tentativa de logar no Sistema!', 'Erro', MB_OK);
        LimpaCampos;
     end
     else

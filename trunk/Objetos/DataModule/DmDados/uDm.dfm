@@ -1,7 +1,7 @@
 object dm: Tdm
   OldCreateOrder = False
-  Left = 475
-  Top = 108
+  Left = 597
+  Top = 156
   Height = 717
   Width = 1005
   object dspUsuario: TDataSetProvider
@@ -1251,7 +1251,6 @@ object dm: Tdm
     Top = 456
   end
   object qryItem_Venda: TSQLQuery
-    Active = True
     MaxBlobSize = -1
     Params = <>
     SQL.Strings = (
@@ -1270,8 +1269,9 @@ object dm: Tdm
       '     UND'
       'FROM'
       '      ITEM_VENDA'
-      'WHERE'
-      '      N_VENDA='#39'0'#39
+      'WHERE '
+      '      N_VENDA = '#39'0'#39
+      ''
       '')
     SQLConnection = dmConexao.Conexao
     Left = 560
@@ -1434,7 +1434,8 @@ object dm: Tdm
       '     C.DINHEIRO,'
       '     C.CARTAO,'
       '     C.CHEQUE,'
-      '     C.TICKET'
+      '     C.TICKET,'
+      '     C.ESTORNO'
       'FROM'
       '     CAIXA C ')
     SQLConnection = dmConexao.Conexao
@@ -1485,6 +1486,11 @@ object dm: Tdm
       Precision = 18
       Size = 2
     end
+    object qryCaixaESTORNO: TFMTBCDField
+      FieldName = 'ESTORNO'
+      Precision = 18
+      Size = 2
+    end
   end
   object cdsCaixa: TClientDataSet
     Aggregates = <>
@@ -1521,24 +1527,31 @@ object dm: Tdm
     end
     object cdsCaixaDINHEIRO: TFMTBCDField
       FieldName = 'DINHEIRO'
-      DisplayFormat = '##0.00'
+      DisplayFormat = '##,##0.00'
       Precision = 18
       Size = 2
     end
     object cdsCaixaCARTAO: TFMTBCDField
       FieldName = 'CARTAO'
-      DisplayFormat = '##0.00'
+      DisplayFormat = '##,##0.00'
       Precision = 18
       Size = 2
     end
     object cdsCaixaCHEQUE: TFMTBCDField
       FieldName = 'CHEQUE'
-      DisplayFormat = '##0.00'
+      DisplayFormat = '##,##0.00'
       Precision = 18
       Size = 2
     end
     object cdsCaixaTICKET: TFMTBCDField
       FieldName = 'TICKET'
+      DisplayFormat = '##,##0.00'
+      Precision = 18
+      Size = 2
+    end
+    object cdsCaixaESTORNO: TFMTBCDField
+      FieldName = 'ESTORNO'
+      DisplayFormat = '##,##0.00'
       Precision = 18
       Size = 2
     end
@@ -1810,12 +1823,13 @@ object dm: Tdm
       '      D.EAN13,'
       '      D.REF_PROD,'
       '      D.STATUS,'
-      '      P.DESC_PROD'
+      '      P.DESC_PROD,'
+      '      D.UND'
       'FROM '
       '     DEVOLUCAO D INNER JOIN PRODUTO P ON D.EAN13 = P.EAN13')
     SQLConnection = dmConexao.Conexao
-    Left = 896
-    Top = 368
+    Left = 872
+    Top = 360
     object intgrfldDevolucaoID: TIntegerField
       FieldName = 'ID'
     end
@@ -1875,17 +1889,21 @@ object dm: Tdm
       ProviderFlags = []
       Size = 100
     end
+    object strngfldDevolucaoUND: TStringField
+      FieldName = 'UND'
+      Size = 10
+    end
   end
   object dspDevolucao: TDataSetProvider
     DataSet = qryDevolucao
-    Left = 888
-    Top = 440
+    Left = 872
+    Top = 448
   end
   object cdsDevolucao: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dspDevolucao'
-    Left = 888
+    Left = 872
     Top = 528
     object intgrfldDevolucaoID1: TIntegerField
       FieldName = 'ID'
@@ -1948,10 +1966,144 @@ object dm: Tdm
       Required = True
       Size = 100
     end
+    object strngfldDevolucaoUND1: TStringField
+      FieldName = 'UND'
+      Size = 10
+    end
   end
   object dtsDevolucao: TDataSource
     DataSet = cdsDevolucao
-    Left = 888
+    Left = 872
     Top = 616
+  end
+  object qryDescarte: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      
+        'SELECT D.ID, D.EAN13, D.QTDE, D.DATA_DESCARTE, D.MOTIVO, D.COD_F' +
+        'ORN, D.COD_FUNC, P.DESC_PROD, D.REF_PROD, D.UND, D.STATUS, D.ORI' +
+        'GEM'
+      'FROM DESCARTE D INNER JOIN PRODUTO P ON D.EAN13 = P.EAN13')
+    SQLConnection = dmConexao.Conexao
+    Left = 728
+    Top = 16
+    object intgrfldDescarteID: TIntegerField
+      FieldName = 'ID'
+      Required = True
+    end
+    object strngfldDescarteEAN13: TStringField
+      FieldName = 'EAN13'
+      Required = True
+      Size = 13
+    end
+    object qryDescarteQTDE: TFMTBCDField
+      FieldName = 'QTDE'
+      Required = True
+      Precision = 18
+      Size = 3
+    end
+    object qryDescarteDATA_DESCARTE: TDateField
+      FieldName = 'DATA_DESCARTE'
+    end
+    object strngfldDescarteMOTIVO: TStringField
+      FieldName = 'MOTIVO'
+      Size = 255
+    end
+    object strngfldDescarteCOD_FORN: TStringField
+      FieldName = 'COD_FORN'
+      Size = 10
+    end
+    object strngfldDescarteCOD_FUNC: TStringField
+      FieldName = 'COD_FUNC'
+      Size = 10
+    end
+    object strngfldDescarteDESC_PROD: TStringField
+      FieldName = 'DESC_PROD'
+      Size = 100
+    end
+    object strngfldDescarteREF_PROD: TStringField
+      FieldName = 'REF_PROD'
+    end
+    object strngfldDescarteUND: TStringField
+      FieldName = 'UND'
+      Required = True
+      Size = 10
+    end
+    object strngfldDescarteSTATUS: TStringField
+      FieldName = 'STATUS'
+      Size = 1
+    end
+    object strngfldDescarteORIGEM: TStringField
+      FieldName = 'ORIGEM'
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object dspDescarte: TDataSetProvider
+    DataSet = qryDescarte
+    Left = 728
+    Top = 96
+  end
+  object cdsDescarte: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspDescarte'
+    Left = 728
+    Top = 160
+    object intgrfldDescarteID1: TIntegerField
+      FieldName = 'ID'
+    end
+    object strngfldDescarteEAN14: TStringField
+      FieldName = 'EAN13'
+      Size = 13
+    end
+    object cdsDescarteQTDE: TFMTBCDField
+      FieldName = 'QTDE'
+      DisplayFormat = '#.000'
+      Precision = 18
+      Size = 3
+    end
+    object cdsDescarteDATA_DESCARTE: TDateField
+      FieldName = 'DATA_DESCARTE'
+    end
+    object strngfldDescarteMOTIVO1: TStringField
+      FieldName = 'MOTIVO'
+      Size = 255
+    end
+    object strngfldDescarteCOD_FORN1: TStringField
+      FieldName = 'COD_FORN'
+      Size = 10
+    end
+    object strngfldDescarteCOD_FUNC1: TStringField
+      FieldName = 'COD_FUNC'
+      Size = 10
+    end
+    object strngfldDescarteDESC_PROD1: TStringField
+      FieldName = 'DESC_PROD'
+      ProviderFlags = []
+      Size = 100
+    end
+    object strngfldDescarteREF_PROD1: TStringField
+      FieldName = 'REF_PROD'
+    end
+    object strngfldDescarteUND1: TStringField
+      FieldName = 'UND'
+      Size = 10
+    end
+    object strngfldDescarteSTATUS1: TStringField
+      FieldName = 'STATUS'
+      Size = 1
+    end
+    object strngfldDescarteORIGEM1: TStringField
+      FieldName = 'ORIGEM'
+      FixedChar = True
+      Size = 1
+    end
+  end
+  object dtsDescarte: TDataSource
+    DataSet = cdsDescarte
+    Left = 736
+    Top = 232
   end
 end

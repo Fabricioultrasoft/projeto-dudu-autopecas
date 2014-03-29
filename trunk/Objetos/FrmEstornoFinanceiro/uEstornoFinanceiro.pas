@@ -24,6 +24,7 @@ type
     Label3: TLabel;
     lbl7: TLabel;
     lbl2: TLabel;
+    Label4: TLabel;
     procedure btnFecharClick(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure edtDocDevolucaoButtonClick(Sender: TObject);
@@ -82,9 +83,17 @@ begin
             qry.ExecSQL();
 
             // Atualiza a tabela de devolução se necessário
+            qry.Close;
+            qry.SQL.Clear;
+            qry.SQL.Add('UPDATE DEVOLUCAO SET STATUS = :status WHERE N_VENDA = :venda');
+            qry.ParamByName('status').AsString := 'F';
+            qry.ParamByName('venda').AsString  := sFVenda;
+            qry.ExecSQL();
+
             dm.cdsDevolucao.Open;
-            if dm.cdsDevolucao.Locate('COD_DEVOLUCAO', edtDocDevolucao.Text, [loCaseInsensitive, loPartialKey]) then
+            if dm.cdsDevolucao.Locate('N_VENDA', edtDocDevolucao.Text, [loCaseInsensitive, loPartialKey]) then
             begin
+
                dm.cdsDevolucao.Edit;
                dm.cdsDevolucao.FieldByName('STATUS').AsString := 'F';
                dm.cdsDevolucao.Post;

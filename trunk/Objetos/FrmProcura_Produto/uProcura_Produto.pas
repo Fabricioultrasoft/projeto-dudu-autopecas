@@ -48,7 +48,7 @@ const
 implementation
 
 uses uDm, uCad_Produto, uEntrada_Produtos, uPDV, uQtde, uAgenda, uRelatorio,
-  uMenu, uProdutoNF;
+  uMenu, uProdutoNF, uCadDescarte;
 
 {$R *.dfm}
 
@@ -72,7 +72,17 @@ end;
 procedure TfrmProcura_Produto.CarregaCodigo;
 begin
     // Carrega o código de barras na tela para entrada de produtos NF
-    frmProdutoNF.edtCod_Prod.Text := dm.cdsProduto.FieldByName('EAN13').AsString;
+    if Assigned(frmProdutoNF) then
+    begin
+       frmProdutoNF.edtCod_Prod.Text := dm.cdsProduto.FieldByName('EAN13').AsString;
+       dm.CarregaDescProduto(dm.cdsProduto.FieldByName('EAN13').AsString, frmProdutoNF.lblDescricaoProduto);
+    end;
+
+    if Assigned(frmDescarte) then
+    begin
+       frmDescarte.edtCod_Prod.Text := dm.cdsProduto.FieldByName('EAN13').AsString;
+       dm.CarregaDescProduto(dm.cdsProduto.FieldByName('EAN13').AsString, frmDescarte.lblDescricaoProduto);
+    end;
 end;
 
 procedure TfrmProcura_Produto.CarregaConsulta;
@@ -156,7 +166,7 @@ begin
         frmProcura_Produto.Close;
      end;
 
-     if Assigned(frmProdutoNF) then
+     if Assigned(frmProdutoNF) or Assigned(frmDescarte) then
      begin
          CarregaCodigo;
          frmProcura_Produto.Close;
@@ -173,7 +183,7 @@ begin
             frmProcura_Produto.Close;
          end;
 
-         if Assigned(frmEntrada_Produtos) then
+         if Assigned(frmProdutoNF) or Assigned(frmDescarte) then
          begin
              CarregaCodigo;
              frmProcura_Produto.Close;

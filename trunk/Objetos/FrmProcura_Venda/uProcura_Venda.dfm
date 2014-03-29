@@ -1,11 +1,11 @@
 object frmProcura_Venda: TfrmProcura_Venda
-  Left = 622
-  Top = 185
+  Left = 558
+  Top = 235
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio - Procurar Venda'
   ClientHeight = 600
-  ClientWidth = 938
+  ClientWidth = 944
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,7 +22,7 @@ object frmProcura_Venda: TfrmProcura_Venda
   object pnlProcura: TPanel
     Left = 0
     Top = 0
-    Width = 938
+    Width = 944
     Height = 52
     Align = alTop
     Font.Charset = DEFAULT_CHARSET
@@ -32,6 +32,7 @@ object frmProcura_Venda: TfrmProcura_Venda
     Font.Style = []
     ParentFont = False
     TabOrder = 0
+    ExplicitWidth = 938
     object lbl5: TLabel
       Left = 16
       Top = 5
@@ -65,10 +66,11 @@ object frmProcura_Venda: TfrmProcura_Venda
   object pnlInformacao: TPanel
     Left = 0
     Top = 52
-    Width = 938
+    Width = 944
     Height = 166
     Align = alTop
     TabOrder = 1
+    ExplicitWidth = 938
     object grp1: TGroupBox
       Left = 12
       Top = 2
@@ -377,10 +379,11 @@ object frmProcura_Venda: TfrmProcura_Venda
   object pnlRodape: TPanel
     Left = 0
     Top = 528
-    Width = 938
+    Width = 944
     Height = 72
     Align = alBottom
     TabOrder = 2
+    ExplicitWidth = 938
     object lbl6: TLabel
       Left = 7
       Top = 21
@@ -491,14 +494,15 @@ object frmProcura_Venda: TfrmProcura_Venda
   object pnl1: TPanel
     Left = 0
     Top = 218
-    Width = 938
+    Width = 944
     Height = 310
     Align = alClient
     TabOrder = 3
+    ExplicitWidth = 938
     object grdItemVenda: TDBGrid
       Left = 1
       Top = 1
-      Width = 936
+      Width = 942
       Height = 308
       Cursor = crHandPoint
       Align = alClient
@@ -566,19 +570,25 @@ object frmProcura_Venda: TfrmProcura_Venda
         item
           Alignment = taCenter
           Expanded = False
-          FieldName = 'VAL_PROD'
+          FieldName = 'UND'
           Title.Alignment = taCenter
-          Title.Caption = 'VAL. UNIT'#193'RIO'
-          Width = 120
+          Width = 65
           Visible = True
         end
         item
-          Alignment = taCenter
+          Expanded = False
+          FieldName = 'VAL_PROD'
+          Title.Alignment = taCenter
+          Title.Caption = 'VAL. UNIT'#193'RIO'
+          Width = 100
+          Visible = True
+        end
+        item
           Expanded = False
           FieldName = 'TOTAL_PROD'
           Title.Alignment = taCenter
           Title.Caption = 'SUBTOTAL'
-          Width = 120
+          Width = 100
           Visible = True
         end>
     end

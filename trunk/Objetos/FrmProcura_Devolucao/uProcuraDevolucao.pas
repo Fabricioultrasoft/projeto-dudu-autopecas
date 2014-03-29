@@ -4,7 +4,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, uFormBase, Grids, DBGrids, StdCtrls, ExtCtrls ;
+  Dialogs, uFormBase, Grids, DBGrids, StdCtrls, ExtCtrls, Buttons ;
 
 type
   TfrmProcuraDevolucao = class(TFormBase)
@@ -14,18 +14,25 @@ type
     edtCodigo: TEdit;
     grdProd: TDBGrid;
     pnlRodape: TPanel;
-    lbl1: TLabel;
     lbl6: TLabel;
-    procedure edtCodigoChange(Sender: TObject);
-    procedure grdProdKeyPress(Sender: TObject; var Key: Char);
+    lbl7: TLabel;
+    btnFechar: TBitBtn;
+    btnTrocaDevolucao: TBitBtn;
     procedure grdProdDblClick(Sender: TObject);
     procedure grdProdDrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure FormCreate(Sender: TObject);
-    procedure KeyDown(var Key: Word; Shift: TShiftState);override;
+    procedure btnTrocaDevolucaoClick(Sender: TObject);
+    procedure btnFecharClick(Sender: TObject);
+    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
+    procedure KeyDown(var Key: Word; Shift: TShiftState); override;
+    procedure edtCodigoKeyPress(Sender: TObject; var Key: Char);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     { Private declarations }
   public
+    dFSoma: Double;
+
     procedure ConsultaUniversal();
     procedure CarregaValor();
   end;
@@ -52,8 +59,22 @@ uses uDm, uForma_Pagamento, uEstornoFinanceiro;
 
 { TfrmProcuraDevolucao }
 
-procedure TfrmProcuraDevolucao.CarregaValor;
+procedure TfrmProcuraDevolucao.btnFecharClick(Sender: TObject);
 begin
+    self.Close;
+end;
+
+procedure TfrmProcuraDevolucao.btnTrocaDevolucaoClick(Sender: TObject);
+begin
+    if (not dm.cdsDevolucao.IsEmpty) and (grdProd.SelectedRows.Count > 0) then
+        CarregaValor;
+end;
+
+procedure TfrmProcuraDevolucao.CarregaValor;
+var
+  i: integer;
+begin
+
     if  dm.cdsDevolucao.FieldByName('STATUS').AsString = 'A' then
     begin
         if Assigned(frmForma_Pagamento) then
@@ -70,8 +91,15 @@ begin
         begin
             if Assigned(frmEstornoFinanceiro) then
             begin
+                dFSoma := 0;
+                for i := 1 to grdProd.SelectedRows.Count do
+                begin
+                  dm.cdsDevolucao.GotoBookMark(Pointer(grdProd.SelectedRows.Items[i-1]));
+                  dFSoma := dFSoma +  dm.cdsDevolucao.FieldByName('VALOR_ITEM').AsFloat;
+                end;
+
                 frmEstornoFinanceiro.edtDocDevolucao.Text := dm.cdsDevolucao.FieldByName('COD_DEVOLUCAO').AsString;
-                frmEstornoFinanceiro.edtValor.Text        := FormatFloat('##,##0.00',  dm.cdsDevolucao.FieldByName('VALOR_ITEM').AsFloat);
+                frmEstornoFinanceiro.edtValor.Text        := FormatFloat('##,##0.00',  dFSoma);
                 frmEstornoFinanceiro.sFVenda              := dm.cdsDevolucao.FieldByName('N_VENDA').AsString;
             end;
         end;
@@ -104,9 +132,17 @@ begin
      dm.cdsDevolucao.Refresh;
 end;
 
-procedure TfrmProcuraDevolucao.edtCodigoChange(Sender: TObject);
+procedure TfrmProcuraDevolucao.edtCodigoKeyPress(Sender: TObject;
+  var Key: Char);
 begin
-    ConsultaUniversal();
+    if Key = #13 then
+       ConsultaUniversal();
+end;
+
+procedure TfrmProcuraDevolucao.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+    dm.cdsDevolucao.Close;
 end;
 
 procedure TfrmProcuraDevolucao.FormCreate(Sender: TObject);
@@ -121,7 +157,17 @@ begin
        dm.qryDevolucao.Open;
        dm.cdsDevolucao.Open;
        dm.cdsDevolucao.Refresh;
+       btnTrocaDevolucao.Enabled := false;
     end;
+end;
+
+procedure TfrmProcuraDevolucao.FormKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+    if (Key = VK_F2) and (not dm.cdsDevolucao.IsEmpty) and (grdProd.SelectedRows.Count > 0) then
+      CarregaValor;
+
+    if Key = VK_ESCAPE then btnFechar.Click;
 end;
 
 procedure TfrmProcuraDevolucao.grdProdDblClick(Sender: TObject);
@@ -142,15 +188,13 @@ begin
     end;
 end;
 
-procedure TfrmProcuraDevolucao.grdProdKeyPress(Sender: TObject; var Key: Char);
-begin
-    if (Key = #13) and (Assigned(frmForma_Pagamento)) then CarregaValor;
-end;
-
 procedure TfrmProcuraDevolucao.KeyDown(var Key: Word; Shift: TShiftState);
 begin
-    inherited;
-    dm.cdsDevolucao.Close;
+  if (Key = VK_F2) and (not dm.cdsDevolucao.IsEmpty) and (grdProd.SelectedRows.Count > 0) then
+      CarregaValor;
+
+    if Key = VK_ESCAPE then btnFechar.Click;
+
 end;
 
 end.

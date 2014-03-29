@@ -43,14 +43,6 @@ begin
 
                 // Imprime na tela e na impressora
                 frmPDV.FImpressao.ImprimirCancelamentoItem(edtItem.Text, Copy(dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString, 1, 24));
-                if frmPDV.FVerificacaoImpressora then
-                begin
-                    // Imprime o item cancelado
-                    Texto := '';
-                    Texto := Concat(Texto, #10+'<c>ITEM ' + edtItem.Text + ' *' + Copy(dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString, 1, 24) + '* CANCELADO</c>'#10);
-                    frmPDV.FImpressora.ImprimeTextoTag(PAnsiChar(Texto), false);
-                end;
-
                 dm.cdsItem_Venda.Delete;
 
                 //Verifico se a venda já está gravada no banco

@@ -82,7 +82,7 @@ interface
 
 uses
    Forms, Windows, Classes, StdCtrls, ComCtrls, Variants, Messages, Dialogs, SysUtils, uFuncao, Buttons, Controls,
-   DBGrids, Grids, Mask, JvExMask, JvToolEdit, JvBaseEdits;
+   DBGrids, Grids, Mask, JvExMask, JvToolEdit, JvBaseEdits, Graphics;
 
 type
    TFormBase = class(TForm)
@@ -202,7 +202,7 @@ begin
          begin
             TDBGrid(Components[i]).Cursor       := -21;
             TDBGrid(Components[i]).DrawingStyle := gdsGradient;
-            TDBGrid(Components[i]).Options      := [dgTitles,dgIndicator,dgColumnResize,dgColLines,dgRowLines,dgTabs,dgRowSelect,dgTitleClick,dgTitleHotTrack];
+            TDBGrid(Components[i]).Options      := [dgTitles,dgIndicator,dgColumnResize,dgColLines,dgRowLines,dgTabs,dgRowSelect,dgTitleClick,dgTitleHotTrack,dgMultiSelect];
             TDBGrid(Components[i]).BorderStyle  := bsNone;
          end;
 
@@ -278,9 +278,18 @@ begin
 end;
 
 procedure TFormBaseCad.IniciarComponentes;
+var
+  i: integer;
 begin
   self.BorderStyle := bsSingle;
   self.BorderIcons := [biSystemMenu];
+
+  //Inicializa os componentes do form
+  for i := 0 to ComponentCount - 1 do
+  begin
+     if Components[i] is TEdit then
+        TEdit(Components[i]).Color := clSilver;
+  end;
   inherited;
 end;
 
