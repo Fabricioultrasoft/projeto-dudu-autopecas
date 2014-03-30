@@ -42,7 +42,7 @@ var
 
 const
      //Cláusula SELECT básica para todas as consultas
-     SELECT : string = 'SELECT D.ID, D.COD_DEVOLUCAO, D.N_VENDA, D.ITEM, D.EAN13, D.DATA, D.COD_FUNC, D.VALOR_ITEM, D.MOTIVO, D.OBSERVACAO, D.QTDE, D.ACAO_TOMADA, D.REF_PROD, D.STATUS, P.DESC_PROD ' +
+     SELECT : string = 'SELECT D.ID, D.COD_DEVOLUCAO, D.N_VENDA, D.ITEM, D.EAN13, D.DATA, D.COD_FUNC, D.VALOR_ITEM, D.MOTIVO, D.OBSERVACAO, D.QTDE, D.ACAO_TOMADA, D.REF_PROD, D.STATUS, P.DESC_PROD, D.UND ' +
                        'FROM DEVOLUCAO D INNER JOIN PRODUTO P ON D.EAN13 = P.EAN13 ';
 
      //Cláusula WHERE básica para todas as consultas
@@ -158,7 +158,9 @@ begin
        dm.cdsDevolucao.Open;
        dm.cdsDevolucao.Refresh;
        btnTrocaDevolucao.Enabled := false;
-    end;
+    end
+    else
+       dm.cdsDevolucao.Close;
 end;
 
 procedure TfrmProcuraDevolucao.FormKeyDown(Sender: TObject; var Key: Word;

@@ -115,7 +115,9 @@ begin
             frmMenu.FNomeUser   := qry.Fields[2].AsString;
             frmMenu.FPrivilegio := qry.Fields[3].AsString;
             Result := True;
-         end;
+         end
+         else
+            MessageDlg('Dados incorretos, digite novamente!', mtError, [mbOK], 0);
 
      except
          on E:Exception do
@@ -138,6 +140,7 @@ begin
     if not Autentica then
     begin
        LimpaCampos;
+       edtUsuario.SetFocus;
     end
     else
     begin

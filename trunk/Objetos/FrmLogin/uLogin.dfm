@@ -177,18 +177,18 @@ object frmLogin: TfrmLogin
     object lblVersao: TLabel
       Left = 279
       Top = 56
-      Width = 56
+      Width = 60
       Height = 16
       Caption = 'Vers'#227'o :'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clHotLight
       Font.Height = -13
       Font.Name = 'Verdana'
-      Font.Style = []
+      Font.Style = [fsBold]
       ParentFont = False
     end
     object lblReleaase: TLabel
-      Left = 341
+      Left = 345
       Top = 56
       Width = 72
       Height = 16
@@ -203,14 +203,14 @@ object frmLogin: TfrmLogin
     object Label10: TLabel
       Left = 279
       Top = 34
-      Width = 113
+      Width = 117
       Height = 16
       Caption = 'WLL - SISTEMAS'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clHotLight
       Font.Height = -13
       Font.Name = 'Verdana'
-      Font.Style = []
+      Font.Style = [fsBold]
       ParentFont = False
     end
   end
@@ -254,7 +254,7 @@ object frmLogin: TfrmLogin
       ParentFont = False
     end
     object Label3: TLabel
-      Left = 280
+      Left = 296
       Top = 56
       Width = 39
       Height = 14
@@ -267,7 +267,7 @@ object frmLogin: TfrmLogin
       ParentFont = False
     end
     object Label4: TLabel
-      Left = 384
+      Left = 389
       Top = 56
       Width = 39
       Height = 14
@@ -282,22 +282,22 @@ object frmLogin: TfrmLogin
     object lblTitulo: TLabel
       Left = 205
       Top = 24
-      Width = 126
+      Width = 140
       Height = 14
       Caption = 'TITULO DO SISTEMA'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clHotLight
       Font.Height = -12
       Font.Name = 'Verdana'
-      Font.Style = []
+      Font.Style = [fsBold]
       ParentFont = False
     end
     object Label6: TLabel
-      Left = 96
+      Left = 90
       Top = 56
-      Width = 158
+      Width = 196
       Height = 14
-      Caption = 'Windows XP/Vista/Seven'
+      Caption = 'Windows XP/Vista/Seven/8/8.1'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clHotLight
       Font.Height = -12
@@ -306,7 +306,7 @@ object frmLogin: TfrmLogin
       ParentFont = False
     end
     object lblHora: TLabel
-      Left = 322
+      Left = 338
       Top = 56
       Width = 44
       Height = 14
@@ -320,7 +320,7 @@ object frmLogin: TfrmLogin
       ParentFont = False
     end
     object lblData: TLabel
-      Left = 426
+      Left = 431
       Top = 56
       Width = 44
       Height = 14

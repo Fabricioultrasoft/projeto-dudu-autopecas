@@ -149,9 +149,18 @@ object frmProcuraDevolucao: TfrmProcuraDevolucao
       item
         Alignment = taCenter
         Expanded = False
+        FieldName = 'UND'
+        Title.Alignment = taCenter
+        Width = 40
+        Visible = True
+      end
+      item
+        Alignment = taCenter
+        Expanded = False
         FieldName = 'VALOR_ITEM'
         Title.Alignment = taCenter
         Title.Caption = 'VALOR DO ITEM'
+        Width = 100
         Visible = True
       end>
   end
@@ -162,8 +171,6 @@ object frmProcuraDevolucao: TfrmProcuraDevolucao
     Height = 72
     Align = alBottom
     TabOrder = 3
-    ExplicitLeft = -5
-    ExplicitWidth = 938
     object lbl6: TLabel
       Left = 6
       Top = 53

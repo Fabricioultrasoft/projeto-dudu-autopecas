@@ -297,7 +297,6 @@ object frmTrocaDevolucao: TfrmTrocaDevolucao
     Height = 72
     Align = alBottom
     TabOrder = 2
-    ExplicitTop = 324
     object lbl6: TLabel
       Left = 4
       Top = 55

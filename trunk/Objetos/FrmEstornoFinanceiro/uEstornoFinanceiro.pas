@@ -34,8 +34,6 @@ type
   public
     sFVenda     : string;
 
-    procedure ImprimeCupom(Venda, Documento, Responsavel: string; Valor: double);
-    procedure ImprimirTela(Venda, Documento, Responsavel: string; Valor: double);
   end;
 
 var
@@ -77,9 +75,9 @@ begin
             qry.ParamByName('cartao').AsFloat    := 0;
             qry.ParamByName('nDoc').AsString     := edtDocDevolucao.Text;
             qry.ParamByName('tipoDoc').AsString  := 'E';
-            qry.ParamByName('resp').AsString     := 'WILLIAM';
+            qry.ParamByName('resp').AsString     := frmMenu.FNomeUser;
             qry.ParamByName('observ').AsString   := 'ESTORNO FINANCEIRO';
-            qry.ParamByName('estorn').AsFloat     := StrToFloat(edtValor.Text);
+            qry.ParamByName('estorn').AsFloat    := StrToFloat(edtValor.Text);
             qry.ExecSQL();
 
             // Atualiza a tabela de devolução se necessário
@@ -100,8 +98,7 @@ begin
                if dm.cdsDevolucao.ApplyUpdates(0) > 0 then raise Exception.Create('Falha ao atualizar tabela de devoluções!');
             end;
 
-            frmPDV.redtItem.Clear;
-            ImprimeCupom(sFVenda, edtDocDevolucao.Text, 'WILLIAM', StrToFloat(edtValor.Text));
+            frmPDV.FImpressao.ImprimirEstornoFinanceiro(sFVenda, edtDocDevolucao.Text, frmMenu.FNomeUser, StrToFloat(edtValor.Text));
             dmConexao.Conexao.CommitFreeAndNil(Trans);
             Self.Close;
         except
@@ -132,60 +129,6 @@ procedure TfrmEstornoFinanceiro.FormKeyDown(Sender: TObject; var Key: Word;
 begin
     if key = VK_ESCAPE then btnFechar.Click;
     if Key = VK_F5     then btnGravar.Click;
-end;
-
-procedure TfrmEstornoFinanceiro.ImprimeCupom(Venda, Documento, Responsavel: string;
-  Valor: double);
-var
-  texto: AnsiString;
-begin
-
-    texto := Concat(texto, frmPDV.FImpressora.InseriTraco(48, false, true));
-    texto := Concat(texto, '<ce><b>RELATÓRIO GERENCIAL</b></ce>'#10#10);
-    texto := Concat(texto, '<ce><b>ESTORNO FINANCEIRO</b></ce>'#10#10);
-    texto := Concat(texto, 'Número da Venda: ' + Venda + #10);
-    texto := Concat(texto, 'Número da Devolução: ' + Documento + #10);
-    texto := Concat(texto, 'Responsável: ' + Responsavel + #10);
-    texto := Concat(texto, 'Valor: ' + FormatFloat('R$ ##0.00', Valor) + #10);
-    texto := Concat(texto, 'Data: ' + FormatDateTime('dd/mm/yyyy', Date) + #10);
-    texto := Concat(texto, 'Hora: ' + FormatDateTime('hh:mm:ss', time) + #10);
-    texto := Concat(texto, frmPDV.FImpressora.InseriTraco(48, True, true));
-
-    ImprimirTela(Venda, Documento, Responsavel, Valor);
-    if frmPDV.FVerificacaoImpressora then
-    begin
-        frmPDV.FImpressora.ImprimeTextoTag(PAnsiChar(texto), frmMenu.FCabSangria);
-        frmPDV.FImpressora.AcionaGuilhotina(0);
-    end;
-end;
-
-procedure TfrmEstornoFinanceiro.ImprimirTela(Venda, Documento, Responsavel: string;
-  Valor: double);
-begin
-    if frmMenu.FCabSangria then
-    begin
-        frmPDV.redtItem.Paragraph.Alignment := taCenter;
-        frmPDV.redtItem.Lines.Add(frmMenu.FMsgCabecalho);
-        frmPDV.redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
-        frmPDV.redtItem.Lines.Add('*** ' + frmMenu.FRazao + ' ***');
-        frmPDV.redtItem.Lines.Add('CNPJ: ' + frmMenu.FCNPJ  + ' Inscrição Estadual: '+ frmMenu.FInscricao);
-        frmPDV.redtItem.Lines.Add('Rua: '+ frmMenu.FRua +', Número: '+ frmMenu.FNumero+ ' Bairro: ' + frmMenu.FBairro);
-        frmPDV.redtItem.Lines.Add('Cidade: ' + frmMenu.FCidade);
-        frmPDV.redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
-    end;
-
-    frmPDV.redtItem.Paragraph.Alignment := taCenter;
-    frmPDV.redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
-    frmPDV.redtItem.Lines.Add('RELATÓRIO GERENCIAL'+#10);
-    frmPDV.redtItem.Lines.Add('ESTORNO FINANCEIRO'+#10);
-    frmPDV.redtItem.Paragraph.Alignment := taLeftJustify;
-    frmPDV.redtItem.Lines.Add('Número da Venda: ' + Venda);
-    frmPDV.redtItem.Lines.Add('Número da Devolução: ' + Documento);
-    frmPDV.redtItem.Lines.Add('Responsável: ' + Responsavel);
-    frmPDV.redtItem.Lines.Add('Valor: ' + FormatFloat('R$ ##0.00', Valor));
-    frmPDV.redtItem.Lines.Add('Data: ' + FormatDateTime('dd/mm/yyyy', Date));
-    frmPDV.redtItem.Lines.Add('Hora: ' + FormatDateTime('hh:mm:ss', time));
-    frmPDV.redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
 end;
 
 end.

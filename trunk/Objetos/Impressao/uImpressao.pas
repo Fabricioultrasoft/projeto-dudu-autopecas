@@ -41,6 +41,7 @@ type
           procedure ImprimirMsgRodape(); virtual;
           procedure ImprimirMsgCabecalho(); virtual;
           procedure ImprimirFinalizacao(Total, SubTotal, Desconto, ValeTroca, Dinheiro, Cheque, Cartao, Ticket, ValorPago, Troco: Double); virtual;
+          procedure ImprimirEstornoFinanceiro(Venda, Documento, Responsavel: string; Valor: double);
           property StatusImpressora: Boolean read getStatusImpressora write setStatusImpressora;
 
           constructor Create(CabSuprimento, CabSangria, CabFechamento: Boolean; var RichEdit: TRichEdit;
@@ -157,6 +158,43 @@ begin
     end;
 end;
 
+procedure TImpressao.ImprimirEstornoFinanceiro(Venda, Documento,
+  Responsavel: string; Valor: double);
+begin
+    FRichEdit.Clear;
+    FRichEdit.Paragraph.Alignment := taCenter;
+    FRichEdit.Lines.Add(TImpressora.InseriTraco(66, false, false));
+    FRichEdit.SelAttributes.Style:=[fsBold];
+    FRichEdit.Lines.Add('RELATÓRIO GERENCIAL'+#10);
+    FRichEdit.SelAttributes.Style:=[];
+    FRichEdit.Lines.Add('ESTORNO FINANCEIRO'+#10);
+    FRichEdit.Paragraph.Alignment := taLeftJustify;
+    FRichEdit.Lines.Add('Número da Venda: ' + Venda);
+    FRichEdit.Lines.Add('Número da Devolução: ' + Documento);
+    FRichEdit.Lines.Add('Responsável: ' + Responsavel);
+    FRichEdit.Lines.Add('Valor: ' + FormatFloat('R$ ##0.00', Valor));
+    FRichEdit.Lines.Add('Data: ' + FormatDateTime('dd/mm/yyyy', Date));
+    FRichEdit.Lines.Add('Hora: ' + FormatDateTime('hh:mm:ss', time));
+    FRichEdit.Lines.Add(TImpressora.InseriTraco(66, false, false));
+
+    if getStatusImpressora then
+    begin
+        Texto := '';
+        Texto := Concat(Texto, FImpressora.InseriTraco(48, false, true));
+        Texto := Concat(Texto, '<ce><b>RELATÓRIO GERENCIAL</b></ce>'#10#10);
+        Texto := Concat(Texto, '<ce>ESTORNO FINANCEIRO</ce>'#10#10);
+        Texto := Concat(Texto, 'Número da Venda: ' + Venda + #10);
+        Texto := Concat(Texto, 'Número da Devolução: ' + Documento + #10);
+        Texto := Concat(Texto, 'Responsável: ' + Responsavel + #10);
+        Texto := Concat(Texto, 'Valor: ' + FormatFloat('R$ ##0.00', Valor) + #10);
+        Texto := Concat(Texto, 'Data: ' + FormatDateTime('dd/mm/yyyy', Date) + #10);
+        Texto := Concat(Texto, 'Hora: ' + FormatDateTime('hh:mm:ss', time) + #10);
+        Texto := Concat(Texto, FImpressora.InseriTraco(48, True, true));
+        FImpressora.ImprimeTextoTag(PAnsiChar(texto), false);
+        FImpressora.AcionaGuilhotina(0);
+    end;
+end;
+
 procedure TImpressao.ImprimirFinalizacao(Total, SubTotal, Desconto, ValeTroca, Dinheiro, Cheque, Cartao, Ticket, ValorPago, Troco: Double);
 begin
     FRichEdit.Paragraph.Alignment := taCenter;
@@ -178,7 +216,8 @@ begin
     FRichEdit.SelAttributes.Style:=[];
     FRichEdit.Paragraph.Alignment := taLeftJustify;
 
-    FRichEdit.Lines.Add('Forma de Pagamento:');
+    if ValeTroca <> SubTotal then
+       FRichEdit.Lines.Add('Forma de Pagamento:');
 
     if Dinheiro > 0 then
        FRichEdit.Lines.Add('DINHEIRO R$ ' + FormatFloat('##0.00', Dinheiro));
@@ -215,7 +254,9 @@ begin
             Texto := Concat(Texto, '<ad><c>DESCONTO(%) ' + FormatFloat('##.00', Desconto) + '</c></ad>'#10);
 
          Texto := Concat(Texto, '<ad><b>TOTAL R$ ' + FormatFloat('##0.00', Total) + '</b></ad>'#10);
-         Texto := Concat(Texto, '<c>Forma de Pagamento:</c>'#10);
+
+         if ValeTroca <> SubTotal then
+            Texto := Concat(Texto, '<c>Forma de Pagamento:</c>'#10);
 
          if Dinheiro > 0 then
             Texto := Concat(Texto, '<c>DINHEIRO R$ ' + FormatFloat('##0.00', Dinheiro) + '</c>'#10);

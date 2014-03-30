@@ -82,7 +82,7 @@ interface
 
 uses
    Forms, Windows, Classes, StdCtrls, ComCtrls, Variants, Messages, Dialogs, SysUtils, uFuncao, Buttons, Controls,
-   DBGrids, Grids, Mask, JvExMask, JvToolEdit, JvBaseEdits, Graphics;
+   DBGrids, Grids, Mask, JvExMask, JvToolEdit, JvBaseEdits, Graphics, ACBrBarCode;
 
 type
    TFormBase = class(TForm)
@@ -171,6 +171,9 @@ begin
 
         if Components[i] is TDateTimePicker then
            TDateTimePicker(Components[i]).Date := Now;
+
+        if Components[i] is TACBrBarCode then
+           TACBrBarCode(Components[i]).Text := '';
     end;
 end;
 
@@ -227,6 +230,7 @@ procedure TFormBaseCad.Cancelar;
 begin
   inherited;
   FOperacao := opNone;
+  LimpaCampos;
 end;
 
 constructor TFormBaseCad.Create(Awoner: TComponent);
