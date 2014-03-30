@@ -119,7 +119,7 @@ const
 implementation
 
 uses uDm, uProcura_Produto, uProcura_Fornecedor, UdmConexao, uProcuraDescarte,
-  uRelatorio;
+  uRelatorio, uMenu;
 
 {$R *.dfm}
 
@@ -325,7 +325,7 @@ begin
                   dm.qryDescarte.Params.ParamByName('motivo').AsString := mmoObservacao.Text;
                   dm.qryDescarte.Params.ParamByName('data').AsDateTime := dtpDescarte.Date;
                   dm.qryDescarte.Params.ParamByName('und').AsString    := cmbUnd.Text;
-                  dm.qryDescarte.Params.ParamByName('func').AsString   := '001';
+                  dm.qryDescarte.Params.ParamByName('func').AsString   := frmMenu.FCodUser;
                   dm.qryDescarte.Params.ParamByName('orig').AsString   := 'E';
                   dm.qryDescarte.Params.ParamByName('status').AsString := VerificarComboStatus;
                   dm.qryDescarte.ExecSQL();

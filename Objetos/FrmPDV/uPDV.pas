@@ -698,8 +698,9 @@ begin
      Self.Caption   := Application.Title + ' : PDV';
      redtItem.Color := HexToTColor('FFFFCC');
      lblData.Caption:= FormatDateTime('dd/mm/yyyy', Date);
-     lblTitulo.Caption := Application.Title;
-     lblVersao.Caption := 'Versão: ' + frmMenu.GetBuildInfo;
+     lblTitulo.Caption  := Application.Title;
+     lblVersao.Caption  := 'Versão: ' + frmMenu.GetBuildInfo;
+     lblOperador.Caption:= frmMenu.FNomeUser;
 end;
 
 procedure TfrmPDV.FormShow(Sender: TObject);

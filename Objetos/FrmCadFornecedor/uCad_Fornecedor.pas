@@ -35,7 +35,6 @@ type
     pnl: TPanel;
     Label3: TLabel;
     edtpesq: TEdit;
-    btnPesquisar: TBitBtn;
     Label15: TLabel;
     Label5: TLabel;
     Label2: TLabel;

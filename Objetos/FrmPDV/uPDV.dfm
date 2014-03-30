@@ -1,6 +1,6 @@
 object frmPDV: TfrmPDV
-  Left = 270
-  Top = 84
+  Left = 269
+  Top = 140
   ActiveControl = edtConsulta
   AutoSize = True
   BorderStyle = bsNone
@@ -7703,8 +7703,8 @@ object frmPDV: TfrmPDV
     Proportional = True
   end
   object lblHora: TLabel
-    Left = 1088
-    Top = 74
+    Left = 1085
+    Top = 73
     Width = 137
     Height = 16
     Alignment = taRightJustify
@@ -7717,8 +7717,8 @@ object frmPDV: TfrmPDV
     ParentFont = False
   end
   object lblCaixa: TLabel
-    Left = 1088
-    Top = 36
+    Left = 1085
+    Top = 34
     Width = 137
     Height = 16
     Alignment = taRightJustify
@@ -7732,9 +7732,9 @@ object frmPDV: TfrmPDV
     ParentFont = False
   end
   object lblOperador: TLabel
-    Left = 888
-    Top = 36
-    Width = 153
+    Left = 864
+    Top = 34
+    Width = 174
     Height = 16
     Alignment = taRightJustify
     AutoSize = False
@@ -7746,8 +7746,8 @@ object frmPDV: TfrmPDV
     ParentFont = False
   end
   object lblData: TLabel
-    Left = 888
-    Top = 74
+    Left = 885
+    Top = 73
     Width = 153
     Height = 16
     Alignment = taRightJustify

@@ -56,7 +56,7 @@ const
 
 implementation
 
-uses uDm, UdmConexao;
+uses uDm, UdmConexao, uMenu;
 
 {$R *.dfm}
 
@@ -102,7 +102,7 @@ begin
                 dm.qryDevolucao.ParamByName('observacao').AsString:= mmoObsevacao.Lines.Text;
                 dm.qryDevolucao.ParamByName('acao').AsString      := cmbAcaoTomada.Text;
                 dm.qryDevolucao.ParamByName('qtde').AsFloat       := edtQtdeDevolvida.Value;
-                dm.qryDevolucao.ParamByName('func').AsString      := '002';
+                dm.qryDevolucao.ParamByName('func').AsString      := frmMenu.FCodUser;
                 dm.qryDevolucao.ParamByName('venda').AsString     := dm.cdsItem_Venda.FieldByName('N_VENDA').AsString;
                 dm.qryDevolucao.ParamByName('item').AsInteger     := dm.cdsItem_Venda.FieldByName('ID_ITEM').AsInteger;
                 dm.qryDevolucao.ParamByName('data').AsDateTime    := Date;

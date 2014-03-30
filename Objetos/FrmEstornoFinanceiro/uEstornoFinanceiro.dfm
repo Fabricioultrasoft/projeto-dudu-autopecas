@@ -38,7 +38,6 @@ object frmEstornoFinanceiro: TfrmEstornoFinanceiro
     Height = 180
     Align = alClient
     TabOrder = 1
-    ExplicitHeight = 157
     object lbl1: TLabel
       Left = 21
       Top = 31
@@ -227,7 +226,6 @@ object frmEstornoFinanceiro: TfrmEstornoFinanceiro
     Height = 72
     Align = alBottom
     TabOrder = 2
-    ExplicitTop = 214
     object btnFechar: TBitBtn
       Left = 349
       Top = 6

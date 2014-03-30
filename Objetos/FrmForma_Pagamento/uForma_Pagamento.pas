@@ -64,7 +64,7 @@ var
 
 implementation
 
-uses uDm, uPDV, uProcura_Cliente, uCad_Cliente, uProcuraDevolucao;
+uses uDm, uPDV, uProcura_Cliente, uCad_Cliente, uProcuraDevolucao, uMenu;
 
 {$R *.dfm}
 
@@ -150,7 +150,7 @@ begin
          //Verifica se a soma das formas de pagamento é igual ao valor total
          if VerificaValores(StrToFloat(edtSubTotal.Text), StrToFloat(edtTotal.Text), edtDinheiro.Value,  edtCheque.Value, edtCartao.Value, edtTicket.Value) and (edtCliente.Text <> '') then
          begin
-             FrmPDV.sFID_Funcionario := '002';
+             FrmPDV.sFID_Funcionario := frmMenu.FCodUser;
              frmPDV.sFCod_cli        := edtCliente.Text;
              frmPDV.dFSub_total      := StrToFloat(edtSubTotal.Text);
              frmPDV.dFDesconto       := edtDesconto.Value;
