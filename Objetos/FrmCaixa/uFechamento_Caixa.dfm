@@ -1,10 +1,10 @@
 object frmFechamento_Caixa: TfrmFechamento_Caixa
   Left = 439
-  Top = 151
+  Top = 150
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Fechamento de Caixa'
-  ClientHeight = 623
+  ClientHeight = 624
   ClientWidth = 704
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -130,11 +130,12 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
   end
   object pnl3: TPanel
     Left = 0
-    Top = 551
+    Top = 552
     Width = 704
     Height = 72
     Align = alBottom
     TabOrder = 3
+    ExplicitTop = 551
     object btn1: TBitBtn
       Left = 578
       Top = 8
@@ -156,8 +157,8 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
       ParentFont = False
       TabOrder = 0
     end
-    object btn2: TBitBtn
-      Left = 457
+    object btnImprimir: TBitBtn
+      Left = 455
       Top = 8
       Width = 121
       Height = 59
@@ -191,14 +192,14 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
       ShowHint = True
       Spacing = 10
       TabOrder = 1
-      OnClick = btn2Click
+      OnClick = btnImprimirClick
     end
   end
   object pnl4: TPanel
     Left = 0
     Top = 161
     Width = 704
-    Height = 390
+    Height = 391
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -213,7 +214,7 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
       Left = 1
       Top = 1
       Width = 702
-      Height = 388
+      Height = 389
       Cursor = crHandPoint
       ActivePage = tsValores
       Align = alClient
@@ -227,13 +228,15 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
       ExplicitHeight = 368
       object tsValores: TTabSheet
         Caption = 'Valores'
+        ExplicitHeight = 353
         object grp2: TGroupBox
           Left = 0
           Top = 0
           Width = 694
-          Height = 353
+          Height = 354
           Align = alClient
           TabOrder = 0
+          ExplicitHeight = 353
           object lbl7: TLabel
             Left = 92
             Top = 147
@@ -515,15 +518,12 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
         Font.Style = []
         ImageIndex = 1
         ParentFont = False
-        ExplicitLeft = 0
-        ExplicitTop = 0
-        ExplicitWidth = 0
-        ExplicitHeight = 337
+        ExplicitHeight = 353
         object grdRegistros: TDBGrid
           Left = 0
           Top = 0
           Width = 694
-          Height = 353
+          Height = 354
           Cursor = crHandPoint
           Align = alClient
           DataSource = dm.dtsCaixa

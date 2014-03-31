@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, ExtCtrls, ComCtrls, Grids, DBGrids, Buttons, FMTBcd, DB,
-  SqlExpr, uFormBase, uImpressora;
+  SqlExpr, uFormBase, uImpressora, uImpressao;
 
 type
   TfrmFechamento_Caixa = class(TFormBase)
@@ -41,7 +41,7 @@ type
     edtSuprimento: TEdit;
     Label1: TLabel;
     edtTicket: TEdit;
-    btn2: TBitBtn;
+    btnImprimir: TBitBtn;
     Label2: TLabel;
     edtEstorno: TEdit;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -50,7 +50,7 @@ type
     procedure dtpIncialChange(Sender: TObject);
     procedure dtpFinalChange(Sender: TObject);
     procedure grdRegistrosTitleClick(Column: TColumn);
-    procedure btn2Click(Sender: TObject);
+    procedure btnImprimirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -60,6 +60,8 @@ type
 
 var
   frmFechamento_Caixa: TfrmFechamento_Caixa;
+  FImpressao : TImpressao;
+  dinheiro, cartao, cheque, ticket, subtotal, sangria, suprimento, estorno, total: Double;
 
 const
     // Instrução SQL padrão para soma
@@ -82,28 +84,10 @@ uses uDm, UdmConexao, uProgresso, uMenu;
 
 {$R *.dfm}
 
-procedure TfrmFechamento_Caixa.btn2Click(Sender: TObject);
-var
-  texto: AnsiString;
+procedure TfrmFechamento_Caixa.btnImprimirClick(Sender: TObject);
 begin
     FImpressora := TImpressora.Create(miEpson, PAnsiChar('USB'));
-
-    texto := Concat(texto, FImpressora.InseriTraco(48, false, true));
-    texto := Concat(texto, '<ce><b>RELATÓRIO GERENCIAL</b></ce>'#10);
-    texto := Concat(texto, '<ce>FECHAMENTO DE CAIXA</ce>'#10#10);
-    texto := Concat(texto, 'Responsável: William'#10);
-    texto := Concat(texto, 'Hora: ' + FormatDateTime('hh:mm:ss', time) + #10);
-    texto := Concat(texto, 'Período: ' + FormatDateTime('dd/mm/yyyy', dtpIncial.Date) + ' à ' + FormatDateTime('dd/mm/yyyy', dtpFinal.Date)  + #10#10);
-    texto := Concat(texto, 'DINHEIRO: ' + edtDinheiro.Text + #10);
-    texto := Concat(texto, 'CARTÃO: ' + edtCartao.Text + #10);
-    texto := Concat(texto, 'CHEQUE: ' + edtCheque.Text + #10);
-    texto := Concat(texto, 'TICKET: ' + edtTicket.Text + #10);
-    texto := Concat(texto, 'TOTAL VENDIDO: ' + edtSubTotal.Text + #10#10);
-    texto := Concat(texto, 'RETIRADAS: ' + edtSangria.Text + #10);
-    texto := Concat(texto, 'SUPRIMENTOS: ' + edtSuprimento.Text + #10);
-    texto := Concat(texto, 'ESTORNOS FINANCEIROS: ' + edtEstorno.Text + #10#10);
-    texto := Concat(texto, 'TOTAL NO CAIXA: ' + edtTotal.Text + #10);
-    texto := Concat(texto, FImpressora.InseriTraco(48, True, true));
+    FImpressao  := TImpressao.Create(frmMenu.FCabFechamento, FImpressora);
 
     try
         frmProgresso := TfrmProgresso.Create(nil);
@@ -111,19 +95,15 @@ begin
     finally
         FreeAndNil(frmProgresso);
     end;
-
-    if FVerificacaoImpressora then
-    begin
-        FImpressora.ImprimeTextoTag(PAnsiChar(texto),  frmMenu.FCabFechamento);
-        FImpressora.AcionaGuilhotina(0);
-    end;
+    FImpressao.StatusImpressora := FVerificacaoImpressora;
+    FImpressao.ImprimiFechamentoCaixa(frmMenu.FNomeUser, dtpIncial.Date, dtpFinal.Date, dinheiro, cartao, cheque, ticket, subtotal,
+                                      sangria, suprimento, estorno, total);
 end;
 
 procedure TfrmFechamento_Caixa.CarregaConsulta;
 var
    select: string;
    qrySoma: TSQLQuery;
-   subtotal, sangria, suprimento, estorno: Double;
 begin
     try
         //Instâncio objeto do tipo TSQLQuery e seto a conexão com o banco de dados
@@ -151,9 +131,13 @@ begin
         qrySoma.ParamByName('DTF').AsDate := dtpFinal.Date;
         qrySoma.Open;
         edtDinheiro.Text := FormatFloat('R$ ##,##0.00', qrySoma.Fields[0].Value);
+        dinheiro         := qrySoma.Fields[0].Value;
         edtCheque.Text   := FormatFloat('R$ ##,##0.00', qrySoma.Fields[1].Value);
+        cheque           := qrySoma.Fields[1].Value;
         edtCartao.Text   := FormatFloat('R$ ##,##0.00', qrySoma.Fields[2].Value);
+        cartao           := qrySoma.Fields[2].Value;
         edtTicket.Text   := FormatFloat('R$ ##,##0.00', qrySoma.Fields[3].Value);
+        ticket           := qrySoma.Fields[3].Value;
         edtEstorno.Text  := FormatFloat('R$ ##,##0.00', qrySoma.Fields[4].Value);
         estorno          := qrySoma.Fields[4].Value;
 
@@ -183,6 +167,7 @@ begin
 
         // Calcula o total deduzindo a sangria
         edtTotal.Text   := FormatFloat('R$ ##,##0.00', ((suprimento + subtotal)- (sangria + estorno)));
+        total           := ((suprimento + subtotal)- (sangria + estorno));
 
     finally
          FreeAndNil(qrySoma);
