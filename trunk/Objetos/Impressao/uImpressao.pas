@@ -42,12 +42,13 @@ type
           procedure ImprimirMsgCabecalho(); virtual;
           procedure ImprimirFinalizacao(Total, SubTotal, Desconto, ValeTroca, Dinheiro, Cheque, Cartao, Ticket, ValorPago, Troco: Double); virtual;
           procedure ImprimirEstornoFinanceiro(Venda, Documento, Responsavel: string; Valor: double);
+          procedure ImprimiFechamentoCaixa(Responsavel: string; dtpInicial, dtpFinal: TDateTime; Dinheiro, Cartao, Cheque, Ticket, TotalVendido,
+                                           Retirada, Suprimento, Estorno, TotalCaixa: Double);
           property StatusImpressora: Boolean read getStatusImpressora write setStatusImpressora;
 
           constructor Create(CabSuprimento, CabSangria, CabFechamento: Boolean; var RichEdit: TRichEdit;
                              Empresa, CNPJ, Inscricao, Rua, Numero, Bairro, Cidade, MensagemCabecalho, MensagemRodape: string; Impressora: TImpressora); overload;
-          constructor Create(CabSuprimento, CabSangria, CabFechamento: Boolean; var RichEdit: TRichEdit;
-                             MensagemCabecalho, MensagemRodape: string); overload;
+          constructor Create(CabFechamento: Boolean; Impressora: TImpressora); overload;
           constructor Create(CabSuprimento, CabSangria, CabFechamento: Boolean; var RichEdit: TRichEdit;
                              Empresa, CNPJ, Inscricao, Rua, Numero, Bairro, Cidade: string); overload;
    end;
@@ -75,16 +76,10 @@ begin
     FImpressora       := Impressora;
 end;
 
-constructor TImpressao.Create(CabSuprimento, CabSangria,
-  CabFechamento: Boolean; var RichEdit: TRichEdit; MensagemCabecalho,
-  MensagemRodape: string);
+constructor TImpressao.Create(CabFechamento: Boolean; Impressora: TImpressora);
 begin
-    FCabSuprimento    := CabSuprimento;
-    FCabSangria       := CabSangria;
     FCabFechamento    := CabFechamento;
-    FRichEdit         := RichEdit;
-    FMensagemCabecalho:= MensagemCabecalho;
-    FMensagemRodape   := MensagemRodape;
+    FImpressora       := Impressora;
 end;
 
 constructor TImpressao.Create(CabSuprimento, CabSangria,
@@ -102,6 +97,35 @@ begin
     FNumero           := Numero;
     FCidade           := Cidade;
     FBairro           := Bairro;
+end;
+
+procedure TImpressao.ImprimiFechamentoCaixa(Responsavel: string; dtpInicial,
+  dtpFinal: TDateTime; Dinheiro, Cartao, Cheque, Ticket, TotalVendido, Retirada,
+  Suprimento, Estorno, TotalCaixa: Double);
+begin
+    if getStatusImpressora then
+    begin
+        Texto := '';
+        Texto := Concat(texto, InseriTraco(48, false, true));
+        Texto := Concat(texto, '<ce><b>RELATÓRIO GERENCIAL</b></ce>'#10);
+        Texto := Concat(texto, '<ce>FECHAMENTO DE CAIXA</ce>'#10#10);
+        Texto := Concat(texto, 'Responsável: ' + Responsavel + #10);
+        Texto := Concat(texto, 'Hora: ' + FormatDateTime('hh:mm:ss', time) + #10);
+        Texto := Concat(texto, 'Período: ' + FormatDateTime('dd/mm/yyyy', dtpInicial) + ' à ' + FormatDateTime('dd/mm/yyyy', dtpFinal)  + #10#10);
+        Texto := Concat(texto, 'DINHEIRO: ' + FormatFloat('##,##0.00', Dinheiro) + #10);
+        Texto := Concat(texto, 'CARTÃO: ' + FormatFloat('##,##0.00', Cartao) + #10);
+        Texto := Concat(texto, 'CHEQUE: ' + FormatFloat('##,##0.00', Cheque)  + #10);
+        Texto := Concat(texto, 'TICKET: ' + FormatFloat('##,##0.00', Ticket)  + #10);
+        Texto := Concat(texto, 'TOTAL VENDIDO: ' + FormatFloat('##,##0.00', TotalVendido)  + #10#10);
+        Texto := Concat(texto, 'RETIRADAS: ' + FormatFloat('##,##0.00', Retirada)  + #10);
+        Texto := Concat(texto, 'SUPRIMENTOS: ' + FormatFloat('##,##0.00', Suprimento)  + #10);
+        Texto := Concat(texto, 'ESTORNOS FINANCEIROS: ' + FormatFloat('##,##0.00', Estorno)  + #10#10);
+        Texto := Concat(texto, 'TOTAL NO CAIXA: ' + FormatFloat('##,##0.00', TotalCaixa)  + #10);
+        Texto := Concat(texto, InseriTraco(48, True, true));
+
+        FImpressora.ImprimeTextoTag(PAnsiChar(Texto), FCabFechamento);
+        FImpressora.AcionaGuilhotina(0);
+    end;
 end;
 
 procedure TImpressao.ImprimirCabecalho(Venda: string);

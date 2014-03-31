@@ -157,9 +157,9 @@ begin
      Progresso.Visible  := true;
      while Progresso.Position < 100 do
      begin
-         Progresso.StepBy(10);
+         Progresso.StepBy(20);
          frmLogin.Update;
-         Sleep(300);
+         Sleep(100);
      end;
      Progresso.Visible  := false;
 end;
