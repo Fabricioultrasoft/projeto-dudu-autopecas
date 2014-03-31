@@ -1923,14 +1923,14 @@ object frmDescarte: TfrmDescarte
         end
         object Label2: TLabel
           Left = 53
-          Top = 49
+          Top = 69
           Width = 85
           Height = 16
           Caption = 'C'#243'digo EAN13:'
         end
         object Label10: TLabel
           Left = 314
-          Top = 50
+          Top = 70
           Width = 8
           Height = 14
           Caption = '*'
@@ -1943,28 +1943,28 @@ object frmDescarte: TfrmDescarte
         end
         object lbl5: TLabel
           Left = 18
-          Top = 105
+          Top = 125
           Width = 120
           Height = 16
           Caption = 'Refer'#234'n. do Produto:'
         end
         object Label6: TLabel
           Left = 428
-          Top = 108
+          Top = 128
           Width = 103
           Height = 16
           Caption = 'Data de Descarte:'
         end
         object Label4: TLabel
-          Left = 43
-          Top = 132
-          Width = 95
+          Left = 38
+          Top = 152
+          Width = 100
           Height = 16
-          Caption = 'Qtde Comprada:'
+          Caption = 'Qtde Descartada:'
         end
         object Label9: TLabel
           Left = 314
-          Top = 133
+          Top = 153
           Width = 8
           Height = 14
           Caption = '*'
@@ -1977,14 +1977,14 @@ object frmDescarte: TfrmDescarte
         end
         object lbl4: TLabel
           Left = 7
-          Top = 77
+          Top = 97
           Width = 131
           Height = 16
           Caption = 'C'#243'digo do Fornecedor:'
         end
         object Label11: TLabel
           Left = 314
-          Top = 78
+          Top = 98
           Width = 8
           Height = 14
           Caption = '*'
@@ -1997,14 +1997,14 @@ object frmDescarte: TfrmDescarte
         end
         object Label1: TLabel
           Left = 96
-          Top = 192
+          Top = 212
           Width = 42
           Height = 16
           Caption = 'Motivo:'
         end
         object Label5: TLabel
           Left = 709
-          Top = 193
+          Top = 213
           Width = 8
           Height = 14
           Caption = '*'
@@ -2017,7 +2017,7 @@ object frmDescarte: TfrmDescarte
         end
         object Label7: TLabel
           Left = 709
-          Top = 106
+          Top = 126
           Width = 8
           Height = 14
           Caption = '*'
@@ -2030,14 +2030,14 @@ object frmDescarte: TfrmDescarte
         end
         object Label8: TLabel
           Left = 87
-          Top = 160
+          Top = 180
           Width = 51
           Height = 16
           Caption = 'Unidade:'
         end
         object Label12: TLabel
           Left = 314
-          Top = 161
+          Top = 181
           Width = 8
           Height = 14
           Caption = '*'
@@ -2050,14 +2050,14 @@ object frmDescarte: TfrmDescarte
         end
         object lbl1: TLabel
           Left = 490
-          Top = 162
+          Top = 182
           Width = 41
           Height = 16
           Caption = 'Status:'
         end
         object lbl2: TLabel
           Left = 709
-          Top = 163
+          Top = 183
           Width = 8
           Height = 14
           Caption = '*'
@@ -2068,9 +2068,23 @@ object frmDescarte: TfrmDescarte
           Font.Style = [fsBold]
           ParentFont = False
         end
+        object lblStatusOperacao: TLabel
+          Left = 337
+          Top = 17
+          Width = 161
+          Height = 16
+          AutoSize = False
+          Caption = 'lblStatusOperacao'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clHotLight
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
         object edtCod_Prod: TJvComboEdit
           Left = 143
-          Top = 46
+          Top = 66
           Width = 170
           Height = 24
           Color = clSilver
@@ -2128,7 +2142,7 @@ object frmDescarte: TfrmDescarte
         end
         object lblDescricaoProduto: TEdit
           Left = 340
-          Top = 46
+          Top = 66
           Width = 366
           Height = 24
           Color = clSilver
@@ -2146,7 +2160,7 @@ object frmDescarte: TfrmDescarte
         end
         object edtReferencia: TEdit
           Left = 143
-          Top = 102
+          Top = 122
           Width = 170
           Height = 24
           Color = clSilver
@@ -2154,7 +2168,7 @@ object frmDescarte: TfrmDescarte
         end
         object dtpDescarte: TDateTimePicker
           Left = 537
-          Top = 105
+          Top = 125
           Width = 169
           Height = 24
           Date = 41711.559904166660000000
@@ -2163,7 +2177,7 @@ object frmDescarte: TfrmDescarte
         end
         object edtQtdeDescartada: TJvCalcEdit
           Left = 143
-          Top = 129
+          Top = 149
           Width = 170
           Height = 24
           Color = clSilver
@@ -2173,7 +2187,7 @@ object frmDescarte: TfrmDescarte
         end
         object edtCod_Forn: TJvComboEdit
           Left = 143
-          Top = 74
+          Top = 94
           Width = 170
           Height = 24
           Color = clSilver
@@ -2230,7 +2244,7 @@ object frmDescarte: TfrmDescarte
         end
         object lblDescricaoFornecedor: TEdit
           Left = 340
-          Top = 74
+          Top = 94
           Width = 366
           Height = 24
           CharCase = ecUpperCase
@@ -2249,7 +2263,7 @@ object frmDescarte: TfrmDescarte
         end
         object mmoObservacao: TMemo
           Left = 143
-          Top = 189
+          Top = 209
           Width = 563
           Height = 75
           CharCase = ecUpperCase
@@ -2265,7 +2279,7 @@ object frmDescarte: TfrmDescarte
         end
         object cmbUnd: TComboBox
           Left = 143
-          Top = 159
+          Top = 179
           Width = 170
           Height = 24
           Cursor = crHandPoint
@@ -2274,7 +2288,7 @@ object frmDescarte: TfrmDescarte
         end
         object cmbStatus: TComboBox
           Left = 536
-          Top = 159
+          Top = 179
           Width = 170
           Height = 24
           Cursor = crHandPoint
@@ -2289,10 +2303,6 @@ object frmDescarte: TfrmDescarte
     object TabSheet1: TTabSheet
       Caption = 'Pesquisa R'#225'pida'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object grp1: TGroupBox
         Left = 0
         Top = 0

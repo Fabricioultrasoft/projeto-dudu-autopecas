@@ -39,6 +39,7 @@ type
     Label5: TLabel;
     Label2: TLabel;
     btnCancelar: TBitBtn;
+    lblStatusOperacao: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure KeyDown(var Key: Word; Shift: TShiftState);override;
     procedure Incluir();                  override;

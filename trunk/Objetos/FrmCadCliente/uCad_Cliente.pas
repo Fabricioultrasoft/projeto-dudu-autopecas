@@ -52,6 +52,7 @@ type
     Label15: TLabel;
     btnCancelar: TBitBtn;
     ACBrValidador1: TACBrValidador;
+    lblStatusOperacao: TLabel;
     procedure btnSairClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure Incluir();                override;
@@ -270,6 +271,7 @@ procedure TfrmCadCliente.FormCreate(Sender: TObject);
 begin
     //Carrega os itens(Estados) do combobox com o conteúdo do arquivo UF.txt
     cmbUF.Items.LoadFromFile(ExtractFilePath(Application.ExeName) + 'UF.txt');
+
 end;
 
 

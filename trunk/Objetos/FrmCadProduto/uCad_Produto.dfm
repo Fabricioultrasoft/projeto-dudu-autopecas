@@ -1,6 +1,6 @@
 object frmCadProduto: TfrmCadProduto
-  Left = 928
-  Top = 400
+  Left = 320
+  Top = 181
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Cadastro de Produto'
@@ -1667,49 +1667,49 @@ object frmCadProduto: TfrmCadProduto
         TabOrder = 0
         object Label2: TLabel
           Left = 47
-          Top = 53
+          Top = 80
           Width = 126
           Height = 16
           Caption = 'Descri'#231#227'o do Produto:'
         end
         object Label3: TLabel
           Left = 432
-          Top = 108
+          Top = 135
           Width = 109
           Height = 16
           Caption = 'Unidade de Venda:'
         end
         object Label4: TLabel
           Left = 62
-          Top = 27
+          Top = 54
           Width = 110
           Height = 16
           Caption = 'C'#243'digo do Produto:'
         end
         object Label6: TLabel
           Left = 74
-          Top = 108
+          Top = 135
           Width = 99
           Height = 16
           Caption = 'Estoque  M'#237'nimo:'
         end
         object Label10: TLabel
           Left = 73
-          Top = 80
+          Top = 107
           Width = 100
           Height = 16
           Caption = 'C'#243'digo do Grupo:'
         end
         object Label1: TLabel
           Left = 131
-          Top = 136
+          Top = 163
           Width = 42
           Height = 16
           Caption = 'EAN13:'
         end
         object Label9: TLabel
           Left = 716
-          Top = 54
+          Top = 81
           Width = 8
           Height = 14
           Caption = '*'
@@ -1735,7 +1735,7 @@ object frmCadProduto: TfrmCadProduto
         end
         object Label12: TLabel
           Left = 323
-          Top = 109
+          Top = 136
           Width = 8
           Height = 14
           Caption = '*'
@@ -1748,7 +1748,7 @@ object frmCadProduto: TfrmCadProduto
         end
         object Label13: TLabel
           Left = 323
-          Top = 81
+          Top = 108
           Width = 8
           Height = 14
           Caption = '*'
@@ -1774,7 +1774,7 @@ object frmCadProduto: TfrmCadProduto
         end
         object Label17: TLabel
           Left = 716
-          Top = 109
+          Top = 136
           Width = 8
           Height = 14
           Caption = '*'
@@ -1787,7 +1787,7 @@ object frmCadProduto: TfrmCadProduto
         end
         object ACBrBarCode: TACBrBarCode
           Left = 178
-          Top = 163
+          Top = 190
           Width = 96
           Height = 47
           Modul = 1
@@ -1803,14 +1803,28 @@ object frmCadProduto: TfrmCadProduto
         end
         object Label18: TLabel
           Left = 432
-          Top = 135
+          Top = 162
           Width = 133
           Height = 16
           Caption = 'Gerar C'#243'digo de Barra:'
         end
+        object lblStatusOperacao: TLabel
+          Left = 315
+          Top = 13
+          Width = 161
+          Height = 16
+          AutoSize = False
+          Caption = 'lblStatusOperacao'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clHotLight
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
         object edtCodigo: TEdit
           Left = 176
-          Top = 23
+          Top = 50
           Width = 144
           Height = 24
           CharCase = ecUpperCase
@@ -1826,7 +1840,7 @@ object frmCadProduto: TfrmCadProduto
         end
         object edtDesc: TEdit
           Left = 176
-          Top = 50
+          Top = 77
           Width = 537
           Height = 24
           CharCase = ecUpperCase
@@ -1835,7 +1849,7 @@ object frmCadProduto: TfrmCadProduto
         end
         object edtEAN13: TEdit
           Left = 176
-          Top = 133
+          Top = 160
           Width = 210
           Height = 24
           Color = clSilver
@@ -1851,7 +1865,7 @@ object frmCadProduto: TfrmCadProduto
         end
         object cmbUnd: TComboBox
           Left = 544
-          Top = 105
+          Top = 132
           Width = 169
           Height = 24
           Cursor = crHandPoint
@@ -1860,7 +1874,7 @@ object frmCadProduto: TfrmCadProduto
         end
         object GroupBox1: TGroupBox
           Left = 71
-          Top = 232
+          Top = 247
           Width = 669
           Height = 113
           Caption = 'Opcional:'
@@ -1943,7 +1957,7 @@ object frmCadProduto: TfrmCadProduto
         end
         object edtEstoque: TJvCalcEdit
           Left = 176
-          Top = 105
+          Top = 132
           Width = 144
           Height = 24
           Color = clSilver
@@ -1954,7 +1968,7 @@ object frmCadProduto: TfrmCadProduto
         end
         object edtGrupo: TJvComboEdit
           Left = 176
-          Top = 77
+          Top = 104
           Width = 144
           Height = 24
           Cursor = crHandPoint
@@ -2013,7 +2027,7 @@ object frmCadProduto: TfrmCadProduto
         end
         object edtDescricaoGrupo: TEdit
           Left = 375
-          Top = 77
+          Top = 104
           Width = 338
           Height = 24
           CharCase = ecUpperCase
@@ -2032,7 +2046,7 @@ object frmCadProduto: TfrmCadProduto
         end
         object BitBtn1: TBitBtn
           Left = 568
-          Top = 133
+          Top = 160
           Width = 49
           Height = 24
           Hint = 'Gerar C'#243'digo de Barra'
@@ -2110,7 +2124,7 @@ object frmCadProduto: TfrmCadProduto
         end
         object btnAdicionarGrupo: TBitBtn
           Left = 337
-          Top = 77
+          Top = 104
           Width = 30
           Height = 25
           Hint = 'CADASTRAR GRUPO'

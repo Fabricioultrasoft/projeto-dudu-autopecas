@@ -56,6 +56,7 @@ type
     ACBrBarCode: TACBrBarCode;
     Label18: TLabel;
     btnAdicionarGrupo: TBitBtn;
+    lblStatusOperacao: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnSairClick(Sender: TObject);
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;

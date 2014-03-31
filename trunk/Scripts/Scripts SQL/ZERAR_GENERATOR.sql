@@ -1,6 +1,7 @@
 SET GENERATOR gen_agenda_id TO 0;
 SET GENERATOR gen_caixa_id  TO 0;
 SET GENERATOR gen_cliente_id TO 0;
+SET GENERATOR gen_entrada_nf_id TO 0;
 SET GENERATOR gen_entrada_produto_id TO 0;
 SET GENERATOR gen_estoque_id TO 0;
 SET GENERATOR gen_fornecedor_id TO 0;
@@ -13,3 +14,6 @@ SET GENERATOR gen_pagamento_id TO 0;
 SET GENERATOR gen_produto_id TO 0;
 SET GENERATOR gen_usuario_id TO 0;
 SET GENERATOR gen_venda_id TO 0;
+SET GENERATOR gen_descarte_id TO 0;
+SET GENERATOR gen_devolucao_id TO 0;
+SET GENERATOR gen_unidade_id TO 0;

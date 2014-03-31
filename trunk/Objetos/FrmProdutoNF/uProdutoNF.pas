@@ -53,6 +53,7 @@ type
     btnAtualizarValores: TBitBtn;
     ACBrEnterTab1: TACBrEnterTab;
     btnAdicionarGrupo: TBitBtn;
+    lblStatusOperacao: TLabel;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure edtCod_ProdButtonClick(Sender: TObject);

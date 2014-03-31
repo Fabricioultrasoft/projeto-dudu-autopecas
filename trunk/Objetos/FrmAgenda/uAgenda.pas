@@ -33,6 +33,7 @@ type
     edtEmail: TEdit;
     btn1: TBitBtn;
     btnCancelar: TBitBtn;
+    lblStatusOperacao: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnSairClick(Sender: TObject);
     procedure Incluir();                 override;

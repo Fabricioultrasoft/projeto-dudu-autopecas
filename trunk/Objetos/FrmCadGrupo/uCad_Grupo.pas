@@ -30,6 +30,7 @@ type
     pnl: TPanel;
     Label4: TLabel;
     edtpesq: TEdit;
+    lblStatusOperacao: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnSairClick(Sender: TObject);
     procedure Incluir;                     override;

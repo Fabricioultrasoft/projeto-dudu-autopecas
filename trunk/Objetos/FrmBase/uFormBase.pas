@@ -111,6 +111,7 @@ type
       procedure Cancelar(); virtual;
       procedure KeyDown(var Key: Word; Shift: TShiftState); override;
       procedure DoClose(var Action: TCloseAction);override;
+      procedure DoCreate; override;
       procedure IniciarComponentes();override;
 
   public
@@ -229,7 +230,7 @@ end;
 procedure TFormBaseCad.Cancelar;
 begin
   inherited;
-  FOperacao := opNone;
+  SetOperacao(opNone);
   LimpaCampos;
 end;
 
@@ -249,6 +250,12 @@ begin
           Gravar(FOperacao);
        end;
      end;
+end;
+
+procedure TFormBaseCad.DoCreate;
+begin
+  inherited;
+  self.SetOperacao(opNone);
 end;
 
 procedure TFormBaseCad.Editar;
@@ -310,8 +317,29 @@ begin
 end;
 
 procedure TFormBaseCad.SetOperacao(Operacao: TOperacao);
+var
+  i: integer;
+  status: string;
 begin
     FOperacao := Operacao;
+
+    if FOperacao = opInsert then
+       status := 'INSERINDO'
+    else
+       if FOperacao = opUpdate then
+          status := 'EDITANDO'
+       else
+          if FOperacao = opDelete then
+             status := 'EXCLUINDO'
+          else
+             if FOperacao = opNone then
+                status := 'NAVEGANDO';
+
+    for i := 0 to ComponentCount - 1 do
+    begin
+       if (Components[i] is TLabel) and (TLabel(Components[i]).Name = 'lblStatusOperacao') then
+          TLabel(Components[i]).Caption := status;
+    end;
 end;
 
 end.

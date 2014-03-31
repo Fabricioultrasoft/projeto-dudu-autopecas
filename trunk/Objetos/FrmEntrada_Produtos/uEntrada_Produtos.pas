@@ -47,6 +47,7 @@ type
     Label6: TLabel;
     btnCancelar: TBitBtn;
     btnAdicionarGrupo: TBitBtn;
+    lblStatusOperacao: TLabel;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure Incluir();                   override;
     procedure Editar();                    override;

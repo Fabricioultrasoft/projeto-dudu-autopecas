@@ -1403,7 +1403,7 @@ object frmCadGrupo: TfrmCadGrupo
     Width = 612
     Height = 271
     Cursor = crHandPoint
-    ActivePage = TabSheet1
+    ActivePage = tsCadastro
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -1425,14 +1425,14 @@ object frmCadGrupo: TfrmCadGrupo
         TabOrder = 0
         object Label1: TLabel
           Left = 77
-          Top = 108
+          Top = 131
           Width = 115
           Height = 16
           Caption = 'Descri'#231#227'o do grupo:'
         end
         object lbl2: TLabel
           Left = 148
-          Top = 82
+          Top = 105
           Width = 44
           Height = 16
           Caption = 'C'#243'digo:'
@@ -1452,7 +1452,7 @@ object frmCadGrupo: TfrmCadGrupo
         end
         object Label5: TLabel
           Left = 477
-          Top = 109
+          Top = 132
           Width = 8
           Height = 14
           Caption = '*'
@@ -1463,9 +1463,23 @@ object frmCadGrupo: TfrmCadGrupo
           Font.Style = [fsBold]
           ParentFont = False
         end
+        object lblStatusOperacao: TLabel
+          Left = 227
+          Top = 16
+          Width = 161
+          Height = 16
+          AutoSize = False
+          Caption = 'lblStatusOperacao'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clHotLight
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
         object edtDescricao: TEdit
           Left = 198
-          Top = 105
+          Top = 128
           Width = 276
           Height = 24
           CharCase = ecUpperCase
@@ -1474,7 +1488,7 @@ object frmCadGrupo: TfrmCadGrupo
         end
         object edtCodigo: TEdit
           Left = 198
-          Top = 79
+          Top = 102
           Width = 135
           Height = 24
           CharCase = ecUpperCase
