@@ -1448,6 +1448,20 @@ object frmCadAgenda: TfrmCadAgenda
           Height = 16
           Caption = 'E-mail:'
         end
+        object lblStatusOperacao: TLabel
+          Left = 259
+          Top = 16
+          Width = 161
+          Height = 16
+          AutoSize = False
+          Caption = 'lblStatusOperacao'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clHotLight
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
         object edtNome: TEdit
           Left = 171
           Top = 69

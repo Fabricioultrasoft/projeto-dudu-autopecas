@@ -1,6 +1,6 @@
 object frmEntrada_Produtos: TfrmEntrada_Produtos
-  Left = 468
-  Top = 161
+  Left = 298
+  Top = 83
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Entrada de Produtos'
@@ -1912,28 +1912,28 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
         ExplicitHeight = 406
         object Label1: TLabel
           Left = 31
-          Top = 22
+          Top = 48
           Width = 105
           Height = 16
           Caption = 'N'#186' do Documento:'
         end
         object Label7: TLabel
           Left = 579
-          Top = 22
+          Top = 48
           Width = 97
           Height = 16
           Caption = 'Data de Entrada:'
         end
         object lbl4: TLabel
           Left = 5
-          Top = 78
+          Top = 104
           Width = 131
           Height = 16
           Caption = 'C'#243'digo do Fornecedor:'
         end
         object Label15: TLabel
           Left = 461
-          Top = 122
+          Top = 148
           Width = 212
           Height = 11
           Caption = '* Campo(s) de preenchimento obrigat'#243'rio.'
@@ -1946,7 +1946,7 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
         end
         object Label5: TLabel
           Left = 312
-          Top = 23
+          Top = 49
           Width = 8
           Height = 14
           Caption = '*'
@@ -1959,7 +1959,7 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
         end
         object Label3: TLabel
           Left = 869
-          Top = 23
+          Top = 49
           Width = 8
           Height = 14
           Caption = '*'
@@ -1972,7 +1972,7 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
         end
         object Label11: TLabel
           Left = 312
-          Top = 79
+          Top = 105
           Width = 8
           Height = 14
           Caption = '*'
@@ -1985,21 +1985,21 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
         end
         object Label18: TLabel
           Left = 30
-          Top = 107
+          Top = 133
           Width = 106
           Height = 16
           Caption = 'Valor tota da N.F.:'
         end
         object Label19: TLabel
           Left = 557
-          Top = 50
+          Top = 76
           Width = 119
           Height = 16
           Caption = 'Respons'#225'vel Receb.:'
         end
         object Label2: TLabel
           Left = 312
-          Top = 108
+          Top = 134
           Width = 8
           Height = 14
           Caption = '*'
@@ -2012,14 +2012,14 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
         end
         object Label4: TLabel
           Left = 70
-          Top = 50
+          Top = 76
           Width = 66
           Height = 16
           Caption = 'Chave NFe:'
         end
         object Label6: TLabel
           Left = 461
-          Top = 139
+          Top = 165
           Width = 406
           Height = 11
           Caption = 
@@ -2032,9 +2032,23 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
           Font.Style = [fsBold]
           ParentFont = False
         end
+        object lblStatusOperacao: TLabel
+          Left = 379
+          Top = 13
+          Width = 161
+          Height = 16
+          AutoSize = False
+          Caption = 'lblStatusOperacao'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clHotLight
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
         object dtpEntrada: TDateTimePicker
           Left = 681
-          Top = 20
+          Top = 46
           Width = 184
           Height = 24
           Cursor = crHandPoint
@@ -2045,7 +2059,7 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
         end
         object edtN_Documento: TEdit
           Left = 139
-          Top = 20
+          Top = 46
           Width = 171
           Height = 24
           CharCase = ecUpperCase
@@ -2060,7 +2074,7 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
         end
         object edtCod_Forn: TJvComboEdit
           Left = 139
-          Top = 75
+          Top = 101
           Width = 170
           Height = 24
           Color = clSilver
@@ -2118,7 +2132,7 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
         end
         object edtValorTotal: TJvCalcEdit
           Left = 139
-          Top = 104
+          Top = 130
           Width = 170
           Height = 24
           Color = clSilver
@@ -2128,7 +2142,7 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
         end
         object edtResponsavel: TEdit
           Left = 681
-          Top = 47
+          Top = 73
           Width = 184
           Height = 24
           CharCase = ecUpperCase
@@ -2137,9 +2151,9 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
         end
         object grpProdutoNF: TGroupBox
           Left = 19
-          Top = 156
+          Top = 179
           Width = 849
-          Height = 308
+          Height = 277
           Caption = 'Produtos da Nota Fiscal'
           Enabled = False
           Font.Charset = DEFAULT_CHARSET
@@ -2151,9 +2165,9 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
           TabOrder = 6
           object DBGrid1: TDBGrid
             Left = 14
-            Top = 32
+            Top = 24
             Width = 657
-            Height = 257
+            Height = 241
             Cursor = crHandPoint
             DataSource = dm.dtsEntrada_Produto
             Font.Charset = DEFAULT_CHARSET
@@ -2268,7 +2282,7 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
           end
           object btnIncluirProduto: TBitBtn
             Left = 685
-            Top = 32
+            Top = 24
             Width = 150
             Height = 59
             Cursor = crHandPoint
@@ -2304,7 +2318,7 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
           end
           object btnEditarProduto: TBitBtn
             Left = 685
-            Top = 107
+            Top = 99
             Width = 150
             Height = 59
             Cursor = crHandPoint
@@ -2340,7 +2354,7 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
           end
           object btnExcluirProduto: TBitBtn
             Left = 685
-            Top = 181
+            Top = 173
             Width = 150
             Height = 59
             Cursor = crHandPoint
@@ -2377,7 +2391,7 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
         end
         object edtChaveNfe: TEdit
           Left = 139
-          Top = 47
+          Top = 73
           Width = 311
           Height = 24
           Color = clSilver
@@ -2385,7 +2399,7 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
         end
         object lblDescricaoFornecedor: TEdit
           Left = 368
-          Top = 75
+          Top = 101
           Width = 497
           Height = 24
           CharCase = ecUpperCase
@@ -2404,7 +2418,7 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
         end
         object btnAdicionarGrupo: TBitBtn
           Left = 328
-          Top = 75
+          Top = 101
           Width = 30
           Height = 25
           Hint = 'ADICIONAR FORNECEDOR'

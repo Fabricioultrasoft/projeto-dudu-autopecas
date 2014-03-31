@@ -1664,35 +1664,35 @@ object frmCadFornecedor: TfrmCadFornecedor
         TabOrder = 0
         object Label13: TLabel
           Left = 159
-          Top = 67
+          Top = 91
           Width = 44
           Height = 16
           Caption = 'C'#243'digo:'
         end
         object lbl1: TLabel
           Left = 87
-          Top = 93
+          Top = 117
           Width = 116
           Height = 16
           Caption = 'Nome/Raz'#227'o Social:'
         end
         object lbl2: TLabel
           Left = 170
-          Top = 119
+          Top = 143
           Width = 33
           Height = 16
           Caption = 'Fone:'
         end
         object lbl3: TLabel
           Left = 115
-          Top = 145
+          Top = 169
           Width = 88
           Height = 16
           Caption = 'Representante:'
         end
         object Label1: TLabel
           Left = 409
-          Top = 145
+          Top = 169
           Width = 81
           Height = 16
           Caption = 'Fone Repres.:'
@@ -1712,7 +1712,7 @@ object frmCadFornecedor: TfrmCadFornecedor
         end
         object Label5: TLabel
           Left = 663
-          Top = 94
+          Top = 118
           Width = 8
           Height = 14
           Caption = '*'
@@ -1725,7 +1725,7 @@ object frmCadFornecedor: TfrmCadFornecedor
         end
         object Label2: TLabel
           Left = 375
-          Top = 120
+          Top = 144
           Width = 8
           Height = 14
           Caption = '*'
@@ -1736,9 +1736,23 @@ object frmCadFornecedor: TfrmCadFornecedor
           Font.Style = [fsBold]
           ParentFont = False
         end
+        object lblStatusOperacao: TLabel
+          Left = 298
+          Top = 16
+          Width = 161
+          Height = 16
+          AutoSize = False
+          Caption = 'lblStatusOperacao'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clHotLight
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
         object edtCodigo: TEdit
           Left = 205
-          Top = 63
+          Top = 87
           Width = 167
           Height = 24
           Alignment = taCenter
@@ -1755,7 +1769,7 @@ object frmCadFornecedor: TfrmCadFornecedor
         end
         object edtFone: TEdit
           Left = 205
-          Top = 116
+          Top = 140
           Width = 167
           Height = 24
           Color = clSilver
@@ -1763,7 +1777,7 @@ object frmCadFornecedor: TfrmCadFornecedor
         end
         object edtNome: TEdit
           Left = 205
-          Top = 90
+          Top = 114
           Width = 454
           Height = 24
           CharCase = ecUpperCase
@@ -1772,7 +1786,7 @@ object frmCadFornecedor: TfrmCadFornecedor
         end
         object edtFoneR: TEdit
           Left = 492
-          Top = 142
+          Top = 166
           Width = 167
           Height = 24
           Color = clSilver
@@ -1780,7 +1794,7 @@ object frmCadFornecedor: TfrmCadFornecedor
         end
         object edtRepresentante: TEdit
           Left = 205
-          Top = 142
+          Top = 166
           Width = 188
           Height = 24
           CharCase = ecUpperCase

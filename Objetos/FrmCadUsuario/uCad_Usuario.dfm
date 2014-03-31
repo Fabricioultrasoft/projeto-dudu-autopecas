@@ -5,7 +5,7 @@ object frmCadUsuario: TfrmCadUsuario
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Cadastro de Usu'#225'rio'
-  ClientHeight = 339
+  ClientHeight = 351
   ClientWidth = 612
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -1402,7 +1402,7 @@ object frmCadUsuario: TfrmCadUsuario
     Left = 0
     Top = 81
     Width = 612
-    Height = 258
+    Height = 270
     Cursor = crHandPoint
     ActivePage = tsCadastro
     Align = alClient
@@ -1413,68 +1413,71 @@ object frmCadUsuario: TfrmCadUsuario
     Font.Style = []
     ParentFont = False
     TabOrder = 1
+    ExplicitHeight = 258
     object tsCadastro: TTabSheet
       Caption = 'Cadastro de Usu'#225'rio'
+      ExplicitHeight = 227
       object grpCadastro: TGroupBox
         Left = 0
         Top = 0
         Width = 604
-        Height = 227
+        Height = 239
         Align = alClient
         Enabled = False
         TabOrder = 0
+        ExplicitHeight = 227
         object Label1: TLabel
           Left = 60
-          Top = 93
+          Top = 111
           Width = 35
           Height = 16
           Caption = 'Login:'
         end
         object Label3: TLabel
           Left = 39
-          Top = 119
+          Top = 137
           Width = 56
           Height = 16
           Caption = 'Privil'#233'gio:'
         end
         object Label4: TLabel
           Left = 54
-          Top = 147
+          Top = 165
           Width = 41
           Height = 16
           Caption = 'Senha:'
         end
         object Label5: TLabel
           Left = 301
-          Top = 147
+          Top = 165
           Width = 77
           Height = 16
           Caption = 'Confirma'#231#227'o:'
         end
         object lbl1: TLabel
           Left = 78
-          Top = 41
+          Top = 59
           Width = 17
           Height = 16
           Caption = 'ID:'
         end
         object Label6: TLabel
           Left = 57
-          Top = 67
+          Top = 85
           Width = 38
           Height = 16
           Caption = 'Nome:'
         end
         object Label7: TLabel
           Left = 384
-          Top = 41
+          Top = 59
           Width = 41
           Height = 16
           Caption = 'Chapa:'
         end
         object Label15: TLabel
           Left = 8
-          Top = 193
+          Top = 204
           Width = 212
           Height = 11
           Caption = '* Campo(s) de preenchimento obrigat'#243'rio.'
@@ -1487,7 +1490,7 @@ object frmCadUsuario: TfrmCadUsuario
         end
         object Label14: TLabel
           Left = 551
-          Top = 68
+          Top = 86
           Width = 8
           Height = 14
           Caption = '*'
@@ -1500,7 +1503,7 @@ object frmCadUsuario: TfrmCadUsuario
         end
         object Label8: TLabel
           Left = 270
-          Top = 94
+          Top = 112
           Width = 8
           Height = 14
           Caption = '*'
@@ -1513,7 +1516,7 @@ object frmCadUsuario: TfrmCadUsuario
         end
         object Label9: TLabel
           Left = 270
-          Top = 120
+          Top = 138
           Width = 8
           Height = 14
           Caption = '*'
@@ -1526,7 +1529,7 @@ object frmCadUsuario: TfrmCadUsuario
         end
         object Label10: TLabel
           Left = 266
-          Top = 148
+          Top = 166
           Width = 16
           Height = 14
           Caption = '**'
@@ -1539,7 +1542,7 @@ object frmCadUsuario: TfrmCadUsuario
         end
         object Label11: TLabel
           Left = 550
-          Top = 148
+          Top = 166
           Width = 16
           Height = 14
           Caption = '**'
@@ -1552,7 +1555,7 @@ object frmCadUsuario: TfrmCadUsuario
         end
         object Label12: TLabel
           Left = 8
-          Top = 212
+          Top = 223
           Width = 274
           Height = 11
           Caption = '** Senha com m'#237'nimo de 6 d'#237'gitos (letras ou n'#250'meros).'
@@ -1563,9 +1566,23 @@ object frmCadUsuario: TfrmCadUsuario
           Font.Style = [fsBold]
           ParentFont = False
         end
+        object lblStatusOperacao: TLabel
+          Left = 217
+          Top = 16
+          Width = 161
+          Height = 16
+          AutoSize = False
+          Caption = 'lblStatusOperacao'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clHotLight
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
         object edtConfirma: TEdit
           Left = 381
-          Top = 144
+          Top = 162
           Width = 166
           Height = 24
           CharCase = ecLowerCase
@@ -1575,7 +1592,7 @@ object frmCadUsuario: TfrmCadUsuario
         end
         object edtLogin: TEdit
           Left = 98
-          Top = 90
+          Top = 108
           Width = 166
           Height = 24
           CharCase = ecLowerCase
@@ -1584,7 +1601,7 @@ object frmCadUsuario: TfrmCadUsuario
         end
         object cmbPrivilegio: TComboBox
           Left = 98
-          Top = 116
+          Top = 134
           Width = 166
           Height = 24
           Cursor = crHandPoint
@@ -1593,7 +1610,7 @@ object frmCadUsuario: TfrmCadUsuario
         end
         object edtSenha: TEdit
           Left = 98
-          Top = 144
+          Top = 162
           Width = 166
           Height = 24
           CharCase = ecLowerCase
@@ -1603,7 +1620,7 @@ object frmCadUsuario: TfrmCadUsuario
         end
         object edtID: TEdit
           Left = 98
-          Top = 38
+          Top = 56
           Width = 121
           Height = 24
           Alignment = taCenter
@@ -1619,7 +1636,7 @@ object frmCadUsuario: TfrmCadUsuario
         end
         object edtNome: TEdit
           Left = 98
-          Top = 64
+          Top = 82
           Width = 449
           Height = 24
           CharCase = ecUpperCase
@@ -1628,7 +1645,7 @@ object frmCadUsuario: TfrmCadUsuario
         end
         object edtChapa: TEdit
           Left = 426
-          Top = 38
+          Top = 56
           Width = 121
           Height = 24
           Alignment = taCenter
@@ -1651,7 +1668,7 @@ object frmCadUsuario: TfrmCadUsuario
         Left = 0
         Top = 41
         Width = 604
-        Height = 186
+        Height = 198
         Cursor = crHandPoint
         Align = alClient
         DataSource = dm.dtsUsuario

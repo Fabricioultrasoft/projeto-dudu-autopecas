@@ -1424,14 +1424,14 @@ object frmCadUnidade: TfrmCadUnidade
         TabOrder = 0
         object Label1: TLabel
           Left = 65
-          Top = 94
+          Top = 110
           Width = 128
           Height = 16
           Caption = 'Descri'#231#227'o da Unidade:'
         end
         object lbl2: TLabel
           Left = 149
-          Top = 67
+          Top = 83
           Width = 44
           Height = 16
           Caption = 'C'#243'digo:'
@@ -1451,7 +1451,7 @@ object frmCadUnidade: TfrmCadUnidade
         end
         object Label5: TLabel
           Left = 474
-          Top = 95
+          Top = 111
           Width = 8
           Height = 14
           Caption = '*'
@@ -1464,14 +1464,14 @@ object frmCadUnidade: TfrmCadUnidade
         end
         object Label2: TLabel
           Left = 160
-          Top = 121
+          Top = 137
           Width = 33
           Height = 16
           Caption = 'Sigla:'
         end
         object Label3: TLabel
           Left = 256
-          Top = 122
+          Top = 138
           Width = 16
           Height = 14
           Caption = '**'
@@ -1495,9 +1495,23 @@ object frmCadUnidade: TfrmCadUnidade
           Font.Style = [fsBold]
           ParentFont = False
         end
+        object lblStatusOperacao: TLabel
+          Left = 227
+          Top = 16
+          Width = 161
+          Height = 16
+          AutoSize = False
+          Caption = 'lblStatusOperacao'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clHotLight
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
         object edtDescricao: TEdit
           Left = 195
-          Top = 91
+          Top = 107
           Width = 276
           Height = 24
           CharCase = ecUpperCase
@@ -1506,7 +1520,7 @@ object frmCadUnidade: TfrmCadUnidade
         end
         object edtCodigo: TEdit
           Left = 195
-          Top = 64
+          Top = 80
           Width = 135
           Height = 24
           CharCase = ecUpperCase
@@ -1522,7 +1536,7 @@ object frmCadUnidade: TfrmCadUnidade
         end
         object edtSigla: TEdit
           Left = 195
-          Top = 118
+          Top = 134
           Width = 58
           Height = 24
           CharCase = ecUpperCase

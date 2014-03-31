@@ -1,7 +1,7 @@
 object dm: Tdm
   OldCreateOrder = False
-  Left = 597
-  Top = 156
+  Left = 473
+  Top = 132
   Height = 717
   Width = 1005
   object dspUsuario: TDataSetProvider
@@ -464,7 +464,7 @@ object dm: Tdm
     object cdsProdutoESTOQUE_MINIMO: TFMTBCDField
       FieldName = 'ESTOQUE_MINIMO'
       Required = True
-      DisplayFormat = '#.000'
+      DisplayFormat = '#0.000'
       Precision = 18
       Size = 3
     end
@@ -567,14 +567,14 @@ object dm: Tdm
     end
     object cdsEstoqueQTDE: TFMTBCDField
       FieldName = 'QTDE'
-      DisplayFormat = '#.000'
+      DisplayFormat = '#0.000'
       Precision = 18
       Size = 3
     end
     object cdsEstoqueESTOQUE_MINIMO: TFMTBCDField
       FieldName = 'ESTOQUE_MINIMO'
       Required = True
-      DisplayFormat = '#.000'
+      DisplayFormat = '#0.000'
       Precision = 18
       Size = 3
     end
@@ -748,13 +748,13 @@ object dm: Tdm
     object cdsEntrada_ProdutoQTDE: TFMTBCDField
       FieldName = 'QTDE'
       Required = True
-      DisplayFormat = '#.000'
+      DisplayFormat = '#0.000'
       Precision = 18
       Size = 3
     end
     object cdsEntrada_ProdutoQTDE_CONVERSAO: TFMTBCDField
       FieldName = 'QTDE_CONVERSAO'
-      DisplayFormat = '#.000'
+      DisplayFormat = '#0.000'
       Precision = 18
       Size = 3
     end
@@ -1390,7 +1390,7 @@ object dm: Tdm
     end
     object cdsItem_VendaQTDE: TFMTBCDField
       FieldName = 'QTDE'
-      DisplayFormat = '#.000'
+      DisplayFormat = '#0.000'
       Precision = 18
       Size = 3
     end
@@ -1988,11 +1988,11 @@ object dm: Tdm
     SQLConnection = dmConexao.Conexao
     Left = 728
     Top = 16
-    object intgrfldDescarteID: TIntegerField
+    object qryDescarteID: TIntegerField
       FieldName = 'ID'
       Required = True
     end
-    object strngfldDescarteEAN13: TStringField
+    object qryDescarteEAN13: TStringField
       FieldName = 'EAN13'
       Required = True
       Size = 13
@@ -2000,41 +2000,43 @@ object dm: Tdm
     object qryDescarteQTDE: TFMTBCDField
       FieldName = 'QTDE'
       Required = True
+      DisplayFormat = '#0.000'
       Precision = 18
       Size = 3
     end
     object qryDescarteDATA_DESCARTE: TDateField
       FieldName = 'DATA_DESCARTE'
     end
-    object strngfldDescarteMOTIVO: TStringField
+    object qryDescarteMOTIVO: TStringField
       FieldName = 'MOTIVO'
       Size = 255
     end
-    object strngfldDescarteCOD_FORN: TStringField
+    object qryDescarteCOD_FORN: TStringField
       FieldName = 'COD_FORN'
       Size = 10
     end
-    object strngfldDescarteCOD_FUNC: TStringField
+    object qryDescarteCOD_FUNC: TStringField
       FieldName = 'COD_FUNC'
       Size = 10
     end
-    object strngfldDescarteDESC_PROD: TStringField
+    object qryDescarteDESC_PROD: TStringField
       FieldName = 'DESC_PROD'
+      Required = True
       Size = 100
     end
-    object strngfldDescarteREF_PROD: TStringField
+    object qryDescarteREF_PROD: TStringField
       FieldName = 'REF_PROD'
     end
-    object strngfldDescarteUND: TStringField
+    object qryDescarteUND: TStringField
       FieldName = 'UND'
       Required = True
       Size = 10
     end
-    object strngfldDescarteSTATUS: TStringField
+    object qryDescarteSTATUS: TStringField
       FieldName = 'STATUS'
       Size = 1
     end
-    object strngfldDescarteORIGEM: TStringField
+    object qryDescarteORIGEM: TStringField
       FieldName = 'ORIGEM'
       FixedChar = True
       Size = 1
@@ -2046,56 +2048,61 @@ object dm: Tdm
     Top = 96
   end
   object cdsDescarte: TClientDataSet
+    Active = True
     Aggregates = <>
     Params = <>
     ProviderName = 'dspDescarte'
     Left = 728
     Top = 160
-    object intgrfldDescarteID1: TIntegerField
+    object cdsDescarteID: TIntegerField
       FieldName = 'ID'
+      Required = True
     end
-    object strngfldDescarteEAN14: TStringField
+    object cdsDescarteEAN13: TStringField
       FieldName = 'EAN13'
+      Required = True
       Size = 13
     end
     object cdsDescarteQTDE: TFMTBCDField
       FieldName = 'QTDE'
-      DisplayFormat = '#.000'
+      Required = True
+      DisplayFormat = '#0.000'
       Precision = 18
       Size = 3
     end
     object cdsDescarteDATA_DESCARTE: TDateField
       FieldName = 'DATA_DESCARTE'
     end
-    object strngfldDescarteMOTIVO1: TStringField
+    object cdsDescarteMOTIVO: TStringField
       FieldName = 'MOTIVO'
       Size = 255
     end
-    object strngfldDescarteCOD_FORN1: TStringField
+    object cdsDescarteCOD_FORN: TStringField
       FieldName = 'COD_FORN'
       Size = 10
     end
-    object strngfldDescarteCOD_FUNC1: TStringField
+    object cdsDescarteCOD_FUNC: TStringField
       FieldName = 'COD_FUNC'
       Size = 10
     end
-    object strngfldDescarteDESC_PROD1: TStringField
+    object cdsDescarteDESC_PROD: TStringField
       FieldName = 'DESC_PROD'
-      ProviderFlags = []
+      Required = True
       Size = 100
     end
-    object strngfldDescarteREF_PROD1: TStringField
+    object cdsDescarteREF_PROD: TStringField
       FieldName = 'REF_PROD'
     end
-    object strngfldDescarteUND1: TStringField
+    object cdsDescarteUND: TStringField
       FieldName = 'UND'
+      Required = True
       Size = 10
     end
-    object strngfldDescarteSTATUS1: TStringField
+    object cdsDescarteSTATUS: TStringField
       FieldName = 'STATUS'
       Size = 1
     end
-    object strngfldDescarteORIGEM1: TStringField
+    object cdsDescarteORIGEM: TStringField
       FieldName = 'ORIGEM'
       FixedChar = True
       Size = 1

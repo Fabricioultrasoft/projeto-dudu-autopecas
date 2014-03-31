@@ -54,6 +54,7 @@ type
     lbl1: TLabel;
     cmbStatus: TComboBox;
     lbl2: TLabel;
+    lblStatusOperacao: TLabel;
     procedure btnCancelarClick(Sender: TObject);
     procedure btnExcluirClick(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
@@ -103,7 +104,7 @@ const
   DELETE: string = 'DELETE FROM DESCARTE WHERE ID = :id';
 
   // Instrução SQL para SELECT geral
-  SELECT: string = 'SELECT D.ID, D.EAN13, D.QTDE, D.DATA_DESCARTE, D.MOTIVO, D.COD_FORN, D.COD_FUNC, P.DESC_PROD, D.REF_PROD, D.UND '+
+  SELECT: string = 'SELECT D.ID, D.EAN13, D.QTDE, D.DATA_DESCARTE, D.MOTIVO, D.COD_FORN, D.COD_FUNC, P.DESC_PROD, D.REF_PROD, D.UND, D.ORIGEM, D.STATUS '+
                    'FROM DESCARTE D INNER JOIN PRODUTO P ON D.EAN13 = P.EAN13';
 
   // Instrução SQL para WHERE de pesquisa

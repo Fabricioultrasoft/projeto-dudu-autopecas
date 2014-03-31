@@ -93,34 +93,13 @@ end;
 
 procedure TfrmSuprimento.ImprimirCupom(Valor: Double; Responsavel, Motivo: string);
 begin
-    frmPDV.FImpressao.ImprimirSuprimento(FloatToStr(Valor), Responsavel, Motivo);
+    frmPDV.FImpressao.ImprimirSuprimento(FormatFloat('##,##0.00', Valor), Responsavel, Motivo);
 end;
 
 procedure TfrmSuprimento.ImprimirTela(Valor: Double; Responsavel,
   Motivo: string);
 begin
-    if frmMenu.FCabSuprimento then
-    begin
-        frmPDV.redtItem.Paragraph.Alignment := taCenter;
-        frmPDV.redtItem.Lines.Add(frmMenu.FMsgCabecalho);
-        frmPDV.redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
-        frmPDV.redtItem.Lines.Add('*** ' + frmMenu.FRazao + ' ***');
-        frmPDV.redtItem.Lines.Add('CNPJ: ' + frmMenu.FCNPJ  + ' Inscrição Estadual: '+ frmMenu.FInscricao);
-        frmPDV.redtItem.Lines.Add('Rua: '+ frmMenu.FRua +', Número: '+ frmMenu.FNumero+ ' Bairro: ' + frmMenu.FBairro);
-        frmPDV.redtItem.Lines.Add('Cidade: ' + frmMenu.FCidade);
-        frmPDV.redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
-    end;
 
-    frmPDV.redtItem.Paragraph.Alignment := taCenter;
-    frmPDV.redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
-    frmPDV.redtItem.Lines.Add('SUPRIMENTO'+#10);
-    frmPDV.redtItem.Paragraph.Alignment := taLeftJustify;
-    frmPDV.redtItem.Lines.Add('Responsável: '+ Responsavel);
-    frmPDV.redtItem.Lines.Add('Valor: ' + FormatFloat('R$ ##0.00', Valor));
-    frmPDV.redtItem.Lines.Add('Data: ' + FormatDateTime('dd/mm/yyyy', Date));
-    frmPDV.redtItem.Lines.Add('Hora: ' + FormatDateTime('hh:mm:ss', time));
-    frmPDV.redtItem.Lines.Add('Motivo: ' + #10 + UpperCase(Motivo));
-    frmPDV.redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
 end;
 
 end.

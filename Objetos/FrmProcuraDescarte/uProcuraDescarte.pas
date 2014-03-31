@@ -20,6 +20,7 @@ type
     procedure grdProdDrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
     procedure FormCreate(Sender: TObject);
+    procedure KeyDown(var Key: Word; Shift: TShiftState); override;
   private
     { Private declarations }
   public
@@ -39,7 +40,7 @@ const
 
 implementation
 
-uses uDm;
+uses uDm, uRelatorio;
 
 {$R *.dfm}
 
@@ -78,6 +79,26 @@ begin
       grdProd.Canvas.FillRect(Rect);
       grdProd.DefaultDrawColumnCell(Rect, DataCol, Column, State);
    end
+end;
+
+procedure TfrmProcuraDescarte.KeyDown(var Key: Word; Shift: TShiftState);
+begin
+  inherited;
+   if Key = VK_F5 then
+    begin
+        if not dm.cdsDescarte.IsEmpty then
+        begin
+            try
+              frmRelatorio := TfrmRelatorio.Create(nil);
+              frmRelatorio.RLDescarte.Preview();
+            finally
+              FreeAndNil(frmRelatorio);
+            end;
+        end
+        else
+           MessageDlg('Não existem registros!', mtWarning, [mbOK], 0);
+    end;
+
 end;
 
 end.

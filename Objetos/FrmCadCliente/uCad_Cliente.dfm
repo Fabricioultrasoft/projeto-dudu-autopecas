@@ -1,6 +1,6 @@
 object frmCadCliente: TfrmCadCliente
-  Left = 750
-  Top = 185
+  Left = 492
+  Top = 195
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Cadastro de Cliente'
@@ -1664,84 +1664,84 @@ object frmCadCliente: TfrmCadCliente
         TabOrder = 0
         object Label1: TLabel
           Left = 49
-          Top = 107
+          Top = 126
           Width = 124
           Height = 16
           Caption = 'Nome / Raz'#227'o Social:'
         end
         object Label2: TLabel
           Left = 113
-          Top = 134
+          Top = 153
           Width = 60
           Height = 16
           Caption = 'CNPJ/CPF:'
         end
         object Label4: TLabel
           Left = 400
-          Top = 134
+          Top = 153
           Width = 108
           Height = 16
           Caption = 'Inscri'#231#227'o Estadual:'
         end
         object Label6: TLabel
           Left = 140
-          Top = 161
+          Top = 180
           Width = 33
           Height = 16
           Caption = 'Fone:'
         end
         object Label7: TLabel
           Left = 13
-          Top = 188
+          Top = 207
           Width = 160
           Height = 16
           Caption = 'Rua, Logradouro, Travessa:'
         end
         object Label8: TLabel
           Left = 377
-          Top = 215
+          Top = 234
           Width = 39
           Height = 16
           Caption = 'Bairro:'
         end
         object Label9: TLabel
           Left = 129
-          Top = 244
+          Top = 263
           Width = 44
           Height = 16
           Caption = 'Cidade:'
         end
         object Label10: TLabel
           Left = 423
-          Top = 241
+          Top = 260
           Width = 20
           Height = 16
           Caption = 'UF:'
         end
         object Label11: TLabel
           Left = 481
-          Top = 161
+          Top = 180
           Width = 27
           Height = 16
           Caption = 'CEP:'
         end
         object Label12: TLabel
           Left = 123
-          Top = 216
+          Top = 235
           Width = 50
           Height = 16
           Caption = 'N'#250'mero:'
         end
         object Label13: TLabel
           Left = 129
-          Top = 81
+          Top = 100
           Width = 44
           Height = 16
           Caption = 'C'#243'digo:'
         end
         object Label5: TLabel
           Left = 681
-          Top = 108
+          Top = 127
           Width = 8
           Height = 14
           Caption = '*'
@@ -1754,7 +1754,7 @@ object frmCadCliente: TfrmCadCliente
         end
         object Label14: TLabel
           Left = 346
-          Top = 135
+          Top = 154
           Width = 8
           Height = 14
           Caption = '*'
@@ -1778,9 +1778,23 @@ object frmCadCliente: TfrmCadCliente
           Font.Style = [fsBold]
           ParentFont = False
         end
+        object lblStatusOperacao: TLabel
+          Left = 307
+          Top = 16
+          Width = 161
+          Height = 16
+          AutoSize = False
+          Caption = 'lblStatusOperacao'
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clHotLight
+          Font.Height = -16
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentFont = False
+        end
         object edtNome: TEdit
           Left = 176
-          Top = 104
+          Top = 123
           Width = 501
           Height = 24
           CharCase = ecUpperCase
@@ -1789,7 +1803,7 @@ object frmCadCliente: TfrmCadCliente
         end
         object edtCNPJ: TEdit
           Left = 176
-          Top = 131
+          Top = 150
           Width = 167
           Height = 24
           Color = clSilver
@@ -1797,7 +1811,7 @@ object frmCadCliente: TfrmCadCliente
         end
         object edtINSC_EST: TEdit
           Left = 510
-          Top = 131
+          Top = 151
           Width = 167
           Height = 24
           Color = clSilver
@@ -1805,7 +1819,7 @@ object frmCadCliente: TfrmCadCliente
         end
         object edtFone: TEdit
           Left = 176
-          Top = 158
+          Top = 177
           Width = 167
           Height = 24
           Color = clSilver
@@ -1813,7 +1827,7 @@ object frmCadCliente: TfrmCadCliente
         end
         object edtCEP: TEdit
           Left = 510
-          Top = 157
+          Top = 177
           Width = 167
           Height = 24
           Color = clSilver
@@ -1821,7 +1835,7 @@ object frmCadCliente: TfrmCadCliente
         end
         object edtRua: TEdit
           Left = 176
-          Top = 185
+          Top = 204
           Width = 501
           Height = 24
           CharCase = ecUpperCase
@@ -1830,7 +1844,7 @@ object frmCadCliente: TfrmCadCliente
         end
         object edtNumero: TEdit
           Left = 176
-          Top = 212
+          Top = 231
           Width = 167
           Height = 24
           Color = clSilver
@@ -1839,7 +1853,7 @@ object frmCadCliente: TfrmCadCliente
         end
         object edtBairro: TEdit
           Left = 422
-          Top = 212
+          Top = 231
           Width = 255
           Height = 24
           CharCase = ecUpperCase
@@ -1848,7 +1862,7 @@ object frmCadCliente: TfrmCadCliente
         end
         object edtCidade: TEdit
           Left = 176
-          Top = 240
+          Top = 259
           Width = 217
           Height = 24
           CharCase = ecUpperCase
@@ -1857,7 +1871,7 @@ object frmCadCliente: TfrmCadCliente
         end
         object cmbUF: TComboBox
           Left = 446
-          Top = 240
+          Top = 259
           Width = 49
           Height = 24
           Cursor = crHandPoint
@@ -1866,7 +1880,7 @@ object frmCadCliente: TfrmCadCliente
         end
         object edtCodigo: TEdit
           Left = 176
-          Top = 77
+          Top = 96
           Width = 167
           Height = 24
           Alignment = taCenter
@@ -1989,7 +2003,7 @@ object frmCadCliente: TfrmCadCliente
   end
   object ACBrValidador1: TACBrValidador
     IgnorarChar = './-'
-    Left = 300
-    Top = 124
+    Left = 668
+    Top = 396
   end
 end

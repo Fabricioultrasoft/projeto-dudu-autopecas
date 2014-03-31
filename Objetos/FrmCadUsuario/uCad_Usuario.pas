@@ -46,6 +46,7 @@ type
     Label12: TLabel;
     ACBrEnterTab1: TACBrEnterTab;
     btnCancelar: TBitBtn;
+    lblStatusOperacao: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure Incluir();                 override;
     procedure Editar();                  override;

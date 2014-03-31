@@ -1,6 +1,6 @@
 object frmProdutoNF: TfrmProdutoNF
-  Left = 823
-  Top = 143
+  Left = 434
+  Top = 152
   BorderIcons = []
   Caption = 'Formul'#225'rio :- Produtos da Nota Fiscal'
   ClientHeight = 434
@@ -51,14 +51,14 @@ object frmProdutoNF: TfrmProdutoNF
     ExplicitHeight = 298
     object Label2: TLabel
       Left = 56
-      Top = 25
+      Top = 45
       Width = 85
       Height = 16
       Caption = 'C'#243'digo EAN13:'
     end
     object Label10: TLabel
       Left = 316
-      Top = 26
+      Top = 46
       Width = 8
       Height = 14
       Caption = '*'
@@ -71,21 +71,21 @@ object frmProdutoNF: TfrmProdutoNF
     end
     object lbl5: TLabel
       Left = 21
-      Top = 53
+      Top = 73
       Width = 120
       Height = 16
       Caption = 'Refer'#234'n. do Produto:'
     end
     object Label6: TLabel
       Left = 460
-      Top = 56
+      Top = 76
       Width = 102
       Height = 16
       Caption = 'Data de Validade:'
     end
     object Label17: TLabel
       Left = 737
-      Top = 57
+      Top = 77
       Width = 8
       Height = 14
       Caption = '*'
@@ -98,7 +98,7 @@ object frmProdutoNF: TfrmProdutoNF
     end
     object Label15: TLabel
       Left = 8
-      Top = 278
+      Top = 287
       Width = 212
       Height = 11
       Caption = '* Campo(s) de preenchimento obrigat'#243'rio.'
@@ -109,9 +109,23 @@ object frmProdutoNF: TfrmProdutoNF
       Font.Style = [fsBold]
       ParentFont = False
     end
+    object lblStatusOperacao: TLabel
+      Left = 305
+      Top = 6
+      Width = 161
+      Height = 16
+      AutoSize = False
+      Caption = 'lblStatusOperacao'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clHotLight
+      Font.Height = -16
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
     object edtCod_Prod: TJvComboEdit
       Left = 144
-      Top = 22
+      Top = 42
       Width = 170
       Height = 24
       Color = clSilver
@@ -170,7 +184,7 @@ object frmProdutoNF: TfrmProdutoNF
     end
     object edtReferencia: TEdit
       Left = 144
-      Top = 50
+      Top = 70
       Width = 170
       Height = 24
       Color = clSilver
@@ -178,7 +192,7 @@ object frmProdutoNF: TfrmProdutoNF
     end
     object dtpValidade: TDateTimePicker
       Left = 565
-      Top = 52
+      Top = 72
       Width = 169
       Height = 24
       Date = 41711.559904166660000000
@@ -187,7 +201,7 @@ object frmProdutoNF: TfrmProdutoNF
     end
     object GroupBox1: TGroupBox
       Left = 21
-      Top = 91
+      Top = 113
       Width = 350
       Height = 158
       Caption = 'Convers'#227'o de Unidades'
@@ -313,7 +327,7 @@ object frmProdutoNF: TfrmProdutoNF
     end
     object GroupBox2: TGroupBox
       Left = 392
-      Top = 91
+      Top = 113
       Width = 350
       Height = 158
       Caption = 'Valores ($)'
@@ -457,7 +471,7 @@ object frmProdutoNF: TfrmProdutoNF
     end
     object btnAdicionarGrupo: TBitBtn
       Left = 330
-      Top = 22
+      Top = 42
       Width = 30
       Height = 25
       Hint = 'CADASTRAR PRODUTO'
@@ -636,7 +650,7 @@ object frmProdutoNF: TfrmProdutoNF
   end
   object lblDescricaoProduto: TEdit
     Left = 368
-    Top = 79
+    Top = 99
     Width = 366
     Height = 24
     Color = clSilver
