@@ -53,7 +53,7 @@ type
     actAgenda: TAction;
     actCaixa: TAction;
     actGrupo: TAction;
-    actLogin: TAction;
+    actACL: TAction;
     actUsuario: TAction;
     actProdutos_Vendidos: TAction;
     F2CLIENTE1: TMenuItem;
@@ -68,6 +68,19 @@ type
     actUnidade: TAction;
     DESCARTE1: TMenuItem;
     actDescarte: TAction;
+    actLogin: TAction;
+    LOGIN1: TMenuItem;
+    btnConfiguracao: TToolButton;
+    N3: TMenuItem;
+    N4: TMenuItem;
+    N5: TMenuItem;
+    N2: TMenuItem;
+    N6: TMenuItem;
+    N7: TMenuItem;
+    N8: TMenuItem;
+    N9: TMenuItem;
+    N10: TMenuItem;
+    N11: TMenuItem;
     procedure FormCreate(Sender: TObject);
     function DataPorExtenso: String;
     procedure TimerTimer(Sender: TObject);
@@ -86,7 +99,7 @@ type
     procedure actGrupoExecute(Sender: TObject);
     procedure actProdutos_VendidosExecute(Sender: TObject);
     procedure actUsuarioExecute(Sender: TObject);
-    procedure actLoginExecute(Sender: TObject);
+    procedure actACLExecute(Sender: TObject);
     function GetBuildInfo:string;
     function FormataCaptionMenu: string;
     procedure Informaes1Click(Sender: TObject);
@@ -96,6 +109,8 @@ type
     procedure FormShow(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure actDescarteExecute(Sender: TObject);
+    function VerificaAcesso(nameForm: string): Boolean;
+    procedure actLoginExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -137,13 +152,16 @@ const
    // Intrução SQL para carregar os dados gerais
    SELECT_GERAL : string = 'SELECT MODELO_IMPRESSORA, PORTA, VELOCIDADE, MSG_CABECALHO, MSG_RODAPE, CABECALHO_SANGRIA, CABECALHO_SUPRIMENTO, CABECALHO_FECHAMENTO FROM CONFIG';
 
+   // Instrução SQL para verificar privilégio de acesso ao formulário
+   SELECT_ACESSO : string = 'SELECT ID FROM ACL WHERE JANELA = :form';
+
 implementation
 
 uses UdmConexao, uCad_Usuario, uCad_Grupo, uCad_Cliente, uCad_Fornecedor,
   uCad_Produto, uProcura_Estoque, uEntrada_Produtos, uAgenda, uPDV,
   uFechamento_Caixa, USobre, USplash, uSangria, uSuprimento, uCadUnidade,
   uConfig, uAviso, uProgresso, uImpressoraBase,
-  uImpressoraEpson, uCadDescarte;
+  uImpressoraEpson, uCadDescarte, uACL;
 
 {$R *.dfm}
 
@@ -199,82 +217,106 @@ end;
 
 procedure TfrmMenu.Informaes1Click(Sender: TObject);
 begin
-    try
-      frmSobre := TfrmSobre.Create(self);
-      frmSobre.ShowModal;
-    finally
-      FreeAndNil(frmCadAgenda);
+    if Self.VerificaAcesso('frmSobre') then
+    begin
+      try
+        frmSobre := TfrmSobre.Create(self);
+        frmSobre.ShowModal;
+      finally
+        FreeAndNil(frmCadAgenda);
+      end;
     end;
 end;
 
 procedure TfrmMenu.actAgendaExecute(Sender: TObject);
 begin
-    try
-      frmCadAgenda := TfrmCadAgenda.Create(self);
-      frmCadAgenda.ShowModal;
-    finally
-      FreeAndNil(frmCadAgenda);
+    if Self.VerificaAcesso('frmCadAgenda') then
+    begin
+        try
+          frmCadAgenda := TfrmCadAgenda.Create(self);
+          frmCadAgenda.ShowModal;
+        finally
+          FreeAndNil(frmCadAgenda);
+        end;
     end;
 end;
 
 procedure TfrmMenu.actCaixaExecute(Sender: TObject);
 begin
-    try
-       frmFechamento_Caixa := TfrmFechamento_Caixa.Create(self);
-       frmFechamento_Caixa.ShowModal;
-     finally
-       FreeAndNil(frmFechamento_Caixa);
-     end;
+    if Self.VerificaAcesso('frmFechamento_Caixa') then
+    begin
+      try
+         frmFechamento_Caixa := TfrmFechamento_Caixa.Create(self);
+         frmFechamento_Caixa.ShowModal;
+       finally
+         FreeAndNil(frmFechamento_Caixa);
+       end;
+    end;
 end;
 
 procedure TfrmMenu.actClienteExecute(Sender: TObject);
 begin
-    try
-       frmCadCliente := TfrmCadCliente.Create(self);
-       frmCadCliente.ShowModal;
-     finally
-       FreeAndNil(frmCadCliente);
-     end;
+    if Self.VerificaAcesso('frmCadCliente') then
+    begin
+        try
+           frmCadCliente := TfrmCadCliente.Create(self);
+           frmCadCliente.ShowModal;
+        finally
+           FreeAndNil(frmCadCliente);
+        end;
+    end;
 end;
 
 procedure TfrmMenu.actConfiguracaoExecute(Sender: TObject);
 begin
-    try
-      frmConfig := TfrmConfig.Create(self);
-      frmConfig.ShowModal;
-    finally
-      FreeAndNil(frmConfig);
+    if Self.VerificaAcesso('frmConfig') then
+    begin
+      try
+        frmConfig := TfrmConfig.Create(self);
+        frmConfig.ShowModal;
+      finally
+        FreeAndNil(frmConfig);
+      end;
     end;
 end;
 
 procedure TfrmMenu.actDescarteExecute(Sender: TObject);
 begin
-    try
-      frmDescarte := TfrmDescarte.Create(self);
-      frmDescarte.ShowModal;
-    finally
-      FreeAndNil(frmDescarte);
+    if Self.VerificaAcesso('frmDescarte') then
+    begin
+        try
+          frmDescarte := TfrmDescarte.Create(self);
+          frmDescarte.ShowModal;
+        finally
+          FreeAndNil(frmDescarte);
+        end;
     end;
 end;
 
 procedure TfrmMenu.actEntradaExecute(Sender: TObject);
 begin
-    try
-      frmEntrada_Produtos := TfrmEntrada_Produtos.Create(self);
-      frmEntrada_Produtos.ShowModal;
-    finally
-      FreeAndNil(frmEntrada_Produtos);
+    if Self.VerificaAcesso('frmEntrada_Produtos') then
+    begin
+        try
+          frmEntrada_Produtos := TfrmEntrada_Produtos.Create(self);
+          frmEntrada_Produtos.ShowModal;
+        finally
+          FreeAndNil(frmEntrada_Produtos);
+        end;
     end;
 end;
 
 procedure TfrmMenu.actEstoqueExecute(Sender: TObject);
 begin
-    try
-       frmProcura_Estoque := TfrmProcura_Estoque.Create(self);
-       frmProcura_Estoque.ShowModal;
-     finally
-       FreeAndNil(frmProcura_Estoque);
-     end;
+    if Self.VerificaAcesso('frmProcura_Estoque') then
+    begin
+        try
+           frmProcura_Estoque := TfrmProcura_Estoque.Create(self);
+           frmProcura_Estoque.ShowModal;
+         finally
+           FreeAndNil(frmProcura_Estoque);
+         end;
+    end;
 end;
 
 procedure TfrmMenu.actFecharExecute(Sender: TObject);
@@ -285,92 +327,129 @@ end;
 
 procedure TfrmMenu.actFornecedorExecute(Sender: TObject);
 begin
-    try
-     frmCadFornecedor := TfrmCadFornecedor.Create(self);
-     frmCadFornecedor.ShowModal;
-   finally
-     FreeAndNil(frmCadFornecedor);
-   end;
+    if Self.VerificaAcesso('frmCadFornecedor') then
+    begin
+        try
+         frmCadFornecedor := TfrmCadFornecedor.Create(self);
+         frmCadFornecedor.ShowModal;
+        finally
+         FreeAndNil(frmCadFornecedor);
+        end;
+    end;
 end;
 
 procedure TfrmMenu.actGrupoExecute(Sender: TObject);
 begin
-    try
-      frmCadGrupo := TfrmCadGrupo.Create(self);
-      frmCadGrupo.ShowModal;
-    finally
-      FreeAndNil(frmCadGrupo);
+    if Self.VerificaAcesso('frmCadGrupo') then
+    begin
+        try
+          frmCadGrupo := TfrmCadGrupo.Create(self);
+          frmCadGrupo.ShowModal;
+        finally
+          FreeAndNil(frmCadGrupo);
+        end;
     end;
 end;
 
 procedure TfrmMenu.actLoginExecute(Sender: TObject);
 begin
-    try
-      frmLogin := TfrmLogin.Create(nil);
-      frmLogin.ShowModal;
-    finally
-       FreeAndNil(frmLogin);
+    if Self.VerificaAcesso('frmLogin') then
+    begin
+        try
+          frmLogin := TfrmLogin.Create(nil);
+          frmLogin.ShowModal;
+        finally
+           FreeAndNil(frmLogin);
+        end;
+    end;
+end;
+
+procedure TfrmMenu.actACLExecute(Sender: TObject);
+begin
+    if Self.VerificaAcesso('frmControleAcesso') then
+    begin
+        try
+          frmControleAcesso := TfrmControleAcesso.Create(nil);
+          frmControleAcesso.ShowModal;
+        finally
+           FreeAndNil(frmControleAcesso);
+        end;
     end;
 end;
 
 procedure TfrmMenu.actProdutoExecute(Sender: TObject);
 begin
-    try
-       frmCadProduto := TfrmCadProduto.Create(self);
-       frmCadProduto.ShowModal;
-     finally
-       FreeAndNil(frmCadProduto);
-     end;
+    if Self.VerificaAcesso('frmCadProduto') then
+    begin
+        try
+           frmCadProduto := TfrmCadProduto.Create(self);
+           frmCadProduto.ShowModal;
+         finally
+           FreeAndNil(frmCadProduto);
+         end;
+    end;
 end;
 
 procedure TfrmMenu.actProdutos_VendidosExecute(Sender: TObject);
 begin
-    try
-      frmVendas_Produto := TfrmVendas_Produto.Create(self);
-      frmVendas_Produto.ShowModal;
-    finally
-      FreeAndNil(frmVendas_Produto);
+    if Self.VerificaAcesso('frmVendas_Produto') then
+    begin
+        try
+          frmVendas_Produto := TfrmVendas_Produto.Create(self);
+          frmVendas_Produto.ShowModal;
+        finally
+          FreeAndNil(frmVendas_Produto);
+        end;
     end;
 end;
 
 procedure TfrmMenu.actUnidadeExecute(Sender: TObject);
 begin
-    try
-        frmCadUnidade := TfrmCadUnidade.Create(self);
-        frmCadUnidade.ShowModal;
-     finally
-         FreeAndNil(frmCadUnidade);
-     end;
+    if Self.VerificaAcesso('frmCadUnidade') then
+    begin
+        try
+            frmCadUnidade := TfrmCadUnidade.Create(self);
+            frmCadUnidade.ShowModal;
+         finally
+             FreeAndNil(frmCadUnidade);
+         end;
+    end;
 end;
 
 procedure TfrmMenu.actUsuarioExecute(Sender: TObject);
 begin
-     try
-      frmCadUsuario := TfrmCadUsuario.Create(self);
-      frmCadUsuario.ShowModal;
-    finally
-      FreeAndNil(frmCadUsuario);
+    if Self.VerificaAcesso('frmCadUsuario') then
+    begin
+         try
+          frmCadUsuario := TfrmCadUsuario.Create(self);
+          frmCadUsuario.ShowModal;
+        finally
+          FreeAndNil(frmCadUsuario);
+        end;
     end;
 end;
 
 procedure TfrmMenu.actVendaExecute(Sender: TObject);
 begin
-    try
-      frmPDV := TfrmPDV.Create(self);
-      frmPDV.ShowModal;
-    finally
-      FreeAndNil(frmPDV);
+    if Self.VerificaAcesso('frmPDV') then
+    begin
+        try
+          frmPDV := TfrmPDV.Create(self);
+          frmPDV.ShowModal;
+        finally
+          FreeAndNil(frmPDV);
+        end;
     end;
 end;
 
 procedure TfrmMenu.btn1Click(Sender: TObject);
 begin
-    try
-    frmProgresso := TfrmProgresso.Create(self);
-    frmProgresso.ShowModal;
-    finally
-     FreeAndNil(frmProgresso);
-    end;
+      try
+        frmProgresso := TfrmProgresso.Create(self);
+        frmProgresso.ShowModal;
+      finally
+       FreeAndNil(frmProgresso);
+      end;
 end;
 
 procedure TfrmMenu.btnSairClick(Sender: TObject);
@@ -416,8 +495,6 @@ begin
 
     dmConexao.Conexao.Connected := True;
     frmMenu.Caption := FormataCaptionMenu;
-    stbStatus.Panels[1].Text := frmMenu.FUser;
-    stbStatus.Panels[3].Text := frmMenu.FPrivilegio;
     if FileExists(ExtractFilePath(Application.ExeName) + 'Imagens\ImgLogo.jpg') then
     begin
         imgMenu.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'Imagens\ImgLogo.jpg');
@@ -465,6 +542,41 @@ begin
     //Preenche data por extenso e hora nos respectivos panels
     stbStatus.Panels[5].Text := DataPorExtenso;
     stbStatus.Panels[7].Text := FormatDateTime('HH:MM:SS', Time);
+end;
+
+function TfrmMenu.VerificaAcesso(nameForm: string): Boolean;
+var
+  qry: TSQLQuery;
+begin
+     try
+         qry := TSQLQuery.Create(nil);
+         qry.SQLConnection := dmConexao.Conexao;
+
+         qry.Close;
+         qry.SQL.Clear;
+         qry.SQL.Add(SELECT_ACESSO);
+
+         if FPrivilegio = 'ADMINISTRAÇÃO' then
+            qry.SQL.Add(' AND ADMINISTRADOR = :valor')
+         else
+            qry.SQL.Add(' AND FUNCIONARIO = :valor');
+
+         qry.ParamByName('form').AsString := nameForm;
+         qry.ParamByName('valor').AsInteger := 1;
+         qry.Open;
+
+         if qry.IsEmpty then
+         begin
+            MessageDlg('Usuário não possui permissão de acesso!', mtWarning, [mbOK], 0);
+            Result := false;
+         end
+         else
+             Result := TRUE;
+
+     except
+         on E:Exception do
+         MessageDlg('Erro ao carregar dados: ' + E.Message, mtError, [mbOK], 0);
+     end;
 end;
 
 function TfrmMenu.VerificaConfig: Boolean;

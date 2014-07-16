@@ -53,7 +53,8 @@ uses
   uEstornoFinanceiro in '..\Objetos\FrmEstornoFinanceiro\uEstornoFinanceiro.pas' {frmEstornoFinanceiro},
   uImpressao in '..\Objetos\Impressao\uImpressao.pas',
   uCadDescarte in '..\Objetos\FrmDescarte\uCadDescarte.pas' {frmDescarte},
-  uProcuraDescarte in '..\Objetos\FrmProcuraDescarte\uProcuraDescarte.pas' {frmProcuraDescarte};
+  uProcuraDescarte in '..\Objetos\FrmProcuraDescarte\uProcuraDescarte.pas' {frmProcuraDescarte},
+  uACL in '..\Objetos\FrmACL\uACL.pas' {frmControleAcesso};
 
 {$R *.res}
 

@@ -1416,7 +1416,6 @@ object frmCadUsuario: TfrmCadUsuario
     ExplicitHeight = 258
     object tsCadastro: TTabSheet
       Caption = 'Cadastro de Usu'#225'rio'
-      ExplicitHeight = 227
       object grpCadastro: TGroupBox
         Left = 0
         Top = 0
@@ -1425,7 +1424,6 @@ object frmCadUsuario: TfrmCadUsuario
         Align = alClient
         Enabled = False
         TabOrder = 0
-        ExplicitHeight = 227
         object Label1: TLabel
           Left = 60
           Top = 111
@@ -1595,7 +1593,7 @@ object frmCadUsuario: TfrmCadUsuario
           Top = 108
           Width = 166
           Height = 24
-          CharCase = ecLowerCase
+          CharCase = ecUpperCase
           Color = clSilver
           TabOrder = 1
         end

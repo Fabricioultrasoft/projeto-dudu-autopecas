@@ -145,6 +145,8 @@ begin
     else
     begin
        CarregaProgresso;
+       frmMenu.stbStatus.Panels[1].Text := frmMenu.FUser;
+       frmMenu.stbStatus.Panels[3].Text := frmMenu.FPrivilegio;
        frmLogin.Close;
     end;
 end;
