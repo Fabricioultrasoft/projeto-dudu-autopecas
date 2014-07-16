@@ -1,7 +1,7 @@
 object dm: Tdm
   OldCreateOrder = False
-  Left = 473
-  Top = 132
+  Left = 454
+  Top = 295
   Height = 717
   Width = 1005
   object dspUsuario: TDataSetProvider
@@ -1874,5 +1874,65 @@ object dm: Tdm
     DataSet = cdsDescarte
     Left = 736
     Top = 232
+  end
+  object qryACL: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      'SELECT * FROM ACL ORDER BY DESCRICAO')
+    SQLConnection = dmConexao.Conexao
+    Left = 768
+    Top = 368
+    object intgrfldACLID: TIntegerField
+      FieldName = 'ID'
+    end
+    object strngfldACLJANELA: TStringField
+      FieldName = 'JANELA'
+      Size = 30
+    end
+    object strngfldACLDESCRICAO: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 100
+    end
+    object qryACLADMINISTRADOR: TSmallintField
+      FieldName = 'ADMINISTRADOR'
+    end
+    object qryACLFUNCIONARIO: TSmallintField
+      FieldName = 'FUNCIONARIO'
+    end
+  end
+  object dspACL: TDataSetProvider
+    DataSet = qryACL
+    Left = 768
+    Top = 456
+  end
+  object cdsACL: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspACL'
+    Left = 768
+    Top = 536
+    object intgrfldACLID1: TIntegerField
+      FieldName = 'ID'
+    end
+    object strngfldACLJANELA1: TStringField
+      FieldName = 'JANELA'
+      Size = 30
+    end
+    object strngfldACLDESCRICAO1: TStringField
+      FieldName = 'DESCRICAO'
+      Size = 100
+    end
+    object cdsACLADMINISTRADOR: TSmallintField
+      FieldName = 'ADMINISTRADOR'
+    end
+    object cdsACLFUNCIONARIO: TSmallintField
+      FieldName = 'FUNCIONARIO'
+    end
+  end
+  object dtsACL: TDataSource
+    DataSet = cdsACL
+    Left = 776
+    Top = 624
   end
 end

@@ -29,7 +29,6 @@ type
     procedure edtFornecedorChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
-    procedure btnImprimirClick(Sender: TObject);
     procedure grdVendasTitleClick(Column: TColumn);
     procedure dtpFinalChange(Sender: TObject);
   private
@@ -55,20 +54,6 @@ implementation
 procedure TfrmVendas_Produto.btnFecharClick(Sender: TObject);
 begin
     Close;
-end;
-
-procedure TfrmVendas_Produto.btnImprimirClick(Sender: TObject);
-var
-   s : TStringBuilder;
-begin
-     try
-         s := TStringBuilder.Create;
-         s.Append(FormatDateTime('dd/mm/yyyy', dtpInicial.Date) + ' à ' + FormatDateTime('dd/mm/yyyy', dtpFinal.Date));
-         frmRelatorio := TfrmRelatorio.Create(self);
-         frmRelatorio.GeraReport('Report_Venda_Fornecedor', 'RTVenda_Fornecedor', s.ToString);
-     finally
-         FreeAndNil(frmRelatorio);
-     end;
 end;
 
 procedure TfrmVendas_Produto.CarregaDados;

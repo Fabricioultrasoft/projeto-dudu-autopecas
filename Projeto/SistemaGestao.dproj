@@ -184,6 +184,9 @@
 			<DCCReference Include="..\Objetos\FrmProcuraDescarte\uProcuraDescarte.pas">
 				<Form>frmProcuraDescarte</Form>
 			</DCCReference>
+			<DCCReference Include="..\Objetos\FrmACL\uACL.pas">
+				<Form>frmControleAcesso</Form>
+			</DCCReference>
 			<None Include="ModelSupport_SistemaGestao\default.txvpck"/>
 			<None Include="ModelSupport_SistemaGestao\uFuncao\default.txvpck"/>
 			<None Include="ModelSupport_SistemaGestao\uProdutoNF\default.txvpck"/>
