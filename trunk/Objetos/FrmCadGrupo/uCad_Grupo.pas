@@ -262,6 +262,8 @@ begin
               end;
           end;
      end;
+
+     Self.AtualizaGrid();
 end;
 
 procedure TfrmCadGrupo.Incluir;

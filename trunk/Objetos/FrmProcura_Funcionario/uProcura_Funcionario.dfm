@@ -95,7 +95,6 @@ object frmProcura_Funcionario: TfrmProcura_Funcionario
     TitleFont.Height = -11
     TitleFont.Name = 'Tahoma'
     TitleFont.Style = []
-    OnKeyPress = grdFuncKeyPress
     OnTitleClick = grdFuncTitleClick
     Columns = <
       item

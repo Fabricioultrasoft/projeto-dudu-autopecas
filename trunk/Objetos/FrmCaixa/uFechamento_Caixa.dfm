@@ -135,7 +135,6 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
     Height = 72
     Align = alBottom
     TabOrder = 3
-    ExplicitTop = 551
     object btn1: TBitBtn
       Left = 578
       Top = 8
@@ -228,7 +227,6 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
       ExplicitHeight = 368
       object tsValores: TTabSheet
         Caption = 'Valores'
-        ExplicitHeight = 353
         object grp2: TGroupBox
           Left = 0
           Top = 0
@@ -236,7 +234,6 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
           Height = 354
           Align = alClient
           TabOrder = 0
-          ExplicitHeight = 353
           object lbl7: TLabel
             Left = 92
             Top = 147
@@ -518,7 +515,6 @@ object frmFechamento_Caixa: TfrmFechamento_Caixa
         Font.Style = []
         ImageIndex = 1
         ParentFont = False
-        ExplicitHeight = 353
         object grdRegistros: TDBGrid
           Left = 0
           Top = 0

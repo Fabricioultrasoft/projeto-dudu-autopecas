@@ -41,6 +41,8 @@ Source: "C:\Sistema Mini-Mercado\Banco de Dados\MINIMERCADO.FDB"; DestDir: "{app
 Source: "C:\Sistema Mini-Mercado\Projeto\dbxconnections.ini"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Sistema Mini-Mercado\Projeto\dbxdrivers.ini"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Sistema Mini-Mercado\Projeto\String_Conexao.ini"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Sistema Mini-Mercado\Imagens\ImgLogo.jpg"; DestDir: "{app}\Imagens"; Flags: ignoreversion
+Source: "C:\Sistema Mini-Mercado\Imagens\Logo.jpg"; DestDir: "{app}\Imagens"; Flags: ignoreversion
 Source: "C:\Sistema Mini-Mercado\Projeto\UF.txt"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Sistema Mini-Mercado\DLLs\*"; DestDir: "{app}\DLLs"; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: "C:\Sistema Mini-Mercado\DLLs\fbclient.dll"; DestDir: "{sys}"; Flags: ignoreversion

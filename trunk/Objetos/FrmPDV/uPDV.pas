@@ -127,7 +127,7 @@ var
 
 implementation
 
-uses uProcura_Estoque, uOrcamento, uProcura_Cliente, uProcura_Produto,
+uses uProcura_Estoque, uProcura_Cliente, uProcura_Produto,
   UdmConexao, uDm, uQtde, uForma_Pagamento, uCancela_Item, uProcura_Venda,
   uSenhaFiscal, uSuprimento, uSangria, uFechamento_Caixa, uMenu, uProgresso,
   uProcuraDevolucao, uEstornoFinanceiro;
@@ -693,7 +693,7 @@ procedure TfrmPDV.FormCreate(Sender: TObject);
 begin
      setStatusCaixa(svBloqueado);
      FImpressora    := TImpressora.Create(miEpson, PAnsiChar('USB'));
-     FImpressao     := TImpressao.Create(frmMenu.FCabSangria, frmMenu.FCabSuprimento, frmMenu.FCabFechamento, redtItem, frmMenu.FRazao, frmMenu.FCNPJ, frmMenu.FInscricao,
+     FImpressao     := TImpressao.Create(frmMenu.FCabSuprimento, frmMenu.FCabSangria, frmMenu.FCabFechamento, redtItem, frmMenu.FRazao, frmMenu.FCNPJ, frmMenu.FInscricao,
                                          frmMenu.FRua, frmMenu.FNumero, frmMenu.FBairro, frmMenu.FCidade, frmMenu.FMsgCabecalho, frmMenu.FMsgRodape, FImpressora);
      Self.Caption   := Application.Title + ' : PDV';
      redtItem.Color := HexToTColor('FFFFCC');

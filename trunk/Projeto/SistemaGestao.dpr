@@ -20,7 +20,6 @@ uses
   uEntrada_Produtos in '..\Objetos\FrmEntrada_Produtos\uEntrada_Produtos.pas' {frmEntrada_Produtos},
   uForma_Pagamento in '..\Objetos\FrmForma_Pagamento\uForma_Pagamento.pas' {frmForma_Pagamento},
   uLogin in '..\Objetos\FrmLogin\uLogin.pas' {frmLogin},
-  uOrcamento in '..\Objetos\FrmOrçamento\uOrcamento.pas' {frmOrcamento},
   uProcura_Cliente in '..\Objetos\FrmProcura_Cliente\uProcura_Cliente.pas' {frmProcura_Cliente},
   uProcura_Estoque in '..\Objetos\FrmProcura_Estoque\uProcura_Estoque.pas' {frmProcura_Estoque},
   uProcura_Fornecedor in '..\Objetos\FrmProcura_Fornecedor\uProcura_Fornecedor.pas' {frmProcura_Fornecedor},
@@ -61,7 +60,7 @@ uses
 begin
   RPDefine.DataID := IntToStr(Application.Handle);
   Application.Initialize;
-  Application.Title := 'Sistema de Gestão - Mini Mercado';
+  Application.Title := 'Sistema de Gestão';
   Application.CreateForm(TdmConexao, dmConexao);
   Application.CreateForm(Tdm, dm);
   Application.CreateForm(TfrmSplash, frmSplash);

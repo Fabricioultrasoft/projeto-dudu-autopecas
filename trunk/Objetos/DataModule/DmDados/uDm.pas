@@ -103,45 +103,12 @@ type
     strngfldAgendaEMAIL1: TStringField;
     intgrfldAgendaID: TIntegerField;
     intgrfldAgendaID1: TIntegerField;
-    qryOrcamento: TSQLQuery;
-    dspOrcamento: TDataSetProvider;
-    cdsOrcamento: TClientDataSet;
-    dtsOrcamento: TDataSource;
-    strngfldOrcamentoCOD_ORC: TStringField;
-    dtfldOrcamentoDATA_ORCAMENTO: TDateField;
-    strngfldOrcamentoTIPO_ORCAMENTO: TStringField;
-    fmtbcdfldOrcamentoVAL_TOTAL: TFMTBCDField;
-    qryItem_Orc: TSQLQuery;
-    cdsItem_Orc: TClientDataSet;
-    strngfldItem_OrcCOD_ORC: TStringField;
-    strngfldItem_OrcCOD_PROD: TStringField;
-    strngfldItem_OrcDESC_PROD: TStringField;
-    intgrfldItem_OrcQTDE: TIntegerField;
-    fmtbcdfldItem_OrcVAL_PROD: TFMTBCDField;
-    fmtbcdfldItem_OrcTOTAL_PROD: TFMTBCDField;
-    strngfldOrcamentoCOD_ORC1: TStringField;
-    dtfldOrcamentoDATA_ORCAMENTO1: TDateField;
-    strngfldOrcamentoTIPO_ORCAMENTO1: TStringField;
-    fmtbcdfldOrcamentoVAL_TOTAL1: TFMTBCDField;
-    strngfldItem_OrcCOD_ORC1: TStringField;
-    strngfldItem_OrcCOD_PROD1: TStringField;
-    strngfldItem_OrcDESC_PROD1: TStringField;
-    intgrfldItem_OrcQTDE1: TIntegerField;
-    fmtbcdfldItem_OrcVAL_PROD1: TFMTBCDField;
-    fmtbcdfldItem_OrcTOTAL_PROD1: TFMTBCDField;
-    dtsItem_Orc: TDataSource;
-    dspItem_Orc: TDataSetProvider;
-    cdsItem_OrcS_TOTAL_PROD: TAggregateField;
     stringUsuarioPRIVILEGIO: TStringField;
     stringUsuarioSENHA: TStringField;
     dtfldUsuarioDATA_CADASTRO: TDateField;
     stringUsuarioPRIVILEGIO1: TStringField;
     stringUsuarioSENHA1: TStringField;
     dtfldUsuarioDATA_CADASTRO1: TDateField;
-    stringOrcamentoCOD_FUNC: TStringField;
-    stringOrcamentoCOD_FUNC1: TStringField;
-    intgrfldItem_OrcID: TIntegerField;
-    intgrfldItem_OrcID1: TIntegerField;
     qryVenda: TSQLQuery;
     cdsVenda: TClientDataSet;
     dtsVenda: TDataSource;
@@ -189,10 +156,6 @@ type
     stringCaixaN_DOCUMENTO1: TStringField;
     stringUsuarioDESC_USUARIO: TStringField;
     stringUsuarioDESC_USUARIO1: TStringField;
-    stringOrcamentoDESC_USUARIO: TStringField;
-    stringOrcamentoDESC_USUARIO1: TStringField;
-    stringItem_OrcTIPO_ENTRADA: TStringField;
-    stringItem_OrcTIPO_ENTRADA1: TStringField;
     fmtbcdfldEstoqueVAL_CUSTO: TFMTBCDField;
     fmtbcdfldEstoqueVAL_VENDA: TFMTBCDField;
     fmtbcdfldEstoqueVAL_CUSTO1: TFMTBCDField;
@@ -210,16 +173,8 @@ type
     dspVenda_Fornecedor: TDataSetProvider;
     cdsVenda_Fornecedor: TClientDataSet;
     dtsVenda_Fornecedor: TDataSource;
-    ID_ITEMOrcamentoID_PAGAMENTO: TIntegerField;
-    ID_ITEMOrcamentoID_PAGAMENTO1: TIntegerField;
     stringCaixaTIPO_DOCUMENTO: TStringField;
     stringCaixaTIPO_DOCUMENTO1: TStringField;
-    stringOrcamentoTIPO_PAGAMENTO: TStringField;
-    stringOrcamentoTIPO_PAGAMENTO1: TStringField;
-    stringItem_OrcREF_PROD: TStringField;
-    stringItem_OrcREF_PROD1: TStringField;
-    stringItem_OrcTIPO_ORCAMENTO: TStringField;
-    stringItem_OrcTIPO_ORCAMENTO1: TStringField;
     stringVendaSTATUS: TStringField;
     stringVendaSTATUS1: TStringField;
     stringEntrada_ProdutoEAN13: TStringField;
@@ -415,11 +370,6 @@ type
     cdsDescarteORIGEM: TStringField;
     function CarregaPrivilegio: TStringList;
     function CarregaUnidadeMedida: TStringList;
-    procedure intgrfldItem_OrcQTDE1Validate(Sender: TField);
-    procedure cdsItem_OrcAfterPost(DataSet: TDataSet);
-    function Busca_ItemPedido(N_Venda: string): Boolean;
-    function Busca_EntradaProduto(Referencia: string):boolean;
-    function Busca_Produto(Codigo: string):boolean;
     procedure cdsItem_VendaAfterScroll(DataSet: TDataSet);
   private
 
@@ -458,7 +408,7 @@ const
 
 implementation
 
-uses UdmConexao, uOrcamento, uPDV, uProcura_Venda;
+uses UdmConexao, uPDV, uProcura_Venda;
 
 {$R *.dfm}
 
@@ -482,62 +432,6 @@ begin
      dm.qryEntrada_Produto.ParamByName('nota').AsString := Nota;
      dm.qryEntrada_Produto.Open;
      dm.cdsEntrada_Produto.Open;
-end;
-
-function Tdm.Busca_ItemPedido(N_Venda: string): Boolean;
-begin
-     cdsItem_Venda.Close;
-     with qryItem_Venda do
-     begin
-         Close;
-         SQL.Clear;
-         SQL.Add('SELECT * FROM ITEM_VENDA WHERE N_VENDA = :VENDA');
-         Params[0].AsString := N_Venda;
-         Open;
-     end;
-     cdsItem_Venda.Open;
-
-     Result := false;
-     if cdsItem_Venda.RecordCount > 0 then
-        Result := true;
-end;
-
-function Tdm.Busca_Produto(Codigo: string): boolean;
-begin
-     cdsProduto.Close;
-     with qryProduto do
-     begin
-         Close;
-         SQL.Clear;
-         SQL.Add('SELECT P.COD_PROD, P.DESC_PROD, P.ESTOQUE_MINIMO, P.UND, P.COD_GRUPO, G.DESC_GRUPO, P.APLICACAO');
-         SQL.Add('FROM PRODUTO P, GRUPO G');
-         SQL.Add('WHERE P.COD_GRUPO = G.COD_GRUPO AND COD_PROD = :COD');
-         Params[0].AsString := Codigo;
-         Open;
-     end;
-     cdsProduto.Open;
-
-     Result := false;
-     if cdsProduto.RecordCount > 0 then
-        Result := true;
-end;
-
-function Tdm.Busca_EntradaProduto(Referencia: string): boolean;
-begin
-     cdsEntrada_Produto.Close;
-     with qryEntrada_Produto do
-     begin
-         Close;
-         SQL.Clear;
-         SQL.Add(SELECT);
-         Params[0].AsString := Referencia;
-         Open;
-     end;
-     cdsEntrada_Produto.Open;
-
-     Result := false;
-     if cdsEntrada_Produto.RecordCount > 0 then
-        Result := true;
 end;
 
 procedure Tdm.CarregaDescFornecedor(Codigo: string; var Edit: TEdit);
@@ -643,15 +537,6 @@ begin
       Result := lista;
 end;
 
-procedure Tdm.cdsItem_OrcAfterPost(DataSet: TDataSet);
-begin
-    //Carrega o valor total dos itens no edtVal_Total
-    if Assigned(frmOrcamento) and (dm.cdsItem_Orc.FieldByName('TOTAL_PROD').AsInteger >= 0) then
-    begin
-        frmOrcamento.edtVal_Total.Text := FormatFloat('##0.00', dm.cdsItem_Orc.FieldByName('S_TOTAL_PROD').Value);
-    end;
-end;
-
 procedure Tdm.cdsItem_VendaAfterScroll(DataSet: TDataSet);
 begin
      if (Assigned(frmPDV)) and (not Assigned(frmProcura_Venda))then
@@ -660,15 +545,6 @@ begin
          frmPDV.edtProduto.Text        := dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString;
          frmPDV.edtValor_Unitario.Text := IntToStr(dm.cdsItem_Venda.FieldByName('QTDE').AsInteger) + ' x ' + FormatFloat('##0.00', dm.cdsItem_Venda.FieldByName('VAL_PROD').AsFloat);
          frmPDV.edtSub_total.Text      := FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('TOTAL_PROD').AsFloat);
-     end;
-end;
-
-procedure Tdm.intgrfldItem_OrcQTDE1Validate(Sender: TField);
-begin
-     //Calcula o valor total dos produtos após a inclusão da quantidade
-     if Assigned(frmOrcamento) then
-     begin
-         dm.cdsItem_Orc.FieldByName('TOTAL_PROD').AsFloat := TFuncoes.CalculaValorProd(dm.cdsItem_Orc.FieldByName('QTDE').AsInteger, dm.cdsItem_Orc.FieldByName('VAL_PROD').AsFloat);
      end;
 end;
 

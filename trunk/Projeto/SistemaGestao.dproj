@@ -96,9 +96,6 @@
 			<DCCReference Include="..\Objetos\FrmLogin\uLogin.pas">
 				<Form>frmLogin</Form>
 			</DCCReference>
-			<DCCReference Include="..\Objetos\FrmOrçamento\uOrcamento.pas">
-				<Form>frmOrcamento</Form>
-			</DCCReference>
 			<DCCReference Include="..\Objetos\FrmProcura_Cliente\uProcura_Cliente.pas">
 				<Form>frmProcura_Cliente</Form>
 			</DCCReference>
@@ -312,7 +309,7 @@
 						<VersionInfo Name="MajorVer">1</VersionInfo>
 						<VersionInfo Name="MinorVer">0</VersionInfo>
 						<VersionInfo Name="Release">0</VersionInfo>
-						<VersionInfo Name="Build">4</VersionInfo>
+						<VersionInfo Name="Build">6</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -324,7 +321,7 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName">WLL - SISTEMAS</VersionInfoKeys>
 						<VersionInfoKeys Name="FileDescription"/>
-						<VersionInfoKeys Name="FileVersion">1.0.0.4</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">1.0.0.6</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName"/>
 						<VersionInfoKeys Name="LegalCopyright"/>
 						<VersionInfoKeys Name="LegalTrademarks"/>

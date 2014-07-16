@@ -21,7 +21,6 @@ type
     procedure CarregaConsulta();
     procedure edtPesquisaKeyPress(Sender: TObject; var Key: Char);
     procedure FormCreate(Sender: TObject);
-    procedure grdFuncKeyPress(Sender: TObject; var Key: Char);
     procedure grdFuncTitleClick(Column: TColumn);
   private
     { Private declarations }
@@ -34,7 +33,7 @@ var
 
 implementation
 
-uses uDm, uOrcamento;
+uses uDm;
 
 {$R *.dfm}
 
@@ -91,20 +90,6 @@ procedure TfrmProcura_Funcionario.FormKeyDown(Sender: TObject; var Key: Word;
   Shift: TShiftState);
 begin
     if Key = VK_ESCAPE then frmProcura_Funcionario.Close;
-end;
-
-procedure TfrmProcura_Funcionario.grdFuncKeyPress(Sender: TObject;
-  var Key: Char);
-begin
-     if Key = #13 then
-     begin
-          if Assigned(frmOrcamento) then
-          begin
-              frmOrcamento.edtCod_Func.Text := dm.cdsUsuario.FieldByName('COD_USER').AsString;
-              frmProcura_Funcionario.Close;
-          end;
-
-     end;
 end;
 
 procedure TfrmProcura_Funcionario.grdFuncTitleClick(Column: TColumn);
