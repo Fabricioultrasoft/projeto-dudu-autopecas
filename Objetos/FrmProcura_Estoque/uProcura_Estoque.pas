@@ -20,7 +20,6 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure CarregaConsulta();
-    procedure CarregaItensOrcamento();
     procedure CarregaItensVenda();
     procedure grdEstoqueDrawColumnCell(Sender: TObject; const Rect: TRect;
       DataCol: Integer; Column: TColumn; State: TGridDrawState);
@@ -54,7 +53,7 @@ const
 
 implementation
 
-uses uDm, uOrcamento, uRelatorio, UdmConexao;
+uses uDm, uRelatorio, UdmConexao;
 
 {$R *.dfm}
 
@@ -95,30 +94,6 @@ begin
         key := #0;
         SelectNext(ActiveControl, true, true);
     end;
-end;
-
-procedure TfrmProcura_Estoque.CarregaItensOrcamento;
-begin
-     //Procedimento para carregar os itens na ClientDataSet de itens de orçamento
-     dm.cdsItem_Orc.Open;
-
-     //Cria um índice para ordenar pelo campo ID
-     dm.cdsItem_Orc.IndexFieldNames := 'ID';
-
-     //Verifica se o item existe, caso não exista inseri um novo registro
-     if not dm.cdsItem_Orc.Locate('REF_PROD', dm.cdsEstoque.FieldByName('REF_PROD').AsString, [loCaseInsensitive, loPartialKey]) then
-     begin
-        //Carrega valores no cds Itens do Orçamento
-        dm.cdsOrcamento.Open;
-        dm.cdsItem_Orc.Append;
-        dm.cdsItem_Orc.FieldByName('ID').AsInteger            := GeraID;
-        dm.cdsItem_Orc.FieldByName('COD_ORC').AsString        := frmOrcamento.edtNumero.Text;
-        dm.cdsItem_Orc.FieldByName('DESC_PROD').AsString      := dm.cdsEstoque.FieldByName('DESC_PROD').AsString;
-        dm.cdsItem_Orc.FieldByName('VAL_PROD').AsString       := dm.cdsEstoque.FieldByName('VAL_VENDA').AsString;
-        dm.cdsItem_Orc.FieldByName('TIPO_ENTRADA').AsString   := dm.cdsEstoque.FieldByName('TIPO_ENTRADA').AsString;
-        dm.cdsItem_Orc.FieldByName('TIPO_ORCAMENTO').AsString := frmOrcamento.cmbTipo.Text;
-        frmOrcamento.grdOrcamento.SelectedIndex := 3;
-     end;
 end;
 
 procedure TfrmProcura_Estoque.CarregaConsulta();
@@ -228,12 +203,6 @@ end;
 
 procedure TfrmProcura_Estoque.grdEstoqueDblClick(Sender: TObject);
 begin
-    //Carrega os campos após duplo clique sobre o registro
-     if Assigned(frmOrcamento) then
-     begin
-         frmProcura_Estoque.Close;
-         CarregaItensOrcamento();
-     end;
 
      if Assigned(frmPDV) and (frmPDV.StatusPDV = svAberto)then
      begin
@@ -266,11 +235,6 @@ procedure TfrmProcura_Estoque.grdEstoqueKeyPress(Sender: TObject;
 begin
     if Key = #13 then
     begin
-       if Assigned(frmOrcamento) then
-       begin
-           frmProcura_Estoque.Close;
-           CarregaItensOrcamento();
-       end;
 
        if Assigned(frmPDV) and (frmPDV.StatusPDV = svAberto)then
        begin

@@ -845,243 +845,6 @@ object dm: Tdm
     Left = 24
     Top = 232
   end
-  object qryOrcamento: TSQLQuery
-    MaxBlobSize = -1
-    Params = <>
-    SQL.Strings = (
-      'SELECT'
-      '     O.COD_ORC,'
-      '     O.DATA_ORCAMENTO,'
-      '     O.TIPO_ORCAMENTO,'
-      '     O.ID_PAGAMENTO,'
-      '     P.TIPO_PAGAMENTO,'
-      '     O.COD_FUNC,'
-      '     U.DESC_USUARIO,'
-      '     O.VAL_TOTAL'
-      'FROM'
-      '     ORCAMENTO O, USUARIO U, PAGAMENTO P'
-      'WHERE'
-      '     O.COD_FUNC = U.COD_USER AND O.ID_PAGAMENTO = P.ID')
-    SQLConnection = dmConexao.Conexao
-    Left = 256
-    Top = 360
-    object strngfldOrcamentoCOD_ORC: TStringField
-      FieldName = 'COD_ORC'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Size = 10
-    end
-    object dtfldOrcamentoDATA_ORCAMENTO: TDateField
-      FieldName = 'DATA_ORCAMENTO'
-    end
-    object strngfldOrcamentoTIPO_ORCAMENTO: TStringField
-      FieldName = 'TIPO_ORCAMENTO'
-      Size = 1
-    end
-    object fmtbcdfldOrcamentoVAL_TOTAL: TFMTBCDField
-      FieldName = 'VAL_TOTAL'
-      Precision = 15
-      Size = 2
-    end
-    object stringOrcamentoCOD_FUNC: TStringField
-      FieldName = 'COD_FUNC'
-      Size = 10
-    end
-    object stringOrcamentoDESC_USUARIO: TStringField
-      FieldName = 'DESC_USUARIO'
-    end
-    object ID_ITEMOrcamentoID_PAGAMENTO: TIntegerField
-      FieldName = 'ID_PAGAMENTO'
-    end
-    object stringOrcamentoTIPO_PAGAMENTO: TStringField
-      FieldName = 'TIPO_PAGAMENTO'
-      Size = 100
-    end
-  end
-  object dspOrcamento: TDataSetProvider
-    DataSet = qryOrcamento
-    UpdateMode = upWhereKeyOnly
-    Left = 256
-    Top = 448
-  end
-  object cdsOrcamento: TClientDataSet
-    Aggregates = <>
-    Params = <>
-    ProviderName = 'dspOrcamento'
-    Left = 256
-    Top = 528
-    object strngfldOrcamentoCOD_ORC1: TStringField
-      FieldName = 'COD_ORC'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Size = 10
-    end
-    object dtfldOrcamentoDATA_ORCAMENTO1: TDateField
-      FieldName = 'DATA_ORCAMENTO'
-    end
-    object strngfldOrcamentoTIPO_ORCAMENTO1: TStringField
-      FieldName = 'TIPO_ORCAMENTO'
-      Size = 1
-    end
-    object fmtbcdfldOrcamentoVAL_TOTAL1: TFMTBCDField
-      FieldName = 'VAL_TOTAL'
-      DisplayFormat = '##0.00'
-      Precision = 15
-      Size = 2
-    end
-    object stringOrcamentoCOD_FUNC1: TStringField
-      FieldName = 'COD_FUNC'
-      Size = 10
-    end
-    object stringOrcamentoDESC_USUARIO1: TStringField
-      FieldName = 'DESC_USUARIO'
-    end
-    object ID_ITEMOrcamentoID_PAGAMENTO1: TIntegerField
-      FieldName = 'ID_PAGAMENTO'
-    end
-    object stringOrcamentoTIPO_PAGAMENTO1: TStringField
-      FieldName = 'TIPO_PAGAMENTO'
-      Size = 100
-    end
-  end
-  object dtsOrcamento: TDataSource
-    DataSet = cdsOrcamento
-    Left = 256
-    Top = 608
-  end
-  object qryItem_Orc: TSQLQuery
-    MaxBlobSize = -1
-    Params = <>
-    SQL.Strings = (
-      'SELECT'
-      '     ID,'
-      '     COD_ORC,'
-      '     COD_PROD,'
-      '     REF_PROD,'
-      '     DESC_PROD, '
-      '     QTDE,'
-      '     VAL_PROD,'
-      '     TOTAL_PROD,'
-      '     TIPO_ENTRADA,'
-      '     TIPO_ORCAMENTO'
-      'FROM '
-      '      ITEM_ORCAMENTO'
-      'WHERE '
-      '      COD_ORC = '#39'0'#39
-      ''
-      '')
-    SQLConnection = dmConexao.Conexao
-    Left = 360
-    Top = 360
-    object strngfldItem_OrcCOD_ORC: TStringField
-      FieldName = 'COD_ORC'
-      Size = 10
-    end
-    object strngfldItem_OrcCOD_PROD: TStringField
-      FieldName = 'COD_PROD'
-      Size = 10
-    end
-    object strngfldItem_OrcDESC_PROD: TStringField
-      FieldName = 'DESC_PROD'
-      Size = 100
-    end
-    object intgrfldItem_OrcQTDE: TIntegerField
-      FieldName = 'QTDE'
-    end
-    object fmtbcdfldItem_OrcVAL_PROD: TFMTBCDField
-      FieldName = 'VAL_PROD'
-      Precision = 15
-      Size = 2
-    end
-    object fmtbcdfldItem_OrcTOTAL_PROD: TFMTBCDField
-      FieldName = 'TOTAL_PROD'
-      Precision = 15
-      Size = 2
-    end
-    object intgrfldItem_OrcID: TIntegerField
-      FieldName = 'ID'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-    end
-    object stringItem_OrcTIPO_ENTRADA: TStringField
-      FieldName = 'TIPO_ENTRADA'
-      Size = 1
-    end
-    object stringItem_OrcREF_PROD: TStringField
-      FieldName = 'REF_PROD'
-    end
-    object stringItem_OrcTIPO_ORCAMENTO: TStringField
-      FieldName = 'TIPO_ORCAMENTO'
-      Size = 1
-    end
-  end
-  object cdsItem_Orc: TClientDataSet
-    Aggregates = <>
-    AggregatesActive = True
-    Params = <>
-    ProviderName = 'dspItem_Orc'
-    AfterPost = cdsItem_OrcAfterPost
-    Left = 368
-    Top = 528
-    object strngfldItem_OrcCOD_ORC1: TStringField
-      FieldName = 'COD_ORC'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-      Size = 10
-    end
-    object strngfldItem_OrcCOD_PROD1: TStringField
-      FieldName = 'COD_PROD'
-      Size = 10
-    end
-    object strngfldItem_OrcDESC_PROD1: TStringField
-      FieldName = 'DESC_PROD'
-      Size = 100
-    end
-    object intgrfldItem_OrcQTDE1: TIntegerField
-      FieldName = 'QTDE'
-      OnValidate = intgrfldItem_OrcQTDE1Validate
-    end
-    object fmtbcdfldItem_OrcVAL_PROD1: TFMTBCDField
-      FieldName = 'VAL_PROD'
-      DisplayFormat = '##0.00'
-      Precision = 15
-      Size = 2
-    end
-    object fmtbcdfldItem_OrcTOTAL_PROD1: TFMTBCDField
-      FieldName = 'TOTAL_PROD'
-      DisplayFormat = '##0.00'
-      Precision = 15
-      Size = 2
-    end
-    object intgrfldItem_OrcID1: TIntegerField
-      FieldName = 'ID'
-      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
-    end
-    object stringItem_OrcTIPO_ENTRADA1: TStringField
-      FieldName = 'TIPO_ENTRADA'
-      Size = 1
-    end
-    object stringItem_OrcREF_PROD1: TStringField
-      FieldName = 'REF_PROD'
-    end
-    object stringItem_OrcTIPO_ORCAMENTO1: TStringField
-      FieldName = 'TIPO_ORCAMENTO'
-      Size = 1
-    end
-    object cdsItem_OrcS_TOTAL_PROD: TAggregateField
-      FieldName = 'S_TOTAL_PROD'
-      Active = True
-      DisplayFormat = '##0.00'
-      Expression = 'SUM(TOTAL_PROD)'
-    end
-  end
-  object dtsItem_Orc: TDataSource
-    DataSet = cdsItem_Orc
-    Left = 368
-    Top = 608
-  end
-  object dspItem_Orc: TDataSetProvider
-    DataSet = qryItem_Orc
-    UpdateMode = upWhereKeyOnly
-    Left = 360
-    Top = 448
-  end
   object qryVenda: TSQLQuery
     MaxBlobSize = -1
     Params = <>
@@ -1103,8 +866,8 @@ object dm: Tdm
       '     VENDA V'
       '')
     SQLConnection = dmConexao.Conexao
-    Left = 464
-    Top = 360
+    Left = 256
+    Top = 368
     object stringVendaN_VENDA: TStringField
       FieldName = 'N_VENDA'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -1169,8 +932,8 @@ object dm: Tdm
     Aggregates = <>
     Params = <>
     ProviderName = 'dspVenda'
-    Left = 464
-    Top = 536
+    Left = 256
+    Top = 544
     object stringVendaN_VENDA1: TStringField
       Alignment = taCenter
       FieldName = 'N_VENDA'
@@ -1241,14 +1004,14 @@ object dm: Tdm
   end
   object dtsVenda: TDataSource
     DataSet = cdsVenda
-    Left = 464
-    Top = 608
+    Left = 256
+    Top = 616
   end
   object dspVenda: TDataSetProvider
     DataSet = qryVenda
     UpdateMode = upWhereKeyOnly
-    Left = 464
-    Top = 456
+    Left = 256
+    Top = 464
   end
   object qryItem_Venda: TSQLQuery
     MaxBlobSize = -1
@@ -1274,8 +1037,8 @@ object dm: Tdm
       ''
       '')
     SQLConnection = dmConexao.Conexao
-    Left = 560
-    Top = 360
+    Left = 352
+    Top = 368
     object intgrfldItem_VendaID: TIntegerField
       FieldName = 'ID'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -1334,8 +1097,8 @@ object dm: Tdm
   object dspItem_Venda: TDataSetProvider
     DataSet = qryItem_Venda
     UpdateMode = upWhereKeyOnly
-    Left = 560
-    Top = 456
+    Left = 352
+    Top = 464
   end
   object cdsItem_Venda: TClientDataSet
     Aggregates = <>
@@ -1343,8 +1106,8 @@ object dm: Tdm
     Params = <>
     ProviderName = 'dspItem_Venda'
     AfterScroll = cdsItem_VendaAfterScroll
-    Left = 560
-    Top = 536
+    Left = 352
+    Top = 544
     object intgrfldItem_VendaID1: TIntegerField
       FieldName = 'ID'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -1412,13 +1175,13 @@ object dm: Tdm
   end
   object dtsItem_Venda: TDataSource
     DataSet = cdsItem_Venda
-    Left = 560
-    Top = 608
+    Left = 352
+    Top = 616
   end
   object dtsCaixa: TDataSource
     DataSet = cdsCaixa
-    Left = 648
-    Top = 608
+    Left = 440
+    Top = 616
   end
   object qryCaixa: TSQLQuery
     MaxBlobSize = -1
@@ -1439,8 +1202,8 @@ object dm: Tdm
       'FROM'
       '     CAIXA C ')
     SQLConnection = dmConexao.Conexao
-    Left = 640
-    Top = 368
+    Left = 432
+    Top = 376
     object dtfldCaixaDATA_ENTRADA: TDateField
       FieldName = 'DATA_ENTRADA'
     end
@@ -1496,8 +1259,8 @@ object dm: Tdm
     Aggregates = <>
     Params = <>
     ProviderName = 'dspCaixa'
-    Left = 648
-    Top = 536
+    Left = 440
+    Top = 544
     object dtfldCaixaDATA_ENTRADA1: TDateField
       FieldName = 'DATA_ENTRADA'
     end
@@ -1558,8 +1321,8 @@ object dm: Tdm
   end
   object dspCaixa: TDataSetProvider
     DataSet = qryCaixa
-    Left = 648
-    Top = 456
+    Left = 440
+    Top = 464
   end
   object qryVenda_Fornecedor: TSQLQuery
     MaxBlobSize = -1
@@ -1568,8 +1331,8 @@ object dm: Tdm
       'SELECT * FROM V_VENDA_FORNECEDOR'
       'WHERE COD_FORN = '#39'0'#39)
     SQLConnection = dmConexao.Conexao
-    Left = 752
-    Top = 360
+    Left = 544
+    Top = 368
     object stringVenda_FornecedorDESC_PROD: TStringField
       FieldName = 'DESC_PROD'
       Size = 100
@@ -1595,15 +1358,15 @@ object dm: Tdm
   end
   object dspVenda_Fornecedor: TDataSetProvider
     DataSet = qryVenda_Fornecedor
-    Left = 752
-    Top = 456
+    Left = 544
+    Top = 464
   end
   object cdsVenda_Fornecedor: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dspVenda_Fornecedor'
-    Left = 760
-    Top = 536
+    Left = 552
+    Top = 544
     object cdsVenda_FornecedorDESC_PROD: TStringField
       FieldName = 'DESC_PROD'
       Size = 100
@@ -1629,8 +1392,8 @@ object dm: Tdm
   end
   object dtsVenda_Fornecedor: TDataSource
     DataSet = cdsVenda_Fornecedor
-    Left = 760
-    Top = 616
+    Left = 552
+    Top = 624
   end
   object qryUnidade: TSQLQuery
     MaxBlobSize = -1
@@ -1785,24 +1548,24 @@ object dm: Tdm
     ViewerOptions = []
     FontEncoding = feNoEncoding
     DisplayName = 'Documento PDF'
-    Left = 928
-    Top = 16
+    Left = 840
+    Top = 24
   end
   object RLHTMLFilter1: TRLHTMLFilter
     DocumentStyle = dsCSS2
     DisplayName = 'P'#225'gina da Web'
-    Left = 936
-    Top = 72
+    Left = 848
+    Top = 80
   end
   object RLXLSFilter1: TRLXLSFilter
     DisplayName = 'Planilha Excel'
-    Left = 928
-    Top = 128
+    Left = 840
+    Top = 136
   end
   object RLRichFilter1: TRLRichFilter
     DisplayName = 'Formato RichText'
-    Left = 928
-    Top = 192
+    Left = 840
+    Top = 200
   end
   object qryDevolucao: TSQLQuery
     MaxBlobSize = -1
@@ -1828,8 +1591,8 @@ object dm: Tdm
       'FROM '
       '     DEVOLUCAO D INNER JOIN PRODUTO P ON D.EAN13 = P.EAN13')
     SQLConnection = dmConexao.Conexao
-    Left = 872
-    Top = 360
+    Left = 664
+    Top = 368
     object intgrfldDevolucaoID: TIntegerField
       FieldName = 'ID'
     end
@@ -1896,15 +1659,15 @@ object dm: Tdm
   end
   object dspDevolucao: TDataSetProvider
     DataSet = qryDevolucao
-    Left = 872
-    Top = 448
+    Left = 664
+    Top = 456
   end
   object cdsDevolucao: TClientDataSet
     Aggregates = <>
     Params = <>
     ProviderName = 'dspDevolucao'
-    Left = 872
-    Top = 528
+    Left = 664
+    Top = 536
     object intgrfldDevolucaoID1: TIntegerField
       FieldName = 'ID'
     end
@@ -1973,8 +1736,8 @@ object dm: Tdm
   end
   object dtsDevolucao: TDataSource
     DataSet = cdsDevolucao
-    Left = 872
-    Top = 616
+    Left = 664
+    Top = 624
   end
   object qryDescarte: TSQLQuery
     MaxBlobSize = -1
@@ -2048,7 +1811,6 @@ object dm: Tdm
     Top = 96
   end
   object cdsDescarte: TClientDataSet
-    Active = True
     Aggregates = <>
     Params = <>
     ProviderName = 'dspDescarte'

@@ -185,9 +185,9 @@ begin
     lblReleaase.Caption := GetBuildInfo;
 
     //Verifica se existe imagem de logo para form
-    if FileExists(ExtractFilePath(Application.ExeName) + 'Imagens\ImgLogo.jpg') then
+    if FileExists(ExtractFilePath(Application.ExeName) + 'Imagens\Logo.jpg') then
     begin
-      imgLogin.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'Imagens\ImgLogo.jpg');
+      imgLogin.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'Imagens\Logo.jpg');
     end;
 
     //Carrega os itens(Privilegios) do combobox com o retorno da função da unit Udm

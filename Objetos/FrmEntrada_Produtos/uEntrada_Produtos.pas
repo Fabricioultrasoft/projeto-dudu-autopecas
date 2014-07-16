@@ -103,9 +103,11 @@ const
   // Instrução SQL para DELETE
   DELETE: string = 'DELETE FROM ENTRADA_NF WHERE N_NOTA = :nota';
 
-   // Instrução SQL para DELETE para produto da nota
-  DELETE_PRODUTO: string = 'DELETE FROM ENTRADA_PRODUTO WHERE ID = :id';
+  // Instrução SQL para DELETE 1 produto da nota
+  DELETE_PRODUTO: string = 'DELETE FROM ENTRADA_PRODUTO WHERE id = :id';
 
+  // Instrução SQL para DELETE todos os produto da nota
+  DELETE_ALL_PRODUTO: string = 'DELETE FROM ENTRADA_PRODUTO WHERE N_NOTA = :nota';
 
   // Instrução SQL para verificação de Duplicidade
   SQLVERIF: string  = 'SELECT N_NOTA FROM ENTRADA_NF WHERE N_NOTA = :nDoc AND COD_FORN = :cod';
@@ -315,6 +317,13 @@ begin
     try
         if Application.MessageBox('Deseja excluir esse registro?', 'Confirmação', MB_YESNO)= mrYes then
         begin
+            dm.qryEntrada_Produto.Close;
+            dm.qryEntrada_Produto.SQL.Clear;
+            dm.qryEntrada_Produto.SQL.Add(DELETE_ALL_PRODUTO);
+            dm.qryEntrada_Produto.ParamByName('nota').AsString := edtN_Documento.Text;
+            dm.qryEntrada_Produto.ExecSQL();
+            dm.cdsEntrada_Produto.Close;
+
             dm.qryEntradaNF.Close;
             dm.qryEntradaNF.SQL.Clear;
             dm.qryEntradaNF.SQL.Add(DELETE);

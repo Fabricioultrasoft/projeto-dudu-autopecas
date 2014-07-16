@@ -28,10 +28,10 @@ type
     procedure btnFecharClick(Sender: TObject);
     procedure edtFornecedorChange(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure dtpInicialChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnImprimirClick(Sender: TObject);
     procedure grdVendasTitleClick(Column: TColumn);
+    procedure dtpFinalChange(Sender: TObject);
   private
     { Private declarations }
   public
@@ -86,10 +86,10 @@ begin
     dtpFinal.Date := Now;
 end;
 
-procedure TfrmVendas_Produto.dtpInicialChange(Sender: TObject);
+procedure TfrmVendas_Produto.dtpFinalChange(Sender: TObject);
 begin
-     if dtpInicial.Date < dtpFinal.Date then
-     begin
+    if dtpInicial.Date < dtpFinal.Date then
+    begin
          dm.qryVenda_Fornecedor.Close;
          dm.qryVenda_Fornecedor.SQL.Clear;
          dm.qryVenda_Fornecedor.SQL.Add(SELECT);
@@ -102,13 +102,13 @@ begin
 
          dm.qryVenda_Fornecedor.SQL.Add(GROUP_BY);
          dm.qryVenda_Fornecedor.Open;
-     end
-     else
-     begin
-        ShowMessage('Intervalo de datas inválido!');
-     end;
-     dm.cdsVenda_Fornecedor.Open;
-     dm.cdsVenda_Fornecedor.Refresh;
+    end
+    else
+    begin
+      ShowMessage('Intervalo de datas inválido!');
+    end;
+    dm.cdsVenda_Fornecedor.Open;
+    dm.cdsVenda_Fornecedor.Refresh;
 end;
 
 procedure TfrmVendas_Produto.edtFornecedorChange(Sender: TObject);

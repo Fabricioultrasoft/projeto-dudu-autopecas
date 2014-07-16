@@ -80,7 +80,6 @@ type
     procedure actProdutoExecute(Sender: TObject);
     procedure actEntradaExecute(Sender: TObject);
     procedure actVendaExecute(Sender: TObject);
-    procedure actOrcamentoExecute(Sender: TObject);
     procedure actEstoqueExecute(Sender: TObject);
     procedure actAgendaExecute(Sender: TObject);
     procedure actCaixaExecute(Sender: TObject);
@@ -141,7 +140,7 @@ const
 implementation
 
 uses UdmConexao, uCad_Usuario, uCad_Grupo, uCad_Cliente, uCad_Fornecedor,
-  uCad_Produto, uProcura_Estoque, uEntrada_Produtos, uAgenda, uOrcamento, uPDV,
+  uCad_Produto, uProcura_Estoque, uEntrada_Produtos, uAgenda, uPDV,
   uFechamento_Caixa, USobre, USplash, uSangria, uSuprimento, uCadUnidade,
   uConfig, uAviso, uProgresso, uImpressoraBase,
   uImpressoraEpson, uCadDescarte;
@@ -314,16 +313,6 @@ begin
     end;
 end;
 
-procedure TfrmMenu.actOrcamentoExecute(Sender: TObject);
-begin
-    try
-      frmOrcamento := TfrmOrcamento.Create(Self);
-      frmOrcamento.ShowModal;
-    finally
-      FreeAndNil(frmOrcamento);
-    end;
-end;
-
 procedure TfrmMenu.actProdutoExecute(Sender: TObject);
 begin
     try
@@ -415,6 +404,8 @@ begin
 end;
 
 procedure TfrmMenu.FormCreate(Sender: TObject);
+var
+  s: string;
 begin
     try
       frmLogin := TfrmLogin.Create(nil);
@@ -427,7 +418,6 @@ begin
     frmMenu.Caption := FormataCaptionMenu;
     stbStatus.Panels[1].Text := frmMenu.FUser;
     stbStatus.Panels[3].Text := frmMenu.FPrivilegio;
-
     if FileExists(ExtractFilePath(Application.ExeName) + 'Imagens\ImgLogo.jpg') then
     begin
         imgMenu.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'Imagens\ImgLogo.jpg');

@@ -1,11 +1,11 @@
 object frmSobre: TfrmSobre
-  Left = 884
+  Left = 649
   Top = 237
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Sobre'
-  ClientHeight = 310
-  ClientWidth = 553
+  ClientHeight = 341
+  ClientWidth = 581
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,7 +19,7 @@ object frmSobre: TfrmSobre
   PixelsPerInch = 96
   TextHeight = 13
   object Label1: TLabel
-    Left = 240
+    Left = 245
     Top = 8
     Width = 49
     Height = 13
@@ -32,20 +32,22 @@ object frmSobre: TfrmSobre
     ParentFont = False
   end
   object lblName: TLabel
-    Left = 240
-    Top = 24
+    Left = 245
+    Top = 26
     Width = 37
     Height = 13
     Caption = 'lblName'
+    Color = clHotLight
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clMaroon
+    Font.Color = clHotLight
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+    ParentColor = False
     ParentFont = False
   end
   object Label2: TLabel
-    Left = 240
+    Left = 245
     Top = 54
     Width = 42
     Height = 13
@@ -58,20 +60,22 @@ object frmSobre: TfrmSobre
     ParentFont = False
   end
   object lblVersao: TLabel
-    Left = 240
+    Left = 245
     Top = 73
     Width = 37
     Height = 13
     Caption = 'lblName'
+    Color = clHotLight
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clMaroon
+    Font.Color = clHotLight
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+    ParentColor = False
     ParentFont = False
   end
   object Label3: TLabel
-    Left = 240
+    Left = 245
     Top = 102
     Width = 88
     Height = 13
@@ -84,21 +88,23 @@ object frmSobre: TfrmSobre
     ParentFont = False
   end
   object lblResponsavel: TLabel
-    Left = 240
+    Left = 245
     Top = 121
     Width = 37
     Height = 13
     Caption = 'lblName'
+    Color = clHotLight
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clMaroon
+    Font.Color = clHotLight
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+    ParentColor = False
     ParentFont = False
   end
   object Label4: TLabel
     Left = 8
-    Top = 166
+    Top = 196
     Width = 113
     Height = 13
     Caption = 'Informa'#231#245'es gerais:'
@@ -111,63 +117,71 @@ object frmSobre: TfrmSobre
   end
   object lblPlataforma: TLabel
     Left = 8
-    Top = 185
+    Top = 215
     Width = 62
     Height = 13
     Caption = 'lblPlataforma'
+    Color = clHotLight
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clMaroon
+    Font.Color = clHotLight
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+    ParentColor = False
     ParentFont = False
   end
   object lblRelatorio: TLabel
     Left = 8
-    Top = 204
+    Top = 234
     Width = 53
     Height = 13
     Caption = 'lblRelatorio'
+    Color = clHotLight
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clMaroon
+    Font.Color = clHotLight
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+    ParentColor = False
     ParentFont = False
   end
   object lblBancoDados: TLabel
     Left = 8
-    Top = 223
+    Top = 253
     Width = 69
     Height = 13
     Caption = 'lblBancoDados'
+    Color = clHotLight
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clMaroon
+    Font.Color = clHotLight
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+    ParentColor = False
     ParentFont = False
   end
   object lblINI: TLabel
     Left = 8
-    Top = 242
+    Top = 272
     Width = 25
     Height = 13
     Caption = 'lblINI'
+    Color = clHotLight
     Font.Charset = DEFAULT_CHARSET
-    Font.Color = clMaroon
+    Font.Color = clHotLight
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+    ParentColor = False
     ParentFont = False
   end
   object lblSite: TLabel
-    Left = 240
+    Left = 245
     Top = 140
-    Width = 118
+    Width = 143
     Height = 13
     Cursor = crHandPoint
-    Caption = 'www.wllsistemas.com.br'
+    Caption = 'Site: www.wllsistemas.com.br'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clBlue
     Font.Height = -11
@@ -177,18 +191,48 @@ object frmSobre: TfrmSobre
     OnClick = lblSiteClick
     OnMouseMove = lblSiteMouseMove
   end
+  object lblEmail: TLabel
+    Left = 245
+    Top = 159
+    Width = 37
+    Height = 13
+    Caption = 'lblName'
+    Color = clHotLight
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clHotLight
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentColor = False
+    ParentFont = False
+  end
+  object lblFone: TLabel
+    Left = 245
+    Top = 177
+    Width = 34
+    Height = 13
+    Caption = 'lblFone'
+    Color = clHotLight
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clHotLight
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentColor = False
+    ParentFont = False
+  end
   object Panel1: TPanel
     Left = 8
     Top = 8
-    Width = 201
-    Height = 146
+    Width = 226
+    Height = 182
     Caption = 'Panel1'
     TabOrder = 0
     object Image1: TImage
       Left = 1
       Top = 1
-      Width = 199
-      Height = 144
+      Width = 224
+      Height = 180
       Align = alClient
       Picture.Data = {
         0A544A504547496D6167651B110000FFD8FFE000104A46494600010100000100
@@ -338,15 +382,17 @@ object frmSobre: TfrmSobre
   end
   object Panel2: TPanel
     Left = 0
-    Top = 269
-    Width = 553
+    Top = 300
+    Width = 581
     Height = 41
     Align = alBottom
     BevelInner = bvSpace
     BevelOuter = bvSpace
     TabOrder = 1
+    ExplicitTop = 269
+    ExplicitWidth = 553
     object BitBtn1: TBitBtn
-      Left = 440
+      Left = 472
       Top = 4
       Width = 97
       Height = 29

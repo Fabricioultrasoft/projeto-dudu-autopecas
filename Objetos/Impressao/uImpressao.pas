@@ -340,7 +340,7 @@ begin
     FRichEdit.Clear;
 
     if FCabSangria then
-       ImprimirMsgCabecalho();
+       ImprimirMsgRodape();
 
     FRichEdit.Paragraph.Alignment := taCenter;
     FRichEdit.Lines.Add(InseriTraco(66, false, false));
@@ -370,7 +370,7 @@ begin
         Texto := Concat(Texto, 'Hora: ' + FormatDateTime('hh:mm:ss', time) + #10);
         Texto := Concat(Texto, 'Motivo: ' + #10 + UpperCase(Observacao) + #10);
         Texto := Concat(Texto, FImpressora.InseriTraco(48, True, true));
-        FImpressora.ImprimeTextoTag(PAnsiChar(texto), false);
+        FImpressora.ImprimeTextoTag(PAnsiChar(texto), FCabSangria);
         FImpressora.AcionaGuilhotina(0);
     end;
 end;
@@ -380,7 +380,7 @@ procedure TImpressao.ImprimirSuprimento(Valor, Responsavel,
 begin
     FRichEdit.Clear;
 
-    if FCabSangria then
+    if FCabSuprimento then
        ImprimirMsgCabecalho();
 
     FRichEdit.Paragraph.Alignment := taCenter;
@@ -409,7 +409,7 @@ begin
        Texto := Concat(Texto, 'Hora: ' + FormatDateTime('hh:mm:ss', time) + #10);
        Texto := Concat(Texto, 'Motivo: ' + #10 + UpperCase(Observacao) + #10);
        Texto := Concat(Texto, FImpressora.InseriTraco(48, True, true));
-       FImpressora.ImprimeTextoTag(PAnsiChar(texto), false);
+       FImpressora.ImprimeTextoTag(PAnsiChar(texto), FCabSuprimento);
        FImpressora.AcionaGuilhotina(0);
     end;
 end;

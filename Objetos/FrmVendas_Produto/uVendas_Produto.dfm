@@ -1,6 +1,6 @@
 object frmVendas_Produto: TfrmVendas_Produto
-  Left = 448
-  Top = 144
+  Left = 485
+  Top = 242
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Rela'#231#227'o de Produtos Vendidos'
@@ -79,7 +79,6 @@ object frmVendas_Produto: TfrmVendas_Produto
       Date = 40966.515096493060000000
       Time = 40966.515096493060000000
       TabOrder = 0
-      OnChange = dtpInicialChange
     end
     object dtpFinal: TDateTimePicker
       Left = 568
@@ -90,6 +89,7 @@ object frmVendas_Produto: TfrmVendas_Produto
       Date = 40966.515349270830000000
       Time = 40966.515349270830000000
       TabOrder = 1
+      OnChange = dtpFinalChange
     end
   end
   object grdVendas: TDBGrid

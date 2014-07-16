@@ -1,6 +1,6 @@
 object frmMenu: TfrmMenu
-  Left = 216
-  Top = 215
+  Left = 397
+  Top = 164
   Caption = 'Menu Principal'
   ClientHeight = 462
   ClientWidth = 1193
@@ -24,14 +24,15 @@ object frmMenu: TfrmMenu
   object imgMenu: TImage
     AlignWithMargins = True
     Left = 3
-    Top = 94
+    Top = 88
     Width = 1187
-    Height = 346
-    Align = alBottom
+    Height = 352
+    Align = alClient
     Center = True
-    Proportional = True
+    Stretch = True
     ExplicitLeft = 8
     ExplicitTop = 91
+    ExplicitHeight = 346
   end
   object stbStatus: TStatusBar
     Left = 0
@@ -273,7 +274,7 @@ object frmMenu: TfrmMenu
     Left = 112
     Top = 168
     Bitmap = {
-      494C010112002000B40140004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010112002000C00140004000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000000100004001000001002000000000000000
       0500000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

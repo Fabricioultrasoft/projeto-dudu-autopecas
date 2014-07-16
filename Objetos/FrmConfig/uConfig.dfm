@@ -25,9 +25,6 @@ object frmConfig: TfrmConfig
     Height = 72
     Align = alBottom
     TabOrder = 0
-    ExplicitLeft = 1
-    ExplicitTop = 336
-    ExplicitWidth = 732
     object btn1: TBitBtn
       Left = 603
       Top = 6
@@ -134,8 +131,6 @@ object frmConfig: TfrmConfig
       ExplicitHeight = 332
       object TabSheet1: TTabSheet
         Caption = 'Informa'#231#245'es da Empresa'
-        ExplicitWidth = 722
-        ExplicitHeight = 301
         object GroupBox1: TGroupBox
           Left = 0
           Top = 0
@@ -149,8 +144,6 @@ object frmConfig: TfrmConfig
           Font.Style = []
           ParentFont = False
           TabOrder = 0
-          ExplicitWidth = 722
-          ExplicitHeight = 301
           object Label1: TLabel
             Left = 48
             Top = 79
@@ -577,7 +570,7 @@ object frmConfig: TfrmConfig
             Top = 9
             Width = 322
             Height = 125
-            Caption = 'Layout Cupom'
+            Caption = 'Layout Cupom (Dados da Empresa)'
             TabOrder = 2
             object ckbCabecalhoSuprimento: TCheckBox
               Left = 11

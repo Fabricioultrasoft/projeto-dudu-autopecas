@@ -24,6 +24,8 @@ type
     Image1: TImage;
     Panel2: TPanel;
     BitBtn1: TBitBtn;
+    lblEmail: TLabel;
+    lblFone: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure lblSiteMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
@@ -53,6 +55,8 @@ begin
      lblPlataforma.Caption  := 'Delphi XE';
      lblRelatorio.Caption   := 'RL Report';
      lblBancoDados.Caption  := 'Firebird 2.5.2';
+     lblEmail.Caption       := 'E-mail: wllfl@ig.com.br';
+     lblFone.Caption        := 'Fone: (11)99845-2278';
 end;
 
 procedure TfrmSobre.FormMouseMove(Sender: TObject; Shift: TShiftState; X,
