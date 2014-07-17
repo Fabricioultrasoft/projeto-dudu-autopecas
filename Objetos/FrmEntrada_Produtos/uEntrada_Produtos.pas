@@ -35,11 +35,6 @@ type
     edtValorTotal: TJvCalcEdit;
     Label19: TLabel;
     edtResponsavel: TEdit;
-    grpProdutoNF: TGroupBox;
-    DBGrid1: TDBGrid;
-    btnIncluirProduto: TBitBtn;
-    btnEditarProduto: TBitBtn;
-    btnExcluirProduto: TBitBtn;
     Label2: TLabel;
     Label4: TLabel;
     edtChaveNfe: TEdit;
@@ -48,6 +43,11 @@ type
     btnCancelar: TBitBtn;
     btnAdicionarGrupo: TBitBtn;
     lblStatusOperacao: TLabel;
+    grpProdutoNF: TGroupBox;
+    gr1: TDBGrid;
+    btnIncluirProduto: TBitBtn;
+    btnEditarProduto: TBitBtn;
+    btnExcluirProduto: TBitBtn;
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure Incluir();                   override;
     procedure Editar();                    override;
@@ -73,7 +73,7 @@ type
     procedure btnIncluirProdutoClick(Sender: TObject);
     procedure btnEditarProdutoClick(Sender: TObject);
     procedure btnExcluirProdutoClick(Sender: TObject);
-    procedure DBGrid1DblClick(Sender: TObject);
+    procedure gr1DblClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure btnAdicionarGrupoClick(Sender: TObject);
   private
@@ -254,7 +254,7 @@ begin
     CarregaCampos;
 end;
 
-procedure TfrmEntrada_Produtos.DBGrid1DblClick(Sender: TObject);
+procedure TfrmEntrada_Produtos.gr1DblClick(Sender: TObject);
 begin
     EditarProduto;
 end;
@@ -433,6 +433,7 @@ begin
          end;
      end;
      MessageDlg('Gravado com sucesso!', mtInformation,[mbOK], 0);
+     grpProdutoNF.Enabled := True;
 end;
 
 procedure TfrmEntrada_Produtos.Incluir;

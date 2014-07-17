@@ -1,11 +1,11 @@
 object frmVendas_Produto: TfrmVendas_Produto
-  Left = 485
-  Top = 242
+  Left = 160
+  Top = 161
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Rela'#231#227'o de Produtos Vendidos'
   ClientHeight = 570
-  ClientWidth = 821
+  ClientWidth = 956
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,10 +22,10 @@ object frmVendas_Produto: TfrmVendas_Produto
   object pnl1: TPanel
     Left = 0
     Top = 0
-    Width = 821
+    Width = 956
     Height = 73
     Align = alTop
-    Caption = 'Rela'#231#227'o de Produtos Vendidos'
+    Caption = 'Rela'#231#227'o de Produtos Vendidos x Fornecedor'
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clHotLight
     Font.Height = -37
@@ -33,12 +33,12 @@ object frmVendas_Produto: TfrmVendas_Produto
     Font.Style = []
     ParentFont = False
     TabOrder = 0
-    ExplicitWidth = 780
+    ExplicitWidth = 955
   end
   object pnl2: TPanel
     Left = 0
     Top = 73
-    Width = 821
+    Width = 956
     Height = 48
     Align = alTop
     Font.Charset = DEFAULT_CHARSET
@@ -59,22 +59,22 @@ object frmVendas_Produto: TfrmVendas_Produto
       Caption = 'Intervalo  de Datas: '
     end
     object lbl4: TLabel
-      Left = 207
-      Top = 16
+      Left = 279
+      Top = 15
       Width = 68
       Height = 16
       Caption = 'Data Inicial:'
     end
     object lbl5: TLabel
-      Left = 532
-      Top = 16
+      Left = 604
+      Top = 15
       Width = 62
       Height = 16
       Caption = 'Data Final:'
     end
     object dtpInicial: TDateTimePicker
-      Left = 281
-      Top = 13
+      Left = 353
+      Top = 12
       Width = 129
       Height = 24
       Cursor = crHandPoint
@@ -83,8 +83,8 @@ object frmVendas_Produto: TfrmVendas_Produto
       TabOrder = 0
     end
     object dtpFinal: TDateTimePicker
-      Left = 601
-      Top = 13
+      Left = 673
+      Top = 12
       Width = 129
       Height = 24
       Cursor = crHandPoint
@@ -97,7 +97,7 @@ object frmVendas_Produto: TfrmVendas_Produto
   object grdVendas: TDBGrid
     Left = 0
     Top = 169
-    Width = 821
+    Width = 956
     Height = 351
     Align = alClient
     DataSource = dm.dtsVenda_Fornecedor
@@ -130,7 +130,7 @@ object frmVendas_Produto: TfrmVendas_Produto
         FieldName = 'DESC_PROD'
         Title.Alignment = taCenter
         Title.Caption = 'DESCRI'#199#195'O DO PRODUTO'
-        Width = 210
+        Width = 265
         Visible = True
       end
       item
@@ -146,7 +146,7 @@ object frmVendas_Produto: TfrmVendas_Produto
         FieldName = 'DESC_FORN'
         Title.Alignment = taCenter
         Title.Caption = 'FORNECEDOR'
-        Width = 187
+        Width = 269
         Visible = True
       end
       item
@@ -162,20 +162,20 @@ object frmVendas_Produto: TfrmVendas_Produto
         Expanded = False
         FieldName = 'TOTAL'
         Title.Alignment = taCenter
-        Title.Caption = 'TOTAL DE PE'#199'AS'
+        Title.Caption = 'TOTAL DE UNIDADES'
         Visible = True
       end>
   end
   object pnl3: TPanel
     Left = 0
     Top = 520
-    Width = 821
+    Width = 956
     Height = 50
     Align = alBottom
     TabOrder = 4
-    ExplicitWidth = 780
+    ExplicitWidth = 955
     object btnFechar: TBitBtn
-      Left = 694
+      Left = 822
       Top = 6
       Width = 121
       Height = 35
@@ -195,7 +195,7 @@ object frmVendas_Produto: TfrmVendas_Produto
       OnClick = btnFecharClick
     end
     object btnImprimir: TBitBtn
-      Left = 562
+      Left = 690
       Top = 6
       Width = 121
       Height = 35
@@ -224,12 +224,13 @@ object frmVendas_Produto: TfrmVendas_Produto
       ParentDoubleBuffered = False
       ParentFont = False
       TabOrder = 0
+      OnClick = btnImprimirClick
     end
   end
   object pnl4: TPanel
     Left = 0
     Top = 121
-    Width = 821
+    Width = 956
     Height = 48
     Align = alTop
     Font.Charset = DEFAULT_CHARSET
@@ -239,7 +240,7 @@ object frmVendas_Produto: TfrmVendas_Produto
     Font.Style = []
     ParentFont = False
     TabOrder = 2
-    ExplicitWidth = 780
+    ExplicitWidth = 955
     object lbl2: TLabel
       Left = 9
       Top = 16
@@ -248,7 +249,7 @@ object frmVendas_Produto: TfrmVendas_Produto
       Caption = 'Informe Produto ou Fornecedor: '
     end
     object edtFornecedor: TEdit
-      Left = 248
+      Left = 383
       Top = 1
       Width = 572
       Height = 46
@@ -262,7 +263,7 @@ object frmVendas_Produto: TfrmVendas_Produto
       ParentFont = False
       TabOrder = 0
       OnChange = edtFornecedorChange
-      ExplicitLeft = 207
+      ExplicitLeft = 382
       ExplicitHeight = 48
     end
   end

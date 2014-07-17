@@ -72,7 +72,7 @@ const
 
     // Instrução SQL para captura das vendas
     SELECT_VENDA: string = 'SELECT C.DATA_ENTRADA, C.VALOR_PAGAMENTO, C.N_DOCUMENTO, C.TIPO_DOCUMENTO, C.RESPONSAVEL, C.OBSERVACAO, C.DINHEIRO, C.CARTAO, C.CHEQUE, C.TICKET, C.ESTORNO '+
-                           'FROM CAIXA C WHERE DATA_ENTRADA BETWEEN :DTI AND :DTF';
+                           'FROM CAIXA C WHERE DATA_ENTRADA BETWEEN :DTI AND :DTF ORDER BY DATA_ENTRADA';
 
     // Instrução WHERE padrão para todas as somas
     WHERE_SOMA: string  = 'WHERE DATA_ENTRADA BETWEEN :DTI AND :DTF ';
@@ -80,24 +80,27 @@ const
 
 implementation
 
-uses uDm, UdmConexao, uProgresso, uMenu;
+uses uDm, UdmConexao, uProgresso, uMenu, uRelatorio;
 
 {$R *.dfm}
 
 procedure TfrmFechamento_Caixa.btnImprimirClick(Sender: TObject);
 begin
-    FImpressora := TImpressora.Create(miEpson, PAnsiChar('USB'));
-    FImpressao  := TImpressao.Create(frmMenu.FCabFechamento, FImpressora);
+    if pgc1.ActivePageIndex = 0 then
+    begin
+        FImpressora := TImpressora.Create(miEpson, PAnsiChar('USB'));
+        FImpressao  := TImpressao.Create(frmMenu.FCabFechamento, FImpressora);
 
-    try
-        frmProgresso := TfrmProgresso.Create(nil);
-        frmProgresso.Show;
-    finally
-        FreeAndNil(frmProgresso);
+        try
+            frmProgresso := TfrmProgresso.Create(nil);
+            frmProgresso.Show;
+        finally
+            FreeAndNil(frmProgresso);
+        end;
+        FImpressao.StatusImpressora := FVerificacaoImpressora;
+        FImpressao.ImprimiFechamentoCaixa(frmMenu.FNomeUser, dtpIncial.Date, dtpFinal.Date, dinheiro, cartao, cheque, ticket, subtotal,
+                                          sangria, suprimento, estorno, total);
     end;
-    FImpressao.StatusImpressora := FVerificacaoImpressora;
-    FImpressao.ImprimiFechamentoCaixa(frmMenu.FNomeUser, dtpIncial.Date, dtpFinal.Date, dinheiro, cartao, cheque, ticket, subtotal,
-                                      sangria, suprimento, estorno, total);
 end;
 
 procedure TfrmFechamento_Caixa.CarregaConsulta;

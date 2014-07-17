@@ -68,6 +68,7 @@ begin
     frmEntrada_Produtos.edtChaveNfe.Text    := dm.cdsEntradaNF.FieldByName('CHAVE_NFE').AsString;
     frmEntrada_Produtos.CarregaDescFornecedor(dm.cdsEntradaNF.FieldByName('COD_FORN').AsString);
     dm.AtualizaCDSProduto(dm.cdsEntradaNF.FieldByName('N_NOTA').AsString);
+    frmEntrada_Produtos.grpProdutoNF.Enabled := True;
     Self.Close;
 end;
 

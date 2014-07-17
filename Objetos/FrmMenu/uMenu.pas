@@ -81,6 +81,12 @@ type
     N9: TMenuItem;
     N10: TMenuItem;
     N11: TMenuItem;
+    actRelacaoVendas: TAction;
+    N12: TMenuItem;
+    N13: TMenuItem;
+    actBackupRestore: TAction;
+    N14: TMenuItem;
+    N15: TMenuItem;
     procedure FormCreate(Sender: TObject);
     function DataPorExtenso: String;
     procedure TimerTimer(Sender: TObject);
@@ -111,6 +117,8 @@ type
     procedure actDescarteExecute(Sender: TObject);
     function VerificaAcesso(nameForm: string): Boolean;
     procedure actLoginExecute(Sender: TObject);
+    procedure actRelacaoVendasExecute(Sender: TObject);
+    procedure actBackupRestoreExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -161,7 +169,8 @@ uses UdmConexao, uCad_Usuario, uCad_Grupo, uCad_Cliente, uCad_Fornecedor,
   uCad_Produto, uProcura_Estoque, uEntrada_Produtos, uAgenda, uPDV,
   uFechamento_Caixa, USobre, USplash, uSangria, uSuprimento, uCadUnidade,
   uConfig, uAviso, uProgresso, uImpressoraBase,
-  uImpressoraEpson, uCadDescarte, uACL;
+  uImpressoraEpson, uCadDescarte, uACL, uRelatorio, uConsultaVendas,
+  uBackupRestore;
 
 {$R *.dfm}
 
@@ -241,16 +250,29 @@ begin
     end;
 end;
 
+procedure TfrmMenu.actBackupRestoreExecute(Sender: TObject);
+begin
+    if Self.VerificaAcesso('frmBackupRestore') then
+    begin
+        try
+           frmBackupRestore := TfrmBackupRestore.Create(self);
+           frmBackupRestore.ShowModal;
+        finally
+           FreeAndNil(frmBackupRestore);
+        end;
+    end;
+end;
+
 procedure TfrmMenu.actCaixaExecute(Sender: TObject);
 begin
     if Self.VerificaAcesso('frmFechamento_Caixa') then
     begin
-      try
-         frmFechamento_Caixa := TfrmFechamento_Caixa.Create(self);
-         frmFechamento_Caixa.ShowModal;
-       finally
-         FreeAndNil(frmFechamento_Caixa);
-       end;
+        try
+           frmFechamento_Caixa := TfrmFechamento_Caixa.Create(self);
+           frmFechamento_Caixa.ShowModal;
+         finally
+           FreeAndNil(frmFechamento_Caixa);
+         end;
     end;
 end;
 
@@ -399,6 +421,19 @@ begin
           frmVendas_Produto.ShowModal;
         finally
           FreeAndNil(frmVendas_Produto);
+        end;
+    end;
+end;
+
+procedure TfrmMenu.actRelacaoVendasExecute(Sender: TObject);
+begin
+    if Self.VerificaAcesso('frmConsultaVendas') then
+    begin
+        try
+          frmConsultaVendas := TfrmConsultaVendas.Create(self);
+          frmConsultaVendas.ShowModal;
+        finally
+          FreeAndNil(frmConsultaVendas);
         end;
     end;
 end;

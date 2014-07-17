@@ -1,6 +1,6 @@
 object frmFechamento_Caixa: TfrmFechamento_Caixa
   Left = 439
-  Top = 150
+  Top = 154
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Fechamento de Caixa'

@@ -1,9 +1,9 @@
 object frmRelatorio: TfrmRelatorio
-  Left = 728
-  Top = 168
-  Width = 949
-  Height = 588
-  VertScrollBar.Position = 4348
+  Left = 199
+  Top = 199
+  Width = 1296
+  Height = 785
+  VertScrollBar.Position = 6242
   AutoScroll = True
   Caption = 'frmRelatorio'
   Color = clBtnFace
@@ -14,12 +14,11 @@ object frmRelatorio: TfrmRelatorio
   Font.Style = []
   OldCreateOrder = False
   Position = poDesktopCenter
-  WindowState = wsMaximized
   PixelsPerInch = 96
   TextHeight = 16
   object rlCliente: TRLReport
     Left = 56
-    Top = -4340
+    Top = -6234
     Width = 794
     Height = 1123
     DataSource = dm.dtsCliente
@@ -177,7 +176,7 @@ object frmRelatorio: TfrmRelatorio
   end
   object rlFornecedor: TRLReport
     Left = 56
-    Top = -3183
+    Top = -5077
     Width = 794
     Height = 1123
     DataSource = dm.dtsFornecedor
@@ -351,7 +350,7 @@ object frmRelatorio: TfrmRelatorio
   end
   object RLProduto: TRLReport
     Left = 56
-    Top = -2034
+    Top = -3928
     Width = 794
     Height = 1123
     DataSource = dm.dtsProduto
@@ -524,7 +523,7 @@ object frmRelatorio: TfrmRelatorio
   end
   object RLEstoque: TRLReport
     Left = 56
-    Top = -893
+    Top = -2787
     Width = 794
     Height = 1123
     DataSource = dm.dtsEstoque
@@ -697,7 +696,7 @@ object frmRelatorio: TfrmRelatorio
   end
   object RLDescarte: TRLReport
     Left = 56
-    Top = 248
+    Top = -1646
     Width = 794
     Height = 1123
     DataSource = dm.dtsDescarte
@@ -897,6 +896,580 @@ object frmRelatorio: TfrmRelatorio
         Width = 41
         Height = 13
         Alignment = taCenter
+      end
+    end
+  end
+  object rlVendas: TRLReport
+    Left = 56
+    Top = -491
+    Width = 1123
+    Height = 794
+    DataSource = dm.dtsItem_Venda
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -11
+    Font.Name = 'Courier New'
+    Font.Style = []
+    PageSetup.Orientation = poLandscape
+    PreviewOptions.ShowModal = True
+    BeforePrint = rlVendasBeforePrint
+    OnDataRecord = rlVendasDataRecord
+    object RLBand17: TRLBand
+      Left = 38
+      Top = 89
+      Width = 1047
+      Height = 42
+      BandType = btHeader
+      Borders.Sides = sdCustom
+      Borders.DrawLeft = False
+      Borders.DrawTop = True
+      Borders.DrawRight = False
+      Borders.DrawBottom = False
+      object RLLabel37: TRLLabel
+        Left = 140
+        Top = 8
+        Width = 102
+        Height = 25
+        Alignment = taCenter
+        Caption = 'Per'#237'odo:'
+        Color = clWhite
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -20
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        Transparent = False
+      end
+      object rlDataInicial: TRLLabel
+        Left = 369
+        Top = 8
+        Width = 102
+        Height = 25
+        Alignment = taCenter
+        Caption = 'Per'#237'odo:'
+        Color = clWhite
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -20
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        Transparent = False
+      end
+      object RLLabel50: TRLLabel
+        Left = 538
+        Top = 8
+        Width = 20
+        Height = 25
+        Alignment = taCenter
+        Caption = #224
+        Color = clWhite
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -20
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        Transparent = False
+      end
+      object rlDataFinal: TRLLabel
+        Left = 644
+        Top = 8
+        Width = 102
+        Height = 25
+        Alignment = taCenter
+        Caption = 'Per'#237'odo:'
+        Color = clWhite
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -20
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        Transparent = False
+      end
+    end
+    object RLBand18: TRLBand
+      Left = 38
+      Top = 155
+      Width = 1047
+      Height = 24
+      Borders.Sides = sdCustom
+      Borders.DrawLeft = False
+      Borders.DrawTop = False
+      Borders.DrawRight = False
+      Borders.DrawBottom = False
+      Completion = ctFullPage
+      object RLDBText27: TRLDBText
+        Left = 208
+        Top = 5
+        Width = 42
+        Height = 14
+        Alignment = taCenter
+        DataField = 'EAN13'
+        DataSource = dm.dtsItem_Venda
+      end
+      object RLDBText29: TRLDBText
+        Left = 23
+        Top = 4
+        Width = 56
+        Height = 14
+        Alignment = taCenter
+        DataField = 'N_VENDA'
+        DataSource = dm.dtsItem_Venda
+      end
+      object RLDBText30: TRLDBText
+        Left = 562
+        Top = 5
+        Width = 35
+        Height = 14
+        Alignment = taRightJustify
+        DataField = 'QTDE'
+        DataSource = dm.dtsItem_Venda
+      end
+      object RLDBText31: TRLDBText
+        Left = 670
+        Top = 5
+        Width = 28
+        Height = 14
+        Alignment = taCenter
+        DataField = 'UND'
+        DataSource = dm.dtsItem_Venda
+      end
+      object RLDBText32: TRLDBText
+        Left = 760
+        Top = 5
+        Width = 63
+        Height = 14
+        Alignment = taRightJustify
+        DataField = 'VAL_PROD'
+        DataSource = dm.dtsItem_Venda
+      end
+      object RLDBText33: TRLDBText
+        Left = 870
+        Top = 5
+        Width = 63
+        Height = 14
+        Alignment = taRightJustify
+        DataField = 'DESCONTO'
+        DataSource = dm.dtsItem_Venda
+      end
+      object RLDBText34: TRLDBText
+        Left = 967
+        Top = 5
+        Width = 77
+        Height = 14
+        Alignment = taRightJustify
+        DataField = 'TOTAL_PROD'
+        DataSource = dm.dtsItem_Venda
+      end
+      object RLDBText35: TRLDBText
+        Left = 87
+        Top = 5
+        Width = 98
+        Height = 14
+        Alignment = taCenter
+        DataField = 'DATA_CADASTRO'
+        DataSource = dm.dtsItem_Venda
+      end
+      object rlDescricaoProduto: TRLLabel
+        Left = 283
+        Top = 4
+        Width = 133
+        Height = 14
+      end
+    end
+    object RLBand19: TRLBand
+      Left = 38
+      Top = 131
+      Width = 1047
+      Height = 24
+      BandType = btHeader
+      Borders.Sides = sdCustom
+      Borders.DrawLeft = True
+      Borders.DrawTop = True
+      Borders.DrawRight = True
+      Borders.DrawBottom = True
+      object RLLabel38: TRLLabel
+        Left = 209
+        Top = 5
+        Width = 42
+        Height = 14
+        Caption = 'EAN13'
+      end
+      object RLLabel39: TRLLabel
+        Left = 8
+        Top = 5
+        Width = 84
+        Height = 14
+        Caption = 'N'#186' da Venda'
+      end
+      object RLLabel40: TRLLabel
+        Left = 119
+        Top = 5
+        Width = 35
+        Height = 14
+        Caption = 'Data'
+      end
+      object RLLabel41: TRLLabel
+        Left = 321
+        Top = 5
+        Width = 147
+        Height = 14
+        Caption = 'Descri'#231#227'o do Produto'
+      end
+      object RLLabel42: TRLLabel
+        Left = 640
+        Top = 5
+        Width = 91
+        Height = 14
+        Caption = 'UND de Venda'
+      end
+      object RLLabel44: TRLLabel
+        Left = 539
+        Top = 5
+        Width = 91
+        Height = 14
+        Caption = 'Qtde Vendida'
+      end
+      object RLLabel45: TRLLabel
+        Left = 851
+        Top = 5
+        Width = 105
+        Height = 14
+        Caption = 'Valor Desconto'
+      end
+      object RLLabel46: TRLLabel
+        Left = 742
+        Top = 5
+        Width = 98
+        Height = 14
+        Caption = 'Valor Produto'
+      end
+      object RLLabel47: TRLLabel
+        Left = 966
+        Top = 5
+        Width = 77
+        Height = 14
+        Caption = 'Valor Pago'
+      end
+    end
+    object RLBand20: TRLBand
+      Left = 38
+      Top = 38
+      Width = 1047
+      Height = 51
+      BandType = btHeader
+      Borders.Sides = sdCustom
+      Borders.DrawLeft = True
+      Borders.DrawTop = True
+      Borders.DrawRight = True
+      Borders.DrawBottom = True
+      Color = clSilver
+      ParentColor = False
+      Transparent = False
+      object RLLabel43: TRLLabel
+        Left = 393
+        Top = 10
+        Width = 314
+        Height = 32
+        Alignment = taCenter
+        Caption = 'Relat'#243'rio de Vendas'
+        Color = clSilver
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -27
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        Transparent = False
+      end
+    end
+    object RLBand21: TRLBand
+      Left = 38
+      Top = 179
+      Width = 1047
+      Height = 24
+      BandType = btFooter
+      Borders.Sides = sdCustom
+      Borders.DrawLeft = False
+      Borders.DrawTop = True
+      Borders.DrawRight = False
+      Borders.DrawBottom = False
+      object RLLabel48: TRLLabel
+        Left = 933
+        Top = 8
+        Width = 42
+        Height = 14
+        Caption = 'Data:'
+      end
+      object RLSystemInfo7: TRLSystemInfo
+        Left = 992
+        Top = 8
+        Width = 41
+        Height = 13
+        Alignment = taCenter
+      end
+    end
+  end
+  object rlVendaFornecedor: TRLReport
+    Left = 56
+    Top = 324
+    Width = 1123
+    Height = 794
+    DataSource = dm.dtsVenda_Fornecedor
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -11
+    Font.Name = 'Courier New'
+    Font.Style = []
+    PageSetup.Orientation = poLandscape
+    PreviewOptions.ShowModal = True
+    BeforePrint = rlVendaFornecedorBeforePrint
+    object RLBand22: TRLBand
+      Left = 38
+      Top = 179
+      Width = 1047
+      Height = 24
+      BandType = btFooter
+      Borders.Sides = sdCustom
+      Borders.DrawLeft = False
+      Borders.DrawTop = True
+      Borders.DrawRight = False
+      Borders.DrawBottom = False
+      object RLLabel49: TRLLabel
+        Left = 933
+        Top = 8
+        Width = 42
+        Height = 14
+        Caption = 'Data:'
+      end
+      object RLSystemInfo6: TRLSystemInfo
+        Left = 992
+        Top = 8
+        Width = 41
+        Height = 13
+        Alignment = taCenter
+      end
+    end
+    object RLBand23: TRLBand
+      Left = 38
+      Top = 155
+      Width = 1047
+      Height = 24
+      Borders.Sides = sdCustom
+      Borders.DrawLeft = False
+      Borders.DrawTop = False
+      Borders.DrawRight = False
+      Borders.DrawBottom = False
+      Completion = ctFullPage
+      object RLDBText28: TRLDBText
+        Left = 28
+        Top = 6
+        Width = 42
+        Height = 14
+        Alignment = taCenter
+        DataField = 'EAN13'
+        DataSource = dm.dtsVenda_Fornecedor
+      end
+      object RLDBText37: TRLDBText
+        Left = 401
+        Top = 4
+        Width = 70
+        Height = 14
+        DataField = 'DESC_FORN'
+        DataSource = dm.dtsVenda_Fornecedor
+      end
+      object RLDBText39: TRLDBText
+        Left = 736
+        Top = 4
+        Width = 98
+        Height = 14
+        Alignment = taCenter
+        DataField = 'DATA_CADASTRO'
+        DataSource = dm.dtsVenda_Fornecedor
+      end
+      object RLDBText41: TRLDBText
+        Left = 946
+        Top = 4
+        Width = 42
+        Height = 14
+        Alignment = taRightJustify
+        DataField = 'TOTAL'
+        DataSource = dm.dtsVenda_Fornecedor
+      end
+      object RLDBText42: TRLDBText
+        Left = 154
+        Top = 6
+        Width = 70
+        Height = 14
+        DataField = 'DESC_PROD'
+        DataSource = dm.dtsVenda_Fornecedor
+      end
+    end
+    object RLBand24: TRLBand
+      Left = 38
+      Top = 131
+      Width = 1047
+      Height = 24
+      BandType = btHeader
+      Borders.Sides = sdCustom
+      Borders.DrawLeft = True
+      Borders.DrawTop = True
+      Borders.DrawRight = True
+      Borders.DrawBottom = True
+      object RLLabel52: TRLLabel
+        Left = 28
+        Top = 6
+        Width = 42
+        Height = 14
+        Caption = 'EAN13'
+      end
+      object RLLabel55: TRLLabel
+        Left = 187
+        Top = 4
+        Width = 147
+        Height = 14
+        Caption = 'Descri'#231#227'o do Produto'
+      end
+      object RLLabel56: TRLLabel
+        Left = 728
+        Top = 6
+        Width = 112
+        Height = 14
+        Caption = 'Data Lan'#231'amento'
+      end
+      object RLLabel57: TRLLabel
+        Left = 497
+        Top = 6
+        Width = 77
+        Height = 14
+        Caption = 'Fornecedor'
+      end
+      object RLLabel60: TRLLabel
+        Left = 902
+        Top = 6
+        Width = 126
+        Height = 14
+        Caption = 'Total de Unidades'
+      end
+    end
+    object RLBand25: TRLBand
+      Left = 38
+      Top = 89
+      Width = 1047
+      Height = 42
+      BandType = btHeader
+      Borders.Sides = sdCustom
+      Borders.DrawLeft = False
+      Borders.DrawTop = True
+      Borders.DrawRight = False
+      Borders.DrawBottom = False
+      object RLLabel61: TRLLabel
+        Left = 140
+        Top = 8
+        Width = 102
+        Height = 25
+        Alignment = taCenter
+        Caption = 'Per'#237'odo:'
+        Color = clWhite
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -20
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        Transparent = False
+      end
+      object rlDataInicialVendaForn: TRLLabel
+        Left = 369
+        Top = 8
+        Width = 102
+        Height = 25
+        Alignment = taCenter
+        Caption = 'Per'#237'odo:'
+        Color = clWhite
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -20
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        Transparent = False
+      end
+      object RLLabel63: TRLLabel
+        Left = 538
+        Top = 8
+        Width = 20
+        Height = 25
+        Alignment = taCenter
+        Caption = #224
+        Color = clWhite
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -20
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        Transparent = False
+      end
+      object rlDataFinalVendaForn: TRLLabel
+        Left = 644
+        Top = 8
+        Width = 102
+        Height = 25
+        Alignment = taCenter
+        Caption = 'Per'#237'odo:'
+        Color = clWhite
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -20
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        Transparent = False
+      end
+    end
+    object RLBand26: TRLBand
+      Left = 38
+      Top = 38
+      Width = 1047
+      Height = 51
+      BandType = btHeader
+      Borders.Sides = sdCustom
+      Borders.DrawLeft = True
+      Borders.DrawTop = True
+      Borders.DrawRight = True
+      Borders.DrawBottom = True
+      Color = clSilver
+      ParentColor = False
+      Transparent = False
+      object RLLabel65: TRLLabel
+        Left = 187
+        Top = 10
+        Width = 696
+        Height = 32
+        Alignment = taCenter
+        Caption = 'Relat'#243'rio de Produtos Vendidos x Fornecedor'
+        Color = clSilver
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -27
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        Transparent = False
       end
     end
   end
