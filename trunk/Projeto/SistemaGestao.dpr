@@ -54,7 +54,9 @@ uses
   uImpressao in '..\Objetos\Impressao\uImpressao.pas',
   uCadDescarte in '..\Objetos\FrmDescarte\uCadDescarte.pas' {frmDescarte},
   uProcuraDescarte in '..\Objetos\FrmProcuraDescarte\uProcuraDescarte.pas' {frmProcuraDescarte},
-  uACL in '..\Objetos\FrmACL\uACL.pas' {frmControleAcesso};
+  uACL in '..\Objetos\FrmACL\uACL.pas' {frmControleAcesso},
+  uConsultaVendas in '..\Objetos\FrmConsultaVendas\uConsultaVendas.pas' {frmConsultaVendas},
+  uBackupRestore in '..\Objetos\FrmBackupRestore\uBackupRestore.pas' {frmBackupRestore};
 
 {$R *.res}
 

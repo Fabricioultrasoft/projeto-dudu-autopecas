@@ -31,6 +31,7 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure grdVendasTitleClick(Column: TColumn);
     procedure dtpFinalChange(Sender: TObject);
+    procedure btnImprimirClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -54,6 +55,21 @@ implementation
 procedure TfrmVendas_Produto.btnFecharClick(Sender: TObject);
 begin
     Close;
+end;
+
+procedure TfrmVendas_Produto.btnImprimirClick(Sender: TObject);
+begin
+    if not dm.cdsVenda_Fornecedor.IsEmpty then
+    begin
+        try
+          frmRelatorio := TfrmRelatorio.Create(nil);
+          frmRelatorio.rlVendaFornecedor.Preview();
+        finally
+          FreeAndNil(frmRelatorio);
+        end;
+    end
+    else
+       MessageDlg('Não existem registros!', mtWarning, [mbOK], 0);
 end;
 
 procedure TfrmVendas_Produto.CarregaDados;

@@ -1,6 +1,6 @@
 object frmConfig: TfrmConfig
-  Left = 450
-  Top = 194
+  Left = 529
+  Top = 515
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Configura'#231#227'o'

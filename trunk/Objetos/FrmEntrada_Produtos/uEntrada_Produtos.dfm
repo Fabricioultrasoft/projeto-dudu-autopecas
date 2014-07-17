@@ -4,7 +4,7 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Entrada de Produtos'
-  ClientHeight = 579
+  ClientHeight = 591
   ClientWidth = 895
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -1862,7 +1862,7 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
     Left = 0
     Top = 81
     Width = 895
-    Height = 498
+    Height = 510
     Cursor = crHandPoint
     ActivePage = tsCadastro
     Align = alClient
@@ -1873,24 +1873,18 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
     Font.Style = []
     ParentFont = False
     TabOrder = 1
+    ExplicitHeight = 498
     object tsCadastro: TTabSheet
       Caption = 'Informa'#231#245'es da Nota Fiscal'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 603
-      ExplicitHeight = 319
+      ExplicitLeft = 2
+      ExplicitHeight = 467
       object grpEntrada_Produtos: TGroupBox
-        Left = 0
-        Top = 0
-        Width = 887
-        Height = 467
-        Align = alClient
+        Left = 3
+        Top = 6
+        Width = 879
+        Height = 176
         Enabled = False
         TabOrder = 0
-        ExplicitLeft = -3
-        ExplicitTop = -21
-        ExplicitWidth = 934
-        ExplicitHeight = 406
         object Label1: TLabel
           Left = 31
           Top = 48
@@ -1914,7 +1908,7 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
         end
         object Label15: TLabel
           Left = 461
-          Top = 148
+          Top = 138
           Width = 212
           Height = 11
           Caption = '* Campo(s) de preenchimento obrigat'#243'rio.'
@@ -2000,7 +1994,7 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
         end
         object Label6: TLabel
           Left = 461
-          Top = 165
+          Top = 155
           Width = 406
           Height = 11
           Caption = 
@@ -2130,246 +2124,6 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
           Color = clSilver
           TabOrder = 5
         end
-        object grpProdutoNF: TGroupBox
-          Left = 19
-          Top = 179
-          Width = 849
-          Height = 277
-          Caption = 'Produtos da Nota Fiscal'
-          Enabled = False
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clWindowText
-          Font.Height = -13
-          Font.Name = 'Verdana'
-          Font.Style = []
-          ParentFont = False
-          TabOrder = 6
-          object DBGrid1: TDBGrid
-            Left = 14
-            Top = 24
-            Width = 657
-            Height = 241
-            Cursor = crHandPoint
-            DataSource = dm.dtsEntrada_Produto
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -13
-            Font.Name = 'Verdana'
-            Font.Style = []
-            Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
-            ParentFont = False
-            TabOrder = 0
-            TitleFont.Charset = DEFAULT_CHARSET
-            TitleFont.Color = clWindowText
-            TitleFont.Height = -13
-            TitleFont.Name = 'Verdana'
-            TitleFont.Style = []
-            OnDblClick = DBGrid1DblClick
-            Columns = <
-              item
-                Color = clSilver
-                Expanded = False
-                FieldName = 'DESC_PROD'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clWindowText
-                Font.Height = -11
-                Font.Name = 'Verdana'
-                Font.Style = []
-                Title.Alignment = taCenter
-                Title.Caption = 'DESCRI'#199#195'O'
-                Title.Font.Charset = DEFAULT_CHARSET
-                Title.Font.Color = clWindowText
-                Title.Font.Height = -11
-                Title.Font.Name = 'Verdana'
-                Title.Font.Style = []
-                Width = 230
-                Visible = True
-              end
-              item
-                Color = clSilver
-                Expanded = False
-                FieldName = 'QTDE'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clWindowText
-                Font.Height = -11
-                Font.Name = 'Verdana'
-                Font.Style = []
-                Title.Alignment = taCenter
-                Title.Font.Charset = DEFAULT_CHARSET
-                Title.Font.Color = clWindowText
-                Title.Font.Height = -11
-                Title.Font.Name = 'Verdana'
-                Title.Font.Style = []
-                Width = 80
-                Visible = True
-              end
-              item
-                Color = clSilver
-                Expanded = False
-                FieldName = 'UND_COMPRA'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clWindowText
-                Font.Height = -11
-                Font.Name = 'Verdana'
-                Font.Style = []
-                Title.Alignment = taCenter
-                Title.Caption = 'UND. COMPRA'
-                Title.Font.Charset = DEFAULT_CHARSET
-                Title.Font.Color = clWindowText
-                Title.Font.Height = -11
-                Title.Font.Name = 'Verdana'
-                Title.Font.Style = []
-                Width = 90
-                Visible = True
-              end
-              item
-                Color = clSilver
-                Expanded = False
-                FieldName = 'VAL_CUSTO'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clWindowText
-                Font.Height = -11
-                Font.Name = 'Verdana'
-                Font.Style = []
-                Title.Alignment = taCenter
-                Title.Caption = 'VAL. CUSTO'
-                Title.Font.Charset = DEFAULT_CHARSET
-                Title.Font.Color = clWindowText
-                Title.Font.Height = -11
-                Title.Font.Name = 'Verdana'
-                Title.Font.Style = []
-                Width = 110
-                Visible = True
-              end
-              item
-                Color = clSilver
-                Expanded = False
-                FieldName = 'VAL_VENDA'
-                Font.Charset = DEFAULT_CHARSET
-                Font.Color = clWindowText
-                Font.Height = -11
-                Font.Name = 'Verdana'
-                Font.Style = []
-                Title.Alignment = taCenter
-                Title.Caption = 'VAL. VENDA'
-                Title.Font.Charset = DEFAULT_CHARSET
-                Title.Font.Color = clWindowText
-                Title.Font.Height = -11
-                Title.Font.Name = 'Verdana'
-                Title.Font.Style = []
-                Width = 110
-                Visible = True
-              end>
-          end
-          object btnIncluirProduto: TBitBtn
-            Left = 685
-            Top = 24
-            Width = 150
-            Height = 59
-            Cursor = crHandPoint
-            Hint = 'INCLUIR PRODUTO'
-            Caption = 'F7 - INCLUIR'
-            DoubleBuffered = True
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clHotLight
-            Font.Height = -11
-            Font.Name = 'Verdana'
-            Font.Style = [fsBold]
-            Glyph.Data = {
-              76010000424D7601000000000000760000002800000020000000100000000100
-              04000000000000010000130B0000130B00001000000000000000000000000000
-              800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
-              FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
-              33333333FF33333333FF333993333333300033377F3333333777333993333333
-              300033F77FFF3333377739999993333333333777777F3333333F399999933333
-              33003777777333333377333993333333330033377F3333333377333993333333
-              3333333773333333333F333333333333330033333333F33333773333333C3333
-              330033333337FF3333773333333CC333333333FFFFF77FFF3FF33CCCCCCCCCC3
-              993337777777777F77F33CCCCCCCCCC3993337777777777377333333333CC333
-              333333333337733333FF3333333C333330003333333733333777333333333333
-              3000333333333333377733333333333333333333333333333333}
-            Layout = blGlyphTop
-            NumGlyphs = 2
-            ParentDoubleBuffered = False
-            ParentFont = False
-            ParentShowHint = False
-            ShowHint = True
-            TabOrder = 1
-            OnClick = btnIncluirProdutoClick
-          end
-          object btnEditarProduto: TBitBtn
-            Left = 685
-            Top = 99
-            Width = 150
-            Height = 59
-            Cursor = crHandPoint
-            Hint = 'EDITAR PRODUTO'
-            Caption = 'F8 - EDITAR'
-            DoubleBuffered = True
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clHotLight
-            Font.Height = -11
-            Font.Name = 'Verdana'
-            Font.Style = [fsBold]
-            Glyph.Data = {
-              76010000424D7601000000000000760000002800000020000000100000000100
-              04000000000000010000120B0000120B00001000000000000000000000000000
-              800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
-              FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
-              333333FFFFFFFFFFFFF33000077777770033377777777777773F000007888888
-              00037F3337F3FF37F37F00000780088800037F3337F77F37F37F000007800888
-              00037F3337F77FF7F37F00000788888800037F3337777777337F000000000000
-              00037F3FFFFFFFFFFF7F00000000000000037F77777777777F7F000FFFFFFFFF
-              00037F7F333333337F7F000FFFFFFFFF00037F7F333333337F7F000FFFFFFFFF
-              00037F7F333333337F7F000FFFFFFFFF00037F7F333333337F7F000FFFFFFFFF
-              00037F7F333333337F7F000FFFFFFFFF07037F7F33333333777F000FFFFFFFFF
-              0003737FFFFFFFFF7F7330099999999900333777777777777733}
-            Layout = blGlyphTop
-            NumGlyphs = 2
-            ParentDoubleBuffered = False
-            ParentFont = False
-            ParentShowHint = False
-            ShowHint = True
-            TabOrder = 2
-            OnClick = btnEditarProdutoClick
-          end
-          object btnExcluirProduto: TBitBtn
-            Left = 685
-            Top = 173
-            Width = 150
-            Height = 59
-            Cursor = crHandPoint
-            Hint = 'EXCLUIR PRODUTO'
-            Caption = 'F9 - EXCLUIR'
-            DoubleBuffered = True
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clHotLight
-            Font.Height = -11
-            Font.Name = 'Verdana'
-            Font.Style = [fsBold]
-            Glyph.Data = {
-              76010000424D7601000000000000760000002800000020000000100000000100
-              04000000000000010000120B0000120B00001000000000000000000000000000
-              800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
-              FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333000000000
-              3333333777777777F3333330F777777033333337F3F3F3F7F3333330F0808070
-              33333337F7F7F7F7F3333330F080707033333337F7F7F7F7F3333330F0808070
-              33333337F7F7F7F7F3333330F080707033333337F7F7F7F7F3333330F0808070
-              333333F7F7F7F7F7F3F33030F080707030333737F7F7F7F7F7333300F0808070
-              03333377F7F7F7F773333330F080707033333337F7F7F7F7F333333070707070
-              33333337F7F7F7F7FF3333000000000003333377777777777F33330F88877777
-              0333337FFFFFFFFF7F3333000000000003333377777777777333333330777033
-              3333333337FFF7F3333333333000003333333333377777333333}
-            Layout = blGlyphTop
-            NumGlyphs = 2
-            ParentDoubleBuffered = False
-            ParentFont = False
-            ParentShowHint = False
-            ShowHint = True
-            TabOrder = 3
-            OnClick = btnExcluirProdutoClick
-          end
-        end
         object edtChaveNfe: TEdit
           Left = 139
           Top = 73
@@ -2394,7 +2148,7 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
           ParentShowHint = False
           ReadOnly = True
           ShowHint = True
-          TabOrder = 7
+          TabOrder = 6
           TextHint = 'Descri'#231#227'o do Fornecedor'
         end
         object btnAdicionarGrupo: TBitBtn
@@ -2448,8 +2202,248 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
           ParentDoubleBuffered = False
           ParentShowHint = False
           ShowHint = True
-          TabOrder = 8
+          TabOrder = 7
           OnClick = btnAdicionarGrupoClick
+        end
+      end
+      object grpProdutoNF: TGroupBox
+        Left = 3
+        Top = 198
+        Width = 877
+        Height = 277
+        Caption = 'Produtos da Nota Fiscal'
+        Enabled = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -13
+        Font.Name = 'Verdana'
+        Font.Style = []
+        ParentFont = False
+        TabOrder = 1
+        object gr1: TDBGrid
+          Left = 14
+          Top = 24
+          Width = 685
+          Height = 241
+          Cursor = crHandPoint
+          DataSource = dm.dtsEntrada_Produto
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clWindowText
+          Font.Height = -13
+          Font.Name = 'Verdana'
+          Font.Style = []
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+          ParentFont = False
+          TabOrder = 0
+          TitleFont.Charset = DEFAULT_CHARSET
+          TitleFont.Color = clWindowText
+          TitleFont.Height = -13
+          TitleFont.Name = 'Verdana'
+          TitleFont.Style = []
+          OnDblClick = gr1DblClick
+          Columns = <
+            item
+              Color = clSilver
+              Expanded = False
+              FieldName = 'DESC_PROD'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Verdana'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Caption = 'DESCRI'#199#195'O'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -11
+              Title.Font.Name = 'Verdana'
+              Title.Font.Style = []
+              Width = 254
+              Visible = True
+            end
+            item
+              Color = clSilver
+              Expanded = False
+              FieldName = 'QTDE'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Verdana'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -11
+              Title.Font.Name = 'Verdana'
+              Title.Font.Style = []
+              Width = 87
+              Visible = True
+            end
+            item
+              Color = clSilver
+              Expanded = False
+              FieldName = 'UND_COMPRA'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Verdana'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Caption = 'UND. COMPRA'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -11
+              Title.Font.Name = 'Verdana'
+              Title.Font.Style = []
+              Width = 90
+              Visible = True
+            end
+            item
+              Color = clSilver
+              Expanded = False
+              FieldName = 'VAL_CUSTO'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Verdana'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Caption = 'VAL. CUSTO'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -11
+              Title.Font.Name = 'Verdana'
+              Title.Font.Style = []
+              Width = 110
+              Visible = True
+            end
+            item
+              Color = clSilver
+              Expanded = False
+              FieldName = 'VAL_VENDA'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Verdana'
+              Font.Style = []
+              Title.Alignment = taCenter
+              Title.Caption = 'VAL. VENDA'
+              Title.Font.Charset = DEFAULT_CHARSET
+              Title.Font.Color = clWindowText
+              Title.Font.Height = -11
+              Title.Font.Name = 'Verdana'
+              Title.Font.Style = []
+              Width = 110
+              Visible = True
+            end>
+        end
+        object btnIncluirProduto: TBitBtn
+          Left = 715
+          Top = 24
+          Width = 150
+          Height = 59
+          Cursor = crHandPoint
+          Hint = 'INCLUIR PRODUTO'
+          Caption = 'F7 - INCLUIR'
+          DoubleBuffered = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clHotLight
+          Font.Height = -11
+          Font.Name = 'Verdana'
+          Font.Style = [fsBold]
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000130B0000130B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+            33333333FF33333333FF333993333333300033377F3333333777333993333333
+            300033F77FFF3333377739999993333333333777777F3333333F399999933333
+            33003777777333333377333993333333330033377F3333333377333993333333
+            3333333773333333333F333333333333330033333333F33333773333333C3333
+            330033333337FF3333773333333CC333333333FFFFF77FFF3FF33CCCCCCCCCC3
+            993337777777777F77F33CCCCCCCCCC3993337777777777377333333333CC333
+            333333333337733333FF3333333C333330003333333733333777333333333333
+            3000333333333333377733333333333333333333333333333333}
+          Layout = blGlyphTop
+          NumGlyphs = 2
+          ParentDoubleBuffered = False
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 1
+          OnClick = btnIncluirProdutoClick
+        end
+        object btnEditarProduto: TBitBtn
+          Left = 715
+          Top = 116
+          Width = 150
+          Height = 59
+          Cursor = crHandPoint
+          Hint = 'EDITAR PRODUTO'
+          Caption = 'F8 - EDITAR'
+          DoubleBuffered = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clHotLight
+          Font.Height = -11
+          Font.Name = 'Verdana'
+          Font.Style = [fsBold]
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333333333333
+            333333FFFFFFFFFFFFF33000077777770033377777777777773F000007888888
+            00037F3337F3FF37F37F00000780088800037F3337F77F37F37F000007800888
+            00037F3337F77FF7F37F00000788888800037F3337777777337F000000000000
+            00037F3FFFFFFFFFFF7F00000000000000037F77777777777F7F000FFFFFFFFF
+            00037F7F333333337F7F000FFFFFFFFF00037F7F333333337F7F000FFFFFFFFF
+            00037F7F333333337F7F000FFFFFFFFF00037F7F333333337F7F000FFFFFFFFF
+            00037F7F333333337F7F000FFFFFFFFF07037F7F33333333777F000FFFFFFFFF
+            0003737FFFFFFFFF7F7330099999999900333777777777777733}
+          Layout = blGlyphTop
+          NumGlyphs = 2
+          ParentDoubleBuffered = False
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 2
+          OnClick = btnEditarProdutoClick
+        end
+        object btnExcluirProduto: TBitBtn
+          Left = 715
+          Top = 206
+          Width = 150
+          Height = 59
+          Cursor = crHandPoint
+          Hint = 'EXCLUIR PRODUTO'
+          Caption = 'F9 - EXCLUIR'
+          DoubleBuffered = True
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clHotLight
+          Font.Height = -11
+          Font.Name = 'Verdana'
+          Font.Style = [fsBold]
+          Glyph.Data = {
+            76010000424D7601000000000000760000002800000020000000100000000100
+            04000000000000010000120B0000120B00001000000000000000000000000000
+            800000800000008080008000000080008000808000007F7F7F00BFBFBF000000
+            FF0000FF000000FFFF00FF000000FF00FF00FFFF0000FFFFFF00333000000000
+            3333333777777777F3333330F777777033333337F3F3F3F7F3333330F0808070
+            33333337F7F7F7F7F3333330F080707033333337F7F7F7F7F3333330F0808070
+            33333337F7F7F7F7F3333330F080707033333337F7F7F7F7F3333330F0808070
+            333333F7F7F7F7F7F3F33030F080707030333737F7F7F7F7F7333300F0808070
+            03333377F7F7F7F773333330F080707033333337F7F7F7F7F333333070707070
+            33333337F7F7F7F7FF3333000000000003333377777777777F33330F88877777
+            0333337FFFFFFFFF7F3333000000000003333377777777777333333330777033
+            3333333337FFF7F3333333333000003333333333377777333333}
+          Layout = blGlyphTop
+          NumGlyphs = 2
+          ParentDoubleBuffered = False
+          ParentFont = False
+          ParentShowHint = False
+          ShowHint = True
+          TabOrder = 3
+          OnClick = btnExcluirProdutoClick
         end
       end
     end

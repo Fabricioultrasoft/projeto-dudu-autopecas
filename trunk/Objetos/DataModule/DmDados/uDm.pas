@@ -382,6 +382,8 @@ type
     strngfldACLDESCRICAO1: TStringField;
     cdsACLADMINISTRADOR: TSmallintField;
     cdsACLFUNCIONARIO: TSmallintField;
+    qryItem_VendaDATA_CADASTRO: TDateField;
+    cdsItem_VendaDATA_CADASTRO: TDateField;
     function CarregaPrivilegio: TStringList;
     function CarregaUnidadeMedida: TStringList;
     procedure cdsItem_VendaAfterScroll(DataSet: TDataSet);

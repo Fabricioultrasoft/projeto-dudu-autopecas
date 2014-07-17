@@ -1,7 +1,7 @@
 object dm: Tdm
   OldCreateOrder = False
-  Left = 454
-  Top = 295
+  Left = 363
+  Top = 333
   Height = 717
   Width = 1005
   object dspUsuario: TDataSetProvider
@@ -1029,7 +1029,8 @@ object dm: Tdm
       '     DESCONTO,'
       '     EAN13,'
       '     STATUS,'
-      '     UND'
+      '     UND,'
+      '     DATA_CADASTRO'
       'FROM'
       '      ITEM_VENDA'
       'WHERE '
@@ -1092,6 +1093,9 @@ object dm: Tdm
     object qryItem_VendaUND: TStringField
       FieldName = 'UND'
       Size = 10
+    end
+    object qryItem_VendaDATA_CADASTRO: TDateField
+      FieldName = 'DATA_CADASTRO'
     end
   end
   object dspItem_Venda: TDataSetProvider
@@ -1165,6 +1169,9 @@ object dm: Tdm
     object cdsItem_VendaUND: TStringField
       FieldName = 'UND'
       Size = 10
+    end
+    object cdsItem_VendaDATA_CADASTRO: TDateField
+      FieldName = 'DATA_CADASTRO'
     end
     object cdsItem_VendaS_TOTAL: TAggregateField
       FieldName = 'S_TOTAL'
