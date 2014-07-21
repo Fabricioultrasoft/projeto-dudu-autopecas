@@ -323,22 +323,98 @@ var
 begin
     FOperacao := Operacao;
 
-    if FOperacao = opInsert then
-       status := 'INSERINDO'
-    else
-       if FOperacao = opUpdate then
-          status := 'EDITANDO'
-       else
-          if FOperacao = opDelete then
-             status := 'EXCLUINDO'
-          else
-             if FOperacao = opNone then
-                status := 'NAVEGANDO';
+    case Operacao of
+         opInsert : status := 'INSERINDO';
+         opUpdate : status := 'EDITANDO';
+         opDelete : status := 'EXCLUINDO';
+         opNone   : status := 'NAVEGANDO';
+    end;
 
     for i := 0 to ComponentCount - 1 do
     begin
-       if (Components[i] is TLabel) and (TLabel(Components[i]).Name = 'lblStatusOperacao') then
+        if (Components[i] is TLabel) and (TLabel(Components[i]).Name = 'lblStatusOperacao') then
           TLabel(Components[i]).Caption := status;
+
+        if (Components[i] is TBitBtn) and (TBitBtn(Components[i]).Name = 'btnIncluir') then
+        begin
+            case Operacao of
+                opNone   : TBitBtn(Components[i]).Enabled := True;
+                opInsert : TBitBtn(Components[i]).Enabled := false;
+                opUpdate : TBitBtn(Components[i]).Enabled := false;
+                opDelete : TBitBtn(Components[i]).Enabled := false;
+            end;
+        end;
+
+        if (Components[i] is TBitBtn) and (TBitBtn(Components[i]).Name = 'btnEditar') then
+        begin
+            case Operacao of
+                opNone   : TBitBtn(Components[i]).Enabled := True;
+                opInsert : TBitBtn(Components[i]).Enabled := false;
+                opUpdate : TBitBtn(Components[i]).Enabled := false;
+                opDelete : TBitBtn(Components[i]).Enabled := false;
+            end;
+        end;
+
+        if (Components[i] is TBitBtn) and (TBitBtn(Components[i]).Name = 'btnExcluir') then
+        begin
+            case Operacao of
+                opNone   : TBitBtn(Components[i]).Enabled := True;
+                opInsert : TBitBtn(Components[i]).Enabled := false;
+                opUpdate : TBitBtn(Components[i]).Enabled := false;
+                opDelete : TBitBtn(Components[i]).Enabled := false;
+            end;
+        end;
+
+        if (Components[i] is TBitBtn) and (TBitBtn(Components[i]).Name = 'btnSalvar') then
+        begin
+            case Operacao of
+                opNone   : TBitBtn(Components[i]).Enabled := false;
+                opInsert : TBitBtn(Components[i]).Enabled := true;
+                opUpdate : TBitBtn(Components[i]).Enabled := true;
+                opDelete : TBitBtn(Components[i]).Enabled := false;
+            end;
+        end;
+
+        if (Components[i] is TBitBtn) and (TBitBtn(Components[i]).Name = 'btnCancelar') then
+        begin
+            case Operacao of
+                opNone   : TBitBtn(Components[i]).Enabled := false;
+                opInsert : TBitBtn(Components[i]).Enabled := true;
+                opUpdate : TBitBtn(Components[i]).Enabled := true;
+                opDelete : TBitBtn(Components[i]).Enabled := false;
+            end;
+        end;
+
+        if (Components[i] is TBitBtn) and (TBitBtn(Components[i]).Name = 'btnSair') then
+        begin
+            case Operacao of
+                opNone   : TBitBtn(Components[i]).Enabled := true;
+                opInsert : TBitBtn(Components[i]).Enabled := false;
+                opUpdate : TBitBtn(Components[i]).Enabled := false;
+                opDelete : TBitBtn(Components[i]).Enabled := false;
+            end;
+        end;
+
+        if (Components[i] is TBitBtn) and (TBitBtn(Components[i]).Name = 'btnPesquisar') then
+        begin
+            case Operacao of
+                opNone   : TBitBtn(Components[i]).Enabled := true;
+                opInsert : TBitBtn(Components[i]).Enabled := false;
+                opUpdate : TBitBtn(Components[i]).Enabled := false;
+                opDelete : TBitBtn(Components[i]).Enabled := false;
+            end;
+        end;
+
+        if (Components[i] is TBitBtn) and (TBitBtn(Components[i]).Name = 'btnRelat') then
+        begin
+            case Operacao of
+                opNone   : TBitBtn(Components[i]).Enabled := true;
+                opInsert : TBitBtn(Components[i]).Enabled := false;
+                opUpdate : TBitBtn(Components[i]).Enabled := false;
+                opDelete : TBitBtn(Components[i]).Enabled := false;
+            end;
+        end;
+
     end;
 end;
 

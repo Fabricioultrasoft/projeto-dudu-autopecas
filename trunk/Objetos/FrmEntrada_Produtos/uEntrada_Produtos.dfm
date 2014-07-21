@@ -1877,6 +1877,8 @@ object frmEntrada_Produtos: TfrmEntrada_Produtos
     object tsCadastro: TTabSheet
       Caption = 'Informa'#231#245'es da Nota Fiscal'
       ExplicitLeft = 2
+      ExplicitTop = 0
+      ExplicitWidth = 0
       ExplicitHeight = 467
       object grpEntrada_Produtos: TGroupBox
         Left = 3

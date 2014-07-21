@@ -1,6 +1,6 @@
 object frmProcura_Estoque: TfrmProcura_Estoque
-  Left = 490
-  Top = 171
+  Left = 391
+  Top = 189
   BorderStyle = bsNone
   Caption = 'Form Padr'#227'o'
   ClientHeight = 637
@@ -55,9 +55,9 @@ object frmProcura_Estoque: TfrmProcura_Estoque
       ParentFont = False
     end
     object edtCodigo: TEdit
-      Left = 280
-      Top = 2
-      Width = 809
+      Left = 270
+      Top = 1
+      Width = 611
       Height = 37
       AutoSize = False
       Font.Charset = DEFAULT_CHARSET
@@ -69,6 +69,24 @@ object frmProcura_Estoque: TfrmProcura_Estoque
       TabOrder = 0
       OnChange = ConsultaUniversalChange
       OnKeyPress = Enter
+    end
+    object ckbQtdeZero: TCheckBox
+      Left = 896
+      Top = 12
+      Width = 201
+      Height = 17
+      Cursor = crHandPoint
+      Caption = 'Exibir produtos com saldo zero'
+      Checked = True
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clHotLight
+      Font.Height = -13
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      State = cbChecked
+      TabOrder = 1
+      OnClick = ckbQtdeZeroClick
     end
   end
   object grdEstoque: TDBGrid
@@ -179,6 +197,7 @@ object frmProcura_Estoque: TfrmProcura_Estoque
     Font.Style = []
     ParentFont = False
     TabOrder = 3
+    ExplicitTop = 606
     object Label4: TLabel
       Left = 16
       Top = 9
@@ -192,6 +211,44 @@ object frmProcura_Estoque: TfrmProcura_Estoque
       Font.Color = clHotLight
       Font.Height = -13
       Font.Name = 'Arial Black'
+      Font.Style = []
+      ParentFont = False
+    end
+    object shpAmarelo: TShape
+      Left = 840
+      Top = 21
+      Width = 41
+      Height = 11
+    end
+    object shpVermelho: TShape
+      Left = 840
+      Top = 5
+      Width = 41
+      Height = 11
+    end
+    object lbl1: TLabel
+      Left = 886
+      Top = 2
+      Width = 161
+      Height = 14
+      Caption = '- Saldo abaixo do estoque m'#237'nimo'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+    end
+    object lbl2: TLabel
+      Left = 886
+      Top = 18
+      Width = 153
+      Height = 14
+      Caption = '- Saldo igual ou menor que zero'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Arial'
       Font.Style = []
       ParentFont = False
     end

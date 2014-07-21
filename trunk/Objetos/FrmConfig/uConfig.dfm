@@ -1,6 +1,6 @@
 object frmConfig: TfrmConfig
-  Left = 529
-  Top = 515
+  Left = 568
+  Top = 284
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Configura'#231#227'o'
@@ -127,11 +127,11 @@ object frmConfig: TfrmConfig
       Font.Style = []
       ParentFont = False
       TabOrder = 0
-      ExplicitWidth = 719
-      ExplicitHeight = 332
+      ExplicitLeft = 2
+      ExplicitTop = 2
       object TabSheet1: TTabSheet
         Caption = 'Informa'#231#245'es da Empresa'
-        object GroupBox1: TGroupBox
+        object grpEmpresa: TGroupBox
           Left = 0
           Top = 0
           Width = 721
@@ -313,6 +313,7 @@ object frmConfig: TfrmConfig
             Font.Height = -13
             Font.Name = 'Verdana'
             Font.Style = [fsBold]
+            MaxLength = 2
             ParentFont = False
             TabOrder = 5
           end
@@ -383,7 +384,7 @@ object frmConfig: TfrmConfig
         ExplicitTop = 0
         ExplicitWidth = 0
         ExplicitHeight = 333
-        object GroupBox2: TGroupBox
+        object grpGeral: TGroupBox
           Left = 0
           Top = 0
           Width = 721
@@ -407,7 +408,7 @@ object frmConfig: TfrmConfig
             Font.Style = [fsBold]
             ParentFont = False
           end
-          object GroupBox3: TGroupBox
+          object grpImpressora: TGroupBox
             Left = 9
             Top = 9
             Width = 376
@@ -436,8 +437,8 @@ object frmConfig: TfrmConfig
               Caption = 'Mod. Impressora N'#227'o Fiscal:'
             end
             object lbl5: TLabel
-              Left = 356
-              Top = 33
+              Left = 358
+              Top = 36
               Width = 8
               Height = 14
               Caption = '*'
@@ -449,8 +450,21 @@ object frmConfig: TfrmConfig
               ParentFont = False
             end
             object Label11: TLabel
-              Left = 356
-              Top = 63
+              Left = 358
+              Top = 66
+              Width = 8
+              Height = 14
+              Caption = '*'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clRed
+              Font.Height = -12
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object lbl12: TLabel
+              Left = 358
+              Top = 93
               Width = 8
               Height = 14
               Caption = '*'
@@ -530,6 +544,32 @@ object frmConfig: TfrmConfig
               Font.Charset = DEFAULT_CHARSET
               Font.Color = clRed
               Font.Height = -9
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object lbl10: TLabel
+              Left = 666
+              Top = 36
+              Width = 8
+              Height = 14
+              Caption = '*'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clRed
+              Font.Height = -12
+              Font.Name = 'Tahoma'
+              Font.Style = [fsBold]
+              ParentFont = False
+            end
+            object lbl11: TLabel
+              Left = 666
+              Top = 84
+              Width = 8
+              Height = 14
+              Caption = '*'
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clRed
+              Font.Height = -12
               Font.Name = 'Tahoma'
               Font.Style = [fsBold]
               ParentFont = False

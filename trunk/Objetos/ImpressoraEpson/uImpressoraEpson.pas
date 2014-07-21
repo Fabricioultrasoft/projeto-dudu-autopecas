@@ -42,7 +42,12 @@ begin
              iRetorno := IniciaPorta(Porta);
 
              if iRetorno = 0 then
-                raise Exception.Create('Sem comunicação com a impressora, reinicie o sistema com a impressora ligada!')
+             begin
+                raise Exception.Create('Sem comunicação com a impressora, possíveis motivos:'#13#10+
+                                       '1 - Reinicie o sistema com a impressora ligada'#13#10+
+                                       '2 - Cabo USB de comunicação sem contato'#13#10+
+                                       '3 - Driver da impressora não instalado'#13#10);
+             end
              else
                 Result := True;
          except

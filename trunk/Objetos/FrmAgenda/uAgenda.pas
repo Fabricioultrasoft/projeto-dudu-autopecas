@@ -31,7 +31,7 @@ type
     edtFone: TEdit;
     edtCelular: TEdit;
     edtEmail: TEdit;
-    btn1: TBitBtn;
+    btnSalvar: TBitBtn;
     btnCancelar: TBitBtn;
     lblStatusOperacao: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);

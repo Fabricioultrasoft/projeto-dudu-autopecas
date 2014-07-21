@@ -16,6 +16,11 @@ type
     Label4: TLabel;
     lbl5: TLabel;
     edtCodigo: TEdit;
+    ckbQtdeZero: TCheckBox;
+    shpAmarelo: TShape;
+    shpVermelho: TShape;
+    lbl1: TLabel;
+    lbl2: TLabel;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -32,6 +37,7 @@ type
     procedure grdEstoqueKeyPress(Sender: TObject; var Key: Char);
     function GeraID: integer;
     function HexToTColor(sColor : string) : TColor;
+    procedure ckbQtdeZeroClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -131,6 +137,30 @@ begin
      dm.cdsItem_Venda.FieldByName('VAL_PROD').AsFloat      := dm.cdsEstoque.FieldByName('VAL_VENDA').AsFloat;
 end;
 
+procedure TfrmProcura_Estoque.ckbQtdeZeroClick(Sender: TObject);
+begin
+    dm.qryEstoque.Close;
+    dm.qryEstoque.SQL.Clear;
+    dm.qryEstoque.SQL.Add(SELECT);
+    dm.qryEstoque.SQL.Add(FROM);
+
+    if ckbQtdeZero.Checked then
+    begin
+         if edtCodigo.Text <> '' then
+            dm.qryEstoque.SQL.Add('WHERE (P.EAN13 LIKE' + QuotedStr(edtCodigo.Text + '%') + 'OR P.DESC_PROD LIKE' + QuotedStr(edtCodigo.Text + '%') + ')')
+    end
+    else
+    begin
+         if edtCodigo.Text <> '' then
+            dm.qryEstoque.SQL.Add('WHERE (P.EAN13 LIKE' + QuotedStr(edtCodigo.Text + '%') + 'OR P.DESC_PROD LIKE' + QuotedStr(edtCodigo.Text + '%') + ') AND E.QTDE > 0')
+         else
+            dm.qryEstoque.SQL.Add('WHERE E.QTDE > 0');
+    end;
+
+    dm.qryEstoque.Open;
+    dm.cdsEstoque.Refresh;
+end;
+
 procedure TfrmProcura_Estoque.ConsultaUniversal;
 begin
       //Consulta universal para todos os parâmetros
@@ -139,8 +169,18 @@ begin
       dm.qryEstoque.SQL.Add(SELECT);
       dm.qryEstoque.SQL.Add(FROM);
 
-      if edtCodigo.Text <> '' then
-         dm.qryEstoque.SQL.Add('WHERE P.EAN13 LIKE' + QuotedStr(edtCodigo.Text + '%') + 'OR P.DESC_PROD LIKE' + QuotedStr(edtCodigo.Text + '%'));
+      if ckbQtdeZero.Checked then
+      begin
+           if edtCodigo.Text <> '' then
+              dm.qryEstoque.SQL.Add('WHERE (P.EAN13 LIKE' + QuotedStr(edtCodigo.Text + '%') + 'OR P.DESC_PROD LIKE' + QuotedStr(edtCodigo.Text + '%') + ')')
+      end
+      else
+      begin
+           if edtCodigo.Text <> '' then
+              dm.qryEstoque.SQL.Add('WHERE (P.EAN13 LIKE' + QuotedStr(edtCodigo.Text + '%') + 'OR P.DESC_PROD LIKE' + QuotedStr(edtCodigo.Text + '%') + ') AND E.QTDE > 0')
+           else
+              dm.qryEstoque.SQL.Add('WHERE E.QTDE > 0');
+      end;
 
       dm.qryEstoque.Open;
       dm.cdsEstoque.Refresh;
@@ -162,7 +202,10 @@ end;
 
 procedure TfrmProcura_Estoque.FormCreate(Sender: TObject);
 begin
+     Self.CarregaConsulta;
      dm.cdsEstoque.Open;
+     shpVermelho.Brush.Color := Self.HexToTColor('C1C100');
+     shpAmarelo.Brush.Color  := Self.HexToTColor('D04646');
 end;
 
 procedure TfrmProcura_Estoque.FormKeyDown(Sender: TObject; var Key: Word;
@@ -186,18 +229,36 @@ begin
 
      if Key = VK_F5 then
      begin
-        if not dm.cdsEstoque.IsEmpty then
-        begin
-            try
-              frmRelatorio := TfrmRelatorio.Create(nil);
-              frmRelatorio.rlEstoque.Preview();
-            finally
-              FreeAndNil(frmRelatorio);
-            end;
-        end
-        else
-           MessageDlg('Não existem registros!', mtWarning, [mbOK], 0);
-    end;
+          if not dm.cdsEstoque.IsEmpty then
+          begin
+              if Application.MessageBox('Deseja incluir produtos com saldo igual ou menor que zero no relatório?', 'Confirmação', MB_YESNO) = mrNo then
+              begin
+                  dm.qryEstoque.Close;
+                  dm.qryEstoque.SQL.Clear;
+                  dm.qryEstoque.SQL.Add(SELECT);
+                  dm.qryEstoque.SQL.Add(FROM);
+
+                  if edtCodigo.Text <> '' then
+                     dm.qryEstoque.SQL.Add('WHERE (P.EAN13 LIKE' + QuotedStr(edtCodigo.Text + '%') + 'OR P.DESC_PROD LIKE' + QuotedStr(edtCodigo.Text + '%') + ') AND E.QTDE > 0')
+                  else
+                      dm.qryEstoque.SQL.Add('WHERE E.QTDE > 0');
+
+                  dm.qryEstoque.Open;
+                  dm.cdsEstoque.Refresh;
+              end;
+
+              try
+                frmRelatorio := TfrmRelatorio.Create(nil);
+                frmRelatorio.rlEstoque.Preview();
+              finally
+                FreeAndNil(frmRelatorio);
+                Self.CarregaConsulta;
+                dm.cdsEstoque.Refresh;
+              end;
+          end
+          else
+             MessageDlg('Não existem registros!', mtWarning, [mbOK], 0);
+     end;
 
 end;
 
@@ -207,7 +268,7 @@ begin
      if Assigned(frmPDV) and (frmPDV.StatusPDV = svAberto)then
      begin
          CarregaItensVenda();
-         frmProcura_Estoque.Close;
+         dm.cdsEstoque.Close;
          try
            frmQtde := TfrmQtde.Create(self);
            frmQtde.ShowModal;
@@ -221,11 +282,20 @@ procedure TfrmProcura_Estoque.grdEstoqueDrawColumnCell(Sender: TObject;
   const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
 begin
     //Muda a cor da coluna estoque_minimo caso o valor esteja abaixo do estoque minímo
-    if dm.cdsEstoque.FieldByName('ESTOQUE_MINIMO').AsInteger > dm.cdsEstoque.FieldByName('QTDE').AsInteger then
+    if (dm.cdsEstoque.FieldByName('QTDE').AsInteger < dm.cdsEstoque.FieldByName('ESTOQUE_MINIMO').AsInteger) and (dm.cdsEstoque.FieldByName('QTDE').AsInteger > 0)  then
     begin
-        grdEstoque.Canvas.Brush.Color := HexToTColor('D04646');
+        grdEstoque.Canvas.Brush.Color := HexToTColor('C1C100');
         grdEstoque.Canvas.FillRect(Rect);
         grdEstoque.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+    end
+    else
+    begin
+        if (dm.cdsEstoque.FieldByName('QTDE').AsInteger < dm.cdsEstoque.FieldByName('ESTOQUE_MINIMO').AsInteger) and (dm.cdsEstoque.FieldByName('QTDE').AsInteger <= 0)  then
+        begin
+            grdEstoque.Canvas.Brush.Color := HexToTColor('D04646');
+            grdEstoque.Canvas.FillRect(Rect);
+            grdEstoque.DefaultDrawColumnCell(Rect, DataCol, Column, State);
+        end
     end;
 
 end;

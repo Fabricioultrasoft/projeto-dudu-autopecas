@@ -4,7 +4,7 @@ object frmProdutoNF: TfrmProdutoNF
   BorderIcons = []
   Caption = 'Formul'#225'rio :- Produtos da Nota Fiscal'
   ClientHeight = 434
-  ClientWidth = 752
+  ClientWidth = 773
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -22,7 +22,7 @@ object frmProdutoNF: TfrmProdutoNF
   object pnlTitulo: TPanel
     Left = 0
     Top = 0
-    Width = 752
+    Width = 773
     Height = 57
     Align = alTop
     Caption = 'Produtos da Nota Fiscal'
@@ -37,7 +37,7 @@ object frmProdutoNF: TfrmProdutoNF
   object Panel1: TPanel
     Left = 0
     Top = 57
-    Width = 752
+    Width = 773
     Height = 305
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
@@ -48,6 +48,7 @@ object frmProdutoNF: TfrmProdutoNF
     ParentFont = False
     TabOrder = 1
     ExplicitTop = 63
+    ExplicitWidth = 752
     ExplicitHeight = 298
     object Label2: TLabel
       Left = 56
@@ -202,7 +203,7 @@ object frmProdutoNF: TfrmProdutoNF
     object GroupBox1: TGroupBox
       Left = 21
       Top = 113
-      Width = 350
+      Width = 359
       Height = 158
       Caption = 'Convers'#227'o de Unidades'
       TabOrder = 3
@@ -328,33 +329,33 @@ object frmProdutoNF: TfrmProdutoNF
     object GroupBox2: TGroupBox
       Left = 392
       Top = 113
-      Width = 350
+      Width = 359
       Height = 158
       Caption = 'Valores ($)'
       TabOrder = 4
       object lbl2: TLabel
-        Left = 8
+        Left = 24
         Top = 72
         Width = 147
         Height = 16
         Caption = 'Valor de Custo (Unit'#225'rio):'
       end
       object Label16: TLabel
-        Left = 24
+        Left = 40
         Top = 100
         Width = 131
         Height = 16
         Caption = 'Percent. de Lucro (%):'
       end
       object lbl3: TLabel
-        Left = 4
+        Left = 20
         Top = 128
         Width = 151
         Height = 16
         Caption = 'Valor de Venda (Unit'#225'rio):'
       end
       object Label12: TLabel
-        Left = 331
+        Left = 347
         Top = 103
         Width = 8
         Height = 14
@@ -367,7 +368,7 @@ object frmProdutoNF: TfrmProdutoNF
         ParentFont = False
       end
       object Label13: TLabel
-        Left = 331
+        Left = 347
         Top = 129
         Width = 8
         Height = 14
@@ -380,14 +381,14 @@ object frmProdutoNF: TfrmProdutoNF
         ParentFont = False
       end
       object Label11: TLabel
-        Left = 17
+        Left = 4
         Top = 44
-        Width = 138
+        Width = 167
         Height = 16
-        Caption = 'Valor do Produto (N.F.):'
+        Caption = 'Valor total do Produto (N.F.):'
       end
       object Label18: TLabel
-        Left = 331
+        Left = 347
         Top = 48
         Width = 8
         Height = 14
@@ -400,7 +401,7 @@ object frmProdutoNF: TfrmProdutoNF
         ParentFont = False
       end
       object Label19: TLabel
-        Left = 331
+        Left = 347
         Top = 75
         Width = 8
         Height = 14
@@ -413,7 +414,7 @@ object frmProdutoNF: TfrmProdutoNF
         ParentFont = False
       end
       object edtVal_Venda: TJvCalcEdit
-        Left = 159
+        Left = 175
         Top = 126
         Width = 169
         Height = 24
@@ -430,7 +431,7 @@ object frmProdutoNF: TfrmProdutoNF
         DecimalPlacesAlwaysShown = False
       end
       object edtPercentagem: TJvCalcEdit
-        Left = 159
+        Left = 175
         Top = 98
         Width = 169
         Height = 24
@@ -441,7 +442,7 @@ object frmProdutoNF: TfrmProdutoNF
         OnExit = edtPercentagemExit
       end
       object edtVal_Custo: TJvCalcEdit
-        Left = 159
+        Left = 175
         Top = 70
         Width = 169
         Height = 24
@@ -458,7 +459,7 @@ object frmProdutoNF: TfrmProdutoNF
         DecimalPlacesAlwaysShown = False
       end
       object edtValProdNf: TJvCalcEdit
-        Left = 159
+        Left = 175
         Top = 42
         Width = 169
         Height = 24
@@ -527,12 +528,12 @@ object frmProdutoNF: TfrmProdutoNF
   object pnl3: TPanel
     Left = 0
     Top = 362
-    Width = 752
+    Width = 773
     Height = 72
     Align = alBottom
     TabOrder = 2
     object btn1: TBitBtn
-      Left = 623
+      Left = 646
       Top = 7
       Width = 121
       Height = 59
@@ -573,7 +574,7 @@ object frmProdutoNF: TfrmProdutoNF
       TabOrder = 1
     end
     object btnGravar: TBitBtn
-      Left = 502
+      Left = 525
       Top = 7
       Width = 121
       Height = 59
@@ -609,7 +610,7 @@ object frmProdutoNF: TfrmProdutoNF
       OnClick = btnGravarClick
     end
     object btnAtualizarValores: TBitBtn
-      Left = 381
+      Left = 404
       Top = 7
       Width = 121
       Height = 59

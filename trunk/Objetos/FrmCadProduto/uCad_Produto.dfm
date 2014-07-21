@@ -1,6 +1,6 @@
 object frmCadProduto: TfrmCadProduto
-  Left = 320
-  Top = 181
+  Left = 338
+  Top = 270
   BorderIcons = [biSystemMenu]
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Cadastro de Produto'

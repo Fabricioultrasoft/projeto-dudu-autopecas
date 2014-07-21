@@ -55,7 +55,6 @@ type
     RLLabel19: TRLLabel;
     RLBand7: TRLBand;
     RLDBText10: TRLDBText;
-    RLDBText11: TRLDBText;
     RLDBText12: TRLDBText;
     RLDBText13: TRLDBText;
     RLDBText14: TRLDBText;
@@ -70,7 +69,6 @@ type
     RLSystemInfo4: TRLSystemInfo;
     RLBand11: TRLBand;
     RLDBText15: TRLDBText;
-    RLDBText16: TRLDBText;
     RLDBText17: TRLDBText;
     RLDBText18: TRLDBText;
     RLDBText19: TRLDBText;
@@ -157,11 +155,51 @@ type
     rlDataFinalVendaForn: TRLLabel;
     RLBand26: TRLBand;
     RLLabel65: TRLLabel;
+    rlDescProdutoCadastrado: TRLLabel;
+    rlDescProdutoEstoque: TRLLabel;
+    rlEntradaEstoque: TRLReport;
+    RLBand27: TRLBand;
+    RLLabel51: TRLLabel;
+    RLBand28: TRLBand;
+    RLLabel53: TRLLabel;
+    RLLabel54: TRLLabel;
+    RLLabel58: TRLLabel;
+    RLLabel62: TRLLabel;
+    RLBand29: TRLBand;
+    RLDBText11: TRLDBText;
+    RLDBText16: TRLDBText;
+    RLDBText36: TRLDBText;
+    RLDBText38: TRLDBText;
+    RLDBText40: TRLDBText;
+    RLBand30: TRLBand;
+    RLLabel64: TRLLabel;
+    RLSystemInfo8: TRLSystemInfo;
+    RLLabel66: TRLLabel;
+    RLLabel67: TRLLabel;
+    RLLabel68: TRLLabel;
+    RLBand31: TRLBand;
+    RLLabel59: TRLLabel;
+    RLLabel69: TRLLabel;
+    RLLabel70: TRLLabel;
+    RLLabel71: TRLLabel;
+    RLLabel72: TRLLabel;
+    RLLabel73: TRLLabel;
+    RLDBText43: TRLDBText;
+    RLDBText44: TRLDBText;
+    RLDBText45: TRLDBText;
+    RLDBText46: TRLDBText;
+    RLDBText47: TRLDBText;
+    RLDBText48: TRLDBText;
+    RLDBText49: TRLDBText;
     procedure rlVendasDataRecord(Sender: TObject; RecNo, CopyNo: Integer;
       var Eof: Boolean; var RecordAction: TRLRecordAction);
     procedure rlVendasBeforePrint(Sender: TObject; var PrintIt: Boolean);
     procedure rlVendaFornecedorBeforePrint(Sender: TObject;
       var PrintIt: Boolean);
+    procedure RLProdutoDataRecord(Sender: TObject; RecNo, CopyNo: Integer;
+      var Eof: Boolean; var RecordAction: TRLRecordAction);
+    procedure RLEstoqueDataRecord(Sender: TObject; RecNo, CopyNo: Integer;
+      var Eof: Boolean; var RecordAction: TRLRecordAction);
   private
     { Private declarations }
   public
@@ -188,6 +226,18 @@ end;
 procedure TfrmRelatorio.GeraReport(Report, FileReport, Parametro: string);
 begin
 
+end;
+
+procedure TfrmRelatorio.RLEstoqueDataRecord(Sender: TObject; RecNo,
+  CopyNo: Integer; var Eof: Boolean; var RecordAction: TRLRecordAction);
+begin
+    rlDescProdutoEstoque.Caption := Copy(dm.cdsEstoque.FieldByName('DESC_PROD').AsString, 0, 34);
+end;
+
+procedure TfrmRelatorio.RLProdutoDataRecord(Sender: TObject; RecNo,
+  CopyNo: Integer; var Eof: Boolean; var RecordAction: TRLRecordAction);
+begin
+    rlDescProdutoCadastrado.Caption := Copy(dm.cdsProduto.FieldByName('DESC_PROD').AsString, 0, 34);
 end;
 
 procedure TfrmRelatorio.rlVendaFornecedorBeforePrint(Sender: TObject;

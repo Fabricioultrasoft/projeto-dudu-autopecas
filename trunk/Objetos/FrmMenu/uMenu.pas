@@ -115,10 +115,11 @@ type
     procedure FormShow(Sender: TObject);
     procedure Button1Click(Sender: TObject);
     procedure actDescarteExecute(Sender: TObject);
-    function VerificaAcesso(nameForm: string): Boolean;
+    function VerificaAcesso(nameForm: string; mensagem: boolean = True): Boolean;
     procedure actLoginExecute(Sender: TObject);
     procedure actRelacaoVendasExecute(Sender: TObject);
     procedure actBackupRestoreExecute(Sender: TObject);
+    procedure LembreteBackup();
   private
     { Private declarations }
   public
@@ -237,6 +238,22 @@ begin
     end;
 end;
 
+procedure TfrmMenu.LembreteBackup;
+begin
+     if Self.VerificaAcesso('frmBackupRestore', false) then
+     begin
+         if Application.MessageBox('Deseja realizar o backup antes de sair?', 'Confirmação', MB_YESNO)= mrYes then
+         begin
+             try
+                frmBackupRestore := TfrmBackupRestore.Create(nil);
+                frmBackupRestore.ShowModal;
+             finally
+                 FreeAndNil(frmBackupRestore);
+             end;
+         end;
+     end;
+end;
+
 procedure TfrmMenu.actAgendaExecute(Sender: TObject);
 begin
     if Self.VerificaAcesso('frmCadAgenda') then
@@ -343,6 +360,7 @@ end;
 
 procedure TfrmMenu.actFecharExecute(Sender: TObject);
 begin
+    Self.LembreteBackup;
     dmConexao.Conexao.Close;
     Application.Terminate;
 end;
@@ -513,6 +531,7 @@ end;
 
 procedure TfrmMenu.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
+     Self.LembreteBackup;
      Action  := caFree;
      frmMenu := nil;
 end;
@@ -556,7 +575,7 @@ begin
             FMensagem.Append(#10#13'Para iniciar suas atividades nesse sistema é necessário executar algumas configurações!'#10#13#10#13);
             FMensagem.Append(#10#13'1 - Acesse o Menu Acessórios e clique na opção Configuração.'#10#13#10#13);
             FMensagem.Append(#10#13'2 - Na aba "Informações da Empresa" preencha todos os dados solicitados.'#10#13#10#13);
-            FMensagem.Append(#10#13'3 - Na aba "Geral" informe os dados da impressora não fiscal que será utilizada.'#10#13#10#13);
+            FMensagem.Append(#10#13'3 - Na aba "Geral" informe os dados da impressora não fiscal que será utilizada e opções de configurações.'#10#13#10#13);
             FMensagem.Append(#10#13'Obrigado pela preferência !'#10#13#10#13);
             FMensagem.Append(#10#13'Dúvidas entre em contato com William'#10#13);
             FMensagem.Append(#10#13'Celular Vivo: (11)99845-2278'#10#13);
@@ -579,7 +598,7 @@ begin
     stbStatus.Panels[7].Text := FormatDateTime('HH:MM:SS', Time);
 end;
 
-function TfrmMenu.VerificaAcesso(nameForm: string): Boolean;
+function TfrmMenu.VerificaAcesso(nameForm: string; mensagem: boolean = True): Boolean;
 var
   qry: TSQLQuery;
 begin
@@ -602,7 +621,9 @@ begin
 
          if qry.IsEmpty then
          begin
-            MessageDlg('Usuário não possui permissão de acesso!', mtWarning, [mbOK], 0);
+            if mensagem then
+               MessageDlg('Usuário não possui permissão de acesso!', mtWarning, [mbOK], 0);
+
             Result := false;
          end
          else

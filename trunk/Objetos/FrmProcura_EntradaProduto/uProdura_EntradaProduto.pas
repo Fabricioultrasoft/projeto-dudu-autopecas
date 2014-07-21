@@ -26,6 +26,7 @@ type
     procedure FormCreate(Sender: TObject);
   private
       procedure ConsultaNota;
+      procedure ConsultaGeral();
     { Private declarations }
   public
       procedure ConsultaDataEntrada();
@@ -50,10 +51,19 @@ const
   // Instrução SQL para ordenar por data de entrada
   ORDERBY: string ='ORDER BY E.DATA_ENTRADA DESC';
 
+  // Instrução SQL SELECT para relatório comparativo Entrada de Produto x Estoque
+  SELECT_COMPARATIVO: string = 'SELECT N.VALOR_TOTAL, N.CHAVE_NFE, P.N_NOTA, N.DATA_CADASTRO, P.EAN13, PR.DESC_PROD, P.QTDE_CONVERSAO, P.UND_CONVERSAO, E.QTDE, P.VAL_CUSTO, P.VAL_VENDA, F.DESC_FORN ';
+
+  // Instrução SQL FROM para relatório comparativo Entrada de Produto x Estoque
+  FROM_COMPARATIVO: string = 'FROM ENTRADA_PRODUTO P INNER JOIN ESTOQUE E ON P.EAN13 = E.EAN13 '+
+                                                     'INNER JOIN ENTRADA_NF N ON N.N_NOTA = P.N_NOTA '+
+                                                     'INNER JOIN PRODUTO PR   ON PR.EAN13 = P.EAN13 '+
+                                                     'INNER JOIN FORNECEDOR F ON F.COD_FORN = N.COD_FORN ';
+
 
 implementation
 
-uses uDm, uEntrada_Produtos;
+uses uDm, uEntrada_Produtos, uRelatorio;
 
 {$R *.dfm}
 
@@ -81,6 +91,18 @@ begin
      dm.qryEntradaNF.SQL.Add(WHERE_DATAENTRADA);
      dm.qryEntradaNF.ParamByName('data').AsDate := dtpEntrada.Date;
      dm.qryEntradaNF.Open;
+     dm.cdsEntradaNF.Refresh;
+end;
+
+procedure TfrmProcura_EntradaProduto.ConsultaGeral;
+begin
+     dm.cdsEntradaNF.Close;
+     dm.qryEntradaNF.Close;
+     dm.qryEntradaNF.SQL.Clear;
+     dm.qryEntradaNF.SQL.Add(SELECT);
+     dm.qryEntradaNF.SQL.Add(ORDERBY);
+     dm.qryEntradaNF.Open;
+     dm.cdsEntradaNF.Open;
      dm.cdsEntradaNF.Refresh;
 end;
 
@@ -113,13 +135,7 @@ end;
 procedure TfrmProcura_EntradaProduto.FormCreate(Sender: TObject);
 begin
      //Consulta para Data de Entrada
-     dm.cdsEntradaNF.Close;
-     dm.qryEntradaNF.Close;
-     dm.qryEntradaNF.SQL.Clear;
-     dm.qryEntradaNF.SQL.Add(SELECT);
-     dm.qryEntradaNF.Open;
-     dm.cdsEntradaNF.Open;
-     dm.cdsEntradaNF.Refresh;
+     Self.ConsultaGeral;
 end;
 
 procedure TfrmProcura_EntradaProduto.FormKeyDown(Sender: TObject; var Key: Word;
@@ -128,12 +144,22 @@ begin
      if Key = VK_ESCAPE then frmProcura_EntradaProduto.Close;
      if Key = VK_F5 then
      begin
-        try
-          //frmRelatorio := TfrmRelatorio.Create(self);
-          //frmRelatorio.GeraReport('Report_Produtos', 'RTProdutos.rav');
-        finally
-          //FreeAndNil(frmRelatorio);
-        end;
+         try
+            dm.cdsEntradaEstoque.Close;
+            dm.qryEntradaEstoque.Close;
+            dm.qryEntradaEstoque.SQL.Clear;
+            dm.qryEntradaEstoque.SQL.Add(SELECT_COMPARATIVO);
+            dm.qryEntradaEstoque.SQL.Add(FROM_COMPARATIVO);
+            dm.qryEntradaEstoque.SQL.Add('WHERE N.N_NOTA = ' + dm.cdsEntradaNF.FieldByName('N_NOTA').AsString);
+            dm.qryEntradaEstoque.Open;
+            dm.cdsEntradaEstoque.Open;
+            dm.cdsEntradaEstoque.Refresh;
+
+            frmRelatorio := TfrmRelatorio.Create(nil);
+            frmRelatorio.rlEntradaEstoque.Preview();
+         finally
+            FreeAndNil(frmRelatorio);
+         end;
      end;
 end;
 
@@ -158,14 +184,17 @@ begin
     begin
        //Habilita o DataTimerPicker e desabilita o edit
        dtpEntrada.Visible := True;
-       edtCodigo.Visible    := False;
+       edtCodigo.Visible  := False;
+       Self.ConsultaGeral;
     end
     else
     begin
        //Habilita o edit e desabilita o DataTimerPicker
        dtpEntrada.Visible := false;
-       edtCodigo.Visible    := true;
+       edtCodigo.Clear;
+       edtCodigo.Visible  := true;
        edtCodigo.SetFocus;
+       Self.ConsultaGeral;
     end;
 end;
 

@@ -205,6 +205,7 @@ begin
             dm.qryUnidade.SQL.Add(DELETE);
             dm.qryUnidade.ParamByName('codigo').AsString := edtCodigo.Text;
             dm.qryUnidade.ExecSQL();
+            AtualizaGrid();
             LimpaCampos();
         end;
     except
