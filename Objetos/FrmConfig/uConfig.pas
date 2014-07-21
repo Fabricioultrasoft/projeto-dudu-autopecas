@@ -15,8 +15,8 @@ type
     pgConfig: TPageControl;
     TabSheet1: TTabSheet;
     TabSheet2: TTabSheet;
-    GroupBox1: TGroupBox;
-    GroupBox2: TGroupBox;
+    grpEmpresa: TGroupBox;
+    grpGeral: TGroupBox;
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
@@ -40,7 +40,7 @@ type
     ACBrEnterTab1: TACBrEnterTab;
     lbl1: TLabel;
     lbl7: TLabel;
-    GroupBox3: TGroupBox;
+    grpImpressora: TGroupBox;
     lbl4: TLabel;
     lbl3: TLabel;
     lbl2: TLabel;
@@ -59,12 +59,15 @@ type
     ckbCabecalhoSuprimento: TCheckBox;
     ckbCabecalhoSangria: TCheckBox;
     ckbCabecalhoFechamento: TCheckBox;
+    lbl10: TLabel;
+    lbl11: TLabel;
+    lbl12: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure btn2Click(Sender: TObject);
   private
     procedure CarregaDados();
     procedure GravarDados();
-    function VerificaCampoEmpresa(): Boolean;
+    function VerificaCampos(): Boolean;
     function VerificaCampoGeral(): Boolean;
     procedure ReloadConfig();
   public
@@ -173,7 +176,7 @@ begin
             qry := TSQLQuery.Create(nil);
             qry.SQLConnection := dmConexao.Conexao;
 
-            if (VerificaCampoEmpresa) and (pgConfig.ActivePageIndex = 0) then
+            if (pgConfig.ActivePageIndex = 0) and (VerificaCampos) then
             begin
                 if (FID_Empresa = 0)  or (FID_Empresa = null) then
                 begin
@@ -213,7 +216,7 @@ begin
                 MessageDlg('Dados gravados com sucesso!', mtInformation, [mbOK], 0);
             end;
 
-            if (VerificaCampoGeral) and (pgConfig.ActivePageIndex = 1)  then
+            if (pgConfig.ActivePageIndex = 1) and (VerificaCampos) then
             begin
                 if (FID_Config = 0) or (FID_Config = null) then
                 begin
@@ -308,18 +311,39 @@ begin
     end;
 end;
 
-function TfrmConfig.VerificaCampoEmpresa: Boolean;
+function TfrmConfig.VerificaCampos: Boolean;
 var
-   i : integer;
+   i, x : integer;
    resp: Boolean;
 begin
     resp := true;
-    for i := 0 to ComponentCount - 1 do
+    if (pgConfig.ActivePageIndex = 0) then
     begin
-        if (Components[i] is TEdit) and (TEdit(Components[i]).Text = '') then
+        for i := 0 to ComponentCount - 1 do
         begin
-           resp := false;
-           break;
+            if (Components[i] is TEdit) and (TEdit(Components[i]).Parent = grpEmpresa) and (TEdit(Components[i]).Text = '') then
+            begin
+               resp := false;
+               break;
+            end;
+        end;
+    end;
+
+    if (pgConfig.ActivePageIndex = 1) then
+    begin
+        for i := 0 to ComponentCount - 1 do
+        begin
+            if (Components[i] is TComboBox) and (TComboBox(Components[i]).Parent = grpImpressora) and (TComboBox(Components[i]).Text = '') then
+            begin
+               resp := false;
+               break;
+            end;
+
+            if (Components[i] is TEdit) and (TEdit(Components[i]).Parent = grpImpressora) and (TEdit(Components[i]).Text = '') then
+            begin
+               resp := false;
+               break;
+            end;
         end;
     end;
 

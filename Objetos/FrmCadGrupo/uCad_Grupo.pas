@@ -192,6 +192,7 @@ begin
             dm.qryGrupo.SQL.Add(DELETE);
             dm.qryGrupo.ParamByName('codigo').AsString := dm.cdsGrupo.FieldByName('COD_GRUPO').AsString;
             dm.qryGrupo.ExecSQL();
+            Self.AtualizaGrid();
             LimpaCampos();
         end;
     except

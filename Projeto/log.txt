@@ -1,3 +1,8 @@
 20/03/2014 - 22:22:06 - Erro na conexão com o banco de dados
 24/03/2014 - 07:20:37 - Erro na conexão com o banco de dados
 17/07/2014 - 08:10:28 - Erro na conexão com o banco de dados
+17/07/2014 - 22:05:06 - Erro na conexão com o banco de dados
+18/07/2014 - 07:44:30 - Erro na conexão com o banco de dados
+18/07/2014 - 07:45:21 - Erro na conexão com o banco de dados
+18/07/2014 - 07:45:47 - Erro na conexão com o banco de dados
+18/07/2014 - 07:46:13 - Erro na conexão com o banco de dados

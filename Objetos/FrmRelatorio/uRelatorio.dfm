@@ -1,9 +1,9 @@
 object frmRelatorio: TfrmRelatorio
-  Left = 199
-  Top = 199
+  Left = 881
+  Top = 178
   Width = 1296
-  Height = 785
-  VertScrollBar.Position = 6242
+  Height = 786
+  VertScrollBar.Position = 7237
   AutoScroll = True
   Caption = 'frmRelatorio'
   Color = clBtnFace
@@ -18,7 +18,7 @@ object frmRelatorio: TfrmRelatorio
   TextHeight = 16
   object rlCliente: TRLReport
     Left = 56
-    Top = -6234
+    Top = -7229
     Width = 794
     Height = 1123
     DataSource = dm.dtsCliente
@@ -43,12 +43,12 @@ object frmRelatorio: TfrmRelatorio
       ParentColor = False
       Transparent = False
       object RLLabel1: TRLLabel
-        Left = 212
-        Top = 10
-        Width = 324
+        Left = 96
+        Top = 11
+        Width = 520
         Height = 32
         Alignment = taCenter
-        Caption = 'Relat'#243'rio de Clientes'
+        Caption = 'Relat'#243'rio de Clientes Cadastrados'
         Color = clSilver
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
@@ -176,7 +176,7 @@ object frmRelatorio: TfrmRelatorio
   end
   object rlFornecedor: TRLReport
     Left = 56
-    Top = -5077
+    Top = -6072
     Width = 794
     Height = 1123
     DataSource = dm.dtsFornecedor
@@ -330,12 +330,12 @@ object frmRelatorio: TfrmRelatorio
       ParentColor = False
       Transparent = False
       object RLLabel12: TRLLabel
-        Left = 170
+        Left = 57
         Top = 10
-        Width = 408
+        Width = 606
         Height = 32
         Alignment = taCenter
-        Caption = 'Relat'#243'rio de Fornecedores'
+        Caption = 'Relat'#243'rio de Fornecedores Cadastrados'
         Color = clSilver
         Font.Charset = DEFAULT_CHARSET
         Font.Color = clBlack
@@ -350,7 +350,7 @@ object frmRelatorio: TfrmRelatorio
   end
   object RLProduto: TRLReport
     Left = 56
-    Top = -3928
+    Top = -4923
     Width = 794
     Height = 1123
     DataSource = dm.dtsProduto
@@ -360,6 +360,7 @@ object frmRelatorio: TfrmRelatorio
     Font.Name = 'Courier New'
     Font.Style = []
     PreviewOptions.ShowModal = True
+    OnDataRecord = RLProdutoDataRecord
     object RLBand5: TRLBand
       Left = 38
       Top = 38
@@ -375,7 +376,7 @@ object frmRelatorio: TfrmRelatorio
       ParentColor = False
       Transparent = False
       object RLLabel14: TRLLabel
-        Left = 99
+        Left = 90
         Top = 10
         Width = 536
         Height = 32
@@ -418,21 +419,21 @@ object frmRelatorio: TfrmRelatorio
         Caption = 'C'#243'digo'
       end
       object RLLabel17: TRLLabel
-        Left = 359
+        Left = 371
         Top = 6
         Width = 105
         Height = 14
         Caption = 'Estoque M'#237'nimo'
       end
       object RLLabel18: TRLLabel
-        Left = 599
+        Left = 620
         Top = 6
         Width = 42
         Height = 14
         Caption = 'Grupo'
       end
       object RLLabel19: TRLLabel
-        Left = 473
+        Left = 487
         Top = 6
         Width = 98
         Height = 14
@@ -459,17 +460,9 @@ object frmRelatorio: TfrmRelatorio
         DataField = 'EAN13'
         DataSource = dm.dtsProduto
       end
-      object RLDBText11: TRLDBText
-        Left = 120
-        Top = 5
-        Width = 70
-        Height = 14
-        DataField = 'DESC_PROD'
-        DataSource = dm.dtsProduto
-      end
       object RLDBText12: TRLDBText
-        Left = 358
-        Top = 5
+        Left = 372
+        Top = 4
         Width = 106
         Height = 14
         Alignment = taCenter
@@ -477,7 +470,7 @@ object frmRelatorio: TfrmRelatorio
         DataSource = dm.dtsProduto
       end
       object RLDBText13: TRLDBText
-        Left = 580
+        Left = 603
         Top = 5
         Width = 77
         Height = 14
@@ -485,13 +478,19 @@ object frmRelatorio: TfrmRelatorio
         DataSource = dm.dtsProduto
       end
       object RLDBText14: TRLDBText
-        Left = 484
+        Left = 499
         Top = 6
         Width = 70
         Height = 14
         Alignment = taCenter
         DataField = 'UND_VENDA'
         DataSource = dm.dtsProduto
+      end
+      object rlDescProdutoCadastrado: TRLLabel
+        Left = 115
+        Top = 5
+        Width = 168
+        Height = 14
       end
     end
     object RLBand8: TRLBand
@@ -523,7 +522,7 @@ object frmRelatorio: TfrmRelatorio
   end
   object RLEstoque: TRLReport
     Left = 56
-    Top = -2787
+    Top = -3782
     Width = 794
     Height = 1123
     DataSource = dm.dtsEstoque
@@ -533,6 +532,7 @@ object frmRelatorio: TfrmRelatorio
     Font.Name = 'Courier New'
     Font.Style = []
     PreviewOptions.ShowModal = True
+    OnDataRecord = RLEstoqueDataRecord
     object RLBand9: TRLBand
       Left = 38
       Top = 38
@@ -611,39 +611,38 @@ object frmRelatorio: TfrmRelatorio
         DataField = 'EAN13'
         DataSource = dm.dtsEstoque
       end
-      object RLDBText16: TRLDBText
-        Left = 120
-        Top = 5
-        Width = 70
-        Height = 14
-        DataField = 'DESC_PROD'
-        DataSource = dm.dtsEstoque
-      end
       object RLDBText17: TRLDBText
-        Left = 358
+        Left = 370
         Top = 5
         Width = 106
         Height = 14
-        Alignment = taCenter
+        Alignment = taRightJustify
         DataField = 'ESTOQUE_MINIMO'
         DataSource = dm.dtsEstoque
       end
       object RLDBText18: TRLDBText
-        Left = 515
+        Left = 545
         Top = 5
         Width = 35
         Height = 14
+        Alignment = taRightJustify
         DataField = 'QTDE'
         DataSource = dm.dtsEstoque
       end
       object RLDBText19: TRLDBText
         Left = 613
-        Top = 4
+        Top = 5
         Width = 70
         Height = 14
         Alignment = taCenter
         DataField = 'UND_VENDA'
         DataSource = dm.dtsEstoque
+      end
+      object rlDescProdutoEstoque: TRLLabel
+        Left = 115
+        Top = 5
+        Width = 147
+        Height = 14
       end
     end
     object RLBand12: TRLBand
@@ -672,14 +671,14 @@ object frmRelatorio: TfrmRelatorio
         Caption = 'C'#243'digo'
       end
       object RLLabel25: TRLLabel
-        Left = 359
+        Left = 372
         Top = 6
         Width = 105
         Height = 14
         Caption = 'Estoque M'#237'nimo'
       end
       object RLLabel26: TRLLabel
-        Left = 494
+        Left = 503
         Top = 6
         Width = 77
         Height = 14
@@ -696,7 +695,7 @@ object frmRelatorio: TfrmRelatorio
   end
   object RLDescarte: TRLReport
     Left = 56
-    Top = -1646
+    Top = -2641
     Width = 794
     Height = 1123
     DataSource = dm.dtsDescarte
@@ -901,7 +900,7 @@ object frmRelatorio: TfrmRelatorio
   end
   object rlVendas: TRLReport
     Left = 56
-    Top = -491
+    Top = -1486
     Width = 1123
     Height = 794
     DataSource = dm.dtsItem_Venda
@@ -1220,7 +1219,7 @@ object frmRelatorio: TfrmRelatorio
   end
   object rlVendaFornecedor: TRLReport
     Left = 56
-    Top = 324
+    Top = -671
     Width = 1123
     Height = 794
     DataSource = dm.dtsVenda_Fornecedor
@@ -1470,6 +1469,322 @@ object frmRelatorio: TfrmRelatorio
         ParentColor = False
         ParentFont = False
         Transparent = False
+      end
+    end
+  end
+  object rlEntradaEstoque: TRLReport
+    Left = 46
+    Top = 160
+    Width = 1123
+    Height = 794
+    DataSource = dm.dtsEntradaEstoque
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -11
+    Font.Name = 'Courier New'
+    Font.Style = []
+    PageSetup.Orientation = poLandscape
+    PreviewOptions.ShowModal = True
+    object RLBand27: TRLBand
+      Left = 38
+      Top = 38
+      Width = 1047
+      Height = 51
+      BandType = btHeader
+      Borders.Sides = sdCustom
+      Borders.DrawLeft = True
+      Borders.DrawTop = True
+      Borders.DrawRight = True
+      Borders.DrawBottom = True
+      Color = clSilver
+      ParentColor = False
+      Transparent = False
+      object RLLabel51: TRLLabel
+        Left = 181
+        Top = 10
+        Width = 668
+        Height = 32
+        Alignment = taCenter
+        Caption = 'Relat'#243'rio de Entrada de Produtos x Estoque'
+        Color = clSilver
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -27
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        Transparent = False
+      end
+    end
+    object RLBand28: TRLBand
+      Left = 38
+      Top = 209
+      Width = 1047
+      Height = 24
+      BandType = btHeader
+      Borders.Sides = sdCustom
+      Borders.DrawLeft = True
+      Borders.DrawTop = True
+      Borders.DrawRight = True
+      Borders.DrawBottom = True
+      object RLLabel53: TRLLabel
+        Left = 35
+        Top = 5
+        Width = 42
+        Height = 14
+        Caption = 'EAN13'
+      end
+      object RLLabel54: TRLLabel
+        Left = 220
+        Top = 5
+        Width = 147
+        Height = 14
+        Caption = 'Descri'#231#227'o do Produto'
+      end
+      object RLLabel58: TRLLabel
+        Left = 938
+        Top = 5
+        Width = 105
+        Height = 14
+        Alignment = taCenter
+        Caption = 'Valor de Venda'
+      end
+      object RLLabel62: TRLLabel
+        Left = 744
+        Top = 5
+        Width = 56
+        Height = 14
+        Alignment = taCenter
+        Caption = 'Unidade'
+      end
+      object RLLabel66: TRLLabel
+        Left = 520
+        Top = 6
+        Width = 98
+        Height = 14
+        Alignment = taCenter
+        Caption = 'Qtde Comprada'
+      end
+      object RLLabel67: TRLLabel
+        Left = 633
+        Top = 5
+        Width = 98
+        Height = 14
+        Alignment = taCenter
+        Caption = 'Saldo Estoque'
+      end
+      object RLLabel68: TRLLabel
+        Left = 821
+        Top = 5
+        Width = 105
+        Height = 14
+        Alignment = taCenter
+        Caption = 'Valor de Custo'
+      end
+    end
+    object RLBand29: TRLBand
+      Left = 38
+      Top = 233
+      Width = 1047
+      Height = 24
+      Borders.Sides = sdCustom
+      Borders.DrawLeft = False
+      Borders.DrawTop = False
+      Borders.DrawRight = False
+      Borders.DrawBottom = False
+      Completion = ctFullPage
+      object RLDBText11: TRLDBText
+        Left = 33
+        Top = 6
+        Width = 42
+        Height = 14
+        Alignment = taCenter
+        DataField = 'EAN13'
+        DataSource = dm.dtsEntradaEstoque
+      end
+      object RLDBText16: TRLDBText
+        Left = 497
+        Top = 4
+        Width = 105
+        Height = 14
+        Alignment = taRightJustify
+        DataField = 'QTDE_CONVERSAO'
+        DataSource = dm.dtsEntradaEstoque
+      end
+      object RLDBText36: TRLDBText
+        Left = 663
+        Top = 4
+        Width = 36
+        Height = 14
+        Alignment = taRightJustify
+        DataField = 'QTDE'
+        DataSource = dm.dtsEntradaEstoque
+      end
+      object RLDBText38: TRLDBText
+        Left = 723
+        Top = 4
+        Width = 98
+        Height = 14
+        Alignment = taCenter
+        DataField = 'UND_CONVERSAO'
+        DataSource = dm.dtsEntradaEstoque
+      end
+      object RLDBText40: TRLDBText
+        Left = 112
+        Top = 6
+        Width = 70
+        Height = 14
+        DataField = 'DESC_PROD'
+        DataSource = dm.dtsEntradaEstoque
+      end
+      object RLDBText48: TRLDBText
+        Left = 832
+        Top = 4
+        Width = 70
+        Height = 14
+        Alignment = taRightJustify
+        DataField = 'VAL_CUSTO'
+        DataSource = dm.dtsEntradaEstoque
+      end
+      object RLDBText49: TRLDBText
+        Left = 956
+        Top = 6
+        Width = 70
+        Height = 14
+        Alignment = taRightJustify
+        DataField = 'VAL_VENDA'
+        DataSource = dm.dtsEntradaEstoque
+      end
+    end
+    object RLBand30: TRLBand
+      Left = 38
+      Top = 257
+      Width = 1047
+      Height = 24
+      BandType = btFooter
+      Borders.Sides = sdCustom
+      Borders.DrawLeft = False
+      Borders.DrawTop = True
+      Borders.DrawRight = False
+      Borders.DrawBottom = False
+      object RLLabel64: TRLLabel
+        Left = 933
+        Top = 8
+        Width = 42
+        Height = 14
+        Caption = 'Data:'
+      end
+      object RLSystemInfo8: TRLSystemInfo
+        Left = 992
+        Top = 8
+        Width = 41
+        Height = 13
+        Alignment = taCenter
+      end
+    end
+    object RLBand31: TRLBand
+      Left = 38
+      Top = 89
+      Width = 1047
+      Height = 120
+      BandType = btHeader
+      Borders.Sides = sdCustom
+      Borders.DrawLeft = False
+      Borders.DrawTop = True
+      Borders.DrawRight = False
+      Borders.DrawBottom = False
+      object RLLabel59: TRLLabel
+        Left = 378
+        Top = 8
+        Width = 234
+        Height = 18
+        Alignment = taCenter
+        Caption = 'Informa'#231#245'es da Nota Fiscal:'
+        Color = clWhite
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clBlack
+        Font.Height = -15
+        Font.Name = 'Verdana'
+        Font.Style = [fsBold]
+        ParentColor = False
+        ParentFont = False
+        Transparent = False
+      end
+      object RLLabel69: TRLLabel
+        Left = 62
+        Top = 38
+        Width = 133
+        Height = 14
+        Caption = 'N'#186' da Nota Fiscal:'
+      end
+      object RLLabel70: TRLLabel
+        Left = 592
+        Top = 38
+        Width = 77
+        Height = 14
+        Caption = 'Chave NFe:'
+      end
+      object RLLabel71: TRLLabel
+        Left = 48
+        Top = 94
+        Width = 147
+        Height = 14
+        Caption = 'Valor Total da Nota:'
+      end
+      object RLLabel72: TRLLabel
+        Left = 557
+        Top = 94
+        Width = 112
+        Height = 14
+        Caption = 'Data da Compra:'
+      end
+      object RLLabel73: TRLLabel
+        Left = 111
+        Top = 67
+        Width = 84
+        Height = 14
+        Caption = 'Fornecedor:'
+      end
+      object RLDBText43: TRLDBText
+        Left = 204
+        Top = 38
+        Width = 49
+        Height = 14
+        DataField = 'N_NOTA'
+        DataSource = dm.dtsEntradaEstoque
+      end
+      object RLDBText44: TRLDBText
+        Left = 677
+        Top = 38
+        Width = 70
+        Height = 14
+        DataField = 'CHAVE_NFE'
+        DataSource = dm.dtsEntradaEstoque
+      end
+      object RLDBText45: TRLDBText
+        Left = 205
+        Top = 67
+        Width = 70
+        Height = 14
+        DataField = 'DESC_FORN'
+        DataSource = dm.dtsEntradaEstoque
+      end
+      object RLDBText46: TRLDBText
+        Left = 205
+        Top = 94
+        Width = 84
+        Height = 14
+        DataField = 'VALOR_TOTAL'
+        DataSource = dm.dtsEntradaEstoque
+      end
+      object RLDBText47: TRLDBText
+        Left = 677
+        Top = 94
+        Width = 98
+        Height = 14
+        DataField = 'DATA_CADASTRO'
+        DataSource = dm.dtsEntradaEstoque
       end
     end
   end

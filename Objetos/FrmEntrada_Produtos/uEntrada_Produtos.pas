@@ -115,6 +115,15 @@ const
   // Instrução SQL para carregar a descrição do Fornecedor
   SQLDESC_FORN : string = 'SELECT DESC_FORN FROM FORNECEDOR WHERE COD_FORN = :cod';
 
+  // Instrução SQL SELECT para relatório comparativo Entrada de Produto x Estoque
+  SELECT_COMPARATIVO: string = 'SELECT N.VALOR_TOTAL, N.CHAVE_NFE, P.N_NOTA, N.DATA_CADASTRO, P.EAN13, PR.DESC_PROD, P.QTDE_CONVERSAO, P.UND_CONVERSAO, E.QTDE, P.VAL_CUSTO, P.VAL_VENDA, F.DESC_FORN ';
+
+  // Instrução SQL FROM para relatório comparativo Entrada de Produto x Estoque
+  FROM_COMPARATIVO: string = 'FROM ENTRADA_PRODUTO P INNER JOIN ESTOQUE E ON P.EAN13 = E.EAN13 '+
+                                                     'INNER JOIN ENTRADA_NF N ON N.N_NOTA = P.N_NOTA '+
+                                                     'INNER JOIN PRODUTO PR   ON PR.EAN13 = P.EAN13 '+
+                                                     'INNER JOIN FORNECEDOR F ON F.COD_FORN = N.COD_FORN ';
+
 
 implementation
 
@@ -183,12 +192,27 @@ end;
 procedure TfrmEntrada_Produtos.btnRelatClick(Sender: TObject);
 begin
      //Gera o relatório
-     try
-       frmRelatorio := TfrmRelatorio.Create(self);
-       frmRelatorio.GeraReport('Report_Entrada_Produtos', 'RTEntrada_Produtos.rav');
-     finally
-       FreeAndNil(frmRelatorio);
-     end;
+     if dm.cdsEntradaNF.Active then
+     begin
+         try
+            dm.cdsEntradaEstoque.Close;
+            dm.qryEntradaEstoque.Close;
+            dm.qryEntradaEstoque.SQL.Clear;
+            dm.qryEntradaEstoque.SQL.Add(SELECT_COMPARATIVO);
+            dm.qryEntradaEstoque.SQL.Add(FROM_COMPARATIVO);
+            dm.qryEntradaEstoque.SQL.Add('WHERE N.N_NOTA = ' + dm.cdsEntradaNF.FieldByName('N_NOTA').AsString);
+            dm.qryEntradaEstoque.Open;
+            dm.cdsEntradaEstoque.Open;
+            dm.cdsEntradaEstoque.Refresh;
+
+            frmRelatorio := TfrmRelatorio.Create(nil);
+            frmRelatorio.rlEntradaEstoque.Preview();
+         finally
+            FreeAndNil(frmRelatorio);
+         end;
+     end
+     else
+        Application.MessageBox('É necessário selecionar uma nota fiscal para gerar o relatório!'#13#10'Pressione o botão PESQUISAR ou F6 para selecionar uma nota fiscal.', 'Aviso', MB_OK);
 end;
 
 procedure TfrmEntrada_Produtos.btnSairClick(Sender: TObject);
@@ -365,6 +389,7 @@ begin
      if Key = VK_F7 then IncluirProduto;
      if Key = VK_F8 then EditarProduto;
      if Key = VK_F9 then ExcluirProduto;
+     if Key = VK_F4 then btnRelat.Click;
 end;
 
 procedure TfrmEntrada_Produtos.setOperacao(Operacao: TOperacao);

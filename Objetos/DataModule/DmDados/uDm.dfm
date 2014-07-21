@@ -1,9 +1,9 @@
 object dm: Tdm
   OldCreateOrder = False
-  Left = 363
-  Top = 333
+  Left = 443
+  Top = 203
   Height = 717
-  Width = 1005
+  Width = 1060
   object dspUsuario: TDataSetProvider
     DataSet = qryUsuario
     Options = [poAllowCommandText, poUseQuoteChar]
@@ -1940,6 +1940,168 @@ object dm: Tdm
   object dtsACL: TDataSource
     DataSet = cdsACL
     Left = 776
+    Top = 624
+  end
+  object qryEntradaEstoque: TSQLQuery
+    MaxBlobSize = -1
+    Params = <>
+    SQL.Strings = (
+      
+        'SELECT N.VALOR_TOTAL, N.CHAVE_NFE, P.N_NOTA, N.DATA_CADASTRO, P.' +
+        'EAN13, PR.DESC_PROD, P.QTDE_CONVERSAO, P.UND_CONVERSAO, E.QTDE, ' +
+        'P.VAL_CUSTO, P.VAL_VENDA, F.DESC_FORN'
+      'FROM ENTRADA_PRODUTO P INNER JOIN ESTOQUE E ON P.EAN13 = E.EAN13'
+      
+        '                       INNER JOIN ENTRADA_NF N ON N.N_NOTA = P.N' +
+        '_NOTA'
+      
+        '                       INNER JOIN PRODUTO PR   ON PR.EAN13 = P.E' +
+        'AN13'
+      
+        '                       INNER JOIN FORNECEDOR F ON F.COD_FORN = N' +
+        '.COD_FORN'
+      'WHERE N.ID = 0')
+    SQLConnection = dmConexao.Conexao
+    Left = 872
+    Top = 368
+    object qryEntradaEstoqueVALOR_TOTAL: TFMTBCDField
+      FieldName = 'VALOR_TOTAL'
+      Required = True
+      Precision = 18
+      Size = 2
+    end
+    object strngfldEntradaEstoqueCHAVE_NFE: TStringField
+      FieldName = 'CHAVE_NFE'
+      Size = 40
+    end
+    object strngfldEntradaEstoqueN_NOTA: TStringField
+      FieldName = 'N_NOTA'
+      Required = True
+      Size = 10
+    end
+    object qryEntradaEstoqueDATA_CADASTRO: TDateField
+      FieldName = 'DATA_CADASTRO'
+    end
+    object strngfldEntradaEstoqueEAN13: TStringField
+      FieldName = 'EAN13'
+      Required = True
+      Size = 13
+    end
+    object strngfldEntradaEstoqueDESC_PROD: TStringField
+      FieldName = 'DESC_PROD'
+      Required = True
+      Size = 100
+    end
+    object qryEntradaEstoqueQTDE_CONVERSAO: TFMTBCDField
+      FieldName = 'QTDE_CONVERSAO'
+      Precision = 18
+      Size = 3
+    end
+    object strngfldEntradaEstoqueUND_CONVERSAO: TStringField
+      FieldName = 'UND_CONVERSAO'
+      Size = 10
+    end
+    object qryEntradaEstoqueQTDE: TFMTBCDField
+      FieldName = 'QTDE'
+      Precision = 18
+      Size = 3
+    end
+    object qryEntradaEstoqueVAL_CUSTO: TFMTBCDField
+      FieldName = 'VAL_CUSTO'
+      Required = True
+      Precision = 18
+      Size = 2
+    end
+    object qryEntradaEstoqueVAL_VENDA: TFMTBCDField
+      FieldName = 'VAL_VENDA'
+      Required = True
+      Precision = 18
+      Size = 2
+    end
+    object strngfldEntradaEstoqueDESC_FORN: TStringField
+      FieldName = 'DESC_FORN'
+      Required = True
+      Size = 100
+    end
+  end
+  object cdsEntradaEstoque: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'dspEntradaEstoque'
+    Left = 872
+    Top = 536
+    object cdsEntradaEstoqueVALOR_TOTAL: TFMTBCDField
+      FieldName = 'VALOR_TOTAL'
+      Required = True
+      Precision = 18
+      Size = 2
+    end
+    object strngfldEntradaEstoqueCHAVE_NFE1: TStringField
+      FieldName = 'CHAVE_NFE'
+      Size = 40
+    end
+    object strngfldEntradaEstoqueN_NOTA1: TStringField
+      FieldName = 'N_NOTA'
+      Required = True
+      Size = 10
+    end
+    object cdsEntradaEstoqueDATA_CADASTRO: TDateField
+      FieldName = 'DATA_CADASTRO'
+    end
+    object strngfldEntradaEstoqueEAN14: TStringField
+      FieldName = 'EAN13'
+      Required = True
+      Size = 13
+    end
+    object strngfldEntradaEstoqueDESC_PROD1: TStringField
+      FieldName = 'DESC_PROD'
+      Required = True
+      Size = 100
+    end
+    object cdsEntradaEstoqueQTDE_CONVERSAO: TFMTBCDField
+      FieldName = 'QTDE_CONVERSAO'
+      DisplayFormat = '#0.000'
+      Precision = 18
+      Size = 3
+    end
+    object strngfldEntradaEstoqueUND_CONVERSAO1: TStringField
+      FieldName = 'UND_CONVERSAO'
+      Size = 10
+    end
+    object cdsEntradaEstoqueQTDE: TFMTBCDField
+      FieldName = 'QTDE'
+      DisplayFormat = '#0.000'
+      Precision = 18
+      Size = 3
+    end
+    object cdsEntradaEstoqueVAL_CUSTO: TFMTBCDField
+      FieldName = 'VAL_CUSTO'
+      Required = True
+      DisplayFormat = '##0.00'
+      Precision = 18
+      Size = 2
+    end
+    object cdsEntradaEstoqueVAL_VENDA: TFMTBCDField
+      FieldName = 'VAL_VENDA'
+      Required = True
+      DisplayFormat = '##0.00'
+      Precision = 18
+      Size = 2
+    end
+    object strngfldEntradaEstoqueDESC_FORN1: TStringField
+      FieldName = 'DESC_FORN'
+      Required = True
+      Size = 100
+    end
+  end
+  object dspEntradaEstoque: TDataSetProvider
+    DataSet = qryEntradaEstoque
+    Left = 872
+    Top = 456
+  end
+  object dtsEntradaEstoque: TDataSource
+    DataSet = cdsEntradaEstoque
+    Left = 880
     Top = 624
   end
 end

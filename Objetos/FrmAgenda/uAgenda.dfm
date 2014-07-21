@@ -470,7 +470,7 @@ object frmCadAgenda: TfrmCadAgenda
       TabOrder = 1
       OnClick = btnEditarClick
     end
-    object btn1: TBitBtn
+    object btnSalvar: TBitBtn
       Left = 200
       Top = 0
       Width = 100
