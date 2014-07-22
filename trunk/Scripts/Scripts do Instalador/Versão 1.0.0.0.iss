@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Sistema de Gestão"
-#define MyAppVersion "1.0.0.8"
+#define MyAppVersion "1.0.0.9"
 #define MyAppPublisher "WLL - SISTEMAS"
 #define AppPublisherURL "http://www.wllsistemas.com.br"
 #define MyAppURL "http://www.wllsistemas.com.br"
@@ -24,7 +24,7 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName=C:\SistemaGestão
 DefaultGroupName={#MyAppName}
-OutputBaseFilename=Sistema de Gestão 1.0.0.8
+OutputBaseFilename=Sistema de Gestão 1.0.0.9
 Compression=lzma
 SolidCompression=yes
 
@@ -53,6 +53,7 @@ Source: C:\SistemaGestão\DLLs\InterfaceEpsonNF.dll; DestDir: {sys}; Flags: ignor
 Source: C:\SistemaGestão\DLLs\InterfaceEpsonNF.dll; DestDir: {app}; Flags: ignoreversion
 Source: C:\SistemaGestão\Firebird-2.5.2.26540.exe; DestDir: {tmp}; Flags: deleteafterinstall promptifolder
 Source: C:\SistemaGestão\TeamViewer_Setup.exe; DestDir: {app}\Extras; Flags: ignoreversion
+Source: C:\SistemaGestão\Projeto Backup\Projeto\Debug\Win32\Backup.exe; DestDir: {app}; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

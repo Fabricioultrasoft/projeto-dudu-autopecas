@@ -21,21 +21,15 @@ type
     edtOrigem: TJvFilenameEdit;
     animate: TAnimate;
     grp2: TGroupBox;
-    lbl3: TLabel;
-    lbl4: TLabel;
-    edtOrigemfbk: TJvFilenameEdit;
-    edtDestinoFDB: TJvDirectoryEdit;
-    animateRestore: TAnimate;
     ShellResources1: TShellResources;
     BalloonHint: TBalloonHint;
     btnExecutar: TBitBtn;
     lblStatus: TLabel;
-    lblStatusRestore: TLabel;
+    mmo1: TMemo;
     procedure btnExecutarClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
   private
     procedure ExecutarBackup(Origem, Destino: string);
-    procedure ExecutarRestore(Origem, Destino: string);
     procedure EstadoControles(Param: string);
     function CortarString(Texto: string):string;
   public
@@ -61,18 +55,6 @@ begin
             ExecutarBackup(edtOrigem.Text, edtDestino.Text)
          else
            ShowMessage('É necessário informar os caminhos para os arquivos!');
-    end
-    else
-    begin
-        if (edtDestinoFDB.Text <> '') and (edtOrigemfbk.Text <> '') then
-        begin
-           if edtDestinoFDB.Text <> FDatabase then
-              ExecutarRestore(edtOrigemfbk.Text, edtDestinoFDB.Text)
-           else
-              ShowMessage('O caminho da restauração não pode ser o mesmo caminho do banco de dados atual!');
-        end
-        else
-          ShowMessage('É necessário informar os caminhos para os arquivos!');
     end;
 end;
 
@@ -172,66 +154,6 @@ begin
     end;
 end;
 
-procedure TfrmBackupRestore.ExecutarRestore(Origem, Destino: string);
-var
-  FRestore: TIBRestoreService;
-begin
-    FRestore := TIBRestoreService.Create(self);
-    EstadoControles('D');
-     try
-         with FRestore do
-         begin
-             Active := false;
-             LoginPrompt := False;
-             Params.Clear;
-             Params.Add('user_name=' + Self.FUsuario);
-             Params.Add('password=' + Self.FSenha);
-
-             try
-               Active := True;
-             except
-               on E: Exception do
-               begin
-                 EstadoControles('A');
-                 MessageDlg('Erro ao executar backup.' + #13 + 'Erro: ' + E.Message, mtError, [mbok], 0);
-               end;
-             end;
-
-             Origem  := trim(StringReplace(Origem, '"', '', [rfReplaceAll])) ;
-             Destino := trim(StringReplace(Destino, '"', '', [rfReplaceAll])) ;
-             Verbose := True;
-             Options := [Replace, UseAllSpace];
-             databasename.add(Destino);
-             BackupFile.Clear;
-             backupfile.add(Origem);
-             active := true;
-             servicestart;
-
-             lblStatusRestore.Caption := 'Iniciando Restauração: arquivo fbk ...';
-             while not Eof do
-             begin
-               Sleep(100);
-               Refresh;
-               lblStatusRestore.Caption := GetNextLine;
-               Application.ProcessMessages;
-             end;
-
-             if FileExists(Destino) then
-             begin
-                EstadoControles('A');
-                MessageDlg('Restauração executada com sucesso!', mtInformation, [mbok], 0);
-             end;
-         end;
-
-     except
-         on E: Exception do
-         begin
-           EstadoControles('A');
-           MessageDlg('Erro ao executar backup.' + #13 + 'Erro: ' + E.Message, mtError, [mbok], 0);
-         end;
-     end;
-end;
-
 procedure TfrmBackupRestore.FormCreate(Sender: TObject);
 begin
     try
@@ -242,7 +164,6 @@ begin
         Self.FUsuario  := conn.Usuario;
         Self.FSenha    := conn.Senha;
         edtOrigem.Text := FDatabase;
-        edtDestinoFDB.Text := 'C:\' + CortarString(FDatabase);
     finally
         FreeAndNil(conn);
     end;
@@ -274,8 +195,6 @@ begin
          Screen.Cursor          := crDefault;
          animate.Visible        := false;
          animate.Active         := false;
-         animateRestore.Visible := false;
-         animateRestore.Active  := false;
     end
     else
     begin
@@ -287,8 +206,6 @@ begin
              Screen.Cursor          := crHourGlass;
              animate.Visible        := True;
              animate.Active         := True;
-             animateRestore.Visible := true;
-             animateRestore.Active  := true;
         end;
     end;
 end;
