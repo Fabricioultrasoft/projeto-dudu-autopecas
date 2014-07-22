@@ -2,6 +2,7 @@ program SistemaGestao;
 
 uses
   Forms,
+  Windows,
   SysUtils,
   RPDefine,
   uMenu in '..\Objetos\FrmMenu\uMenu.pas' {frmMenu},
@@ -60,18 +61,43 @@ uses
 
 {$R *.res}
 
+Var
+  MutexHandle: THandle;
+  hwind:HWND;
+
 begin
-  RPDefine.DataID := IntToStr(Application.Handle);
-  Application.Initialize;
-  Application.Title := 'Sistema de Gestão';
-  Application.CreateForm(TdmConexao, dmConexao);
-  Application.CreateForm(Tdm, dm);
-  Application.CreateForm(TfrmSplash, frmSplash);
-  frmSplash.show;
-  frmSplash.Refresh;
-  Sleep(500); // 2000 = 2 segundos
-  frmSplash.Hide;
-  frmSplash.Free;
-  Application.CreateForm(TfrmMenu, frmMenu);
-  Application.Run;
+    MutexHandle := CreateMutex(nil, TRUE, 'SistemaGestao');
+    if MutexHandle <> 0 then
+    begin
+        if GetLastError = ERROR_ALREADY_EXISTS then
+        begin
+            MessageBox(0, 'Este programa já está em execução!','', mb_IconHand);
+            CloseHandle(MutexHandle);
+            hwind:=0;
+
+            repeat
+                hwind:=Windows.FindWindowEx(0,hwind,'TApplication','SistemaGestao');
+            until (hwind<>Application.Handle);
+
+            if (hwind<>0) then
+            begin
+                Windows.ShowWindow(hwind,SW_SHOWNORMAL);
+                Windows.SetForegroundWindow(hwind);
+            end;
+            Halt;
+        end
+    end;
+    RPDefine.DataID := IntToStr(Application.Handle);
+    Application.Initialize;
+    Application.Title := 'Sistema de Gestão';
+    Application.CreateForm(TdmConexao, dmConexao);
+    Application.CreateForm(Tdm, dm);
+    Application.CreateForm(TfrmSplash, frmSplash);
+    frmSplash.show;
+    frmSplash.Refresh;
+    Sleep(500); // 2000 = 2 segundos
+    frmSplash.Hide;
+    frmSplash.Free;
+    Application.CreateForm(TfrmMenu, frmMenu);
+    Application.Run;
 end.

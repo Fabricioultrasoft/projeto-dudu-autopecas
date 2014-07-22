@@ -5,7 +5,7 @@ object frmBackupRestore: TfrmBackupRestore
   BorderStyle = bsSingle
   Caption = 'Formul'#225'rio :- Backup / Restore '
   ClientHeight = 363
-  ClientWidth = 731
+  ClientWidth = 763
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,7 +20,7 @@ object frmBackupRestore: TfrmBackupRestore
   object pgcBackupRestore: TPageControl
     Left = 0
     Top = 0
-    Width = 731
+    Width = 763
     Height = 291
     Cursor = crHandPoint
     ActivePage = ts1
@@ -32,12 +32,14 @@ object frmBackupRestore: TfrmBackupRestore
     Font.Style = []
     ParentFont = False
     TabOrder = 0
+    ExplicitWidth = 731
     object ts1: TTabSheet
       Caption = 'BACKUP'
+      ExplicitWidth = 723
       object grp1: TGroupBox
         Left = 0
         Top = 0
-        Width = 723
+        Width = 755
         Height = 260
         Align = alClient
         Caption = 'Informa'#231#245'es do Backup:'
@@ -48,6 +50,7 @@ object frmBackupRestore: TfrmBackupRestore
         Font.Style = []
         ParentFont = False
         TabOrder = 0
+        ExplicitWidth = 723
         object lbl1: TLabel
           Left = 24
           Top = 35
@@ -79,7 +82,7 @@ object frmBackupRestore: TfrmBackupRestore
         object edtDestino: TJvDirectoryEdit
           Left = 24
           Top = 112
-          Width = 665
+          Width = 707
           Height = 24
           Cursor = crHandPoint
           Hint = 'Informe o caminho para gravar o backup'
@@ -93,7 +96,7 @@ object frmBackupRestore: TfrmBackupRestore
         object edtOrigem: TJvFilenameEdit
           Left = 24
           Top = 54
-          Width = 665
+          Width = 707
           Height = 24
           Hint = 'Informe o caminho para o arquivo '
           CustomHint = BalloonHint
@@ -120,14 +123,11 @@ object frmBackupRestore: TfrmBackupRestore
     object ts2: TTabSheet
       Caption = 'RESTORE'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitWidth = 723
       object grp2: TGroupBox
         Left = 0
         Top = 0
-        Width = 723
+        Width = 755
         Height = 260
         Align = alClient
         Caption = 'Informa'#231#245'es da Restaura'#231#227'o'
@@ -138,71 +138,48 @@ object frmBackupRestore: TfrmBackupRestore
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        object lbl3: TLabel
-          Left = 24
-          Top = 36
-          Width = 246
-          Height = 16
-          Caption = 'Caminho de origem do arquivo (.fbk):'
-        end
-        object lbl4: TLabel
-          Left = 24
-          Top = 94
-          Width = 237
-          Height = 16
-          Caption = 'Informe o destino do arquivo (.FDB)'
-        end
-        object lblStatusRestore: TLabel
+        ExplicitWidth = 723
+        object mmo1: TMemo
           Left = 16
-          Top = 241
-          Width = 681
-          Height = 13
-          AutoSize = False
+          Top = 32
+          Width = 729
+          Height = 209
+          BorderStyle = bsNone
           Font.Charset = DEFAULT_CHARSET
-          Font.Color = clGreen
+          Font.Color = clMaroon
           Font.Height = -11
           Font.Name = 'Verdana'
           Font.Style = [fsBold]
+          Lines.Strings = (
+            
+              'Por motivos de seguran'#231'a a restaura'#231#227'o do banco de dados s'#243' pode' +
+              ' ser efetuada de fora do sistema.'
+            ''
+            'Para executar o restore siga os passos a seguir:'
+            ''
+            '1 - Feche o sistema em todas as esta'#231#245'es da rede.'
+            ''
+            
+              '2 - Acesse o Diret'#243'rio de instala'#231#227'o do sistema, por padr'#227'o fica' +
+              ' em '#39'C:\SistemaGest'#227'o'#39'.'
+            ''
+            '3 - Execute o arquivo Backup.exe.'
+            ''
+            
+              '4 - Navegue at'#233' a aba '#39'Restore'#39' e informe o  arquivo (.fbk) a se' +
+              'r restaurado.'
+            ''
+            
+              '5 - Pressione o bot'#227'o '#39'Executar'#39' e aguarde o processamento, ao f' +
+              'inal sen'#227'o houver erros ser'#225' exibida uma '
+            'mensagem de sucesso.'
+            ''
+            
+              'Observa'#231#227'o: O tempo de processamento pode variar conforme o tama' +
+              'nho da base de dados a ser restaurada.')
           ParentFont = False
-        end
-        object edtOrigemfbk: TJvFilenameEdit
-          Left = 24
-          Top = 55
-          Width = 665
-          Height = 24
-          Hint = 'Informe o caminho para o arquivo '
-          CustomHint = BalloonHint
-          Color = clSilver
-          ParentShowHint = False
-          ShowHint = True
+          ReadOnly = True
           TabOrder = 0
-        end
-        object edtDestinoFDB: TJvDirectoryEdit
-          Left = 24
-          Top = 113
-          Width = 665
-          Height = 24
-          Cursor = crHandPoint
-          Hint = 'Informe o caminho para gravar o backup'
-          CustomHint = BalloonHint
-          DialogKind = dkWin32
-          Color = clSilver
-          ParentShowHint = False
-          ShowHint = True
-          TabOrder = 1
-        end
-        object animateRestore: TAnimate
-          Left = 24
-          Top = 164
-          Width = 272
-          Height = 60
-          Cursor = crHandPoint
-          Color = clWhite
-          CommonAVI = aviCopyFiles
-          ParentColor = False
-          Repetitions = 20
-          StopFrame = 34
-          Visible = False
         end
       end
     end
@@ -210,12 +187,13 @@ object frmBackupRestore: TfrmBackupRestore
   object pnl3: TPanel
     Left = 0
     Top = 291
-    Width = 731
+    Width = 763
     Height = 72
     Align = alBottom
     TabOrder = 1
+    ExplicitWidth = 731
     object btnFechar: TBitBtn
-      Left = 603
+      Left = 635
       Top = 6
       Width = 121
       Height = 59
@@ -254,7 +232,7 @@ object frmBackupRestore: TfrmBackupRestore
       TabOrder = 0
     end
     object btnExecutar: TBitBtn
-      Left = 482
+      Left = 514
       Top = 6
       Width = 121
       Height = 59

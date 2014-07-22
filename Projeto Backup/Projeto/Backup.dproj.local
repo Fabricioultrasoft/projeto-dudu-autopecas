@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2012/08/21 22:56:50.000.180,=C:\Users\William\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2012/12/17 09:23:38.000.666,=C:\Users\William\Documents\RAD Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2013/03/03 08:18:27.000.059,=C:\Users\William\Documents\RAD Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2013/03/03 08:21:29.000.226,C:\Users\William\Documents\RAD Studio\Projects\Unit2.pas=C:\Users\William\Documents\MEUS PROJETOS\PROJETO BACKUP\Objetos\FrmPrincipal\UPrincipal.pas</Transaction>
+    <Transaction>2013/03/03 08:21:29.000.226,C:\Users\William\Documents\RAD Studio\Projects\Unit2.dfm=C:\Users\William\Documents\MEUS PROJETOS\PROJETO BACKUP\Objetos\FrmPrincipal\UPrincipal.dfm</Transaction>
+    <Transaction>2013/03/03 08:21:35.000.760,C:\Users\William\Documents\RAD Studio\Projects\Project1.dproj=C:\Users\William\Documents\MEUS PROJETOS\PROJETO BACKUP\Projeto\Backup.dproj</Transaction>
+    <Transaction>2013/03/03 08:33:13.000.177,=C:\Users\William\Documents\MEUS PROJETOS\PROJETO BACKUP\Projeto\Unit1.pas</Transaction>
+    <Transaction>2013/03/03 08:33:31.000.940,C:\Users\William\Documents\MEUS PROJETOS\PROJETO BACKUP\Projeto\Unit1.pas=C:\Users\William\Documents\MEUS PROJETOS\PROJETO BACKUP\Objetos\UBackup.pas</Transaction>
+    <Transaction>2014/07/21 07:47:44.000.207,=C:\SistemaGestão\Projeto Backup\Objetos\Conexao\UConexao.pas</Transaction>
+  </Transactions>
+</BorlandProject>
