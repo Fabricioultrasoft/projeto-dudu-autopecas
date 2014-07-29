@@ -1,7 +1,7 @@
 object dm: Tdm
   OldCreateOrder = False
-  Left = 478
-  Top = 296
+  Left = 341
+  Top = 398
   Height = 717
   Width = 1060
   object dspUsuario: TDataSetProvider

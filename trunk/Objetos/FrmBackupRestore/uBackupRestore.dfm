@@ -89,7 +89,7 @@ object frmBackupRestore: TfrmBackupRestore
           Color = clSilver
           ParentShowHint = False
           ShowHint = True
-          TabOrder = 0
+          TabOrder = 1
         end
         object edtOrigem: TJvFilenameEdit
           Left = 24
@@ -101,7 +101,7 @@ object frmBackupRestore: TfrmBackupRestore
           Color = clSilver
           ParentShowHint = False
           ShowHint = True
-          TabOrder = 1
+          TabOrder = 0
         end
         object animate: TAnimate
           Left = 24
@@ -125,7 +125,7 @@ object frmBackupRestore: TfrmBackupRestore
           Caption = 'Incluir pasta com imagens dos produtos'
           Checked = True
           State = cbChecked
-          TabOrder = 3
+          TabOrder = 2
         end
       end
     end
@@ -240,7 +240,7 @@ object frmBackupRestore: TfrmBackupRestore
       NumGlyphs = 2
       ParentDoubleBuffered = False
       ParentFont = False
-      TabOrder = 0
+      TabOrder = 1
     end
     object btnExecutar: TBitBtn
       Left = 514
@@ -275,7 +275,7 @@ object frmBackupRestore: TfrmBackupRestore
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 1
+      TabOrder = 0
       OnClick = btnExecutarClick
     end
   end

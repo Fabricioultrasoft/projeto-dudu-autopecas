@@ -58,7 +58,8 @@ uses
   uACL in '..\Objetos\FrmACL\uACL.pas' {frmControleAcesso},
   uConsultaVendas in '..\Objetos\FrmConsultaVendas\uConsultaVendas.pas' {frmConsultaVendas},
   uBackupRestore in '..\Objetos\FrmBackupRestore\uBackupRestore.pas' {frmBackupRestore},
-  uVisualizarImagem in '..\Objetos\FrmVisualizaImagem\uVisualizarImagem.pas' {frmVisualizarImagem};
+  uVisualizarImagem in '..\Objetos\FrmVisualizaImagem\uVisualizarImagem.pas' {frmVisualizarImagem},
+  uGerarEtiqueta in '..\Objetos\FrmGerarEtiquetaEAN13\uGerarEtiqueta.pas' {frmGerarEtiqueta};
 
 {$R *.res}
 
