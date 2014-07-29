@@ -46,6 +46,8 @@ var
 
 implementation
 
+uses uDm;
+
 {$R *.dfm}
 
 procedure TfrmBackupRestore.btnExecutarClick(Sender: TObject);

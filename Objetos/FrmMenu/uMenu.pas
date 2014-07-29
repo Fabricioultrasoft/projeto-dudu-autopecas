@@ -87,6 +87,9 @@ type
     actBackupRestore: TAction;
     N14: TMenuItem;
     N15: TMenuItem;
+    actGerarEtiqueta: TAction;
+    N16: TMenuItem;
+    GERARETIQUETAEAN131: TMenuItem;
     procedure FormCreate(Sender: TObject);
     function DataPorExtenso: String;
     procedure TimerTimer(Sender: TObject);
@@ -120,6 +123,7 @@ type
     procedure actRelacaoVendasExecute(Sender: TObject);
     procedure actBackupRestoreExecute(Sender: TObject);
     procedure LembreteBackup();
+    procedure actGerarEtiquetaExecute(Sender: TObject);
   private
     { Private declarations }
   public
@@ -171,7 +175,7 @@ uses UdmConexao, uCad_Usuario, uCad_Grupo, uCad_Cliente, uCad_Fornecedor,
   uFechamento_Caixa, USobre, USplash, uSangria, uSuprimento, uCadUnidade,
   uConfig, uAviso, uProgresso, uImpressoraBase,
   uImpressoraEpson, uCadDescarte, uACL, uRelatorio, uConsultaVendas,
-  uBackupRestore;
+  uBackupRestore, uGerarEtiqueta;
 
 {$R *.dfm}
 
@@ -374,6 +378,19 @@ begin
          frmCadFornecedor.ShowModal;
         finally
          FreeAndNil(frmCadFornecedor);
+        end;
+    end;
+end;
+
+procedure TfrmMenu.actGerarEtiquetaExecute(Sender: TObject);
+begin
+    if Self.VerificaAcesso('frmGerarEtiqueta') then
+    begin
+        try
+          frmGerarEtiqueta := TfrmGerarEtiqueta.Create(self);
+          frmGerarEtiqueta.ShowModal;
+        finally
+          FreeAndNil(frmGerarEtiqueta);
         end;
     end;
 end;

@@ -196,6 +196,9 @@
 			<DCCReference Include="..\Objetos\FrmVisualizaImagem\uVisualizarImagem.pas">
 				<Form>frmVisualizarImagem</Form>
 			</DCCReference>
+			<DCCReference Include="..\Objetos\FrmGerarEtiquetaEAN13\uGerarEtiqueta.pas">
+				<Form>frmGerarEtiqueta</Form>
+			</DCCReference>
 			<None Include="ModelSupport_SistemaGestao\default.txvpck"/>
 			<None Include="ModelSupport_SistemaGestao\uFuncao\default.txvpck"/>
 			<None Include="ModelSupport_SistemaGestao\uProdutoNF\default.txvpck"/>
