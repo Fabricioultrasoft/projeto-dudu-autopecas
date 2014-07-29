@@ -35,7 +35,6 @@ object frmBackupRestore: TfrmBackupRestore
     ExplicitWidth = 731
     object ts1: TTabSheet
       Caption = 'BACKUP'
-      ExplicitWidth = 723
       object grp1: TGroupBox
         Left = 0
         Top = 0
@@ -50,7 +49,6 @@ object frmBackupRestore: TfrmBackupRestore
         Font.Style = []
         ParentFont = False
         TabOrder = 0
-        ExplicitWidth = 723
         object lbl1: TLabel
           Left = 24
           Top = 35
@@ -118,12 +116,26 @@ object frmBackupRestore: TfrmBackupRestore
           StopFrame = 34
           Visible = False
         end
+        object ckbPastaImagem: TCheckBox
+          Left = 448
+          Top = 152
+          Width = 283
+          Height = 17
+          Cursor = crHandPoint
+          Caption = 'Incluir pasta com imagens dos produtos'
+          Checked = True
+          State = cbChecked
+          TabOrder = 3
+        end
       end
     end
     object ts2: TTabSheet
       Caption = 'RESTORE'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
       ExplicitWidth = 723
+      ExplicitHeight = 0
       object grp2: TGroupBox
         Left = 0
         Top = 0
@@ -191,7 +203,6 @@ object frmBackupRestore: TfrmBackupRestore
     Height = 72
     Align = alBottom
     TabOrder = 1
-    ExplicitWidth = 731
     object btnFechar: TBitBtn
       Left = 635
       Top = 6

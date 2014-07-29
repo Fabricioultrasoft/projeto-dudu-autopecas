@@ -42,8 +42,8 @@ begin
          dm.cdsItem_Venda.Post;
 
          frmPDV.FImpressao.ImprimirItem(IntToStr(dm.cdsItem_Venda.FieldByName('ID_ITEM').AsInteger), dm.cdsItem_Venda.FieldByName('EAN13').AsString,
-                                         copy(dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString, 1, 24), FormatFloat('#0.000', qtde), dm.cdsItem_Venda.FieldByName('UND').AsString,
-                                          FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('VAL_PROD').AsFloat), FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('TOTAL_PROD').AsFloat), 21);
+                                          dm.cdsEstoque.FieldByName('DESC_CUPOM').AsString, FormatFloat('#0.000', qtde), dm.cdsItem_Venda.FieldByName('UND').AsString,
+                                          FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('VAL_PROD').AsFloat), FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('TOTAL_PROD').AsFloat));
 
          //Carrega os valores na tela de PDV
          if Assigned(frmPDV) then
@@ -86,6 +86,7 @@ begin
          begin
            CarregaValores(StrToFloat(edtQtde.Text));
            frmQtde.Close;
+           frmProcura_Estoque.Close;
          end;
 
          if Assigned(frmProcura_Venda) then

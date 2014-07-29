@@ -35,7 +35,7 @@ type
           procedure ImprimirCabecalho(Venda: string); virtual;
           procedure ImprimirSuprimento(Valor, Responsavel, Observacao: string); virtual;
           procedure ImprimirSangria(Valor, Responsavel, Tipo, Observacao: string); virtual;
-          procedure ImprimirItem(Item, Codigo, Descricao, Qtde, Und, ValUnit, ValTotal: string; LimiteDesc: Integer); virtual;
+          procedure ImprimirItem(Item, Codigo, Descricao, Qtde, Und, ValUnit, ValTotal: string); virtual;
           procedure ImprimirCancelamentoVenda(); virtual;
           procedure ImprimirCancelamentoItem(Item, Descricao: string); virtual;
           procedure ImprimirMsgRodape(); virtual;
@@ -309,15 +309,15 @@ begin
 end;
 
 procedure TImpressao.ImprimirItem(Item, Codigo, Descricao, Qtde, Und,
-  ValUnit, ValTotal: string; LimiteDesc: Integer);
+  ValUnit, ValTotal: string);
 begin
     FRichEdit.Paragraph.Alignment := taCenter;
-    FRichEdit.Lines.Add(FormataImpressaoItem(Item, Codigo, Descricao, Qtde, Und, ValUNit, ValTotal, LimiteDesc));
+    FRichEdit.Lines.Add(FormataImpressaoItem(Item, Codigo, Descricao, Qtde, Und, ValUNit, ValTotal, 21));
 
     if getStatusImpressora then
     begin
        Texto := '';
-       Texto := Concat(Texto, '<c>' + FormataImpressaoItem(Item, Codigo, Descricao, Qtde, Und, ValUnit, ValTotal, LimiteDesc) + '</c>'#10);
+       Texto := Concat(Texto, '<c>' + FormataImpressaoItem(Item, Codigo, Descricao, Qtde, Und, ValUnit, ValTotal, 21) + '</c>'#10);
        FImpressora.ImprimeTextoTag(PAnsiChar(Texto), false);
     end;
 end;

@@ -1,7 +1,7 @@
 object dm: Tdm
   OldCreateOrder = False
-  Left = 443
-  Top = 203
+  Left = 478
+  Top = 296
   Height = 717
   Width = 1060
   object dspUsuario: TDataSetProvider
@@ -345,7 +345,7 @@ object dm: Tdm
       
         'SELECT P.COD_PROD, P.DESC_PROD, P.ESTOQUE_MINIMO, P.UND_VENDA, P' +
         '.COD_GRUPO, G.DESC_GRUPO, P.EAN13, P.DUN14, P.TIPO_PROD, P.CODIG' +
-        'O_NCM, P.LOCAL_ESTOQUE, P.SECAO'
+        'O_NCM, P.LOCAL_ESTOQUE, P.SECAO, P.IMAGEM, P.ATIVO, P.DESC_CUPOM'
       'FROM PRODUTO P LEFT JOIN GRUPO G ON P.COD_GRUPO = G.COD_GRUPO')
     SQLConnection = dmConexao.Conexao
     Left = 464
@@ -401,6 +401,17 @@ object dm: Tdm
       Required = True
       Precision = 18
       Size = 3
+    end
+    object strngfldProdutoIMAGEM: TStringField
+      FieldName = 'IMAGEM'
+      Size = 255
+    end
+    object qryProdutoATIVO: TSmallintField
+      FieldName = 'ATIVO'
+    end
+    object strngfldProdutoDESC_CUPOM: TStringField
+      FieldName = 'DESC_CUPOM'
+      Size = 21
     end
   end
   object dspProduto: TDataSetProvider
@@ -468,6 +479,17 @@ object dm: Tdm
       Precision = 18
       Size = 3
     end
+    object strngfldProdutoIMAGEM1: TStringField
+      FieldName = 'IMAGEM'
+      Size = 255
+    end
+    object cdsProdutoATIVO: TSmallintField
+      FieldName = 'ATIVO'
+    end
+    object strngfldProdutoDESC_CUPOM1: TStringField
+      FieldName = 'DESC_CUPOM'
+      Size = 21
+    end
   end
   object dtsProduto: TDataSource
     DataSet = cdsProduto
@@ -481,7 +503,8 @@ object dm: Tdm
       'SELECT '
       
         'E.EAN13,  P.DESC_PROD, G.DESC_GRUPO, E.QTDE, P.ESTOQUE_MINIMO, P' +
-        '.UND_VENDA, E.VAL_CUSTO, E.VAL_VENDA'
+        '.UND_VENDA, E.VAL_CUSTO, E.VAL_VENDA, P.IMAGEM, P.ATIVO, P.DESC_' +
+        'CUPOM'
       'FROM'
       
         ' ESTOQUE E INNER JOIN PRODUTO P ON E.EAN13 = P.EAN13 INNER JOIN ' +
@@ -528,6 +551,17 @@ object dm: Tdm
       Required = True
       Precision = 18
       Size = 3
+    end
+    object strngfldEstoqueIMAGEM: TStringField
+      FieldName = 'IMAGEM'
+      Size = 255
+    end
+    object qryEstoqueATIVO: TSmallintField
+      FieldName = 'ATIVO'
+    end
+    object strngfldEstoqueDESC_CUPOM: TStringField
+      FieldName = 'DESC_CUPOM'
+      Size = 21
     end
   end
   object cdsEstoque: TClientDataSet
@@ -577,6 +611,17 @@ object dm: Tdm
       DisplayFormat = '#0.000'
       Precision = 18
       Size = 3
+    end
+    object strngfldEstoqueIMAGEM1: TStringField
+      FieldName = 'IMAGEM'
+      Size = 255
+    end
+    object cdsEstoqueATIVO: TSmallintField
+      FieldName = 'ATIVO'
+    end
+    object strngfldEstoqueDESC_CUPOM1: TStringField
+      FieldName = 'DESC_CUPOM'
+      Size = 21
     end
   end
   object dtsEstoque: TDataSource

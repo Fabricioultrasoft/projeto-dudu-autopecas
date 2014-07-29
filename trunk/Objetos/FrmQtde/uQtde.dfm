@@ -1,6 +1,6 @@
 object frmQtde: TfrmQtde
-  Left = 704
-  Top = 224
+  Left = 702
+  Top = 317
   BorderStyle = bsNone
   Caption = 'Form Padr'#227'o'
   ClientHeight = 119

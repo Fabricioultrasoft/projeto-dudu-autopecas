@@ -5,8 +5,27 @@ object dmConexao: TdmConexao
   Height = 196
   Width = 227
   object Conexao: TSQLConnection
+    ConnectionName = 'FBCONN_GESTAO'
+    DriverName = 'FIREBIRD'
+    GetDriverFunc = 'getSQLDriverINTERBASE'
+    LibraryName = 'dbxfb.dll'
     LoginPrompt = False
+    Params.Strings = (
+      'drivername=FIREBIRD'
+      'blobsize=-1'
+      'commitretain=False'
+      'Database=C:\SistemaGest'#227'o\Banco de Dados\GESTAO.FDB'
+      'localecode=0000'
+      'password=masterkey'
+      'rolename=RoleName'
+      'sqldialect=3'
+      'isolationlevel=ReadCommitted'
+      'user_name=SYSDBA'
+      'waitonlocks=True'
+      'trim char=False')
+    VendorLib = 'fbclient.DLL'
     BeforeConnect = ConexaoBeforeConnect
+    Connected = True
     Left = 88
     Top = 16
   end
