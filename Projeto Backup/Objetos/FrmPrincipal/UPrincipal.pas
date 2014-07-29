@@ -34,6 +34,7 @@ type
     btnExecutarRestore: TButton;
     btn2: TButton;
     Conexao: TSQLConnection;
+    ckbPastaImagem: TCheckBox;
     procedure btnFecharClick(Sender: TObject);
     procedure btnExecutarClick(Sender: TObject);
     procedure btnExecutarRestoreClick(Sender: TObject);
@@ -114,8 +115,19 @@ procedure TfrmPrincipal.ExecutarBackup(Origem, Destino: string);
 var
    FBackup: TIBBackupService;
    DiretorioDestino : string;
+   SR: TSearchRec;
+   I: integer;
 begin
-    ShowMessage('Será criado uma pasta no destino com o nome "Backup" contendo 2 arquivos:'#10#13'1 - Backup arquivo da Base de dados (.FDB);'#10#13'2 - Backup de arquivo (.fbk);'#13#10);
+    if ckbPastaImagem.Checked then
+        Application.MessageBox('Será criado uma pasta no destino com o nome "Backup" contendo os arquivos:' +
+                               #10#13'1 - Backup do arquivo da Base de dados (.FDB);' +
+                               #10#13'2 - Arquivo (.fbk) gerado pelo sistema;' +
+                               #13#10'3 - Pasta contendo as imagens;', 'Informação', MB_OK + MB_ICONINFORMATION)
+    else
+        Application.MessageBox('Será criado uma pasta no destino com o nome "Backup" contendo 2 arquivos:'#10#13+
+                              '1 - Backup do arquivo da Base de dados (.FDB);'#10#13+
+                              '2 - Arquivo (.fbk) gerado pelo sistema;'#13#10, 'Informação', MB_OK + MB_ICONINFORMATION);
+
     EstadoControles('D');
 
     FBackup := TIBBackupService.Create(self);
@@ -147,6 +159,7 @@ begin
            Options := [NonTransportable];
            DatabaseName := Origem ;
            DiretorioDestino := Destino + '\Backup ' + FormatDateTime('dd-MM-YY', now);
+           SetCurrentDir(DiretorioDestino);
 
            if not DirectoryExists(DiretorioDestino) then
               ForceDirectories(DiretorioDestino);
@@ -179,11 +192,6 @@ begin
                 Application.ProcessMessages;
                 Sleep(100);
                 Refresh;
-                EstadoControles('A');
-                MessageDlg('Backup executado com sucesso!'#13#10 +
-                           'Foram criados 2 arquivos:'#13#10 +
-                           '1 - Backup '+ FormatDateTime('dd-MM-YY', now) + '.fbk'#13#10 +
-                           '2 - Backup '+ FormatDateTime('dd-MM-YY', now) + '.FDB', mtInformation, [mbOK], 0);
            end
            else
            begin
@@ -195,6 +203,85 @@ begin
                 EstadoControles('A');
            end;
 
+           if ckbPastaImagem.Checked then
+           begin
+                // Copia os arquivos da pasta /Imagem
+                if not DirectoryExists(DiretorioDestino + '\Imagens\') then
+                   ForceDirectories(DiretorioDestino + '\Imagens\');
+
+                I := FindFirst(ExtractFilePath(Application.ExeName) + 'Imagens\*.*', faArchive, SR);
+                while I = 0 do
+                begin
+                    if (SR.Attr and faDirectory) <> faDirectory then
+                    begin
+                        Origem := ExtractFilePath(Application.ExeName) + 'Imagens\' + SR.Name;
+                        Destino := DiretorioDestino + '\Imagens\' + SR.Name;
+
+                        if not CopyFile(PChar(Origem), PChar(Destino), true) then
+                        begin
+                            lblStatus.Font.Color := clRed;
+                            lblStatus.Caption := 'Erro ao copiar ... ' + SR.Name;
+                            Sleep(150);
+                            Refresh;
+
+                        end
+                        else
+                        begin
+                           lblStatus.Font.Color := clGreen;
+                           lblStatus.Caption := 'Copiando ... ' + SR.Name;
+                           Sleep(150);
+                           Refresh;
+                        end;
+                    end;
+                    I := FindNext(SR);
+                end;
+
+                // Copia os arquivos da pasta /Imagem/Imagem_Cliente
+                if not DirectoryExists(DiretorioDestino + '\Imagens\Imagem_Cliente\') then
+                   ForceDirectories(DiretorioDestino + '\Imagens\Imagem_Cliente\');
+
+                I := FindFirst(ExtractFilePath(Application.ExeName) + 'Imagens\Imagem_Cliente\*.*', faAnyFile, SR);
+                while I = 0 do
+                begin
+                    if (SR.Attr and faDirectory) <> faDirectory then
+                    begin
+                        Origem := ExtractFilePath(Application.ExeName) + 'Imagens\Imagem_Cliente\' + SR.Name;
+                        Destino := DiretorioDestino + '\Imagens\Imagem_Cliente\' + SR.Name;
+
+                        if not CopyFile(PChar(Origem), PChar(Destino), true) then
+                        begin
+                            lblStatus.Font.Color := clRed;
+                            lblStatus.Caption := 'Erro ao copiar ... ' + SR.Name;
+                            Sleep(150);
+                            Refresh;
+
+                        end
+                        else
+                        begin
+                           lblStatus.Font.Color := clGreen;
+                           lblStatus.Caption := 'Copiando ... ' + SR.Name;
+                           Sleep(150);
+                           Refresh;
+                        end;
+                    end;
+                    I := FindNext(SR);
+                end;
+
+                EstadoControles('A');
+                Application.MessageBox(PWideChar('Backup executado com sucesso!'#13#10#13#10 +
+                         'Foram criados os arquivos:'#13#10 +
+                         '1 - Backup '+ FormatDateTime('dd-MM-YY', now) + '.fbk'#13#10 +
+                         '2 - Backup '+ FormatDateTime('dd-MM-YY', now) + '.FDB'#13#10 +
+                         '3 - Pasta contendo as imagens'), 'Informação', MB_OK+MB_ICONINFORMATION);
+           end
+           else
+           begin
+               EstadoControles('A');
+               Application.MessageBox(PWideChar('Backup executado com sucesso!'#13#10#13#10 +
+                         'Foram criados 2 arquivos:'#13#10 +
+                         '1 - Backup '+ FormatDateTime('dd-MM-YY', now) + '.fbk'#13#10 +
+                         '2 - Backup '+ FormatDateTime('dd-MM-YY', now) + '.FDB'), 'Informação', MB_OK+MB_ICONINFORMATION);
+           end;
        except
            on E: Exception do
            begin

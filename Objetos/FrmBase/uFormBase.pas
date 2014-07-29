@@ -117,6 +117,7 @@ type
   public
       procedure SetOperacao(Operacao: TOperacao); virtual;
       constructor Create(Awoner: TComponent); override;
+      property Operacao: TOperacao read FOperacao;
   end;
 
 implementation
@@ -175,6 +176,9 @@ begin
 
         if Components[i] is TACBrBarCode then
            TACBrBarCode(Components[i]).Text := '';
+
+        if Components[i] is TCheckBox then
+           TCheckBox(Components[i]).Checked := False;
     end;
 end;
 

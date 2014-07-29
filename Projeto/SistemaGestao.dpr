@@ -57,7 +57,8 @@ uses
   uProcuraDescarte in '..\Objetos\FrmProcuraDescarte\uProcuraDescarte.pas' {frmProcuraDescarte},
   uACL in '..\Objetos\FrmACL\uACL.pas' {frmControleAcesso},
   uConsultaVendas in '..\Objetos\FrmConsultaVendas\uConsultaVendas.pas' {frmConsultaVendas},
-  uBackupRestore in '..\Objetos\FrmBackupRestore\uBackupRestore.pas' {frmBackupRestore};
+  uBackupRestore in '..\Objetos\FrmBackupRestore\uBackupRestore.pas' {frmBackupRestore},
+  uVisualizarImagem in '..\Objetos\FrmVisualizaImagem\uVisualizarImagem.pas' {frmVisualizarImagem};
 
 {$R *.res}
 
@@ -91,9 +92,9 @@ begin
     Application.Initialize;
     Application.Title := 'Sistema de Gestão';
     Application.CreateForm(TdmConexao, dmConexao);
-    Application.CreateForm(Tdm, dm);
-    Application.CreateForm(TfrmSplash, frmSplash);
-    frmSplash.show;
+  Application.CreateForm(Tdm, dm);
+  Application.CreateForm(TfrmSplash, frmSplash);
+  frmSplash.show;
     frmSplash.Refresh;
     Sleep(500); // 2000 = 2 segundos
     frmSplash.Hide;

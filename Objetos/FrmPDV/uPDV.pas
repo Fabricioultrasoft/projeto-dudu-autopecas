@@ -64,14 +64,8 @@ type
     procedure edtConsultaKeyPress(Sender: TObject; var Key: Char);
     procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    function FormataImpressaoItem(Item, Codigo, Descricao, Qtde, Und, Valor, Subtotal: string; Limite: Integer): string;
     procedure FormShow(Sender: TObject);
     function HexToTColor(sColor : string) : TColor;
-    procedure ImprimiCabecalho();
-    procedure ImprimeCancelaVenda();
-    procedure ImprimeItemVenda(Texto: string);
-    procedure ImprimeFinalizacaoVenda();
-    procedure ImprimeCancelaItem(Item, Descricao: string);
     procedure tmr1Timer(Sender: TObject);
     procedure btnConsultarEstoqueClick(Sender: TObject);
     procedure btnIniciarVendaClick(Sender: TObject);
@@ -349,11 +343,11 @@ begin
      dm.cdsEstoque.Open;
 
      // Verifica se o produto existe no cadastro
-     if dm.cdsEstoque.Locate('EAN13', codigo, [loCaseInsensitive, loPartialKey]) then
+     if dm.cdsEstoque.Locate('EAN13; ATIVO', VarArrayOf([codigo, '1']), [loCaseInsensitive, loPartialKey]) then
      begin
          item      := dm.cdsItem_Venda.RecordCount + 1;
          codigo    := dm.cdsEstoque.FieldByName('EAN13').AsString;
-         descricao := Copy(dm.cdsEstoque.FieldByName('DESC_PROD').AsString, 1, 23);
+         descricao := dm.cdsEstoque.FieldByName('DESC_CUPOM').AsString;
          unidade   := dm.cdsEstoque.FieldByName('UND_VENDA').AsString;
          valor     := FormatFloat('##0.00', dm.cdsEstoque.FieldByName('VAL_VENDA').AsFloat);
          subtotal  := FormatFloat('##0.00', dm.cdsEstoque.FieldByName('VAL_VENDA').AsFloat * qtde);
@@ -375,7 +369,7 @@ begin
          frmPDV.edtSub_total.Text         := FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('TOTAL_PROD').AsFloat);
          frmPDV.edtTotal.Text             := FormatFloat('##0.00' ,dm.cdsItem_Venda.FieldByName('S_TOTAL').Value);
 
-         FImpressao.ImprimirItem(IntToStr(item), codigo, descricao, FormatFloat('#0.000', qtde), unidade, valor, subtotal, 21);
+         FImpressao.ImprimirItem(IntToStr(item), codigo, descricao, FormatFloat('#0.000', qtde), unidade, valor, subtotal);
      end
      else
         MessageDlg('Produto não encontrado!', mtWarning, [mbOK], 0);
@@ -631,45 +625,6 @@ begin
     else
          setStatusCaixa(svFechado);
 
-end;
-
-function TfrmPDV.FormataImpressaoItem(Item, Codigo, Descricao, Qtde, Und, Valor,
-  Subtotal: string; Limite: Integer): string;
-var
-   retorno, desc, qt, v1,  v2: string;
-   i: Integer;
-begin
-     desc := Descricao;
-
-     if Limite > Length(Descricao) then
-     begin
-         for i := 1 to (Limite - Length(Descricao)) do
-             desc := desc + ' ';
-     end
-     else
-        desc := Copy(desc, 1, Limite);
-
-     qt := Qtde;
-     for i := 1 to (7 - Length(Qtde)) do
-         qt := ' ' + qt;
-
-     v1 := Valor;
-     for i := 1 to (7 - Length(Valor)) do
-         v1 := ' ' + v1;
-
-     v2 := Subtotal;
-     for i := 1 to (7 - Length(Subtotal)) do
-         v2 := ' ' + v2;
-
-     retorno := Item;
-     retorno := Concat(retorno, ' '+Codigo);
-     retorno := Concat(retorno, ' '+desc);
-     retorno := Concat(retorno, ' '+qt);
-     retorno := Concat(retorno, ' '+Und);
-     retorno := Concat(retorno, ' '+v1);
-     retorno := Concat(retorno, ' '+v2);
-
-     Result := retorno;
 end;
 
 procedure TfrmPDV.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -981,86 +936,6 @@ begin
        StrToInt('$'+Copy(sColor, 3, 2)),
        StrToInt('$'+Copy(sColor, 5, 2))
      ) ;
-end;
-
-procedure TfrmPDV.ImprimeCancelaItem(Item, Descricao: string);
-begin
-    redtItem.Paragraph.Alignment := taLeftJustify;
-    redtItem.Lines.Add(#10'ITEM ' + Item + ' *' + Descricao + '* CANCELADO'#10);
-end;
-
-procedure TfrmPDV.ImprimeCancelaVenda;
-begin
-    redtItem.Paragraph.Alignment := taCenter;
-    redtItem.Lines.Add('VENDA CANCELADA');
-    redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
-end;
-
-procedure TfrmPDV.ImprimeFinalizacaoVenda;
-begin
-    redtItem.Paragraph.Alignment := taCenter;
-    redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
-
-    redtItem.Paragraph.Alignment := taRightJustify;
-    redtItem.SelAttributes.Style:=[fsBold];
-    redtItem.Lines.Add('SUBTOTAL R$ ' + FormatFloat('##0.00', dFSub_total));
-
-    if dFValeTroca > 0 then
-       redtItem.Lines.Add('VALE TROCA R$ ' + FormatFloat('##.00', dFValeTroca));
-
-    if dFDesconto > 0 then
-       redtItem.Lines.Add('DESCONTO(%) ' + FormatFloat('##.00', dFDesconto));
-
-    redtItem.Paragraph.Alignment := taRightJustify;
-    redtItem.SelAttributes.Style:=[fsBold];
-    redtItem.Lines.Add('TOTAL R$ ' + FormatFloat('##0.00', dFTotal));
-    redtItem.SelAttributes.Style:=[];
-    redtItem.Paragraph.Alignment := taLeftJustify;
-
-    redtItem.Lines.Add('Forma de Pagamento:');
-
-    if dFDinheiro > 0 then
-       redtItem.Lines.Add('DINHEIRO R$ ' + FormatFloat('##0.00', dFDinheiro) + #10);
-
-    if dFCheque > 0 then
-       redtItem.Lines.Add('CHEQUE R$ ' + FormatFloat('##0.00', dFCheque));
-
-    if dFCartao > 0 then
-       redtItem.Lines.Add('CARTÃO R$ ' + FormatFloat('##0.00', dFCartao));
-
-    if dFTicket > 0 then
-       redtItem.Lines.Add('TICKET R$ ' + FormatFloat('##0.00', dFTicket));
-
-    if dFValPago > 0 then
-       redtItem.Lines.Add('VALOR PAGO R$ ' + FormatFloat('##0.00', dFValPago));
-
-    if dFTroco > 0 then
-       redtItem.Lines.Add('TROCO R$ ' + FormatFloat('##0.00', dFTroco));
-
-    redtItem.Paragraph.Alignment := taCenter;
-    redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
-    redtItem.Lines.Add(frmMenu.FMsgRodape);
-end;
-
-procedure TfrmPDV.ImprimeItemVenda(Texto: string);
-begin
-     redtItem.Paragraph.Alignment := taCenter;
-     redtItem.Lines.Add(Texto);
-end;
-
-procedure TfrmPDV.ImprimiCabecalho;
-begin
-    redtItem.Paragraph.Alignment := taCenter;
-    redtItem.Lines.Add(frmMenu.FMsgCabecalho);
-    redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
-    redtItem.Lines.Add('*** ' + frmMenu.FRazao + ' ***');
-    redtItem.Lines.Add('CNPJ: ' + frmMenu.FCNPJ  + ' Inscrição Estadual: '+ frmMenu.FInscricao);
-    redtItem.Lines.Add('Rua: '+ frmMenu.FRua +', Número: '+ frmMenu.FNumero+ ' Bairro: ' + frmMenu.FBairro);
-    redtItem.Lines.Add('Cidade: ' + frmMenu.FCidade);
-    redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
-    redtItem.Lines.Add('DATA: ' + FormatDateTime('dd/mm/yyyy', Date) + ' - HORA: ' +  FormatDateTime('hh:mm:ss', time) + '         VENDA NUMERO: ' + sFNumeroVenda);
-    redtItem.Lines.Add(Format('%1s %5s %19s %14s %4s %6s %6s', ['ITEM', 'CODIGO', 'DESCRICAO', 'QTDE', 'UND', 'VALOR', 'TOTAL']));
-    redtItem.Lines.Add(TImpressora.InseriTraco(66, false, false));
 end;
 
 procedure TfrmPDV.NewVenda;

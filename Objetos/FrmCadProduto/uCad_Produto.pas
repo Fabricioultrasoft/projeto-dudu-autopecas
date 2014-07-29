@@ -6,7 +6,8 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, ToolWin, ComCtrls, ExtCtrls, Grids, DBGrids,
  uFormBase, SqlExpr, DBCtrls, ACBrBase, ACBrEnterTab, Mask, JvExMask,
-  JvToolEdit, JvBaseEdits, ACBrBarCode;
+  JvToolEdit, JvBaseEdits, ACBrBarCode, jpeg, ExtDlgs, JvExStdCtrls, JvButton,
+  JvCtrls, ImgList, pngimage, GIFImg;
 
 type
   TfrmCadProduto = class(TFormBaseCad)
@@ -57,6 +58,18 @@ type
     Label18: TLabel;
     btnAdicionarGrupo: TBitBtn;
     lblStatusOperacao: TLabel;
+    grp1: TGroupBox;
+    pnl1: TPanel;
+    imgProduto: TImage;
+    dlgOpenPic: TOpenPictureDialog;
+    imgControleImagem: TImageList;
+    btnIncluirImagem: TJvImgBtn;
+    btnExcluirImagem: TJvImgBtn;
+    btnVisualizarImagem: TJvImgBtn;
+    ckbAtivo: TCheckBox;
+    edtDescCupom: TEdit;
+    lbl1: TLabel;
+    lbl2: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnSairClick(Sender: TObject);
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
@@ -68,6 +81,9 @@ type
     procedure CarregaCampos();
     function VerificaCampos: Boolean;
     function VerificaDuplicidade(EAN13: string): Boolean;
+    procedure IncluirImagem();
+    procedure ExcluirImagem();
+    procedure VisualizarImagem();
     procedure btnIncluirClick(Sender: TObject);
     procedure btnEditarClick(Sender: TObject);
     procedure btnSalvarClick(Sender: TObject);
@@ -84,10 +100,15 @@ type
     procedure edtEAN13Change(Sender: TObject);
     procedure btnAdicionarGrupoClick(Sender: TObject);
     procedure edtGrupoExit(Sender: TObject);
+    procedure btnIncluirImagemClick(Sender: TObject);
+    procedure btnExcluirImagemClick(Sender: TObject);
+    procedure btnVisualizarImagemClick(Sender: TObject);
   private
     { Private declarations }
   public
+    FCaminhoImagem : string;
     procedure CarregaDescGrupo(Codigo: string);
+    procedure AtualizaGrid;
   end;
 
 var
@@ -95,12 +116,12 @@ var
 
 const
   // Instrução SQL para INSERT
-  INSERT: string = 'INSERT INTO PRODUTO (DESC_PROD, COD_GRUPO, ESTOQUE_MINIMO, UND_VENDA, EAN13, DUN14, CODIGO_NCM, TIPO_PROD, LOCAL_ESTOQUE, SECAO)'+
-                                 'VALUES(:desc, :cod_grupo, :estoque_m, :und, :ean13, :dun14, :ncm, :tipo, :local, :secao)';
+  INSERT: string = 'INSERT INTO PRODUTO (DESC_PROD, COD_GRUPO, ESTOQUE_MINIMO, UND_VENDA, EAN13, DUN14, CODIGO_NCM, TIPO_PROD, LOCAL_ESTOQUE, SECAO, IMAGEM, ATIVO, DESC_CUPOM)'+
+                                 'VALUES(:desc, :cod_grupo, :estoque_m, :und, :ean13, :dun14, :ncm, :tipo, :local, :secao, :imagem, :ativo, :desc_cupom)';
 
   // Instrução SQL para EDIÇÃO, o nome UPDATE dá conflito com o método Update nativo da unit Controls
   EDICAO: string = 'UPDATE PRODUTO SET '+
-                   'DESC_PROD=:desc,COD_GRUPO=:cod_grupo ,ESTOQUE_MINIMO=:estoque_m ,UND_VENDA=:und, EAN13=:ean13, DUN14=:dun14, CODIGO_NCM=:ncm, TIPO_PROD=:tipo, LOCAL_ESTOQUE=:local, SECAO=:secao '+
+                   'DESC_PROD=:desc,COD_GRUPO=:cod_grupo ,ESTOQUE_MINIMO=:estoque_m ,UND_VENDA=:und, EAN13=:ean13, DUN14=:dun14, CODIGO_NCM=:ncm, TIPO_PROD=:tipo, LOCAL_ESTOQUE=:local, SECAO=:secao, IMAGEM=:imagem, ATIVO=:ativo, DESC_CUPOM=:desc_cupom '+
                    'WHERE COD_PROD=:cod_prod';
 
   // Instrução SQL para DELETE
@@ -116,9 +137,16 @@ const
 implementation
 
 uses uDm, uProcura_Fornecedor, uCad_Grupo, uProcura_Grupo, uProcura_Produto, uRelatorio,
-  uCalcula_Perc, UdmConexao;
+  uCalcula_Perc, UdmConexao, uVisualizarImagem;
 
 {$R *.dfm}
+
+procedure TfrmCadProduto.AtualizaGrid;
+begin
+    //Atualiza os dados no ClientDataSet
+    dm.cdsProduto.Close;
+    dm.cdsProduto.Open;
+end;
 
 procedure TfrmCadProduto.BitBtn1Click(Sender: TObject);
 begin
@@ -150,9 +178,19 @@ begin
     Excluir();
 end;
 
+procedure TfrmCadProduto.btnExcluirImagemClick(Sender: TObject);
+begin
+    ExcluirImagem;
+end;
+
 procedure TfrmCadProduto.btnIncluirClick(Sender: TObject);
 begin
     Incluir();
+end;
+
+procedure TfrmCadProduto.btnIncluirImagemClick(Sender: TObject);
+begin
+    IncluirImagem;
 end;
 
 procedure TfrmCadProduto.btnPesquisarClick(Sender: TObject);
@@ -188,9 +226,15 @@ begin
     Gravar(FOperacao);
 end;
 
+procedure TfrmCadProduto.btnVisualizarImagemClick(Sender: TObject);
+begin
+    VisualizarImagem;
+end;
+
 procedure TfrmCadProduto.Cancelar;
 begin
   inherited;
+  ckbAtivo.Checked := False;
   grpProduto.Enabled  := false;
 end;
 
@@ -256,6 +300,19 @@ begin
           on E:Exception do
           ShowMessage('Erro ao excluir registro !'#13#10 + E.Message);
      end;
+end;
+
+procedure TfrmCadProduto.ExcluirImagem;
+begin
+    if (Self.Operacao = opInsert) or (Self.Operacao = opUpdate) then
+    begin
+         if Application.MessageBox('Deseja excluir essa imagem?', 'Confirmação', MB_YESNO)= mrYes then
+         begin
+             DeleteFile(FCaminhoImagem);
+             Self.FCaminhoImagem := '';
+             imgProduto.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'imagens/semImagem.jpg');
+         end;
+    end;
 end;
 
 procedure TfrmCadProduto.FormClose(Sender: TObject; var Action: TCloseAction);
@@ -392,6 +449,9 @@ begin
                     dm.qryProduto.Params.ParamByName('tipo').AsString       := edtTipo.Text;
                     dm.qryProduto.Params.ParamByName('local').AsString      := edtLocalEstoque.Text;
                     dm.qryProduto.Params.ParamByName('secao').AsString      := edtSecao.Text;
+                    dm.qryProduto.Params.ParamByName('imagem').AsString     := FCaminhoImagem;
+                    dm.qryProduto.Params.ParamByName('ativo').AsInteger     := Integer(ckbAtivo.Checked);
+                    dm.qryProduto.Params.ParamByName('desc_cupom').AsString := edtDescCupom.Text;
                     dm.qryProduto.ExecSQL();
                     LimpaCAmpos();
                     grpProduto.Enabled := False;
@@ -421,6 +481,9 @@ begin
                       dm.qryProduto.Params.ParamByName('cod_prod').AsString   := edtCodigo.Text;
                       dm.qryProduto.Params.ParamByName('local').AsString      := edtLocalEstoque.Text;
                       dm.qryProduto.Params.ParamByName('secao').AsString      := edtSecao.Text;
+                      dm.qryProduto.Params.ParamByName('imagem').AsString     := FCaminhoImagem;
+                      dm.qryProduto.Params.ParamByName('ativo').AsInteger     := Integer(ckbAtivo.Checked);
+                      dm.qryProduto.Params.ParamByName('desc_cupom').AsString := edtDescCupom.Text;
                       dm.qryProduto.ExecSQL();
                       LimpaCAmpos();
                       grpProduto.Enabled := False;
@@ -442,7 +505,31 @@ begin
      grpProduto.Enabled         := True;
      pgCadastro.ActivePageIndex := 0;
      LimpaCampos();
+     ckbAtivo.Checked := True;
      edtDesc.SetFocus;
+end;
+
+procedure TfrmCadProduto.IncluirImagem;
+var
+   destino: string;
+begin
+    if (Self.Operacao = opInsert) or (Self.Operacao = opUpdate) then
+    begin
+         if dlgOpenPic.Execute then
+         begin
+             Application.MessageBox('A imagem será copiada para a pasta "Imagem\Imagem_Cliente" no diretório de instalação do sistema.', 'Informação', MB_OK + MB_ICONINFORMATION);
+             destino := ExtractFilePath(Application.ExeName) + 'Imagens\Imagem_Cliente\' + ExtractFileName(dlgOpenPic.FileName);
+
+             if not DirectoryExists(ExtractFilePath(Application.ExeName) + 'Imagens\Imagem_Cliente\') then
+                ForceDirectories(ExtractFilePath(Application.ExeName) + 'Imagens\Imagem_Cliente\');
+
+             if (CopyFile(PChar(dlgOpenPic.FileName), PChar(destino), true)) and FileExists(destino) then
+             begin
+                 Self.FCaminhoImagem := 'Imagens\Imagem_Cliente\' + ExtractFileName(dlgOpenPic.FileName);
+                 imgProduto.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + Self.FCaminhoImagem);
+             end;
+         end;
+    end;
 end;
 
 procedure TfrmCadProduto.edtEAN13Change(Sender: TObject);
@@ -470,7 +557,7 @@ end;
 function TfrmCadProduto.VerificaCampos: Boolean;
 begin
      //Verifica se existem campos obrigatórios sem preenchimento
-     if (edtEAN13.Text <> '') and (edtDesc.Text <> '') and (edtEstoque.Value <> 0) and (edtGrupo.Text <> '') and (cmbUnd.Text <> '') then
+     if (edtEAN13.Text <> '') and (edtDesc.Text <> '') and (edtEstoque.Value <> 0) and (edtGrupo.Text <> '') and (cmbUnd.Text <> '') and (edtDescCupom.Text <> '') then
      begin
         if Length(edtEAN13.Text) = 13 then
         begin
@@ -517,6 +604,31 @@ begin
     except
         on E:Exception do
         MessageDlg('Erro ao verificar duplicidade: ' + E.Message, mtError, [mbOK], 0);
+    end;
+end;
+
+procedure TfrmCadProduto.VisualizarImagem;
+var
+   largura, altura: Integer;
+begin
+    try
+       frmVisualizarImagem := TfrmVisualizarImagem.Create(self);
+       if FCaminhoImagem = EmptyStr then
+       begin
+          frmVisualizarImagem.imgAmpliacao.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'imagens/semImagem.jpg');
+          dm.CapturaDimensaoImagem(ExtractFilePath(Application.ExeName) + 'imagens/semImagem.jpg', largura, altura);
+       end
+       else
+       begin
+          frmVisualizarImagem.imgAmpliacao.Picture.LoadFromFile(FCaminhoImagem);
+          dm.CapturaDimensaoImagem(FCaminhoImagem, largura, altura);
+       end;
+
+       frmVisualizarImagem.ClientWidth := largura;
+       frmVisualizarImagem.ClientHeight:= altura + frmVisualizarImagem.pnl1.Height;
+       frmVisualizarImagem.ShowModal;
+    finally
+       FreeAndNil(frmVisualizarImagem);
     end;
 end;
 

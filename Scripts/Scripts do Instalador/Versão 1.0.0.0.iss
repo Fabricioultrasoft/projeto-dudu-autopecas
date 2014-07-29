@@ -43,6 +43,7 @@ Source: C:\SistemaGestão\Projeto\dbxdrivers.ini; DestDir: {app}; Flags: ignoreve
 Source: C:\SistemaGestão\Projeto\String_Conexao.ini; DestDir: {app}; Flags: ignoreversion
 Source: C:\SistemaGestão\Imagens\ImgLogo.jpg; DestDir: {app}\Imagens; Flags: ignoreversion
 Source: C:\SistemaGestão\Imagens\Logo.jpg; DestDir: {app}\Imagens; Flags: ignoreversion
+Source: C:\SistemaGestão\Imagens\semImagem.jpg; DestDir: {app}\Imagens; Flags: ignoreversion
 Source: C:\SistemaGestão\Projeto\UF.txt; DestDir: {app}; Flags: ignoreversion
 Source: C:\SistemaGestão\DLLs\*; DestDir: {app}\DLLs; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: C:\SistemaGestão\DLLs\fbclient.dll; DestDir: {sys}; Flags: ignoreversion

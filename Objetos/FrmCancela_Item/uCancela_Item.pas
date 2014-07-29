@@ -27,7 +27,7 @@ var
 
 implementation
 
-uses uDm, uPDV, uSenhaFiscal;
+uses uDm, uPDV, uSenhaFiscal, uProcura_Estoque;
 
 {$R *.dfm}
 
@@ -41,9 +41,15 @@ begin
             if Application.MessageBox('Deseja cancelar esse item?', 'Confirmação', MB_YESNO)= mrYes then
             begin
 
+                // Procura a descrição do CUPOM
+                dm.cdsEstoque.Open;
+                frmProcura_Estoque.CarregaConsulta;
+                dm.cdsEstoque.Locate('EAN13', dm.cdsItem_Venda.FieldByName('EAN13').AsString, [loCaseInsensitive, loPartialKey]);
+
                 // Imprime na tela e na impressora
-                frmPDV.FImpressao.ImprimirCancelamentoItem(edtItem.Text, Copy(dm.cdsItem_Venda.FieldByName('DESC_PROD').AsString, 1, 24));
+                frmPDV.FImpressao.ImprimirCancelamentoItem(edtItem.Text, dm.cdsEstoque.FieldByName('DESC_CUPOM').AsString);
                 dm.cdsItem_Venda.Delete;
+                dm.cdsEstoque.Close;
 
                 //Verifico se a venda já está gravada no banco
                 if frmPDV.sFStatus = 'F' then

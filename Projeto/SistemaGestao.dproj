@@ -193,6 +193,9 @@
 			<DCCReference Include="..\Objetos\FrmBackupRestore\uBackupRestore.pas">
 				<Form>frmBackupRestore</Form>
 			</DCCReference>
+			<DCCReference Include="..\Objetos\FrmVisualizaImagem\uVisualizarImagem.pas">
+				<Form>frmVisualizarImagem</Form>
+			</DCCReference>
 			<None Include="ModelSupport_SistemaGestao\default.txvpck"/>
 			<None Include="ModelSupport_SistemaGestao\uFuncao\default.txvpck"/>
 			<None Include="ModelSupport_SistemaGestao\uProdutoNF\default.txvpck"/>
@@ -318,7 +321,7 @@
 						<VersionInfo Name="MajorVer">1</VersionInfo>
 						<VersionInfo Name="MinorVer">0</VersionInfo>
 						<VersionInfo Name="Release">0</VersionInfo>
-						<VersionInfo Name="Build">8</VersionInfo>
+						<VersionInfo Name="Build">9</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -330,7 +333,7 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName">WLL - SISTEMAS</VersionInfoKeys>
 						<VersionInfoKeys Name="FileDescription"/>
-						<VersionInfoKeys Name="FileVersion">1.0.0.8</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">1.0.0.9</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName"/>
 						<VersionInfoKeys Name="LegalCopyright"/>
 						<VersionInfoKeys Name="LegalTrademarks"/>

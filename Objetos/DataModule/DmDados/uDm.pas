@@ -3,9 +3,9 @@ unit uDm;
 interface
 
 uses
-  SysUtils, Classes, FMTBcd, DB, DBClient, Provider, SqlExpr, uFuncao, ACBrNFe,
-  RLFilters, RLPDFFilter, RLRichFilter, RLXLSFilter, RLHTMLFilter, Graphics, Windows, StdCtrls,
-  Dialogs;
+  SysUtils, Classes, Windows, FMTBcd, DB, DBClient, Provider, SqlExpr, uFuncao, ACBrNFe,
+  RLFilters, RLPDFFilter, RLRichFilter, RLXLSFilter, RLHTMLFilter, Graphics, StdCtrls,
+  Dialogs, jpeg, pngimage, GIFImg;
 
 type
   Tdm = class(TDataModule)
@@ -412,6 +412,18 @@ type
     cdsEntradaEstoqueVAL_CUSTO: TFMTBCDField;
     cdsEntradaEstoqueVAL_VENDA: TFMTBCDField;
     strngfldEntradaEstoqueDESC_FORN1: TStringField;
+    strngfldProdutoIMAGEM: TStringField;
+    strngfldProdutoIMAGEM1: TStringField;
+    strngfldEstoqueIMAGEM: TStringField;
+    strngfldEstoqueIMAGEM1: TStringField;
+    qryProdutoATIVO: TSmallintField;
+    cdsProdutoATIVO: TSmallintField;
+    qryEstoqueATIVO: TSmallintField;
+    cdsEstoqueATIVO: TSmallintField;
+    strngfldProdutoDESC_CUPOM: TStringField;
+    strngfldProdutoDESC_CUPOM1: TStringField;
+    strngfldEstoqueDESC_CUPOM: TStringField;
+    strngfldEstoqueDESC_CUPOM1: TStringField;
     function CarregaPrivilegio: TStringList;
     function CarregaUnidadeMedida: TStringList;
     procedure cdsItem_VendaAfterScroll(DataSet: TDataSet);
@@ -422,6 +434,7 @@ type
     function HexToTColor(sColor: string): TColor;
     procedure CarregaDescFornecedor(Codigo: string; var Edit: TEdit);
     procedure CarregaDescProduto(EAN13: string; var Edit: TEdit);
+    procedure CapturaDimensaoImagem(Caminho: string; var largura,altura: integer);
   end;
 
 var
@@ -455,6 +468,59 @@ implementation
 uses UdmConexao, uPDV, uProcura_Venda;
 
 {$R *.dfm}
+
+procedure Tdm.CapturaDimensaoImagem(Caminho: string; var largura,
+  altura: integer);
+var
+   tempGIF, tempJPEG, tempBMP, tempPNG: TGraphic;
+   MS: TMemoryStream;
+   FirstBytes: AnsiString;
+begin
+    try
+       MS := TMemoryStream.Create;
+       MS.LoadFromFile(Caminho);
+       SetLength(FirstBytes, 8);
+       MS.Read(FirstBytes[1], 8);
+
+       if Copy(FirstBytes, 1, 2) = 'BM' then
+       begin
+          tempBMP := TBitmap.Create;
+          tempBMP.LoadFromFile(Caminho);
+          largura := tempBMP.Width;
+          altura  := tempBMP.Height;
+          FreeAndNil(tempBMP);
+       end
+       else
+            if FirstBytes = #137'PNG'#13#10#26#10 then
+            begin
+                tempPNG := TPngImage.Create;
+                tempPNG.LoadFromFile(Caminho);
+                largura := tempPNG.Width;
+                altura  := tempPNG.Height;
+                FreeAndNil(tempPNG);
+            end
+            else
+               if Copy(FirstBytes, 1, 2) = #$FF#$D8 then
+               begin
+                   tempJPEG := TJPEGImage.Create;
+                   tempJPEG.LoadFromFile(Caminho);
+                   largura := tempJPEG.Width;
+                   altura  := tempJPEG.Height;
+                   FreeAndNil(tempJPEG);
+               end
+               else
+                  if Copy(FirstBytes, 1, 3) =  'GIF' then
+                  begin
+                      tempGIF := TGIFImage.Create;
+                      tempGIF.LoadFromFile(Caminho);
+                      largura := tempGIF.Width;
+                      altura  := tempGIF.Height;
+                      FreeAndNil(tempGIF);
+                  end;
+    finally
+
+    end;
+end;
 
 function Tdm.HexToTColor(sColor: string): TColor;
 begin

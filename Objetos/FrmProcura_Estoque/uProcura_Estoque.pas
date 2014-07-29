@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, DBCtrls, Grids, DBGrids, ExtCtrls, uPDV, DB, uQtde, MidasLib,
-  ComCtrls, SqlExpr;
+  ComCtrls, SqlExpr, ImgList;
 
 type
   TfrmProcura_Estoque = class(TForm)
@@ -21,6 +21,7 @@ type
     shpVermelho: TShape;
     lbl1: TLabel;
     lbl2: TLabel;
+    img: TImageList;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -38,6 +39,7 @@ type
     function GeraID: integer;
     function HexToTColor(sColor : string) : TColor;
     procedure ckbQtdeZeroClick(Sender: TObject);
+    procedure grdEstoqueCellClick(Column: TColumn);
   private
     { Private declarations }
   public
@@ -52,14 +54,14 @@ const
     SELECT_ITEM : string = 'SELECT * FROM ITEM_VENDA WHERE ID=0';
 
     //Cláusula select universal usada em todas as consultas
-    SELECT : string = 'SELECT P.EAN13, P.DESC_PROD, G.DESC_GRUPO, E.QTDE, P.ESTOQUE_MINIMO, P.UND_VENDA, E.VAL_CUSTO, E.VAL_VENDA ';
+    SELECT : string = 'SELECT P.EAN13, P.DESC_PROD, G.DESC_GRUPO, E.QTDE, P.ESTOQUE_MINIMO, P.UND_VENDA, E.VAL_CUSTO, E.VAL_VENDA, P.IMAGEM, P.ATIVO, P.DESC_CUPOM ';
 
     // Cláusula from para INNER JOIN entre as tabelas
     FROM : string = 'FROM ESTOQUE E LEFT JOIN PRODUTO P ON E.EAN13 = P.EAN13 INNER JOIN GRUPO G ON P.COD_GRUPO = G.COD_GRUPO ';
 
 implementation
 
-uses uDm, uRelatorio, UdmConexao;
+uses uDm, uRelatorio, UdmConexao, uVisualizarImagem;
 
 {$R *.dfm}
 
@@ -109,6 +111,7 @@ begin
      dm.qryEstoque.SQL.Clear;
      dm.qryEstoque.SQL.Add(SELECT);
      dm.qryEstoque.SQL.Add(FROM);
+     dm.qryEstoque.SQL.Add('WHERE ATIVO = 1');
      dm.qryEstoque.Open;
      dm.cdsEstoque.Open;
      dm.cdsEstoque.Refresh;
@@ -147,14 +150,16 @@ begin
     if ckbQtdeZero.Checked then
     begin
          if edtCodigo.Text <> '' then
-            dm.qryEstoque.SQL.Add('WHERE (P.EAN13 LIKE' + QuotedStr(edtCodigo.Text + '%') + 'OR P.DESC_PROD LIKE' + QuotedStr(edtCodigo.Text + '%') + ')')
+            dm.qryEstoque.SQL.Add('WHERE (P.EAN13 LIKE' + QuotedStr(edtCodigo.Text + '%') + 'OR P.DESC_PROD LIKE' + QuotedStr(edtCodigo.Text + '%') + ') AND ATIVO = 1')
+         else
+            dm.qryEstoque.SQL.Add('WHERE ATIVO = 1');
     end
     else
     begin
          if edtCodigo.Text <> '' then
-            dm.qryEstoque.SQL.Add('WHERE (P.EAN13 LIKE' + QuotedStr(edtCodigo.Text + '%') + 'OR P.DESC_PROD LIKE' + QuotedStr(edtCodigo.Text + '%') + ') AND E.QTDE > 0')
+            dm.qryEstoque.SQL.Add('WHERE (P.EAN13 LIKE' + QuotedStr(edtCodigo.Text + '%') + 'OR P.DESC_PROD LIKE' + QuotedStr(edtCodigo.Text + '%') + ') AND E.QTDE > 0 AND ATIVO = 1')
          else
-            dm.qryEstoque.SQL.Add('WHERE E.QTDE > 0');
+            dm.qryEstoque.SQL.Add('WHERE E.QTDE > 0 AND ATIVO = 1');
     end;
 
     dm.qryEstoque.Open;
@@ -172,14 +177,16 @@ begin
       if ckbQtdeZero.Checked then
       begin
            if edtCodigo.Text <> '' then
-              dm.qryEstoque.SQL.Add('WHERE (P.EAN13 LIKE' + QuotedStr(edtCodigo.Text + '%') + 'OR P.DESC_PROD LIKE' + QuotedStr(edtCodigo.Text + '%') + ')')
+              dm.qryEstoque.SQL.Add('WHERE (P.EAN13 LIKE' + QuotedStr(edtCodigo.Text + '%') + 'OR P.DESC_PROD LIKE' + QuotedStr(edtCodigo.Text + '%') + ') AND ATIVO = 1')
+           else
+              dm.qryEstoque.SQL.Add('WHERE ATIVO = 1');
       end
       else
       begin
            if edtCodigo.Text <> '' then
-              dm.qryEstoque.SQL.Add('WHERE (P.EAN13 LIKE' + QuotedStr(edtCodigo.Text + '%') + 'OR P.DESC_PROD LIKE' + QuotedStr(edtCodigo.Text + '%') + ') AND E.QTDE > 0')
+              dm.qryEstoque.SQL.Add('WHERE (P.EAN13 LIKE' + QuotedStr(edtCodigo.Text + '%') + 'OR P.DESC_PROD LIKE' + QuotedStr(edtCodigo.Text + '%') + ') AND E.QTDE > 0 AND ATIVO = 1')
            else
-              dm.qryEstoque.SQL.Add('WHERE E.QTDE > 0');
+              dm.qryEstoque.SQL.Add('WHERE E.QTDE > 0 AND ATIVO = 1');
       end;
 
       dm.qryEstoque.Open;
@@ -239,7 +246,7 @@ begin
                   dm.qryEstoque.SQL.Add(FROM);
 
                   if edtCodigo.Text <> '' then
-                     dm.qryEstoque.SQL.Add('WHERE (P.EAN13 LIKE' + QuotedStr(edtCodigo.Text + '%') + 'OR P.DESC_PROD LIKE' + QuotedStr(edtCodigo.Text + '%') + ') AND E.QTDE > 0')
+                     dm.qryEstoque.SQL.Add('WHERE (P.EAN13 LIKE' + QuotedStr(edtCodigo.Text + '%') + 'OR P.DESC_PROD LIKE' + QuotedStr(edtCodigo.Text + '%') + ') AND E.QTDE > 0 AND ATIVO = 1')
                   else
                       dm.qryEstoque.SQL.Add('WHERE E.QTDE > 0');
 
@@ -262,24 +269,53 @@ begin
 
 end;
 
+procedure TfrmProcura_Estoque.grdEstoqueCellClick(Column: TColumn);
+var
+  largura, altura: Integer;
+begin
+    if Column.Title.Caption = 'IMAGEM' then
+    begin
+        try
+           frmVisualizarImagem := TfrmVisualizarImagem.Create(self);
+           if (dm.cdsEstoque.FieldByName('IMAGEM').AsString <> EmptyStr) and (FileExists(dm.cdsEstoque.FieldByName('IMAGEM').AsString)) then
+           begin
+               frmVisualizarImagem.imgAmpliacao.Picture.LoadFromFile(dm.cdsEstoque.FieldByName('IMAGEM').AsString);
+               dm.CapturaDimensaoImagem(dm.cdsEstoque.FieldByName('IMAGEM').AsString, largura, altura);
+           end
+           else
+           begin
+               frmVisualizarImagem.imgAmpliacao.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'imagens/semImagem.jpg');
+               dm.CapturaDimensaoImagem(ExtractFilePath(Application.ExeName) + 'imagens/semImagem.jpg', largura, altura);
+           end;
+
+           frmVisualizarImagem.ClientWidth := largura;
+           frmVisualizarImagem.ClientHeight:= altura + frmVisualizarImagem.pnl1.Height;
+           frmVisualizarImagem.ShowModal;
+        finally
+           FreeAndNil(frmVisualizarImagem);
+        end;
+    end;
+end;
+
 procedure TfrmProcura_Estoque.grdEstoqueDblClick(Sender: TObject);
 begin
-
      if Assigned(frmPDV) and (frmPDV.StatusPDV = svAberto)then
      begin
          CarregaItensVenda();
-         dm.cdsEstoque.Close;
          try
            frmQtde := TfrmQtde.Create(self);
            frmQtde.ShowModal;
          finally
            FreeAndNil(frmQtde);
+           dm.cdsEstoque.Close;
          end;
      end;
 end;
 
 procedure TfrmProcura_Estoque.grdEstoqueDrawColumnCell(Sender: TObject;
   const Rect: TRect; DataCol: Integer; Column: TColumn; State: TGridDrawState);
+var
+  iTopo, iLeft: Integer;
 begin
     //Muda a cor da coluna estoque_minimo caso o valor esteja abaixo do estoque minímo
     if (dm.cdsEstoque.FieldByName('QTDE').AsInteger < dm.cdsEstoque.FieldByName('ESTOQUE_MINIMO').AsInteger) and (dm.cdsEstoque.FieldByName('QTDE').AsInteger > 0)  then
@@ -297,6 +333,19 @@ begin
             grdEstoque.DefaultDrawColumnCell(Rect, DataCol, Column, State);
         end
     end;
+
+    iTopo := 1;
+    iLeft := 25   ;
+     if Column.Title.Caption = 'IMAGEM' then
+    begin
+        grdEstoque.Canvas.FillRect(Rect);
+        img.Draw(grdEstoque.Canvas, Rect.Left+iLeft, Rect.Top+iTopo, 1);
+
+        if dm.cdsACL.FieldByName('FUNCIONARIO').AsInteger = 1 then
+           img.Draw(grdEstoque.Canvas, Rect.Left+iLeft, Rect.top+iTopo, 2)
+        else
+           img.Draw(grdEstoque.Canvas, Rect.Left+iLeft, Rect.top+iTopo, 0);
+    end
 
 end;
 

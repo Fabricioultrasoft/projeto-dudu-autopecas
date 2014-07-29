@@ -171,15 +171,22 @@ object frmPrincipal: TfrmPrincipal
           StopFrame = 34
           Visible = False
         end
+        object ckbPastaImagem: TCheckBox
+          Left = 369
+          Top = 128
+          Width = 208
+          Height = 17
+          Cursor = crHandPoint
+          Caption = 'Incluir pasta com imagens dos produtos'
+          Checked = True
+          State = cbChecked
+          TabOrder = 5
+        end
       end
     end
     object tsRestore: TTabSheet
       Caption = 'Restore'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object grp2: TGroupBox
         Left = 0
         Top = 0
@@ -277,7 +284,7 @@ object frmPrincipal: TfrmPrincipal
     Left = 448
     Top = 16
     Bitmap = {
-      494C010103000800240010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010103000800280010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       0000000000000000000000000000000000000000000000000000000000000000
       000000000000000000000000000000FFFF0080808000FFFFFF00FFFFFF00FFFF
