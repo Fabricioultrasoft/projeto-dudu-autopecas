@@ -1,9 +1,9 @@
 object frmProcura_Estoque: TfrmProcura_Estoque
-  Left = 505
-  Top = 263
+  Left = 671
+  Top = 194
   BorderStyle = bsNone
   Caption = 'Form Padr'#227'o'
-  ClientHeight = 637
+  ClientHeight = 651
   ClientWidth = 1145
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -93,7 +93,7 @@ object frmProcura_Estoque: TfrmProcura_Estoque
     Left = 0
     Top = 98
     Width = 1145
-    Height = 502
+    Height = 500
     Cursor = crHandPoint
     Align = alClient
     DataSource = dm.dtsEstoque
@@ -193,9 +193,9 @@ object frmProcura_Estoque: TfrmProcura_Estoque
   end
   object pnlRodape: TPanel
     Left = 0
-    Top = 600
+    Top = 598
     Width = 1145
-    Height = 37
+    Height = 53
     Align = alBottom
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -204,9 +204,10 @@ object frmProcura_Estoque: TfrmProcura_Estoque
     Font.Style = []
     ParentFont = False
     TabOrder = 3
+    ExplicitTop = 584
     object Label4: TLabel
-      Left = 16
-      Top = 9
+      Left = 11
+      Top = 27
       Width = 610
       Height = 18
       Alignment = taCenter
@@ -221,19 +222,19 @@ object frmProcura_Estoque: TfrmProcura_Estoque
       ParentFont = False
     end
     object shpAmarelo: TShape
-      Left = 840
+      Left = 934
       Top = 21
       Width = 41
       Height = 11
     end
     object shpVermelho: TShape
-      Left = 840
+      Left = 934
       Top = 5
       Width = 41
       Height = 11
     end
     object lbl1: TLabel
-      Left = 886
+      Left = 980
       Top = 2
       Width = 161
       Height = 14
@@ -246,7 +247,7 @@ object frmProcura_Estoque: TfrmProcura_Estoque
       ParentFont = False
     end
     object lbl2: TLabel
-      Left = 886
+      Left = 980
       Top = 18
       Width = 153
       Height = 14
@@ -258,13 +259,27 @@ object frmProcura_Estoque: TfrmProcura_Estoque
       Font.Style = []
       ParentFont = False
     end
+    object lblContador: TLabel
+      Left = 11
+      Top = 6
+      Width = 610
+      Height = 17
+      AutoSize = False
+      Caption = 'lblContador'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -12
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+    end
   end
   object img: TImageList
     ColorDepth = cd32Bit
     Left = 928
     Top = 168
     Bitmap = {
-      494C010101002800400010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010101002800440010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       00000000000000000000000000000000000000000000252426FF1E1D21FF1E1C
       22FF1E1C22FF1E1C22FF1E1C22FF1E1C22FF1E1C22FF1E1C22FF1E1C22FF1E1C

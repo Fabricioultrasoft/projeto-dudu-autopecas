@@ -5,34 +5,35 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, StdCtrls, Buttons, ComCtrls, ExtCtrls, uFormBase, DBXCommon, DBXDBReaders,
-  jpeg, SqlExpr;
+  jpeg, SqlExpr, JvExStdCtrls, JvButton, JvCtrls, ImgList;
 
 type
   TfrmLogin = class(TFormBase)
-    Panel1: TPanel;
-    imgLogin: TImage;
-    lblVersao: TLabel;
-    lblReleaase: TLabel;
-    Label10: TLabel;
-    GroupBox1: TGroupBox;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label4: TLabel;
-    lblTitulo: TLabel;
-    Label6: TLabel;
+    pnl1: TPanel;
+    grp1: TGroupBox;
+    lbl1: TLabel;
+    lbl2: TLabel;
+    lbl3: TLabel;
+    lbl4: TLabel;
     lblHora: TLabel;
     lblData: TLabel;
-    GroupBox2: TGroupBox;
-    Label7: TLabel;
-    Label8: TLabel;
-    Label9: TLabel;
-    Progresso: TProgressBar;
+    grp2: TGroupBox;
+    lbl5: TLabel;
+    lbl6: TLabel;
+    lbl7: TLabel;
     edtUsuario: TEdit;
     edtSenha: TEdit;
     cmbPrivilegio: TComboBox;
-    btnCancelar: TBitBtn;
-    btnOK: TBitBtn;
+    pnl2: TPanel;
+    imgLogin: TImage;
+    lblVersao: TLabel;
+    lblReleaase: TLabel;
+    lbl8: TLabel;
+    lblTitulo: TLabel;
+    Progresso: TProgressBar;
+    img1: TImageList;
+    btnOK: TJvImgBtn;
+    btnCancelar: TJvImgBtn;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     function Autentica: Boolean;
@@ -40,6 +41,8 @@ type
     procedure btnOKClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     procedure edtSenhaKeyPress(Sender: TObject; var Key: Char);
+    procedure JvImgBtn1Click(Sender: TObject);
+    procedure JvImgBtn2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -196,5 +199,31 @@ begin
     cmbPrivilegio.Items.AddStrings(dm.CarregaPrivilegio);
 end;
 
+
+procedure TfrmLogin.JvImgBtn1Click(Sender: TObject);
+begin
+    //Chama a function de autenticação
+    if not Autentica then
+    begin
+       LimpaCampos;
+       edtUsuario.SetFocus;
+    end
+    else
+    begin
+       CarregaProgresso;
+       frmMenu.stbStatus.Panels[1].Text := frmMenu.FUser;
+       frmMenu.stbStatus.Panels[3].Text := frmMenu.FPrivilegio;
+       frmLogin.Close;
+    end;
+end;
+
+procedure TfrmLogin.JvImgBtn2Click(Sender: TObject);
+begin
+    //Verifica se é primeiro login ou troca de usuário
+    if frmMenu.Visible then
+       Close
+    else
+      Application.Terminate;
+end;
 
 end.

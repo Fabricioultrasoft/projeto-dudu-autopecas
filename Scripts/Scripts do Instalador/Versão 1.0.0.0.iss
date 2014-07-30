@@ -41,6 +41,7 @@ Source: C:\SistemaGestão\Banco de Dados\GESTAO.FDB; DestDir: {app}\Banco de Dado
 Source: C:\SistemaGestão\Projeto\dbxconnections.ini; DestDir: {app}; Flags: ignoreversion
 Source: C:\SistemaGestão\Projeto\dbxdrivers.ini; DestDir: {app}; Flags: ignoreversion
 Source: C:\SistemaGestão\Projeto\String_Conexao.ini; DestDir: {app}; Flags: ignoreversion
+Source: C:\SistemaGestão\Projeto\Relatorio\*; DestDir: {app}\Relatorio; Flags: ignoreversion
 Source: C:\SistemaGestão\Imagens\ImgLogo.jpg; DestDir: {app}\Imagens; Flags: ignoreversion
 Source: C:\SistemaGestão\Imagens\Logo.jpg; DestDir: {app}\Imagens; Flags: ignoreversion
 Source: C:\SistemaGestão\Imagens\semImagem.jpg; DestDir: {app}\Imagens; Flags: ignoreversion

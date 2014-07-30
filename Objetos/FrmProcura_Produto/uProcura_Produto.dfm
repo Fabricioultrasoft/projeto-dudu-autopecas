@@ -1,9 +1,9 @@
 object frmProcura_Produto: TfrmProcura_Produto
-  Left = 519
-  Top = 248
+  Left = 295
+  Top = 218
   BorderStyle = bsNone
   Caption = 'Form Padr'#227'o'
-  ClientHeight = 620
+  ClientHeight = 632
   ClientWidth = 993
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -76,7 +76,7 @@ object frmProcura_Produto: TfrmProcura_Produto
     Left = 0
     Top = 98
     Width = 993
-    Height = 485
+    Height = 481
     Cursor = crHandPoint
     Align = alClient
     DataSource = dm.dtsProduto
@@ -168,9 +168,9 @@ object frmProcura_Produto: TfrmProcura_Produto
   end
   object pnlRodape: TPanel
     Left = 0
-    Top = 583
+    Top = 579
     Width = 993
-    Height = 37
+    Height = 53
     Align = alBottom
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -179,9 +179,10 @@ object frmProcura_Produto: TfrmProcura_Produto
     Font.Style = []
     ParentFont = False
     TabOrder = 3
+    ExplicitTop = 583
     object Label4: TLabel
-      Left = 12
-      Top = 8
+      Left = 8
+      Top = 29
       Width = 607
       Height = 18
       Alignment = taCenter
@@ -197,13 +198,13 @@ object frmProcura_Produto: TfrmProcura_Produto
     end
     object shpAmarelo: TShape
       Left = 860
-      Top = 13
+      Top = 6
       Width = 41
       Height = 11
     end
     object lbl1: TLabel
       Left = 906
-      Top = 11
+      Top = 4
       Width = 78
       Height = 14
       Caption = '- Produto Inativo'
@@ -214,13 +215,27 @@ object frmProcura_Produto: TfrmProcura_Produto
       Font.Style = []
       ParentFont = False
     end
+    object lblContador: TLabel
+      Left = 8
+      Top = 6
+      Width = 610
+      Height = 17
+      AutoSize = False
+      Caption = 'lblContador'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clRed
+      Font.Height = -12
+      Font.Name = 'Arial'
+      Font.Style = []
+      ParentFont = False
+    end
   end
   object img: TImageList
     ColorDepth = cd32Bit
     Left = 928
     Top = 168
     Bitmap = {
-      494C010101002800340010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010101002800380010001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000001000000001002000000000000010
       00000000000000000000000000000000000000000000252426FF1E1D21FF1E1C
       22FF1E1C22FF1E1C22FF1E1C22FF1E1C22FF1E1C22FF1E1C22FF1E1C22FF1E1C
