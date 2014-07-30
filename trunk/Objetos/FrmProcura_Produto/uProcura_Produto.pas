@@ -19,6 +19,7 @@ type
     ckbProdutoInativo: TCheckBox;
     shpAmarelo: TShape;
     lbl1: TLabel;
+    lblContador: TLabel;
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormCreate(Sender: TObject);
@@ -117,6 +118,7 @@ begin
      dm.qryProduto.Open;
      dm.cdsProduto.Open;
      dm.cdsProduto.Refresh;
+     lblContador.Caption := 'Total de registros encontrados.: ' + IntToStr(dm.cdsProduto.RecordCount);
 end;
 
 procedure TfrmProcura_Produto.ckbProdutoInativoClick(Sender: TObject);
@@ -146,6 +148,7 @@ begin
 
      dm.qryProduto.Open;
      dm.cdsProduto.Refresh;
+     lblContador.Caption := 'Total de registros encontrados.: ' + IntToStr(dm.cdsProduto.RecordCount);
 end;
 
 procedure TfrmProcura_Produto.ConsultaUniversalChange;
@@ -249,14 +252,14 @@ begin
     iTopo := 1;
     iLeft := 25;
 
-    if dm.cdsProduto.FieldByName('ATIVO').AsInteger = 0 then
+    if (not dm.cdsProduto.IsEmpty) and (dm.cdsProduto.FieldByName('ATIVO').AsInteger = 0) then
     begin
         grdProd.Canvas.Brush.Color := dm.HexToTColor('C1C100');
         grdProd.Canvas.FillRect(Rect);
         grdProd.DefaultDrawColumnCell(Rect, DataCol, Column, State);
     end;
 
-    if Column.Title.Caption = 'IMAGEM' then
+    if (not dm.cdsProduto.IsEmpty) and (Column.Title.Caption = 'IMAGEM') then
     begin
         grdProd.Canvas.FillRect(Rect);
         img.Draw(grdProd.Canvas, Rect.Left+iLeft, Rect.Top+iTopo, 1);

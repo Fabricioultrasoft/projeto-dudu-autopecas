@@ -22,6 +22,7 @@ type
     lbl1: TLabel;
     lbl2: TLabel;
     img: TImageList;
+    lblContador: TLabel;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -115,6 +116,8 @@ begin
      dm.qryEstoque.Open;
      dm.cdsEstoque.Open;
      dm.cdsEstoque.Refresh;
+
+     lblContador.Caption := 'Total de registros encontrados.: ' + IntToStr(dm.cdsEstoque.RecordCount);
 end;
 
 procedure TfrmProcura_Estoque.CarregaItensVenda;
@@ -191,6 +194,7 @@ begin
 
       dm.qryEstoque.Open;
       dm.cdsEstoque.Refresh;
+      lblContador.Caption := 'Total de registros encontrados.: ' + IntToStr(dm.cdsEstoque.RecordCount);
 end;
 
 procedure TfrmProcura_Estoque.ConsultaUniversalChange(Sender: TObject);
@@ -335,8 +339,8 @@ begin
     end;
 
     iTopo := 1;
-    iLeft := 25   ;
-     if Column.Title.Caption = 'IMAGEM' then
+    iLeft := 25 ;
+    if (not dm.cdsEstoque.IsEmpty) and (Column.Title.Caption = 'IMAGEM') then
     begin
         grdEstoque.Canvas.FillRect(Rect);
         img.Draw(grdEstoque.Canvas, Rect.Left+iLeft, Rect.Top+iTopo, 1);

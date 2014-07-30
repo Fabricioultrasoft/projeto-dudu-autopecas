@@ -36,7 +36,7 @@ type
     Label12: TLabel;
     Label13: TLabel;
     Label15: TLabel;
-    GroupBox1: TGroupBox;
+    grpOpcional: TGroupBox;
     Label5: TLabel;
     edtDUN14: TEdit;
     Label7: TLabel;
@@ -53,12 +53,12 @@ type
     edtGrupo: TJvComboEdit;
     btnCancelar: TBitBtn;
     edtDescricaoGrupo: TEdit;
-    BitBtn1: TBitBtn;
+    btnGerarCodigoBarra: TBitBtn;
     ACBrBarCode: TACBrBarCode;
     Label18: TLabel;
     btnAdicionarGrupo: TBitBtn;
     lblStatusOperacao: TLabel;
-    grp1: TGroupBox;
+    grpImagem: TGroupBox;
     pnl1: TPanel;
     imgProduto: TImage;
     dlgOpenPic: TOpenPictureDialog;
@@ -96,7 +96,7 @@ type
     procedure edtGrupoButtonClick(Sender: TObject);
     procedure btnCancelarClick(Sender: TObject);
     function GerarCodigoBarra(): string;
-    procedure BitBtn1Click(Sender: TObject);
+    procedure btnGerarCodigoBarraClick(Sender: TObject);
     procedure edtEAN13Change(Sender: TObject);
     procedure btnAdicionarGrupoClick(Sender: TObject);
     procedure edtGrupoExit(Sender: TObject);
@@ -148,7 +148,7 @@ begin
     dm.cdsProduto.Open;
 end;
 
-procedure TfrmCadProduto.BitBtn1Click(Sender: TObject);
+procedure TfrmCadProduto.btnGerarCodigoBarraClick(Sender: TObject);
 begin
     edtEAN13.Text := GerarCodigoBarra;
 end;

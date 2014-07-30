@@ -1152,7 +1152,7 @@ object frmCadProduto: TfrmCadProduto
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 6
+      TabOrder = 4
       OnClick = btnCancelarClick
     end
     object btnPesquisar: TBitBtn
@@ -1393,7 +1393,7 @@ object frmCadProduto: TfrmCadProduto
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 4
+      TabOrder = 5
       OnClick = btnPesquisarClick
     end
     object btnSair: TBitBtn
@@ -1615,7 +1615,7 @@ object frmCadProduto: TfrmCadProduto
       ParentFont = False
       ParentShowHint = False
       ShowHint = True
-      TabOrder = 5
+      TabOrder = 6
       OnClick = btnSairClick
     end
   end
@@ -1683,7 +1683,7 @@ object frmCadProduto: TfrmCadProduto
         end
         object Label1: TLabel
           Left = 131
-          Top = 219
+          Top = 246
           Width = 42
           Height = 16
           Caption = 'EAN13:'
@@ -1702,10 +1702,10 @@ object frmCadProduto: TfrmCadProduto
           ParentFont = False
         end
         object Label11: TLabel
-          Left = 392
-          Top = 221
+          Left = 389
+          Top = 248
           Width = 8
-          Height = 14
+          Height = 10
           Caption = '*'
           Font.Charset = DEFAULT_CHARSET
           Font.Color = clRed
@@ -1768,7 +1768,7 @@ object frmCadProduto: TfrmCadProduto
         end
         object ACBrBarCode: TACBrBarCode
           Left = 176
-          Top = 246
+          Top = 273
           Width = 96
           Height = 47
           Modul = 1
@@ -1783,7 +1783,7 @@ object frmCadProduto: TfrmCadProduto
           ShowTextPosition = stpBottomCenter
         end
         object Label18: TLabel
-          Left = 417
+          Left = 39
           Top = 219
           Width = 133
           Height = 16
@@ -1837,7 +1837,7 @@ object frmCadProduto: TfrmCadProduto
           Font.Style = [fsBold]
           ParentFont = False
           ReadOnly = True
-          TabOrder = 2
+          TabOrder = 0
         end
         object edtDesc: TEdit
           Left = 176
@@ -1846,11 +1846,11 @@ object frmCadProduto: TfrmCadProduto
           Height = 24
           CharCase = ecUpperCase
           Color = clSilver
-          TabOrder = 1
+          TabOrder = 2
         end
         object edtEAN13: TEdit
           Left = 176
-          Top = 216
+          Top = 243
           Width = 210
           Height = 24
           Color = clSilver
@@ -1861,7 +1861,7 @@ object frmCadProduto: TfrmCadProduto
           Font.Style = [fsBold]
           MaxLength = 13
           ParentFont = False
-          TabOrder = 0
+          TabOrder = 10
           OnChange = edtEAN13Change
         end
         object cmbUnd: TComboBox
@@ -1871,15 +1871,15 @@ object frmCadProduto: TfrmCadProduto
           Height = 24
           Cursor = crHandPoint
           Style = csDropDownList
-          TabOrder = 3
+          TabOrder = 8
         end
-        object GroupBox1: TGroupBox
+        object grpOpcional: TGroupBox
           Left = 71
           Top = 325
           Width = 327
           Height = 162
           Caption = 'Opcional:'
-          TabOrder = 4
+          TabOrder = 11
           object Label5: TLabel
             Left = 63
             Top = 25
@@ -1964,7 +1964,7 @@ object frmCadProduto: TfrmCadProduto
           Color = clSilver
           DisplayFormat = '0'
           ButtonWidth = 20
-          TabOrder = 5
+          TabOrder = 7
           DecimalPlacesAlwaysShown = False
         end
         object edtGrupo: TJvComboEdit
@@ -2022,7 +2022,7 @@ object frmCadProduto: TfrmCadProduto
             0909EC07FFFFFFFF0000F6F509F6F6F6F60907F6FFFFFFFF0000FFF6F5090909
             0907F6FFFFFFFFFF0000FFFFF6F60909F6F6FFFFFFFFFFFF0000}
           ParentFont = False
-          TabOrder = 6
+          TabOrder = 4
           OnButtonClick = edtGrupoButtonClick
           OnExit = edtGrupoExit
         end
@@ -2042,12 +2042,12 @@ object frmCadProduto: TfrmCadProduto
           ParentShowHint = False
           ReadOnly = True
           ShowHint = True
-          TabOrder = 7
+          TabOrder = 6
           TextHint = 'Descri'#231#227'o do Grupo'
         end
-        object BitBtn1: TBitBtn
-          Left = 553
-          Top = 217
+        object btnGerarCodigoBarra: TBitBtn
+          Left = 176
+          Top = 216
           Width = 49
           Height = 24
           Hint = 'Gerar C'#243'digo de Barra'
@@ -2120,8 +2120,8 @@ object frmCadProduto: TfrmCadProduto
           ParentFont = False
           ParentShowHint = False
           ShowHint = True
-          TabOrder = 8
-          OnClick = BitBtn1Click
+          TabOrder = 9
+          OnClick = btnGerarCodigoBarraClick
         end
         object btnAdicionarGrupo: TBitBtn
           Left = 337
@@ -2174,22 +2174,22 @@ object frmCadProduto: TfrmCadProduto
           ParentDoubleBuffered = False
           ParentShowHint = False
           ShowHint = True
-          TabOrder = 9
+          TabOrder = 5
           OnClick = btnAdicionarGrupoClick
         end
-        object grp1: TGroupBox
-          Left = 602
-          Top = 265
+        object grpImagem: TGroupBox
+          Left = 482
+          Top = 257
           Width = 297
           Height = 223
           Caption = 'Imagem:'
-          TabOrder = 10
+          TabOrder = 12
           object pnl1: TPanel
             Left = 9
             Top = 24
             Width = 216
             Height = 185
-            TabOrder = 0
+            TabOrder = 1
             object imgProduto: TImage
               Left = 1
               Top = 1
@@ -2306,7 +2306,7 @@ object frmCadProduto: TfrmCadProduto
             Images = imgControleImagem
             ParentShowHint = False
             ShowHint = True
-            TabOrder = 1
+            TabOrder = 0
             OnClick = btnIncluirImagemClick
             HotTrackFont.Charset = DEFAULT_CHARSET
             HotTrackFont.Color = clWindowText
@@ -2362,7 +2362,7 @@ object frmCadProduto: TfrmCadProduto
           Height = 17
           Cursor = crHandPoint
           Caption = 'Produto Ativo'
-          TabOrder = 11
+          TabOrder = 1
         end
         object edtDescCupom: TEdit
           Left = 176
@@ -2372,7 +2372,7 @@ object frmCadProduto: TfrmCadProduto
           CharCase = ecUpperCase
           Color = clSilver
           MaxLength = 21
-          TabOrder = 12
+          TabOrder = 3
         end
       end
     end
@@ -2393,7 +2393,7 @@ object frmCadProduto: TfrmCadProduto
     Left = 740
     Top = 20
     Bitmap = {
-      494C0101030010003C0030003000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010103001000440030003000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000C00000003000000001002000000000000090
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
