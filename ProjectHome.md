@@ -1,0 +1,1 @@
+Sistema para controlar estoque, entrada e saída de produtos e valor financeiros no caixa
